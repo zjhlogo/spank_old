@@ -15,6 +15,8 @@ OGLRenderer::OGLRenderer()
 	m_glFragmentShader = 0;
 	m_glProgramObject = 0;
 	m_glPositionHandler = 0;
+	m_pszVertexShader = NULL;
+	m_pszFregmentShader = NULL;
 }
 
 OGLRenderer::~OGLRenderer()
@@ -32,32 +34,28 @@ bool OGLRenderer::Initialize(int width, int height)
 {
 	Terminate();
 
-	char* pszVertexShader = NULL;
 	int nSizeVertexShader = 0;
-	if (!FileUtil::ReadFile(&pszVertexShader, nSizeVertexShader, "assets/shader.vs"))
+	if (!FileUtil::ReadFile(&m_pszVertexShader, nSizeVertexShader, "assets/shader.vs"))
 	{
 		LOGE("Read /assets/shader.vs Failed");
 		return false;
 	}
-	delete[] pszVertexShader;
 
-	m_glVertexShader = LoadShader(pszVertexShader, GL_VERTEX_SHADER);
+	m_glVertexShader = LoadShader(m_pszVertexShader, GL_VERTEX_SHADER);
 	if (!m_glVertexShader)
 	{
 		LOGE("Load Vertex Shader Failed");
 		return false;
 	}
 
-	char* pszFregmentShader = NULL;
 	int nSizeFregmentShader = 0;
-	if (!FileUtil::ReadFile(&pszFregmentShader, nSizeFregmentShader, "assets/shader.fs"))
+	if (!FileUtil::ReadFile(&m_pszFregmentShader, nSizeFregmentShader, "assets/shader.fs"))
 	{
 		LOGE("Read /assets/shader.fs Failed");
 		return false;
 	}
-	delete[] pszFregmentShader;
 
-	m_glFragmentShader = LoadShader(pszFregmentShader, GL_FRAGMENT_SHADER);
+	m_glFragmentShader = LoadShader(m_pszFregmentShader, GL_FRAGMENT_SHADER);
 	if (!m_glFragmentShader)
 	{
 		LOGE("Load Fragment Shader Failed");
@@ -112,10 +110,22 @@ void OGLRenderer::Terminate()
 		m_glVertexShader = 0;
 	}
 
+	if (m_pszVertexShader)
+	{
+		delete[] m_pszVertexShader;
+		m_pszVertexShader = NULL;
+	}
+
 	if (m_glFragmentShader)
 	{
 		glDeleteShader(m_glFragmentShader);
 		m_glFragmentShader = 0;
+	}
+
+	if (m_pszFregmentShader)
+	{
+		delete[] m_pszFregmentShader;
+		m_pszFregmentShader = NULL;
 	}
 
 	m_glPositionHandler = 0;

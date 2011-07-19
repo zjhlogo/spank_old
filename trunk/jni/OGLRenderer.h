@@ -31,6 +31,8 @@ private:
 	GLuint m_glFragmentShader;
 	GLuint m_glProgramObject;
 	GLuint m_glPositionHandler;
+	char* m_pszVertexShader;
+	char* m_pszFregmentShader;
 
 };
 #endif // __OGLRENDERER_H__

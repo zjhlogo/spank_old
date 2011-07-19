@@ -20,6 +20,8 @@ LOCAL_MODULE    := spank
 
 LOCAL_SRC_FILES := Main.cpp \
 		GameMain.cpp \
+		OGLRenderer.cpp \
+		DebugUtil.cpp \
 		MessageMgr.cpp \
 		MessageHandler.cpp \
 		msg/MsgBase.cpp \
@@ -30,6 +32,6 @@ LOCAL_SRC_FILES := Main.cpp \
 		util/StreamWriter.cpp \
 
 
-LOCAL_LDLIBS    := -llog -landroid -lEGL -lGLESv2
+LOCAL_LDLIBS    := -llog -lGLESv2
 
 include $(BUILD_SHARED_LIBRARY)

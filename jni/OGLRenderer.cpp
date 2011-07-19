@@ -7,18 +7,7 @@
  */
 #include "OGLRenderer.h"
 #include "DebugUtil.h"
-
-static const char g_szVertexShader[] =
-	"attribute vec4 vPosition;\n"
-	"void main() {\n"
-	"  gl_Position = vPosition;\n"
-	"}\n";
-
-static const char g_szFragmentShader[] =
-	"precision mediump float;\n"
-	"void main() {\n"
-	"  gl_FragColor = vec4(0.0, 1.0, 0.0, 1.0);\n"
-	"}\n";
+#include "FileUtil.h"
 
 OGLRenderer::OGLRenderer()
 {
@@ -43,14 +32,32 @@ bool OGLRenderer::Initialize(int width, int height)
 {
 	Terminate();
 
-	m_glVertexShader = LoadShader(g_szVertexShader, GL_VERTEX_SHADER);
+	char* pszVertexShader = NULL;
+	int nSizeVertexShader = 0;
+	if (!FileUtil::ReadFile(&pszVertexShader, nSizeVertexShader, "assets/shader.vs"))
+	{
+		LOGE("Read /assets/shader.vs Failed");
+		return false;
+	}
+	delete[] pszVertexShader;
+
+	m_glVertexShader = LoadShader(pszVertexShader, GL_VERTEX_SHADER);
 	if (!m_glVertexShader)
 	{
 		LOGE("Load Vertex Shader Failed");
 		return false;
 	}
 
-	m_glFragmentShader = LoadShader(g_szFragmentShader, GL_FRAGMENT_SHADER);
+	char* pszFregmentShader = NULL;
+	int nSizeFregmentShader = 0;
+	if (!FileUtil::ReadFile(&pszFregmentShader, nSizeFregmentShader, "assets/shader.fs"))
+	{
+		LOGE("Read /assets/shader.fs Failed");
+		return false;
+	}
+	delete[] pszFregmentShader;
+
+	m_glFragmentShader = LoadShader(pszFregmentShader, GL_FRAGMENT_SHADER);
 	if (!m_glFragmentShader)
 	{
 		LOGE("Load Fragment Shader Failed");

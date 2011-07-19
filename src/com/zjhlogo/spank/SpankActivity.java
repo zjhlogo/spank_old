@@ -9,6 +9,11 @@ public class SpankActivity extends Activity
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        
+        // set the resource package path
+		String packageName = getPackageResourcePath();
+        SpankLibrary.setPackagePath(packageName);
+        
         setContentView(new SpankView(getApplicationContext()));
     }
 }

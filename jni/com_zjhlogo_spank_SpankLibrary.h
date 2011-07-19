@@ -17,6 +17,14 @@ JNIEXPORT void JNICALL Java_com_zjhlogo_spank_SpankLibrary_initialize
 
 /*
  * Class:     com_zjhlogo_spank_SpankLibrary
+ * Method:    setPackagePath
+ * Signature: (Ljava/lang/String;)V
+ */
+JNIEXPORT void JNICALL Java_com_zjhlogo_spank_SpankLibrary_setPackagePath
+  (JNIEnv *, jclass, jstring);
+
+/*
+ * Class:     com_zjhlogo_spank_SpankLibrary
  * Method:    step
  * Signature: ()V
  */

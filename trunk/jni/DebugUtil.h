@@ -7,6 +7,7 @@
  */
 #ifndef __DEBUGUTIL_H__
 #define __DEBUGUTIL_H__
+
 #include <android/log.h>
 
 #define LOGI(...) ((void)__android_log_print(ANDROID_LOG_INFO, "spank", __VA_ARGS__))

@@ -8,5 +8,6 @@ public class SpankLibrary
     }
 
     public static native void initialize(int width, int height);
+    public static native void setPackagePath(String zipFilePath);
     public static native void step();
 }

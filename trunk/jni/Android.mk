@@ -22,6 +22,9 @@ LOCAL_SRC_FILES := Main.cpp \
 		GameMain.cpp \
 		OGLRenderer.cpp \
 		DebugUtil.cpp \
+		FileUtil.cpp \
+		unzip.cpp \
+		ioapi.cpp \
 		MessageMgr.cpp \
 		MessageHandler.cpp \
 		msg/MsgBase.cpp \
@@ -32,6 +35,6 @@ LOCAL_SRC_FILES := Main.cpp \
 		util/StreamWriter.cpp \
 
 
-LOCAL_LDLIBS    := -llog -lGLESv2
+LOCAL_LDLIBS    := -llog -lz -lGLESv2
 
 include $(BUILD_SHARED_LIBRARY)

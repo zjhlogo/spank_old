@@ -19,24 +19,28 @@ include $(CLEAR_VARS)
 LOCAL_MODULE    := spank
 
 LOCAL_SRC_FILES := \
-		DebugUtil.cpp \
 		FileMgr_Impl.cpp \
-		GameMain.cpp \
+		DebugUtil_Impl.cpp \
 		Main.cpp \
-		MessageHandler.cpp \
-		MessageMgr.cpp \
-		OGLRenderer.cpp \
-		msg/MsgBase.cpp \
-		msg/MsgReader.cpp \
-		msg/MsgWriter.cpp \
-		msg/MsgDummy.cpp \
+		Renderer_Impl.cpp \
+		GameMain_Impl.cpp \
 		unzip/unzip.cpp \
 		unzip/ioapi.cpp \
-		util/StreamReader.cpp \
-		util/StreamWriter.cpp \
+		../../../source/IGameMain.cpp \
+		../../../source/MessageHandler.cpp \
+		../../../source/MessageMgr.cpp \
+		../../../source/msg/MsgBase.cpp \
+		../../../source/msg/MsgReader.cpp \
+		../../../source/msg/MsgWriter.cpp \
+		../../../source/msg/MsgDummy.cpp \
+		../../../source/util/StreamReader.cpp \
+		../../../source/util/StreamWriter.cpp \
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../../include
 
 LOCAL_LDLIBS    := -llog -lz -lGLESv2
 
+subdirs := $(LOCAL_PATH)/../../../source/Android.mk
+
 include $(BUILD_SHARED_LIBRARY)
+

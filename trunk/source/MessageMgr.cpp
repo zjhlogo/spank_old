@@ -5,7 +5,7 @@
  * 
  * \author zjhlogo (zjhlogo@gmail.com)
  */
-#include "MessageMgr.h"
+#include <MessageMgr.h>
 
 MessageMgr::MessageMgr()
 {

@@ -5,7 +5,7 @@
  * 
  * \author zjhlogo (zjhlogo@gmail.com)
  */
-#include "MsgBase.h"
+#include <msg/MsgBase.h>
 
 MsgBase::MsgBase(int nID)
 :m_nID(nID)

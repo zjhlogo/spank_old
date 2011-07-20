@@ -1,15 +1,21 @@
 /*!
- * \file OGLRenderer.cpp
- * \date 7-19-2011 11:04:59
- *
- *
+ * \file Renderer_Impl.cpp
+ * \date 7-20-2011 17:35:34
+ * 
+ * 
  * \author zjhlogo (zjhlogo@gmail.com)
  */
-#include "OGLRenderer.h"
-#include "DebugUtil.h"
+#include "Renderer_Impl.h"
+#include <IDebugUtil.h>
 #include <IFileMgr.h>
 
-OGLRenderer::OGLRenderer()
+IRenderer& IRenderer::GetInstance()
+{
+	static Renderer_Impl s_RendererImpl;
+	return s_RendererImpl;
+}
+
+Renderer_Impl::Renderer_Impl()
 {
 	m_glVertexShader = 0;
 	m_glFragmentShader = 0;
@@ -19,18 +25,12 @@ OGLRenderer::OGLRenderer()
 	m_pszFregmentShader = NULL;
 }
 
-OGLRenderer::~OGLRenderer()
+Renderer_Impl::~Renderer_Impl()
 {
 	// TODO:
 }
 
-OGLRenderer& OGLRenderer::GetInstance()
-{
-	static OGLRenderer s_oglRenderer;
-	return s_oglRenderer;
-}
-
-bool OGLRenderer::Initialize(int width, int height)
+bool Renderer_Impl::Initialize(int width, int height)
 {
 	Terminate();
 
@@ -83,7 +83,7 @@ bool OGLRenderer::Initialize(int width, int height)
 		{
 			char* pszErrorLog = new char[nErrorLength];
 			glGetProgramInfoLog(m_glProgramObject, nErrorLength, NULL, pszErrorLog);
-			LOGI("Error linking program: %s\n", pszErrorLog);
+			LOGI("Error linking program: %s", pszErrorLog);
 			delete[] pszErrorLog;
 		}
 
@@ -96,7 +96,7 @@ bool OGLRenderer::Initialize(int width, int height)
 	return true;
 }
 
-void OGLRenderer::Terminate()
+void Renderer_Impl::Terminate()
 {
 	if (m_glProgramObject)
 	{
@@ -121,7 +121,7 @@ void OGLRenderer::Terminate()
 	m_glPositionHandler = 0;
 }
 
-void OGLRenderer::RenderTest()
+void Renderer_Impl::RenderTest()
 {
 	static const GLfloat s_vVertices[] = { 0.0f, 0.5f, -0.5f, -0.5f, 0.5f, -0.5f };
 	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
@@ -134,7 +134,7 @@ void OGLRenderer::RenderTest()
 	glDrawArrays(GL_TRIANGLES, 0, 3);
 }
 
-GLuint OGLRenderer::LoadShader(const char* pszShaderSource, GLenum eType)
+GLuint Renderer_Impl::LoadShader(const char* pszShaderSource, GLenum eType)
 {
 	GLuint glShader = glCreateShader(eType);
 	if (glShader == 0) return 0;
@@ -153,7 +153,7 @@ GLuint OGLRenderer::LoadShader(const char* pszShaderSource, GLenum eType)
 		{
 			char* pszErrorLog = new char[nErrorLength];
 			glGetShaderInfoLog(glShader, nErrorLength, NULL, pszErrorLog);
-			LOGI("Error compiling shader: %s\n", pszErrorLog);
+			LOGI("Error compiling shader: %s", pszErrorLog);
 			delete[] pszErrorLog;
 		}
 

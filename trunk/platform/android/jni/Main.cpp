@@ -6,12 +6,12 @@
  * \author zjhlogo (zjhlogo@gmail.com)
  */
 #include "Main.h"
-#include "GameMain.h"
+#include <IGameMain.h>
 #include <IFileMgr.h>
 
 JNIEXPORT void JNICALL Java_com_zjhlogo_spank_SpankLibrary_initialize(JNIEnv* env, jclass cls, jint width, jint height)
 {
-	GameMain::GetInstance().Initialize(width, height);
+	IGameMain::GetInstance().Initialize(width, height);
 }
 
 JNIEXPORT void JNICALL Java_com_zjhlogo_spank_SpankLibrary_setPackagePath(JNIEnv* env, jclass cls, jstring path)
@@ -28,5 +28,5 @@ JNIEXPORT void JNICALL Java_com_zjhlogo_spank_SpankLibrary_setPackagePath(JNIEnv
 
 JNIEXPORT void JNICALL Java_com_zjhlogo_spank_SpankLibrary_step(JNIEnv* env, jclass cls)
 {
-	GameMain::GetInstance().Render();
+	IGameMain::GetInstance().Render();
 }

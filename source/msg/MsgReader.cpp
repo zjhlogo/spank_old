@@ -5,10 +5,9 @@
  * 
  * \author zjhlogo (zjhlogo@gmail.com)
  */
-#include "MsgReader.h"
-#include "MsgWriter.h"
-#include "MsgID.h"
-#include <cstddef>
+#include <msg/MsgReader.h>
+#include <msg/MsgWriter.h>
+#include <msg/MsgID.h>
 
 MsgReader::MsgReader(StreamReader* pReader)
 :MsgBase(MI_UNKNOWN)

@@ -5,7 +5,7 @@
  * 
  * \author zjhlogo (zjhlogo@gmail.com)
  */
-#include "StreamReader.h"
+#include <util/StreamReader.h>
 #include <memory>
 
 StreamReader::StreamReader(const void* pBuffer, int nBufferSize)

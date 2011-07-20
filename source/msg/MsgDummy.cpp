@@ -5,8 +5,8 @@
  * 
  * \author zjhlogo (zjhlogo@gmail.com)
  */
-#include "MsgDummy.h"
-#include "MsgID.h"
+#include <msg/MsgDummy.h>
+#include <msg/MsgID.h>
 
 MsgDummy::MsgDummy()
 :MsgBase(MI_DUMMY)

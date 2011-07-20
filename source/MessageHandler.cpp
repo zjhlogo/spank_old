@@ -5,8 +5,8 @@
  * 
  * \author zjhlogo (zjhlogo@gmail.com)
  */
-#include "MessageHandler.h"
-#include "MessageMgr.h"
+#include <MessageHandler.h>
+#include <MessageMgr.h>
 
 MessageHandler::MessageHandler()
 {

@@ -5,8 +5,8 @@
  * 
  * \author zjhlogo (zjhlogo@gmail.com)
  */
-#include "MsgWriter.h"
-#include "MsgID.h"
+#include <msg/MsgWriter.h>
+#include <msg/MsgID.h>
 
 MsgWriter::MsgWriter(int nMsgID)
 :MsgBase(nMsgID)

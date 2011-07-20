@@ -7,7 +7,7 @@
  */
 #include "Main.h"
 #include "GameMain.h"
-#include "FileUtil.h"
+#include <IFileMgr.h>
 
 JNIEXPORT void JNICALL Java_com_zjhlogo_spank_SpankLibrary_initialize(JNIEnv* env, jclass cls, jint width, jint height)
 {
@@ -21,7 +21,7 @@ JNIEXPORT void JNICALL Java_com_zjhlogo_spank_SpankLibrary_setPackagePath(JNIEnv
 	if (isCopy == JNI_TRUE)
 	{
 		// set the package path
-		FileUtil::SetPackagePath(pszPath);
+		IFileMgr::GetInstance().Initialize(pszPath);
 		env->ReleaseStringUTFChars(path, pszPath);
 	}
 }

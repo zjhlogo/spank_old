@@ -18,22 +18,24 @@ include $(CLEAR_VARS)
 
 LOCAL_MODULE    := spank
 
-LOCAL_SRC_FILES := Main.cpp \
-		GameMain.cpp \
-		OGLRenderer.cpp \
+LOCAL_SRC_FILES := \
 		DebugUtil.cpp \
-		FileUtil.cpp \
-		unzip.cpp \
-		ioapi.cpp \
-		MessageMgr.cpp \
+		FileMgr_Impl.cpp \
+		GameMain.cpp \
+		Main.cpp \
 		MessageHandler.cpp \
+		MessageMgr.cpp \
+		OGLRenderer.cpp \
 		msg/MsgBase.cpp \
 		msg/MsgReader.cpp \
 		msg/MsgWriter.cpp \
 		msg/MsgDummy.cpp \
+		unzip/unzip.cpp \
+		unzip/ioapi.cpp \
 		util/StreamReader.cpp \
 		util/StreamWriter.cpp \
 
+LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../../include
 
 LOCAL_LDLIBS    := -llog -lz -lGLESv2
 

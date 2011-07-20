@@ -7,7 +7,7 @@
  */
 #include "OGLRenderer.h"
 #include "DebugUtil.h"
-#include "FileUtil.h"
+#include <IFileMgr.h>
 
 OGLRenderer::OGLRenderer()
 {
@@ -34,8 +34,8 @@ bool OGLRenderer::Initialize(int width, int height)
 {
 	Terminate();
 
-	int nSizeVertexShader = 0;
-	if (!FileUtil::ReadFile(&m_pszVertexShader, nSizeVertexShader, "assets/shader.vs"))
+	uint nSizeVertexShader = 0;
+	if (!IFileMgr::GetInstance().ReadFile(&m_pszVertexShader, &nSizeVertexShader, "assets/shader.vs"))
 	{
 		LOGE("Read /assets/shader.vs Failed");
 		return false;
@@ -48,8 +48,8 @@ bool OGLRenderer::Initialize(int width, int height)
 		return false;
 	}
 
-	int nSizeFregmentShader = 0;
-	if (!FileUtil::ReadFile(&m_pszFregmentShader, nSizeFregmentShader, "assets/shader.fs"))
+	uint nSizeFregmentShader = 0;
+	if (!IFileMgr::GetInstance().ReadFile(&m_pszFregmentShader, &nSizeFregmentShader, "assets/shader.fs"))
 	{
 		LOGE("Read /assets/shader.fs Failed");
 		return false;
@@ -110,24 +110,14 @@ void OGLRenderer::Terminate()
 		m_glVertexShader = 0;
 	}
 
-	if (m_pszVertexShader)
-	{
-		delete[] m_pszVertexShader;
-		m_pszVertexShader = NULL;
-	}
-
 	if (m_glFragmentShader)
 	{
 		glDeleteShader(m_glFragmentShader);
 		m_glFragmentShader = 0;
 	}
 
-	if (m_pszFregmentShader)
-	{
-		delete[] m_pszFregmentShader;
-		m_pszFregmentShader = NULL;
-	}
-
+	SAFE_DELETE_ARRAY(m_pszVertexShader);
+	SAFE_DELETE_ARRAY(m_pszFregmentShader);
 	m_glPositionHandler = 0;
 }
 

@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;e:\Program Files\ARM\Mali Developer Tools\OpenGL ES 2.0 Emulator v1.3.0M1\include\&quot;;F:\code\spank\include"
+				AdditionalIncludeDirectories=".\include;..\..\include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -61,6 +61,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
+				OutputFile="$(ProjectDir)libs\$(ProjectName)_D.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -105,7 +106,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="&quot;e:\Program Files\ARM\Mali Developer Tools\OpenGL ES 2.0 Emulator v1.3.0M1\include\&quot;;F:\code\spank\include"
+				AdditionalIncludeDirectories=".\include;..\..\include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -124,6 +125,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
+				OutputFile="$(ProjectDir)libs\$(ProjectName).lib"
 			/>
 			<Tool
 				Name="VCALinkTool"

@@ -172,11 +172,11 @@
 	</References>
 	<Files>
 		<File
-			RelativePath=".\GameApp.cpp"
+			RelativePath="..\source\GameApp.cpp"
 			>
 		</File>
 		<File
-			RelativePath=".\GameApp.h"
+			RelativePath="..\source\GameApp.h"
 			>
 		</File>
 	</Files>

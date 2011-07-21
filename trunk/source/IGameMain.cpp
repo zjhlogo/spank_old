@@ -16,13 +16,11 @@ IGameMain::IGameMain()
 
 IGameMain::~IGameMain()
 {
-	Terminate();
+	// TODO: 
 }
 
 bool IGameMain::Initialize(int width, int height)
 {
-	Terminate();
-
 	m_nScreenWidth = width;
 	m_nScreenHeight = height;
 

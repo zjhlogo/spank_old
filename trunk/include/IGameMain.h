@@ -9,9 +9,8 @@
 #define __IGAMEMAIN_H__
 
 #include "BaseType.h"
-#include "MessageHandler.h"
 
-class IGameMain : public MessageHandler
+class IGameMain
 {
 public:
 	IGameMain();

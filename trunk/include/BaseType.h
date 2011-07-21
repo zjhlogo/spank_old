@@ -8,7 +8,9 @@
 #ifndef __BASETYPE_H__
 #define __BASETYPE_H__
 
-#include <stdint.h>
+#ifndef WIN32
+	#include <stdint.h>
+#endif
 
 //typedef bool						bool;
 
@@ -21,8 +23,13 @@ typedef unsigned short				ushort;
 //typedef int						int;
 typedef unsigned int				uint;
 
-typedef int64_t						int64;
-typedef uint64_t					uint64;
+#ifndef WIN32
+	typedef int64_t					int64;
+	typedef uint64_t				uint64;
+#else
+	typedef __int64					int64;
+	typedef unsigned __int64		uint64;
+#endif
 
 //typedef float						float;
 

@@ -27,12 +27,6 @@ LOCAL_SRC_FILES := \
 		unzip/unzip.cpp \
 		unzip/ioapi.cpp \
 		../../../source/IGameMain.cpp \
-		../../../source/MessageHandler.cpp \
-		../../../source/MessageMgr.cpp \
-		../../../source/msg/MsgBase.cpp \
-		../../../source/msg/MsgReader.cpp \
-		../../../source/msg/MsgWriter.cpp \
-		../../../source/msg/MsgDummy.cpp \
 		../../../source/util/StreamReader.cpp \
 		../../../source/util/StreamWriter.cpp \
 

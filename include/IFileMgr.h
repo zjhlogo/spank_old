@@ -8,7 +8,7 @@
 #ifndef __IFILEMGR_H__
 #define __IFILEMGR_H__
 
-#include "BaseType.h"
+#include "util/StreamWriter.h"
 
 class IFileMgr
 {

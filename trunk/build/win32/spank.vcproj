@@ -148,12 +148,14 @@
 	</References>
 	<Files>
 		<Filter
-			Name="源文件"
-			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
-			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
+			Name="implement_win"
 			>
 			<File
 				RelativePath=".\src\DebugUtil_Impl.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\DebugUtil_Impl.h"
 				>
 			</File>
 			<File
@@ -161,25 +163,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\Renderer_Impl.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\WinMain.cpp"
-				>
-			</File>
-		</Filter>
-		<Filter
-			Name="头文件"
-			Filter="h;hpp;hxx;hm;inl;inc;xsd"
-			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
-			>
-			<File
-				RelativePath=".\src\DebugUtil_Impl.h"
-				>
-			</File>
-			<File
 				RelativePath=".\src\FileMgr_Impl.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\Renderer_Impl.cpp"
 				>
 			</File>
 			<File
@@ -187,30 +175,62 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\WinMain.h"
+				RelativePath=".\include\stdint.h"
 				>
 			</File>
 		</Filter>
 		<Filter
-			Name="sdk"
+			Name="util"
 			>
 			<File
-				RelativePath="..\..\source\IGameMain.cpp"
+				RelativePath="..\..\source\util\StreamReader.cpp"
 				>
 			</File>
-			<Filter
-				Name="util"
+			<File
+				RelativePath="..\..\include\util\StreamReader.h"
 				>
-				<File
-					RelativePath="..\..\source\util\StreamReader.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\..\source\util\StreamWriter.cpp"
-					>
-				</File>
-			</Filter>
+			</File>
+			<File
+				RelativePath="..\..\source\util\StreamWriter.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\util\StreamWriter.h"
+				>
+			</File>
 		</Filter>
+		<File
+			RelativePath="..\..\include\BaseType.h"
+			>
+		</File>
+		<File
+			RelativePath="..\..\include\IDebugUtil.h"
+			>
+		</File>
+		<File
+			RelativePath="..\..\include\IFileMgr.h"
+			>
+		</File>
+		<File
+			RelativePath="..\..\source\IGameMain.cpp"
+			>
+		</File>
+		<File
+			RelativePath="..\..\include\IGameMain.h"
+			>
+		</File>
+		<File
+			RelativePath="..\..\include\IRenderer.h"
+			>
+		</File>
+		<File
+			RelativePath=".\src\WinMain.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\src\WinMain.h"
+			>
+		</File>
 	</Files>
 	<Globals>
 	</Globals>

@@ -28,6 +28,10 @@ typedef uint64_t					uint64;
 
 //typedef NULL						NULL;
 
+#ifndef NULL
+#define NULL (0)
+#endif
+
 #define SAFE_DELETE(x) if (x) {delete (x); (x) = NULL;}
 #define SAFE_DELETE_ARRAY(x) if (x) {delete[] (x); (x) = NULL;}
 #define SAFE_RELEASE(x) if (x) {(x)->Release(); (x) = NULL;}

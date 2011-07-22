@@ -8,8 +8,9 @@
 #include <util/StreamReader.h>
 #include <memory>
 
-StreamReader::StreamReader(const void* pBuffer, int nBufferSize)
+StreamReader::StreamReader(const void* pBuffer, int nBufferSize, bool bManageBuffer /* = false */)
 {
+	m_bManageBuffer = bManageBuffer;
 	m_pBuffer = pBuffer;
 	m_nBufferSize = nBufferSize;
 	m_nReadPos = 0;
@@ -17,7 +18,10 @@ StreamReader::StreamReader(const void* pBuffer, int nBufferSize)
 
 StreamReader::~StreamReader()
 {
-
+	if (m_bManageBuffer)
+	{
+		SAFE_DELETE_ARRAY(m_pBuffer);
+	}
 }
 
 bool StreamReader::Read(void* pDataOut, int nSize)

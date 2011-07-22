@@ -13,7 +13,7 @@
 class StreamReader
 {
 public:
-	StreamReader(const void* pBuffer, int nBufferSize);
+	StreamReader(const void* pBuffer, int nBufferSize, bool bManageBuffer = false);
 	~StreamReader();
 
 	bool Read(void* pDataOut, int nSize);
@@ -23,6 +23,7 @@ public:
 	int GetSize();
 
 private:
+	bool m_bManageBuffer;
 	const void* m_pBuffer;
 	int m_nBufferSize;
 	int m_nReadPos;

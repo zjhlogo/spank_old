@@ -22,8 +22,6 @@ Renderer_Impl::Renderer_Impl()
 	m_glFragmentShader = 0;
 	m_glProgramObject = 0;
 	m_glPositionHandler = 0;
-	m_pszVertexShader = NULL;
-	m_pszFregmentShader = NULL;
 }
 
 Renderer_Impl::~Renderer_Impl()
@@ -33,28 +31,30 @@ Renderer_Impl::~Renderer_Impl()
 
 bool Renderer_Impl::Initialize(int width, int height)
 {
-	uint nSizeVertexShader = 0;
-	if (!IFileMgr::GetInstance().ReadFile(&m_pszVertexShader, &nSizeVertexShader, "assets/shader.vs"))
+	StreamReader* pStreamVertexShader = IFileMgr::GetInstance().LoadFile("assets/shader.vs");
+	if (!pStreamVertexShader)
 	{
 		LOGE("Read /assets/shader.vs Failed");
 		return false;
 	}
 
-	m_glVertexShader = LoadShader(m_pszVertexShader, GL_VERTEX_SHADER);
+	m_glVertexShader = LoadShader((const char*)pStreamVertexShader->GetBuffer(), GL_VERTEX_SHADER);
+	SAFE_DELETE(pStreamVertexShader);
 	if (!m_glVertexShader)
 	{
 		LOGE("Load Vertex Shader Failed");
 		return false;
 	}
 
-	uint nSizeFregmentShader = 0;
-	if (!IFileMgr::GetInstance().ReadFile(&m_pszFregmentShader, &nSizeFregmentShader, "assets/shader.fs"))
+	StreamReader* pStreamFregmentShader = IFileMgr::GetInstance().LoadFile("assets/shader.fs");
+	if (!pStreamFregmentShader)
 	{
 		LOGE("Read /assets/shader.fs Failed");
 		return false;
 	}
 
-	m_glFragmentShader = LoadShader(m_pszFregmentShader, GL_FRAGMENT_SHADER);
+	m_glFragmentShader = LoadShader((const char*)pStreamFregmentShader->GetBuffer(), GL_FRAGMENT_SHADER);
+	SAFE_DELETE(pStreamFregmentShader);
 	if (!m_glFragmentShader)
 	{
 		LOGE("Load Fragment Shader Failed");
@@ -115,8 +115,6 @@ void Renderer_Impl::Terminate()
 		m_glFragmentShader = 0;
 	}
 
-	SAFE_DELETE_ARRAY(m_pszVertexShader);
-	SAFE_DELETE_ARRAY(m_pszFregmentShader);
 	m_glPositionHandler = 0;
 }
 

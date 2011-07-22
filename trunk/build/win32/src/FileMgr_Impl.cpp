@@ -37,13 +37,13 @@ void FileMgr_Impl::Terminate()
 	// TODO: 
 }
 
-bool FileMgr_Impl::ReadFile(char** pszBufferOut, uint* nSizeOut, const char* pszFileName)
+StreamReader* FileMgr_Impl::LoadFile(const char* pszFileName)
 {
-	if (!pszFileName || strlen(pszFileName) <= 0) return false;
+	if (!pszFileName || strlen(pszFileName) <= 0) return NULL;
 
 	FILE* pFile = NULL;
 	fopen_s(&pFile, pszFileName, "rb");
-	if (pFile == NULL) return false;
+	if (pFile == NULL) return NULL;
 
 	fseek(pFile, 0, SEEK_END);
 	uint nFileSize = ftell(pFile);
@@ -54,8 +54,6 @@ bool FileMgr_Impl::ReadFile(char** pszBufferOut, uint* nSizeOut, const char* psz
 	fclose(pFile);
 
 	pszBuffer[nFileSize] = '\0';
-	(*pszBufferOut) = pszBuffer;
-	(*nSizeOut) = nFileSize;
-
-	return true;
+	StreamReader* pStreamReader = new StreamReader(pszBuffer, nFileSize, true);
+	return pStreamReader;
 }

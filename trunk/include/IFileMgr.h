@@ -8,7 +8,7 @@
 #ifndef __IFILEMGR_H__
 #define __IFILEMGR_H__
 
-#include "util/StreamWriter.h"
+#include "util/StreamReader.h"
 
 class IFileMgr
 {
@@ -18,7 +18,7 @@ public:
 	virtual bool Initialize(const char* pszMainFilePath) = 0;
 	virtual void Terminate() = 0;
 
-	virtual bool ReadFile(char** pszBufferOut, uint* nSizeOut, const char* pszFileName) = 0;
+	virtual StreamReader* LoadFile(const char* pszFileName) = 0;
 };
 
 #endif // __IFILEMGR_H__

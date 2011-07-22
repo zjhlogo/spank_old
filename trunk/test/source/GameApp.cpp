@@ -7,6 +7,7 @@
  */
 #include "GameApp.h"
 #include <IRenderer.h>
+#include <ITextureMgr.h>
 
 IGameMain& IGameMain::GetInstance()
 {
@@ -17,6 +18,7 @@ IGameMain& IGameMain::GetInstance()
 GameApp::GameApp()
 {
 	// TODO: 
+	m_pTexture = NULL;
 }
 
 GameApp::~GameApp()
@@ -26,7 +28,10 @@ GameApp::~GameApp()
 
 void GameApp::Update(float dt)
 {
-
+	if (!m_pTexture)
+	{
+		m_pTexture = ITextureMgr::GetInstance().CreateTexture("assets/emotion_small.png");
+	}
 }
 
 void GameApp::Render()

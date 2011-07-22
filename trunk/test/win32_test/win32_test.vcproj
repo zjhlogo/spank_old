@@ -61,7 +61,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="..\..\build\win32\libs\spank_D.lib libs\libEGL.lib libs\libGLESv2.lib"
+				AdditionalDependencies="..\..\build\win32\libs\spank_D.lib libs\libEGL.lib libs\libGLESv2.lib libs\libpng154.lib libs\zlib.lib"
 				OutputFile="$(ProjectDir)bin\$(ProjectName)_D.exe"
 				LinkIncremental="2"
 				GenerateDebugInformation="true"
@@ -136,7 +136,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="..\..\build\win32\libs\spank.lib libs\libEGL.lib libs\libGLESv2.lib"
+				AdditionalDependencies="..\..\build\win32\libs\spank.lib libs\libEGL.lib libs\libGLESv2.lib libs\libpng154.lib libs\zlib.lib"
 				OutputFile="$(ProjectDir)bin\$(ProjectName).exe"
 				LinkIncremental="1"
 				GenerateDebugInformation="true"

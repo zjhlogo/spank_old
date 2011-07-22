@@ -19,7 +19,7 @@ public:
 	virtual bool Initialize(const char* pszMainFilePath);
 	virtual void Terminate();
 
-	virtual bool ReadFile(char** pszBufferOut, uint* nSizeOut, const char* pszFileName);
+	virtual StreamReader* LoadFile(const char* pszFileName);
 };
 
 #endif // __FILEMGR_IMPL_H__

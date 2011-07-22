@@ -7,6 +7,7 @@
  */
 #include <IGameMain.h>
 #include <IRenderer.h>
+#include <ITextureMgr.h>
 
 IGameMain::IGameMain()
 {
@@ -24,6 +25,7 @@ bool IGameMain::Initialize(int width, int height)
 	m_nScreenWidth = width;
 	m_nScreenHeight = height;
 
+	ITextureMgr::GetInstance().Initialize();
 	IRenderer::GetInstance().Initialize(width, height);
 
 	return true;
@@ -32,6 +34,7 @@ bool IGameMain::Initialize(int width, int height)
 void IGameMain::Terminate()
 {
 	IRenderer::GetInstance().Terminate();
+	ITextureMgr::GetInstance().Terminate();
 	m_nScreenWidth = 0;
 	m_nScreenHeight = 0;
 }

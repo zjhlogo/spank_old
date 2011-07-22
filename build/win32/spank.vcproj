@@ -148,7 +148,7 @@
 	</References>
 	<Files>
 		<Filter
-			Name="implement_win"
+			Name="impl"
 			>
 			<File
 				RelativePath=".\src\DebugUtil_Impl.cpp"
@@ -176,6 +176,22 @@
 			</File>
 			<File
 				RelativePath=".\include\stdint.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\Texture_Impl.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\Texture_Impl.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\TextureMgr_Impl.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\TextureMgr_Impl.h"
 				>
 			</File>
 		</Filter>
@@ -221,6 +237,14 @@
 		</File>
 		<File
 			RelativePath="..\..\include\IRenderer.h"
+			>
+		</File>
+		<File
+			RelativePath="..\..\include\ITexture.h"
+			>
+		</File>
+		<File
+			RelativePath="..\..\include\ITextureMgr.h"
 			>
 		</File>
 		<File

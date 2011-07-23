@@ -24,7 +24,7 @@ public:
 
 private:
 	bool m_bManageBuffer;
-	const void* m_pBuffer;
+	const char* m_pBuffer;
 	int m_nBufferSize;
 	int m_nReadPos;
 

@@ -14,13 +14,19 @@
 class FileMgr_Impl : public IFileMgr
 {
 public:
+	enum CONST_DEFINE
+	{
+		MAX_FILE_PATH = 260,
+	};
+
+public:
 	FileMgr_Impl();
 	virtual ~FileMgr_Impl();
 
-	virtual bool Initialize(const char* pszMainFilePath);
+	virtual bool Initialize();
 	virtual void Terminate();
 
-	virtual bool ReadFile(char** pszBufferOut, uint* nSizeOut, const char* pszFileName);
+	virtual StreamReader* LoadFile(const char* pszFileName);
 
 private:
 	unzFile m_pMainFile;

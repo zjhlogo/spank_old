@@ -7,7 +7,9 @@ public class SpankLibrary
         System.loadLibrary("android_test");
     }
 
-    public static native void initialize(int width, int height);
     public static native void setPackagePath(String zipFilePath);
+    
+    public static native boolean initialize(int width, int height);
+    public static native void terminate();
     public static native void step();
 }

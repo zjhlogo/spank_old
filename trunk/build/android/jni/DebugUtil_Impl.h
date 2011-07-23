@@ -13,6 +13,9 @@
 class DebugUtil_Impl : public IDebugUtil
 {
 public:
+	virtual bool Initialize();
+	virtual void Terminate();
+
 	virtual void Debug(const char* format, ...);
 	virtual void Info(const char* format, ...);
 	virtual void Error(const char* format, ...);

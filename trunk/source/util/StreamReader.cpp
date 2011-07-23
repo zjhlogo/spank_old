@@ -11,7 +11,7 @@
 StreamReader::StreamReader(const void* pBuffer, int nBufferSize, bool bManageBuffer /* = false */)
 {
 	m_bManageBuffer = bManageBuffer;
-	m_pBuffer = pBuffer;
+	m_pBuffer = (const char*)pBuffer;
 	m_nBufferSize = nBufferSize;
 	m_nReadPos = 0;
 }
@@ -42,7 +42,7 @@ void StreamReader::Reset()
 
 const void* StreamReader::GetBuffer()
 {
-	const char* pBuffer = (const char*)m_pBuffer;
+	const char* pBuffer = m_pBuffer;
 	pBuffer += m_nReadPos;
 	return pBuffer;
 }

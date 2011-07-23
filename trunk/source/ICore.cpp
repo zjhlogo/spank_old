@@ -26,15 +26,17 @@ bool ICore::Initialize()
 	if (!IFileMgr::GetInstance().Initialize()) return false;
 	if (!IRenderDevice::GetInstance().Initialize()) return false;
 	if (!ITextureMgr::GetInstance().Initialize()) return false;
+	if (!IGameMain::GetInstance().Initialize()) return false;
 	return true;
 }
 
 void ICore::Terminate()
 {
-	IDebugUtil::GetInstance().Terminate();
-	IFileMgr::GetInstance().Terminate();
-	IRenderDevice::GetInstance().Terminate();
+	IGameMain::GetInstance().Terminate();
 	ITextureMgr::GetInstance().Terminate();
+	IRenderDevice::GetInstance().Terminate();
+	IFileMgr::GetInstance().Terminate();
+	IDebugUtil::GetInstance().Terminate();
 	IConfig::GetInstance().Terminate();
 }
 

@@ -167,11 +167,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\Renderer_Impl.cpp"
+				RelativePath=".\src\RenderDevice_Impl.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\src\Renderer_Impl.h"
+				RelativePath=".\src\RenderDevice_Impl.h"
 				>
 			</File>
 			<File
@@ -215,38 +215,62 @@
 				>
 			</File>
 		</Filter>
-		<File
-			RelativePath="..\..\include\BaseType.h"
+		<Filter
+			Name="sdk"
 			>
-		</File>
-		<File
-			RelativePath="..\..\include\IDebugUtil.h"
-			>
-		</File>
-		<File
-			RelativePath="..\..\include\IFileMgr.h"
-			>
-		</File>
-		<File
-			RelativePath="..\..\source\IGameMain.cpp"
-			>
-		</File>
-		<File
-			RelativePath="..\..\include\IGameMain.h"
-			>
-		</File>
-		<File
-			RelativePath="..\..\include\IRenderer.h"
-			>
-		</File>
-		<File
-			RelativePath="..\..\include\ITexture.h"
-			>
-		</File>
-		<File
-			RelativePath="..\..\include\ITextureMgr.h"
-			>
-		</File>
+			<File
+				RelativePath="..\..\include\BaseType.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\source\IConfig.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\IConfig.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\source\ICore.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\ICore.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\IDebugUtil.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\IFileMgr.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\source\IGameMain.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\IGameMain.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\IMgr.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\IRenderDevice.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\ITexture.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\ITextureMgr.h"
+				>
+			</File>
+		</Filter>
 		<File
 			RelativePath=".\src\WinMain.cpp"
 			>

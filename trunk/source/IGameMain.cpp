@@ -6,35 +6,3 @@
  * \author zjhlogo (zjhlogo@gmail.com)
  */
 #include <IGameMain.h>
-#include <IRenderer.h>
-#include <ITextureMgr.h>
-
-IGameMain::IGameMain()
-{
-	m_nScreenWidth = 0;
-	m_nScreenHeight = 0;
-}
-
-IGameMain::~IGameMain()
-{
-	// TODO: 
-}
-
-bool IGameMain::Initialize(int width, int height)
-{
-	m_nScreenWidth = width;
-	m_nScreenHeight = height;
-
-	ITextureMgr::GetInstance().Initialize();
-	IRenderer::GetInstance().Initialize(width, height);
-
-	return true;
-}
-
-void IGameMain::Terminate()
-{
-	IRenderer::GetInstance().Terminate();
-	ITextureMgr::GetInstance().Terminate();
-	m_nScreenWidth = 0;
-	m_nScreenHeight = 0;
-}

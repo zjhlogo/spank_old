@@ -9,14 +9,12 @@
 #define __ITEXTUREMGR_H__
 
 #include "ITexture.h"
+#include "IMgr.h"
 
-class ITextureMgr
+class ITextureMgr : public IMgr
 {
 public:
 	static ITextureMgr& GetInstance();
-
-	virtual bool Initialize() = 0;
-	virtual void Terminate() = 0;
 
 	virtual ITexture* CreateTexture(const char* pszFileName) = 0;
 };

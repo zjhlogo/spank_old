@@ -9,14 +9,12 @@
 #define __IFILEMGR_H__
 
 #include "util/StreamReader.h"
+#include "IMgr.h"
 
-class IFileMgr
+class IFileMgr : public IMgr
 {
 public:
 	static IFileMgr& GetInstance();
-
-	virtual bool Initialize(const char* pszMainFilePath) = 0;
-	virtual void Terminate() = 0;
 
 	virtual StreamReader* LoadFile(const char* pszFileName) = 0;
 };

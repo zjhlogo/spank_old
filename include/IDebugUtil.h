@@ -8,7 +8,9 @@
 #ifndef __IDEBUGUTIL_H__
 #define __IDEBUGUTIL_H__
 
-class IDebugUtil
+#include "IMgr.h"
+
+class IDebugUtil : public IMgr
 {
 public:
 	static IDebugUtil& GetInstance();
@@ -17,6 +19,8 @@ public:
 	virtual void Info(const char* format, ...) = 0;
 	virtual void Error(const char* format, ...) = 0;
 };
+
+#define DEBUG_OUT 1
 
 #ifdef DEBUG_OUT
 	#define LOGD(...) ((void)IDebugUtil::GetInstance().Debug(__VA_ARGS__))

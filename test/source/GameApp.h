@@ -9,7 +9,6 @@
 #define __GAMEAPP_H__
 
 #include <IGameMain.h>
-#include <ITexture.h>
 
 class GameApp : public IGameMain
 {
@@ -17,11 +16,11 @@ public:
 	GameApp();
 	virtual ~GameApp();
 
+	virtual bool Initialize();
+	virtual void Terminate();
+
 	virtual void Update(float dt);
 	virtual void Render();
-
-private:
-	ITexture* m_pTexture;
 
 };
 #endif // __GAMEAPP_H__

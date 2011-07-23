@@ -6,8 +6,6 @@
  * \author zjhlogo (zjhlogo@gmail.com)
  */
 #include "GameApp.h"
-#include <IRenderer.h>
-#include <ITextureMgr.h>
 
 IGameMain& IGameMain::GetInstance()
 {
@@ -18,7 +16,6 @@ IGameMain& IGameMain::GetInstance()
 GameApp::GameApp()
 {
 	// TODO: 
-	m_pTexture = NULL;
 }
 
 GameApp::~GameApp()
@@ -26,15 +23,22 @@ GameApp::~GameApp()
 	// TODO: 
 }
 
+bool GameApp::Initialize()
+{
+	return true;
+}
+
+void GameApp::Terminate()
+{
+	// TODO: 
+}
+
 void GameApp::Update(float dt)
 {
-	if (!m_pTexture)
-	{
-		m_pTexture = ITextureMgr::GetInstance().CreateTexture("assets/emotion_small.png");
-	}
+	// TODO: 
 }
 
 void GameApp::Render()
 {
-	IRenderer::GetInstance().RenderTest();
+	// TODO: 
 }

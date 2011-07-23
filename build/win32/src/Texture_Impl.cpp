@@ -24,12 +24,15 @@ Texture_Impl::Texture_Impl(const char* pszFileName)
 	m_nWidth = 0;
 	m_nHeight = 0;
 	m_pTextureDataRGBA = NULL;
+	m_nGLTextureID = 0;
 
 	LoadTextureFromFile(pszFileName);
+	CreateGLTexture();
 }
 
 Texture_Impl::~Texture_Impl()
 {
+	FreeGLTexture();
 	FreeTextureData();
 }
 
@@ -146,4 +149,34 @@ void Texture_Impl::FreeTextureData()
 	SAFE_DELETE_ARRAY(m_pTextureDataRGBA);
 	m_nWidth = 0;
 	m_nHeight = 0;
+}
+
+bool Texture_Impl::CreateGLTexture()
+{
+	FreeGLTexture();
+
+	glGenTextures(1, &m_nGLTextureID);
+	if (m_nGLTextureID == 0) return false;
+
+	glBindTexture(GL_TEXTURE_2D, m_nGLTextureID);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, m_nWidth, m_nHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, m_pTextureDataRGBA);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+	return true;
+}
+
+void Texture_Impl::FreeGLTexture()
+{
+	if (m_nGLTextureID != 0)
+	{
+		glDeleteTextures(1, &m_nGLTextureID);
+		m_nGLTextureID = 0;
+	}
+}
+
+GLuint Texture_Impl::GetGLTextureID() const
+{
+	return m_nGLTextureID;
 }

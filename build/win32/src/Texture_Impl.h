@@ -9,6 +9,7 @@
 #define __TEXTURE_IMPL_H__
 
 #include <ITexture.h>
+#include <GLES2/gl2.h>
 
 class Texture_Impl : public ITexture
 {
@@ -19,14 +20,20 @@ public:
 	virtual uint GetWidth() const;
 	virtual uint GetHeight() const;
 
+	GLuint GetGLTextureID() const;
+
 private:
 	bool LoadTextureFromFile(const char* pszFileName);
 	void FreeTextureData();
+
+	bool CreateGLTexture();
+	void FreeGLTexture();
 
 private:
 	uint m_nWidth;
 	uint m_nHeight;
 	uchar* m_pTextureDataRGBA;
 
+	GLuint m_nGLTextureID;
 };
 #endif // __TEXTURE_IMPL_H__

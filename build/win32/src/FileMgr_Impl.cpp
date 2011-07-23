@@ -11,8 +11,8 @@
 
 IFileMgr& IFileMgr::GetInstance()
 {
-	static FileMgr_Impl s_FileMgr;
-	return s_FileMgr;
+	static FileMgr_Impl s_FileMgr_Impl;
+	return s_FileMgr_Impl;
 }
 
 FileMgr_Impl::FileMgr_Impl()
@@ -25,10 +25,8 @@ FileMgr_Impl::~FileMgr_Impl()
 	Terminate();
 }
 
-bool FileMgr_Impl::Initialize(const char* pszMainFilePath)
+bool FileMgr_Impl::Initialize()
 {
-	Terminate();
-
 	return true;
 }
 

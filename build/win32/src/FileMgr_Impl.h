@@ -16,7 +16,7 @@ public:
 	FileMgr_Impl();
 	virtual ~FileMgr_Impl();
 
-	virtual bool Initialize(const char* pszMainFilePath);
+	virtual bool Initialize();
 	virtual void Terminate();
 
 	virtual StreamReader* LoadFile(const char* pszFileName);

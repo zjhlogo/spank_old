@@ -9,19 +9,27 @@ extern "C" {
 #endif
 /*
  * Class:     com_zjhlogo_spank_SpankLibrary
- * Method:    initialize
- * Signature: (II)V
- */
-JNIEXPORT void JNICALL Java_com_zjhlogo_spank_SpankLibrary_initialize
-  (JNIEnv *, jclass, jint, jint);
-
-/*
- * Class:     com_zjhlogo_spank_SpankLibrary
  * Method:    setPackagePath
  * Signature: (Ljava/lang/String;)V
  */
 JNIEXPORT void JNICALL Java_com_zjhlogo_spank_SpankLibrary_setPackagePath
   (JNIEnv *, jclass, jstring);
+
+/*
+ * Class:     com_zjhlogo_spank_SpankLibrary
+ * Method:    initialize
+ * Signature: (II)Z
+ */
+JNIEXPORT jboolean JNICALL Java_com_zjhlogo_spank_SpankLibrary_initialize
+  (JNIEnv *, jclass, jint, jint);
+
+/*
+ * Class:     com_zjhlogo_spank_SpankLibrary
+ * Method:    terminate
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_com_zjhlogo_spank_SpankLibrary_terminate
+  (JNIEnv *, jclass);
 
 /*
  * Class:     com_zjhlogo_spank_SpankLibrary

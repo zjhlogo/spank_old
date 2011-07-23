@@ -3,6 +3,7 @@ package com.zjhlogo.spank;
 import android.content.Context;
 import android.graphics.PixelFormat;
 import android.opengl.GLSurfaceView;
+import android.view.SurfaceHolder;
 
 class SpankView extends GLSurfaceView
 {
@@ -19,5 +20,12 @@ class SpankView extends GLSurfaceView
 
 		// set renderer
 		setRenderer(new SpankRenderer());
+	}
+
+	@Override
+	public void surfaceDestroyed(SurfaceHolder holder)
+	{
+		super.surfaceDestroyed(holder);
+		SpankLibrary.terminate();
 	}
 }

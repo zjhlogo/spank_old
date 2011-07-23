@@ -6,13 +6,8 @@
  * \author zjhlogo (zjhlogo@gmail.com)
  */
 #include "Main.h"
-#include <IGameMain.h>
-#include <IFileMgr.h>
-
-JNIEXPORT void JNICALL Java_com_zjhlogo_spank_SpankLibrary_initialize(JNIEnv* env, jclass cls, jint width, jint height)
-{
-	IGameMain::GetInstance().Initialize(width, height);
-}
+#include <ICore.h>
+#include <IConfig.h>
 
 JNIEXPORT void JNICALL Java_com_zjhlogo_spank_SpankLibrary_setPackagePath(JNIEnv* env, jclass cls, jstring path)
 {
@@ -20,13 +15,30 @@ JNIEXPORT void JNICALL Java_com_zjhlogo_spank_SpankLibrary_setPackagePath(JNIEnv
 	const char* pszPath = env->GetStringUTFChars(path, &isCopy);
 	if (isCopy == JNI_TRUE)
 	{
-		// set the package path
-		IFileMgr::GetInstance().Initialize(pszPath);
+		IConfig::GetInstance().AddString("ANDROID_RESOURCE_PACKAGE", pszPath);
 		env->ReleaseStringUTFChars(path, pszPath);
 	}
 }
 
+JNIEXPORT jboolean JNICALL Java_com_zjhlogo_spank_SpankLibrary_initialize(JNIEnv* env, jclass cls, jint width, jint height)
+{
+	IConfig::GetInstance().AddInt("WINDOW_WIDTH", width);
+	IConfig::GetInstance().AddInt("WINDOW_HEIGHT", height);
+	if (!ICore::GetInstance().Initialize()) return JNI_FALSE;
+	return JNI_TRUE;
+}
+
+JNIEXPORT void JNICALL Java_com_zjhlogo_spank_SpankLibrary_terminate(JNIEnv* env, jclass cls)
+{
+	ICore::GetInstance().Terminate();
+}
+
+
 JNIEXPORT void JNICALL Java_com_zjhlogo_spank_SpankLibrary_step(JNIEnv* env, jclass cls)
 {
-	IGameMain::GetInstance().Render();
+	ICore::GetInstance().Update(0.0f);
+
+	ICore::GetInstance().PreRender();
+	ICore::GetInstance().Render();
+	ICore::GetInstance().PostRender();
 }

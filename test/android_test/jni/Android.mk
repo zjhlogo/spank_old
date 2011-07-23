@@ -1,24 +1,25 @@
-# Build Share lib
+# define source files
+LIBSPANK_SOURCE := ../../../source
+LIBGAME_SOURCE := ../../source
 
-MY_LOCAL_PATH := $(call my-dir)
-LOCAL_PATH := $(MY_LOCAL_PATH)
-include $(LOCAL_PATH)/../../../build/android/jni/Android.mk
-
-LOCAL_PATH := $(MY_LOCAL_PATH)
+# build share librarys android_test
+LOCAL_PATH := $(call my-dir)
 include $(CLEAR_VARS)
 
 LOCAL_MODULE := android_test
 
-LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../../include
+# spank sources
+include $(LOCAL_PATH)/$(LIBSPANK_SOURCE)/source.mk
 
-LOCAL_SRC_FILES := \
-		Main.cpp \
-		../../source/GameApp.cpp \
+# game sources
+include $(LOCAL_PATH)/$(LIBGAME_SOURCE)/source.mk
+
+LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../../include
+LOCAL_SRC_FILES := Main.cpp \
+		$(LIBSPANK_SOURCE_FILES) \
+		$(LIBGAME_SOURCE_FILES) \
 
 LOCAL_LDLIBS := -lz -lm -llog -lGLESv2
-
-LOCAL_STATIC_LIBRARIES := libspank
-
-#LOCAL_SHARED_LIBRARIES :=
-
+LOCAL_STATIC_LIBRARIES := 
+# LOCAL_SHARED_LIBRARIES :=
 include $(BUILD_SHARED_LIBRARY)

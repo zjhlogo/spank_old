@@ -14,6 +14,16 @@ IDebugUtil& IDebugUtil::GetInstance()
 	return s_DebugUtil_Impl;
 }
 
+bool DebugUtil_Impl::Initialize()
+{
+	return true;
+}
+
+void DebugUtil_Impl::Terminate()
+{
+	// TODO: 
+}
+
 void DebugUtil_Impl::Debug(const char* format, ...)
 {
 	va_list marker;

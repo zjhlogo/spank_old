@@ -6,11 +6,14 @@
  * \author zjhlogo (zjhlogo@gmail.com)
  */
 #include "FileMgr_Impl.h"
+#include <IDebugUtil.h>
+#include <IConfig.h>
+#include <util/StreamWriter.h>
 
 IFileMgr& IFileMgr::GetInstance()
 {
-	static FileMgr_Impl s_FileMgr;
-	return s_FileMgr;
+	static FileMgr_Impl s_FileMgr_Impl;
+	return s_FileMgr_Impl;
 }
 
 FileMgr_Impl::FileMgr_Impl()
@@ -20,19 +23,22 @@ FileMgr_Impl::FileMgr_Impl()
 
 FileMgr_Impl::~FileMgr_Impl()
 {
-	Terminate();
+	// TODO: 
 }
 
-bool FileMgr_Impl::Initialize(const char* pszMainFilePath)
+bool FileMgr_Impl::Initialize()
 {
-	Terminate();
+	const char* pszPackageFilePath = IConfig::GetInstance().GetString("ANDROID_RESOURCE_PACKAGE");
+	if (!pszPackageFilePath || strlen(pszPackageFilePath) <= 0)
+	{
+		LOGE("invalid resource package path");
+		return false;
+	}
 
-	if (!pszMainFilePath || strlen(pszMainFilePath) <= 0) return false;
-
-	m_pMainFile = unzOpen(pszMainFilePath);
+	m_pMainFile = unzOpen(pszPackageFilePath);
 	if (!m_pMainFile)
 	{
-		// TODO: logout
+		LOGE("open resource package file failed: %s", pszPackageFilePath);
 		return false;
 	}
 
@@ -48,41 +54,48 @@ void FileMgr_Impl::Terminate()
 	}
 }
 
-bool FileMgr_Impl::ReadFile(char** pszBufferOut, uint* nSizeOut, const char* pszFileName)
+StreamReader* FileMgr_Impl::LoadFile(const char* pszFileName)
 {
-	if (!pszFileName || strlen(pszFileName) <= 0) return false;
+	if (!pszFileName || strlen(pszFileName) <= 0)
+	{
+		LOGE("invalid file");
+		return NULL;
+	}
 
 	int nRet = unzLocateFile(m_pMainFile, pszFileName, 1);
 	if (nRet != UNZ_OK)
 	{
-		// TODO: logout
-		return false;
+		LOGE("locate file failed: %s", pszFileName);
+		return NULL;
 	}
 
-	char szFilePath[260];
+	char szFilePath[MAX_FILE_PATH];
 	unz_file_info fileInfo;
 	nRet = unzGetCurrentFileInfo(m_pMainFile, &fileInfo, szFilePath, sizeof(szFilePath), NULL, 0, NULL, 0);
 	if (nRet != UNZ_OK)
 	{
-		// TODO: logout
-		return false;
+		LOGE("get file info failed: %s", pszFileName);
+		return NULL;
 	}
 
 	nRet = unzOpenCurrentFile(m_pMainFile);
 	if (nRet != UNZ_OK)
 	{
-		// TODO: logout
-		return 0;
+		LOGE("open file failed: %s", szFilePath);
+		return NULL;
 	}
 
 	int nFileSize = fileInfo.uncompressed_size;
 	char* pszBuffer = new char[nFileSize+1];
 	int nReadSize = unzReadCurrentFile(m_pMainFile, pszBuffer, nFileSize);
+	if (nReadSize != nFileSize)
+	{
+		LOGE("read size mismatch: %d/%d read", nReadSize, nFileSize);
+	}
 	unzCloseCurrentFile(m_pMainFile);
 
 	pszBuffer[nFileSize] = '\0';
-	(*pszBufferOut) = pszBuffer;
-	(*nSizeOut) = nFileSize;
 
-	return true;
+	StreamReader* pStreamReader = new StreamReader(pszBuffer, nFileSize, true);
+	return pStreamReader;
 }

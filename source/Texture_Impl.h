@@ -9,7 +9,6 @@
 #define __TEXTURE_IMPL_H__
 
 #include <ITexture.h>
-#include <GLES2/gl2.h>
 
 class Texture_Impl : public ITexture
 {
@@ -34,6 +33,6 @@ private:
 	uint m_nHeight;
 	uchar* m_pTextureDataRGBA;
 
-	GLuint m_nGLTextureID;
+	uint m_nGLTextureID;
 };
 #endif // __TEXTURE_IMPL_H__

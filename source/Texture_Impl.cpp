@@ -8,6 +8,7 @@
 #include "Texture_Impl.h"
 #include <IFileMgr.h>
 #include <lpng154/png.h>
+#include <GLES2/gl2.h>
 
 static void pngReaderCallback(png_structp pPngStruct, png_bytep pData, png_size_t nSize)
 {

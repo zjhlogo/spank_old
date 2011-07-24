@@ -8,9 +8,9 @@
 #ifndef __GAMEAPP_H__
 #define __GAMEAPP_H__
 
-#include <IGameMain.h>
+#include <IGameApp.h>
 
-class GameApp : public IGameMain
+class GameApp : public IGameApp
 {
 public:
 	GameApp();

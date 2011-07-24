@@ -1,0 +1,2 @@
+LIBANDROID_SOURCE_FILES := \
+		$(LIBANDROID_SOURCE)/AndroidMain.cpp \

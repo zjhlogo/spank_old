@@ -11,7 +11,7 @@
 #include <IFileMgr.h>
 #include <IRenderDevice.h>
 #include <ITextureMgr.h>
-#include <IGameMain.h>
+#include <IGameApp.h>
 
 ICore& ICore::GetInstance()
 {
@@ -26,13 +26,13 @@ bool ICore::Initialize()
 	if (!IFileMgr::GetInstance().Initialize()) return false;
 	if (!IRenderDevice::GetInstance().Initialize()) return false;
 	if (!ITextureMgr::GetInstance().Initialize()) return false;
-	if (!IGameMain::GetInstance().Initialize()) return false;
+	if (!IGameApp::GetInstance().Initialize()) return false;
 	return true;
 }
 
 void ICore::Terminate()
 {
-	IGameMain::GetInstance().Terminate();
+	IGameApp::GetInstance().Terminate();
 	ITextureMgr::GetInstance().Terminate();
 	IRenderDevice::GetInstance().Terminate();
 	IFileMgr::GetInstance().Terminate();
@@ -42,7 +42,7 @@ void ICore::Terminate()
 
 void ICore::Update(float dt)
 {
-	IGameMain::GetInstance().Update(dt);
+	IGameApp::GetInstance().Update(dt);
 }
 
 void ICore::PreRender()
@@ -52,7 +52,7 @@ void ICore::PreRender()
 
 void ICore::Render()
 {
-	IGameMain::GetInstance().Render();
+	IGameApp::GetInstance().Render();
 }
 
 void ICore::PostRender()

@@ -16,7 +16,14 @@ class ITextureMgr : public IMgr
 public:
 	static ITextureMgr& GetInstance();
 
-	virtual ITexture* CreateTexture(const char* pszFileName) = 0;
+	virtual bool Initialize();
+	virtual void Terminate();
+	ITexture* CreateTexture(const char* pszFileName);
+
+private:
+	ITextureMgr();
+	virtual ~ITextureMgr();
+
 };
 
 #endif // __ITEXTUREMGR_H__

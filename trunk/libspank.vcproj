@@ -166,7 +166,7 @@
 			</File>
 		</Filter>
 		<Filter
-			Name="impl"
+			Name="win32_impl"
 			>
 			<File
 				RelativePath=".\source\platforms\win32\DebugUtil_Impl.cpp"
@@ -190,22 +190,6 @@
 			</File>
 			<File
 				RelativePath=".\source\platforms\win32\RenderDevice_Impl.h"
-				>
-			</File>
-			<File
-				RelativePath=".\source\platforms\win32\Texture_Impl.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\source\platforms\win32\Texture_Impl.h"
-				>
-			</File>
-			<File
-				RelativePath=".\source\platforms\win32\TextureMgr_Impl.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\source\platforms\win32\TextureMgr_Impl.h"
 				>
 			</File>
 			<File
@@ -239,6 +223,22 @@
 		</File>
 		<File
 			RelativePath=".\include\IGameApp.h"
+			>
+		</File>
+		<File
+			RelativePath=".\source\ITextureMgr.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\include\ITextureMgr.h"
+			>
+		</File>
+		<File
+			RelativePath=".\source\Texture_Impl.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\source\Texture_Impl.h"
 			>
 		</File>
 	</Files>

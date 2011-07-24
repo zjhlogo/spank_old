@@ -15,6 +15,7 @@ class ITexture
 public:
 	virtual uint GetWidth() const = 0;
 	virtual uint GetHeight() const = 0;
+	virtual uint GetGLTextureID() const = 0;
 
 };
 

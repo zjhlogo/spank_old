@@ -20,7 +20,7 @@ public:
 	virtual uint GetWidth() const;
 	virtual uint GetHeight() const;
 
-	GLuint GetGLTextureID() const;
+	virtual uint GetGLTextureID() const;
 
 private:
 	bool LoadTextureFromFile(const char* pszFileName);

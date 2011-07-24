@@ -7,7 +7,7 @@
  */
 #include "GameApp.h"
 
-IGameMain& IGameMain::GetInstance()
+IGameApp& IGameApp::GetInstance()
 {
 	static GameApp s_GameApp;
 	return s_GameApp;

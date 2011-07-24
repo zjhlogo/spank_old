@@ -8,8 +8,6 @@
 #ifndef __BASETYPE_H__
 #define __BASETYPE_H__
 
-#include <stdint.h>
-
 //typedef bool						bool;
 
 //typedef char						char;
@@ -21,8 +19,8 @@ typedef unsigned short				ushort;
 //typedef int						int;
 typedef unsigned int				uint;
 
-typedef int64_t						int64;
-typedef uint64_t					uint64;
+//typedef int64_t					int64;
+//typedef uint64_t					uint64;
 
 //typedef float						float;
 

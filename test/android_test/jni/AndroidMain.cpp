@@ -1,11 +1,11 @@
 /*!
- * \file Main.cpp
- * \date 17-05-2011 21:06:59
+ * \file AndroidMain.cpp
+ * \date 24-07-2011 15:44:02
  * 
  * 
  * \author zjhlogo (zjhlogo@gmail.com)
  */
-#include "Main.h"
+#include "AndroidMain.h"
 #include <ICore.h>
 #include <IConfig.h>
 

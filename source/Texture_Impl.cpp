@@ -46,6 +46,11 @@ uint Texture_Impl::GetHeight() const
 	return m_nHeight;
 }
 
+uint Texture_Impl::GetGLTextureID() const
+{
+	return m_nGLTextureID;
+}
+
 bool Texture_Impl::LoadTextureFromFile(const char* pszFileName)
 {
 	FreeTextureData();
@@ -174,9 +179,4 @@ void Texture_Impl::FreeGLTexture()
 		glDeleteTextures(1, &m_nGLTextureID);
 		m_nGLTextureID = 0;
 	}
-}
-
-GLuint Texture_Impl::GetGLTextureID() const
-{
-	return m_nGLTextureID;
 }

@@ -9,30 +9,17 @@
 #define __ICONFIG_H__
 
 #include "IMgr.h"
-#include <string>
-#include <map>
 
 class IConfig  : public IMgr
 {
 public:
-	typedef std::map<std::string, std::string> TM_STRING;
-	typedef std::map<std::string, int> TM_INT;
-
-public:
 	static IConfig& GetInstance();
 
-	virtual bool Initialize();
-	virtual void Terminate();
+	virtual void AddString(const char* pszKey, const char* pszValue) = 0;
+	virtual const char* GetString(const char* pszKey, const char* pszDefaultValue = NULL) = 0;
 
-	void AddString(const char* pszKey, const char* pszValue);
-	const char* GetString(const char* pszKey, const char* pszDefaultValue = NULL);
-
-	void AddInt(const char* pszKey, int nValue);
-	int GetInt(const char* pszKey, int nDefaultValue = 0);
-
-private:
-	TM_STRING m_mapString;
-	TM_INT m_mapInt;
+	virtual void AddInt(const char* pszKey, int nValue) = 0;
+	virtual int GetInt(const char* pszKey, int nDefaultValue = 0) = 0;
 
 };
 #endif // __ICONFIG_H__

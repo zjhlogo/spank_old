@@ -15,12 +15,9 @@ class ICore : public IMgr
 public:
 	static ICore& GetInstance();
 
-	virtual bool Initialize();
-	virtual void Terminate();
-
-	void Update(float dt);
-	void PreRender();
-	void Render();
-	void PostRender();
+	virtual void Update(float dt) = 0;
+	virtual void PreRender() = 0;
+	virtual void Render() = 0;
+	virtual void PostRender() = 0;
 };
 #endif // __ICORE_H__

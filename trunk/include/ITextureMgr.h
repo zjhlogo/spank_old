@@ -8,22 +8,15 @@
 #ifndef __ITEXTUREMGR_H__
 #define __ITEXTUREMGR_H__
 
-#include "ITexture.h"
 #include "IMgr.h"
+#include "ITexture.h"
 
 class ITextureMgr : public IMgr
 {
 public:
 	static ITextureMgr& GetInstance();
 
-	virtual bool Initialize();
-	virtual void Terminate();
-	ITexture* CreateTexture(const char* pszFileName);
-
-private:
-	ITextureMgr();
-	virtual ~ITextureMgr();
-
+	virtual ITexture* CreateTexture(const char* pszFileName) = 0;
 };
 
 #endif // __ITEXTUREMGR_H__

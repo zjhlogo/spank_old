@@ -1,11 +1,11 @@
 /*!
- * \file ICore.cpp
- * \date 23-07-2011 11:17:15
+ * \file Core_Impl.cpp
+ * \date 7-25-2011 10:13:10
  * 
  * 
  * \author zjhlogo (zjhlogo@gmail.com)
  */
-#include <ICore.h>
+#include "Core_Impl.h"
 #include <IConfig.h>
 #include <IDebugUtil.h>
 #include <IFileMgr.h>
@@ -15,11 +15,21 @@
 
 ICore& ICore::GetInstance()
 {
-	static ICore s_ICore;
-	return s_ICore;
+	static Core_Impl s_Core_Impl;
+	return s_Core_Impl;
 }
 
-bool ICore::Initialize()
+Core_Impl::Core_Impl()
+{
+	// TODO: 
+}
+
+Core_Impl::~Core_Impl()
+{
+	// TODO: 
+}
+
+bool Core_Impl::Initialize()
 {
 	if (!IConfig::GetInstance().Initialize()) return false;
 	if (!IDebugUtil::GetInstance().Initialize()) return false;
@@ -30,7 +40,7 @@ bool ICore::Initialize()
 	return true;
 }
 
-void ICore::Terminate()
+void Core_Impl::Terminate()
 {
 	IGameApp::GetInstance().Terminate();
 	ITextureMgr::GetInstance().Terminate();
@@ -40,22 +50,22 @@ void ICore::Terminate()
 	IConfig::GetInstance().Terminate();
 }
 
-void ICore::Update(float dt)
+void Core_Impl::Update(float dt)
 {
 	IGameApp::GetInstance().Update(dt);
 }
 
-void ICore::PreRender()
+void Core_Impl::PreRender()
 {
 	IRenderDevice::GetInstance().BeginRender();
 }
 
-void ICore::Render()
+void Core_Impl::Render()
 {
 	IGameApp::GetInstance().Render();
 }
 
-void ICore::PostRender()
+void Core_Impl::PostRender()
 {
 	IRenderDevice::GetInstance().EndRender();
 }

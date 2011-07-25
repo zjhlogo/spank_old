@@ -8,6 +8,8 @@
 #ifndef __IMGR_H__
 #define __IMGR_H__
 
+#include "BaseType.h"
+
 class IMgr
 {
 public:

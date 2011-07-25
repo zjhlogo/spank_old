@@ -10,10 +10,11 @@
 
 StreamReader::StreamReader(const void* pBuffer, int nBufferSize, bool bManageBuffer /* = false */)
 {
-	m_bManageBuffer = bManageBuffer;
 	m_pBuffer = (const char*)pBuffer;
 	m_nBufferSize = nBufferSize;
+	m_bManageBuffer = bManageBuffer;
 	m_nReadPos = 0;
+	m_bOK = (m_pBuffer != NULL && m_nBufferSize > 0);
 }
 
 StreamReader::~StreamReader()

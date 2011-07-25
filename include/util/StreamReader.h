@@ -8,13 +8,13 @@
 #ifndef __STREAMREADER_H__
 #define __STREAMREADER_H__
 
-#include "../BaseType.h"
+#include "../IObject.h"
 
-class StreamReader
+class StreamReader : public IObject
 {
 public:
 	StreamReader(const void* pBuffer, int nBufferSize, bool bManageBuffer = false);
-	~StreamReader();
+	virtual ~StreamReader();
 
 	bool Read(void* pDataOut, int nSize);
 

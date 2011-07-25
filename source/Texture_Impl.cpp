@@ -10,7 +10,7 @@
 #include <lpng154/png.h>
 #include <GLES2/gl2.h>
 
-static void pngReaderCallback(png_structp pPngStruct, png_bytep pData, png_size_t nSize)
+static void PngReaderCallback(png_structp pPngStruct, png_bytep pData, png_size_t nSize)
 {
 	StreamReader* pStream = (StreamReader*)png_get_io_ptr(pPngStruct);
 
@@ -24,17 +24,14 @@ Texture_Impl::Texture_Impl(const char* pszFileName)
 {
 	m_nWidth = 0;
 	m_nHeight = 0;
-	m_pTextureDataRGBA = NULL;
 	m_nGLTextureID = 0;
 
-	LoadTextureFromFile(pszFileName);
-	CreateGLTexture();
+	m_bOK = LoadTextureFromFile(pszFileName);
 }
 
 Texture_Impl::~Texture_Impl()
 {
 	FreeGLTexture();
-	FreeTextureData();
 }
 
 uint Texture_Impl::GetWidth() const
@@ -47,17 +44,19 @@ uint Texture_Impl::GetHeight() const
 	return m_nHeight;
 }
 
-uint Texture_Impl::GetGLTextureID() const
+GLuint Texture_Impl::GetGLTextureID() const
 {
 	return m_nGLTextureID;
 }
 
 bool Texture_Impl::LoadTextureFromFile(const char* pszFileName)
 {
-	FreeTextureData();
-
 	StreamReader* pTextureStream = IFileMgr::GetInstance().LoadFile(pszFileName);
-	if (!pTextureStream) return false;
+	if (!pTextureStream || !pTextureStream->IsOK())
+	{
+		SAFE_RELEASE(pTextureStream);
+		return false;
+	}
 
 	png_structp pPngStruct = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
 	if (!pPngStruct)
@@ -86,7 +85,7 @@ bool Texture_Impl::LoadTextureFromFile(const char* pszFileName)
 	}
 
 	//define our own callback function for I/O instead of reading from a file
-	png_set_read_fn(pPngStruct, pTextureStream, pngReaderCallback);
+	png_set_read_fn(pPngStruct, pTextureStream, PngReaderCallback);
 
 	png_read_info(pPngStruct, pPngInfo);
 	m_nWidth = png_get_image_width(pPngStruct, pPngInfo);
@@ -121,43 +120,42 @@ bool Texture_Impl::LoadTextureFromFile(const char* pszFileName)
 	}
 	png_read_image(pPngStruct, pRowPointers);
 
+	// free the stream object and png structure
+	png_destroy_read_struct(&pPngStruct, &pPngInfo, NULL);
+	SAFE_RELEASE(pTextureStream);
+
 	// store image data into our pRGBAData
-	m_pTextureDataRGBA = new uchar[m_nWidth * m_nHeight * 4];  //each pixel(RGBA) has 4 bytes
+	uchar* pTextureDataRGBA = new uchar[m_nWidth * m_nHeight * 4];  //each pixel(RGBA) has 4 bytes
 	//unlike store the pixel data from top-left corner, store them from bottom-left corner for OGLES Texture drawing...
 	int nCurrPos = (m_nWidth * m_nHeight * 4) - (4 * m_nWidth);
 	for(uint row = 0; row < m_nHeight; row++)
 	{
 		for(uint col = 0; col < (4 * m_nWidth); col += 4)
 		{
-			m_pTextureDataRGBA[nCurrPos++] = pRowPointers[row][col];        // red
-			m_pTextureDataRGBA[nCurrPos++] = pRowPointers[row][col + 1];    // green
-			m_pTextureDataRGBA[nCurrPos++] = pRowPointers[row][col + 2];    // blue
-			m_pTextureDataRGBA[nCurrPos++] = pRowPointers[row][col + 3];    // alpha
+			pTextureDataRGBA[nCurrPos++] = pRowPointers[row][col];        // red
+			pTextureDataRGBA[nCurrPos++] = pRowPointers[row][col + 1];    // green
+			pTextureDataRGBA[nCurrPos++] = pRowPointers[row][col + 2];    // blue
+			pTextureDataRGBA[nCurrPos++] = pRowPointers[row][col + 3];    // alpha
 		}
 		nCurrPos = (nCurrPos - (m_nWidth * 4) * 2); //move the pointer back two rows
 	}
 
-	//clean up after the read, and free any memory allocated
 	// free pRowPointers
 	for (uint y = 0; y < m_nHeight; y++)
 	{
 		SAFE_DELETE_ARRAY(pRowPointers[y]);
 	}
 	SAFE_DELETE_ARRAY(pRowPointers);
-	png_destroy_read_struct(&pPngStruct, &pPngInfo, NULL);
-	SAFE_DELETE(pTextureStream);
 
-	return true;
+	// create gl texture
+	bool bOK = CreateGLTexture(m_nWidth, m_nHeight, pTextureDataRGBA);
+	// free texture data
+	SAFE_DELETE_ARRAY(pTextureDataRGBA);
+
+	return bOK;
 }
 
-void Texture_Impl::FreeTextureData()
-{
-	SAFE_DELETE_ARRAY(m_pTextureDataRGBA);
-	m_nWidth = 0;
-	m_nHeight = 0;
-}
-
-bool Texture_Impl::CreateGLTexture()
+bool Texture_Impl::CreateGLTexture(uint width, uint height, const uchar* pTextureData)
 {
 	FreeGLTexture();
 
@@ -165,10 +163,10 @@ bool Texture_Impl::CreateGLTexture()
 	if (m_nGLTextureID == 0) return false;
 
 	glBindTexture(GL_TEXTURE_2D, m_nGLTextureID);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, m_nWidth, m_nHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, m_pTextureDataRGBA);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, pTextureData);
 
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 
 	return true;
 }

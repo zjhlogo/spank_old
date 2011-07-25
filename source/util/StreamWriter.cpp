@@ -13,6 +13,7 @@ StreamWriter::StreamWriter()
 	m_pBuffer = NULL;
 	m_nSize = 0;
 	m_nPos = 0;
+	m_bOK = true;
 }
 
 StreamWriter::~StreamWriter()

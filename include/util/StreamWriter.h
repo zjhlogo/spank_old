@@ -8,9 +8,9 @@
 #ifndef __STREAMWRITER_H__
 #define __STREAMWRITER_H__
 
-#include "../BaseType.h"
+#include "../IObject.h"
 
-class StreamWriter
+class StreamWriter : public IObject
 {
 public:
 	enum CONST_DEFINE
@@ -20,7 +20,7 @@ public:
 
 public:
 	StreamWriter();
-	~StreamWriter();
+	virtual ~StreamWriter();
 
 	bool Write(const void* pData, int nSize);
 

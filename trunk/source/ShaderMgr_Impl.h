@@ -20,7 +20,8 @@ public:
 	virtual void Terminate();
 
 	virtual IShader* CreateShaderFromFiles(const char* pszVertexShaderFile, const char* pszFregmentShaderFile);
-	virtual IShader* CreateShader(const char* pszVertexShader, const char* pszFregmentShader);
+	virtual IShader* CreateShaderFromBuffers(const char* pszVertexShader, const char* pszFregmentShader);
+	virtual IShader* CreateShaderFromStreams(StreamReader* pVertexShader, StreamReader* pFregmentShader);
 
 };
 #endif // __SHADERMGR_IMPL_H__

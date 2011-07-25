@@ -233,6 +233,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\IObject.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\IRenderDevice.h"
 				>
 			</File>
@@ -253,6 +257,42 @@
 				>
 			</File>
 		</Filter>
+		<Filter
+			Name="math"
+			>
+			<File
+				RelativePath=".\source\math\IMath.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\math\IMath.h"
+				>
+			</File>
+			<File
+				RelativePath=".\source\math\Matrix4x4.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\math\Matrix4x4.h"
+				>
+			</File>
+			<File
+				RelativePath=".\source\math\Vector3.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\math\Vector3.h"
+				>
+			</File>
+			<File
+				RelativePath=".\source\math\Vector4.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\math\Vector4.h"
+				>
+			</File>
+		</Filter>
 		<File
 			RelativePath=".\source\Config_Impl.cpp"
 			>
@@ -267,6 +307,14 @@
 		</File>
 		<File
 			RelativePath=".\source\Core_Impl.h"
+			>
+		</File>
+		<File
+			RelativePath=".\source\Renderer2D_Impl.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\source\Renderer2D_Impl.h"
 			>
 		</File>
 		<File

@@ -8,14 +8,13 @@
 #ifndef __ITEXTURE_H__
 #define __ITEXTURE_H__
 
-#include "BaseType.h"
+#include "IObject.h"
 
-class ITexture
+class ITexture : public IObject
 {
 public:
 	virtual uint GetWidth() const = 0;
 	virtual uint GetHeight() const = 0;
-	virtual uint GetGLTextureID() const = 0;
 
 };
 

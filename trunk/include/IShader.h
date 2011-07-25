@@ -8,14 +8,16 @@
 #ifndef __ISHADER_H__
 #define __ISHADER_H__
 
-#include "BaseType.h"
+#include "IObject.h"
 #include "ITexture.h"
+#include "math/Matrix4x4.h"
 
-class IShader
+class IShader : public IObject
 {
 public:
+	virtual bool SetMatrix4x4(const char* pszParamName, const Matrix4x4* pMat) = 0;
 	virtual bool SetTexture(const char* pszParamName, ITexture* pTexture) = 0;
-
+	virtual void Commit() = 0;
 };
 
 #endif // __ISHADER_H__

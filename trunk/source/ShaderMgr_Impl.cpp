@@ -6,6 +6,9 @@
  * \author zjhlogo (zjhlogo@gmail.com)
  */
 #include "ShaderMgr_Impl.h"
+#include "Shader_Impl.h"
+#include <IFileMgr.h>
+#include <string>
 
 IShaderMgr& IShaderMgr::GetInstance()
 {
@@ -36,12 +39,39 @@ void ShaderMgr_Impl::Terminate()
 
 IShader* ShaderMgr_Impl::CreateShaderFromFiles(const char* pszVertexShaderFile, const char* pszFregmentShaderFile)
 {
-	// TODO: 
-	return NULL;
+	StreamReader* pVertexShader = IFileMgr::GetInstance().LoadFile(pszVertexShaderFile);
+	StreamReader* pFregmentShader = IFileMgr::GetInstance().LoadFile(pszFregmentShaderFile);
+
+	IShader* pShader = CreateShaderFromStreams(pVertexShader, pFregmentShader);
+
+	SAFE_RELEASE(pVertexShader);
+	SAFE_RELEASE(pFregmentShader);
+	return pShader;
 }
 
-IShader* ShaderMgr_Impl::CreateShader(const char* pszVertexShader, const char* pszFregmentShader)
+IShader* ShaderMgr_Impl::CreateShaderFromBuffers(const char* pszVertexShader, const char* pszFregmentShader)
 {
-	// TODO: 
-	return NULL;
+	StreamReader* pVertexShader = new StreamReader(pszVertexShader, strlen(pszVertexShader)+1, false);
+	StreamReader* pFregmentShader = new StreamReader(pszFregmentShader, strlen(pszFregmentShader)+1, false);
+
+	IShader* pShader = CreateShaderFromStreams(pVertexShader, pFregmentShader);
+
+	SAFE_RELEASE(pVertexShader);
+	SAFE_RELEASE(pFregmentShader);
+	return pShader;
+}
+
+IShader* ShaderMgr_Impl::CreateShaderFromStreams(StreamReader* pVertexShader, StreamReader* pFregmentShader)
+{
+	if (!pVertexShader || !pVertexShader->IsOK()) return NULL;
+	if (!pFregmentShader || !pFregmentShader->IsOK()) return NULL;
+
+	Shader_Impl* pShader = new Shader_Impl(pVertexShader, pFregmentShader);
+	if (!pShader || !pShader->IsOK())
+	{
+		SAFE_DELETE(pShader);
+		return NULL;
+	}
+
+	return pShader;
 }

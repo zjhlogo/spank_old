@@ -52,6 +52,14 @@ StreamReader* FileMgr_Impl::LoadFile(const char* pszFileName)
 	fclose(pFile);
 
 	pszBuffer[nFileSize] = '\0';
+
 	StreamReader* pStreamReader = new StreamReader(pszBuffer, nFileSize, true);
+	if (!pStreamReader || !pStreamReader->IsOK())
+	{
+		SAFE_DELETE(pStreamReader);
+		SAFE_DELETE_ARRAY(pszBuffer);
+		return NULL;
+	}
+
 	return pStreamReader;
 }

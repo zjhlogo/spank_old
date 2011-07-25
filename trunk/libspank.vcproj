@@ -256,6 +256,10 @@
 				RelativePath=".\include\ITextureMgr.h"
 				>
 			</File>
+			<File
+				RelativePath=".\include\IVertexAttribute.h"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="math"
@@ -347,6 +351,14 @@
 		</File>
 		<File
 			RelativePath=".\source\TextureMgr_Impl.h"
+			>
+		</File>
+		<File
+			RelativePath=".\source\VertexAttribute_Impl.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\source\VertexAttribute_Impl.h"
 			>
 		</File>
 	</Files>

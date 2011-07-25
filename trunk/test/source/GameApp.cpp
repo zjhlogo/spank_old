@@ -6,6 +6,9 @@
  * \author zjhlogo (zjhlogo@gmail.com)
  */
 #include "GameApp.h"
+#include <ITextureMgr.h>
+#include <IShaderMgr.h>
+#include <IRenderer2D.h>
 
 IGameApp& IGameApp::GetInstance()
 {
@@ -15,7 +18,9 @@ IGameApp& IGameApp::GetInstance()
 
 GameApp::GameApp()
 {
-	// TODO: 
+	m_pTexture = NULL;
+	m_pShader = NULL;
+	m_matOrtho.MakeIdentity();
 }
 
 GameApp::~GameApp()
@@ -25,12 +30,23 @@ GameApp::~GameApp()
 
 bool GameApp::Initialize()
 {
+	static const IVertexAttribute::ATTRIBUTE_ITEM s_VertAttrs[] = 
+	{
+		{2, IVertexAttribute::AT_FLOAT, 0, "a_position"},
+		{2, IVertexAttribute::AT_FLOAT, 0, "a_texCoord"},
+		{0, IVertexAttribute::AT_UNKNOWN, 0, ""},
+	};
+
+	m_pTexture = ITextureMgr::GetInstance().CreateTexture("assets/emotion_small.png");
+	m_pShader = IShaderMgr::GetInstance().CreateShaderFromFiles("assets/shader.vs", "assets/shader.fs", s_VertAttrs);
+
 	return true;
 }
 
 void GameApp::Terminate()
 {
-	// TODO: 
+	SAFE_RELEASE(m_pShader);
+	SAFE_RELEASE(m_pTexture);
 }
 
 void GameApp::Update(float dt)
@@ -40,5 +56,13 @@ void GameApp::Update(float dt)
 
 void GameApp::Render()
 {
-	// TODO: 
+	static const float s_Verts[] =
+	{
+		 0.0f,  0.5f, 0.5f, 1.0f,
+		-0.5f, -0.5f, 0.0f, 0.0f,
+		 0.5f, -0.5f, 1.0f, 0.0f,
+	};
+
+	IRenderer2D::GetInstance().SetShader(m_pShader);
+	IRenderer2D::GetInstance().DrawTriangleList(s_Verts, 3);
 }

@@ -6,6 +6,7 @@
  * \author zjhlogo (zjhlogo@gmail.com)
  */
 #include "Renderer2D_Impl.h"
+#include <GLES2/gl2.h>
 
 IRenderer2D& IRenderer2D::GetInstance()
 {
@@ -42,11 +43,12 @@ void Renderer2D_Impl::SetShader(IShader* pShader)
 void Renderer2D_Impl::DrawTriangleList(const void* pVerts, uint nNumVerts)
 {
 	if (!m_pShader) return;
-	m_pShader->Commit();
+	m_pShader->Commit(pVerts);
+	glDrawArrays(GL_TRIANGLES, 0, nNumVerts);
 }
 
 void Renderer2D_Impl::DrawTriangleStrip(const void* pVerts, uint nNumVerts, const ushort* pIndis, uint nNumIndis)
 {
 	if (!m_pShader) return;
-	m_pShader->Commit();
+//	m_pShader->Commit(pVerts);
 }

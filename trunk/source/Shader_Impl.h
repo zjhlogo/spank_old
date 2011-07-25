@@ -9,8 +9,10 @@
 #define __SHADER_IMPL_H__
 
 #include <IShader.h>
+#include <IVertexAttribute.h>
 #include <util/StreamReader.h>
 #include <GLES2/gl2.h>
+#include <GLES2/gl2ext.h>
 #include <map>
 
 class Shader_Impl : public IShader
@@ -20,19 +22,21 @@ public:
 	typedef std::map<int, ITexture*> TM_TEXTURE;
 
 public:
-	Shader_Impl(StreamReader* pVertexShader, StreamReader* pFregmentShader);
+	Shader_Impl(StreamReader* pVertexShader, StreamReader* pFregmentShader, const IVertexAttribute::ATTRIBUTE_ITEM* pAttrItems);
 	virtual ~Shader_Impl();
 
 	virtual bool SetMatrix4x4(const char* pszParamName, const Matrix4x4* pMat);
 	virtual bool SetTexture(const char* pszParamName, ITexture* pTexture);
-	virtual void Commit();
+	virtual bool Commit(const void* pVerts);
 
 private:
-	bool CreateShader(StreamReader* pVertexShader, StreamReader* pFregmentShader);
+	bool CreateShader(StreamReader* pVertexShader, StreamReader* pFregmentShader, const IVertexAttribute::ATTRIBUTE_ITEM* pAttrItems);
 	void FreeShader();
 	GLuint LoadShader(const char* pszShaderSource, GLenum eType);
+	GLenum GetGLType(IVertexAttribute::ATTRIBUTE_TYPE eType);
 
 private:
+	IVertexAttribute* m_pVertexAttribute;
 	GLuint m_glVertexShader;
 	GLuint m_glFragmentShader;
 	GLuint m_glProgramObject;

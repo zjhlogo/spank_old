@@ -165,6 +165,10 @@ bool RenderDevice_Impl::InitializeEGL(HWND hWindow)
 
 	eglMakeCurrent(m_EGLDisplay, m_EGLSurface, m_EGLSurface, m_EGLContext);
 
+	// set view port
+	int winWidth = IConfig::GetInstance().GetInt("WINDOW_WIDTH");
+	int winHeight = IConfig::GetInstance().GetInt("WINDOW_HEIGHT");
+	glViewport(0, 0, winWidth, winHeight);
 	return true;
 }
 

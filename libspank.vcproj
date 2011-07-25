@@ -201,36 +201,88 @@
 				>
 			</File>
 		</Filter>
+		<Filter
+			Name="sdk"
+			>
+			<File
+				RelativePath=".\include\BaseType.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\IConfig.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\ICore.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\IDebugUtil.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\IFileMgr.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\IGameApp.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\IMgr.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\IRenderDevice.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\IShader.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\IShaderMgr.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\ITexture.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\ITextureMgr.h"
+				>
+			</File>
+		</Filter>
 		<File
-			RelativePath=".\source\IConfig.cpp"
+			RelativePath=".\source\Config_Impl.cpp"
 			>
 		</File>
 		<File
-			RelativePath=".\include\IConfig.h"
+			RelativePath=".\source\Config_Impl.h"
 			>
 		</File>
 		<File
-			RelativePath=".\source\ICore.cpp"
+			RelativePath=".\source\Core_Impl.cpp"
 			>
 		</File>
 		<File
-			RelativePath=".\include\ICore.h"
+			RelativePath=".\source\Core_Impl.h"
 			>
 		</File>
 		<File
-			RelativePath=".\source\IGameApp.cpp"
+			RelativePath=".\source\Shader_Impl.cpp"
 			>
 		</File>
 		<File
-			RelativePath=".\include\IGameApp.h"
+			RelativePath=".\source\Shader_Impl.h"
 			>
 		</File>
 		<File
-			RelativePath=".\source\ITextureMgr.cpp"
+			RelativePath=".\source\ShaderMgr_Impl.cpp"
 			>
 		</File>
 		<File
-			RelativePath=".\include\ITextureMgr.h"
+			RelativePath=".\source\ShaderMgr_Impl.h"
 			>
 		</File>
 		<File
@@ -239,6 +291,14 @@
 		</File>
 		<File
 			RelativePath=".\source\Texture_Impl.h"
+			>
+		</File>
+		<File
+			RelativePath=".\source\TextureMgr_Impl.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\source\TextureMgr_Impl.h"
 			>
 		</File>
 	</Files>

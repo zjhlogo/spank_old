@@ -7,6 +7,7 @@
  */
 #include "ShaderMgr_Impl.h"
 #include "Shader_Impl.h"
+#include "VertexAttribute_Impl.h"
 #include <IFileMgr.h>
 #include <string>
 
@@ -37,36 +38,36 @@ void ShaderMgr_Impl::Terminate()
 	// TODO: 
 }
 
-IShader* ShaderMgr_Impl::CreateShaderFromFiles(const char* pszVertexShaderFile, const char* pszFregmentShaderFile)
+IShader* ShaderMgr_Impl::CreateShaderFromFiles(const char* pszVertexShaderFile, const char* pszFregmentShaderFile, const IVertexAttribute::ATTRIBUTE_ITEM* pAttrItems)
 {
 	StreamReader* pVertexShader = IFileMgr::GetInstance().LoadFile(pszVertexShaderFile);
 	StreamReader* pFregmentShader = IFileMgr::GetInstance().LoadFile(pszFregmentShaderFile);
 
-	IShader* pShader = CreateShaderFromStreams(pVertexShader, pFregmentShader);
+	IShader* pShader = CreateShaderFromStreams(pVertexShader, pFregmentShader, pAttrItems);
 
 	SAFE_RELEASE(pVertexShader);
 	SAFE_RELEASE(pFregmentShader);
 	return pShader;
 }
 
-IShader* ShaderMgr_Impl::CreateShaderFromBuffers(const char* pszVertexShader, const char* pszFregmentShader)
+IShader* ShaderMgr_Impl::CreateShaderFromBuffers(const char* pszVertexShader, const char* pszFregmentShader, const IVertexAttribute::ATTRIBUTE_ITEM* pAttrItems)
 {
 	StreamReader* pVertexShader = new StreamReader(pszVertexShader, strlen(pszVertexShader)+1, false);
 	StreamReader* pFregmentShader = new StreamReader(pszFregmentShader, strlen(pszFregmentShader)+1, false);
 
-	IShader* pShader = CreateShaderFromStreams(pVertexShader, pFregmentShader);
+	IShader* pShader = CreateShaderFromStreams(pVertexShader, pFregmentShader, pAttrItems);
 
 	SAFE_RELEASE(pVertexShader);
 	SAFE_RELEASE(pFregmentShader);
 	return pShader;
 }
 
-IShader* ShaderMgr_Impl::CreateShaderFromStreams(StreamReader* pVertexShader, StreamReader* pFregmentShader)
+IShader* ShaderMgr_Impl::CreateShaderFromStreams(StreamReader* pVertexShader, StreamReader* pFregmentShader, const IVertexAttribute::ATTRIBUTE_ITEM* pAttrItems)
 {
 	if (!pVertexShader || !pVertexShader->IsOK()) return NULL;
 	if (!pFregmentShader || !pFregmentShader->IsOK()) return NULL;
 
-	Shader_Impl* pShader = new Shader_Impl(pVertexShader, pFregmentShader);
+	Shader_Impl* pShader = new Shader_Impl(pVertexShader, pFregmentShader, pAttrItems);
 	if (!pShader || !pShader->IsOK())
 	{
 		SAFE_DELETE(pShader);
@@ -74,4 +75,16 @@ IShader* ShaderMgr_Impl::CreateShaderFromStreams(StreamReader* pVertexShader, St
 	}
 
 	return pShader;
+}
+
+IVertexAttribute* ShaderMgr_Impl::CreateVertexAttribute(const IVertexAttribute::ATTRIBUTE_ITEM* pAttrItems)
+{
+	VertexAttribute_Impl* pVertAttr = new VertexAttribute_Impl(pAttrItems);
+	if (!pVertAttr || !pVertAttr->IsOK())
+	{
+		SAFE_DELETE(pVertAttr);
+		return NULL;
+	}
+
+	return pVertAttr;
 }

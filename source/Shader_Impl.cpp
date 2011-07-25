@@ -6,16 +6,18 @@
  * \author zjhlogo (zjhlogo@gmail.com)
  */
 #include "Shader_Impl.h"
-#include <IDebugUtil.h>
 #include "Texture_Impl.h"
+#include <IDebugUtil.h>
+#include <IShaderMgr.h>
 
-Shader_Impl::Shader_Impl(StreamReader* pVertexShader, StreamReader* pFregmentShader)
+Shader_Impl::Shader_Impl(StreamReader* pVertexShader, StreamReader* pFregmentShader, const IVertexAttribute::ATTRIBUTE_ITEM* pAttrItems)
 {
+	m_pVertexAttribute = NULL;
 	m_glVertexShader = 0;
 	m_glFragmentShader = 0;
 	m_glProgramObject = 0;
 
-	m_bOK = CreateShader(pVertexShader, pFregmentShader);
+	m_bOK = CreateShader(pVertexShader, pFregmentShader, pAttrItems);
 }
 
 Shader_Impl::~Shader_Impl()
@@ -45,8 +47,9 @@ bool Shader_Impl::SetTexture(const char* pszParamName, ITexture* pTexture)
 	return true;
 }
 
-void Shader_Impl::Commit()
+bool Shader_Impl::Commit(const void* pVerts)
 {
+	// commit all matrixs
 	for (TM_MATRIX4X4::iterator it = m_mapMatrix4x4.begin(); it != m_mapMatrix4x4.end(); ++it)
 	{
 		int location = it->first;
@@ -55,6 +58,7 @@ void Shader_Impl::Commit()
 	}
 	m_mapMatrix4x4.clear();
 
+	// commit all textures
 	int nIndex = 0;
 	for (TM_TEXTURE::iterator it = m_mapTexture.begin(); it != m_mapTexture.end(); ++it)
 	{
@@ -66,10 +70,27 @@ void Shader_Impl::Commit()
 		++nIndex;
 	}
 	m_mapTexture.clear();
+
+	// setup vertex attributes
+	int nNumAttrs = m_pVertexAttribute->GetNumAttributeItems();
+	for (int i = 0; i < nNumAttrs; ++i)
+	{
+		const IVertexAttribute::ATTRIBUTE_ITEM* pAttrItem = m_pVertexAttribute->GetAttributeItem(i);
+		GLenum eType = GetGLType(pAttrItem->eItemType);
+		glVertexAttribPointer(i, pAttrItem->nSize, eType, GL_FALSE, m_pVertexAttribute->GetStride(), ((const uchar*)pVerts)+pAttrItem->nOffset);
+		glEnableVertexAttribArray(i);
+		glBindAttribLocation(m_glProgramObject, i, pAttrItem->szParamName);
+	}
+
+	glUseProgram(m_glProgramObject);
+	return true;
 }
 
-bool Shader_Impl::CreateShader(StreamReader* pVertexShader, StreamReader* pFregmentShader)
+bool Shader_Impl::CreateShader(StreamReader* pVertexShader, StreamReader* pFregmentShader, const IVertexAttribute::ATTRIBUTE_ITEM* pAttrItems)
 {
+	m_pVertexAttribute = IShaderMgr::GetInstance().CreateVertexAttribute(pAttrItems);
+	if (!m_pVertexAttribute) return false;
+
 	m_glVertexShader = LoadShader((const char*)pVertexShader->GetBuffer(), GL_VERTEX_SHADER);
 	if (m_glVertexShader == 0)
 	{
@@ -135,6 +156,8 @@ void Shader_Impl::FreeShader()
 		glDeleteShader(m_glFragmentShader);
 		m_glFragmentShader = 0;
 	}
+
+	SAFE_RELEASE(m_pVertexAttribute);
 }
 
 GLuint Shader_Impl::LoadShader(const char* pszShaderSource, GLenum eType)
@@ -165,4 +188,22 @@ GLuint Shader_Impl::LoadShader(const char* pszShaderSource, GLenum eType)
 	}
 
 	return glShader;
+}
+
+GLenum Shader_Impl::GetGLType(IVertexAttribute::ATTRIBUTE_TYPE eType)
+{
+	static const GLenum s_GLType[IVertexAttribute::NUM_AT] = 
+	{
+		GL_FLOAT,			// AT_UNKNOWN,
+		GL_BYTE,			// AT_BYTE,
+		GL_UNSIGNED_BYTE,	// AT_UNSIGNED_BYTE,
+		GL_SHORT,			// AT_SHORT,
+		GL_UNSIGNED_SHORT,	// AT_UNSIGNED_SHORT,
+		GL_FLOAT,			// AT_FLOAT,
+		GL_FIXED,			// AT_FIXED,
+		GL_HALF_FLOAT_OES,	// AT_HALF_FLOAT_OES,
+	};
+
+	if (eType < IVertexAttribute::AT_UNKNOWN || eType >= IVertexAttribute::NUM_AT) return GL_FLOAT;
+	return s_GLType[eType];
 }

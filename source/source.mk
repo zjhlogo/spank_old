@@ -6,6 +6,7 @@ LIBSPANK_SOURCE_FILES := \
 		$(LIBSPANK_SOURCE)/ShaderMgr_Impl.cpp \
 		$(LIBSPANK_SOURCE)/Texture_Impl.cpp \
 		$(LIBSPANK_SOURCE)/TextureMgr_Impl.cpp \
+		$(LIBSPANK_SOURCE)/VertexAttribute_Impl.cpp \
 		$(LIBSPANK_SOURCE)/math/IMath.cpp \
 		$(LIBSPANK_SOURCE)/math/Matrix4x4.cpp \
 		$(LIBSPANK_SOURCE)/math/Vector3.cpp \

@@ -56,6 +56,11 @@ void Shader_Impl::Reset()
 	// TODO: 
 }
 
+const IVertexAttribute* Shader_Impl::GetVertexAttribute() const
+{
+	return m_pVertexAttribute;
+}
+
 bool Shader_Impl::Commit(const void* pVerts)
 {
 	// setup vertex attributes

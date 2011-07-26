@@ -26,7 +26,10 @@ public:
 	virtual void Render();
 
 private:
-	ITexture* m_pTexture;
+	int m_nIndex;
+	ITexture* m_pTexture[6];
+
+	Matrix4x4 m_matRot;
 
 };
 #endif // __GAMEAPP_H__

@@ -9,6 +9,7 @@
 #include <ITextureMgr.h>
 #include <IShaderMgr.h>
 #include <IRenderer2D.h>
+#include <string.h>
 
 IGameApp& IGameApp::GetInstance()
 {
@@ -18,7 +19,8 @@ IGameApp& IGameApp::GetInstance()
 
 GameApp::GameApp()
 {
-	m_pTexture = NULL;
+	m_nIndex = 0;
+	memset(m_pTexture, 0, sizeof(m_pTexture));
 }
 
 GameApp::~GameApp()
@@ -28,39 +30,38 @@ GameApp::~GameApp()
 
 bool GameApp::Initialize()
 {
-	m_pTexture = ITextureMgr::GetInstance().CreateTexture("emotion_small.png");
+	m_pTexture[0] = ITextureMgr::GetInstance().CreateTexture("big_bodyguard.png");
+	m_pTexture[1] = ITextureMgr::GetInstance().CreateTexture("big_cellphone.png");
+	m_pTexture[2] = ITextureMgr::GetInstance().CreateTexture("big_cigarette.png");
+	m_pTexture[3] = ITextureMgr::GetInstance().CreateTexture("big_coffee.png");
+	m_pTexture[4] = ITextureMgr::GetInstance().CreateTexture("big_mixeddrink.png");
+	m_pTexture[5] = ITextureMgr::GetInstance().CreateTexture("big_racingcar.png");
 	return true;
 }
 
 void GameApp::Terminate()
 {
-	SAFE_RELEASE(m_pTexture);
+	for (int i = 0; i < 6; ++i)
+	{
+		SAFE_RELEASE(m_pTexture[i]);
+	}
 }
 
 void GameApp::Update(float dt)
 {
-	// TODO: 
+	static float s_fTotalTime = 0.0f;
+	s_fTotalTime += dt;
+
+	m_matRot.MakeRotateZ(s_fTotalTime);
 }
 
 void GameApp::Render()
 {
-	static const float s_Verts[] =
-	{
-		-200.0f,  200.0f, 0.0f, 0.0f, 1.0f,
-		-200.0f, -200.0f, 0.0f, 0.0f, 0.0f,
-		 200.0f, -200.0f, 0.0f, 1.0f, 0.0f,
+	float width = (float)m_pTexture[m_nIndex]->GetWidth();
+	float height = (float)m_pTexture[m_nIndex]->GetHeight();
 
-		-200.0f,  200.0f, 0.0f, 0.0f, 1.0f,
-		 200.0f, -200.0f, 0.0f, 1.0f, 0.0f,
-		 200.0f,  200.0f, 0.0f, 1.0f, 1.0f,
-	};
-	//static const float s_Verts[] =
-	//{
-	//	 0.0f,   0.2f,  -0.2f, 0.5f, 1.0f,
-	//	-0.1f,  -0.2f,  -0.2f, 0.0f, 0.0f,
-	//	 0.1f,  -0.2f,  -0.2f, 1.0f, 0.0f,
-	//};
-
-	IRenderer2D::GetInstance().SetTexture(m_pTexture);
-	IRenderer2D::GetInstance().DrawTriangleList(s_Verts, 6);
+	Matrix4x4 matResult = IRenderer2D::GetInstance().GetProjectionMatrix() * m_matRot;
+	IRenderer2D::GetInstance().SetMatrix(&matResult);
+	IRenderer2D::GetInstance().SetTexture(m_pTexture[m_nIndex]);
+	IRenderer2D::GetInstance().DrawRect(0.0f, 0.0f, width, height);
 }

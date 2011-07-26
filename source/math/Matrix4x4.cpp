@@ -6,6 +6,7 @@
  * \author zjhlogo (zjhlogo@gmail.com)
  */
 #include <math/Matrix4x4.h>
+#include <math.h>
 
 Matrix4x4::Matrix4x4()
 {
@@ -92,6 +93,38 @@ void Matrix4x4::MakeFrustum(float left, float right, float bottom, float top, fl
 	e[E44] = 0.0f;
 }
 
+void Matrix4x4::MakeRotateZ(float radian)
+{
+	// 
+	// [ cos(r)  -sin(r)  0  0 ]
+	// [ sin(r)   cos(r)  0  0 ]
+	// [ 0        0       1  0 ]
+	// [ 0        0       0  1 ]
+	// 
+	float cr = cosf(radian);
+	float sr = sinf(radian);
+
+	e[E11] = cr;
+	e[E12] = -sr;
+	e[E13] = 0.0f;
+	e[E14] = 0.0f;
+
+	e[E21] = sr;
+	e[E22] = cr;
+	e[E23] = 0.0f;
+	e[E24] = 0.0f;
+
+	e[E31] = 0.0f;
+	e[E32] = 0.0f;
+	e[E33] = 1.0f;
+	e[E34] = 0.0f;
+
+	e[E41] = 0.0f;
+	e[E42] = 0.0f;
+	e[E43] = 0.0f;
+	e[E44] = 1.0f;
+}
+
 Matrix4x4& Matrix4x4::operator*=(const Matrix4x4& m)
 {
 	// “矩阵A与B的乘积矩阵C的第i行第j列的元素c(ij)等于A的第i行于B的第j列的对应元素乘积的和。”（实用数学手册，科学出版社，第二版）
@@ -123,4 +156,29 @@ Matrix4x4& Matrix4x4::operator*=(const Matrix4x4& m)
 const float* Matrix4x4::GetAddress() const
 {
 	return e;
+}
+
+Matrix4x4 operator*(const Matrix4x4& m1, const Matrix4x4& m2)
+{
+	Matrix4x4 result;
+	result.e[Matrix4x4::E11] = m1.e[Matrix4x4::E11]*m2.e[Matrix4x4::E11] + m1.e[Matrix4x4::E12]*m2.e[Matrix4x4::E21] + m1.e[Matrix4x4::E13]*m2.e[Matrix4x4::E31] + m1.e[Matrix4x4::E14]*m2.e[Matrix4x4::E41];
+	result.e[Matrix4x4::E12] = m1.e[Matrix4x4::E11]*m2.e[Matrix4x4::E12] + m1.e[Matrix4x4::E12]*m2.e[Matrix4x4::E22] + m1.e[Matrix4x4::E13]*m2.e[Matrix4x4::E32] + m1.e[Matrix4x4::E14]*m2.e[Matrix4x4::E42];
+	result.e[Matrix4x4::E13] = m1.e[Matrix4x4::E11]*m2.e[Matrix4x4::E13] + m1.e[Matrix4x4::E12]*m2.e[Matrix4x4::E23] + m1.e[Matrix4x4::E13]*m2.e[Matrix4x4::E33] + m1.e[Matrix4x4::E14]*m2.e[Matrix4x4::E43];
+	result.e[Matrix4x4::E14] = m1.e[Matrix4x4::E11]*m2.e[Matrix4x4::E14] + m1.e[Matrix4x4::E12]*m2.e[Matrix4x4::E24] + m1.e[Matrix4x4::E13]*m2.e[Matrix4x4::E34] + m1.e[Matrix4x4::E14]*m2.e[Matrix4x4::E44];
+
+	result.e[Matrix4x4::E21] = m1.e[Matrix4x4::E21]*m2.e[Matrix4x4::E11] + m1.e[Matrix4x4::E22]*m2.e[Matrix4x4::E21] + m1.e[Matrix4x4::E23]*m2.e[Matrix4x4::E31] + m1.e[Matrix4x4::E24]*m2.e[Matrix4x4::E41];
+	result.e[Matrix4x4::E22] = m1.e[Matrix4x4::E21]*m2.e[Matrix4x4::E12] + m1.e[Matrix4x4::E22]*m2.e[Matrix4x4::E22] + m1.e[Matrix4x4::E23]*m2.e[Matrix4x4::E32] + m1.e[Matrix4x4::E24]*m2.e[Matrix4x4::E42];
+	result.e[Matrix4x4::E23] = m1.e[Matrix4x4::E21]*m2.e[Matrix4x4::E13] + m1.e[Matrix4x4::E22]*m2.e[Matrix4x4::E23] + m1.e[Matrix4x4::E23]*m2.e[Matrix4x4::E33] + m1.e[Matrix4x4::E24]*m2.e[Matrix4x4::E43];
+	result.e[Matrix4x4::E24] = m1.e[Matrix4x4::E21]*m2.e[Matrix4x4::E14] + m1.e[Matrix4x4::E22]*m2.e[Matrix4x4::E24] + m1.e[Matrix4x4::E23]*m2.e[Matrix4x4::E34] + m1.e[Matrix4x4::E24]*m2.e[Matrix4x4::E44];
+
+	result.e[Matrix4x4::E31] = m1.e[Matrix4x4::E31]*m2.e[Matrix4x4::E11] + m1.e[Matrix4x4::E32]*m2.e[Matrix4x4::E21] + m1.e[Matrix4x4::E33]*m2.e[Matrix4x4::E31] + m1.e[Matrix4x4::E34]*m2.e[Matrix4x4::E41];
+	result.e[Matrix4x4::E32] = m1.e[Matrix4x4::E31]*m2.e[Matrix4x4::E12] + m1.e[Matrix4x4::E32]*m2.e[Matrix4x4::E22] + m1.e[Matrix4x4::E33]*m2.e[Matrix4x4::E32] + m1.e[Matrix4x4::E34]*m2.e[Matrix4x4::E42];
+	result.e[Matrix4x4::E33] = m1.e[Matrix4x4::E31]*m2.e[Matrix4x4::E13] + m1.e[Matrix4x4::E32]*m2.e[Matrix4x4::E23] + m1.e[Matrix4x4::E33]*m2.e[Matrix4x4::E33] + m1.e[Matrix4x4::E34]*m2.e[Matrix4x4::E43];
+	result.e[Matrix4x4::E34] = m1.e[Matrix4x4::E31]*m2.e[Matrix4x4::E14] + m1.e[Matrix4x4::E32]*m2.e[Matrix4x4::E24] + m1.e[Matrix4x4::E33]*m2.e[Matrix4x4::E34] + m1.e[Matrix4x4::E34]*m2.e[Matrix4x4::E44];
+
+	result.e[Matrix4x4::E41] = m1.e[Matrix4x4::E41]*m2.e[Matrix4x4::E11] + m1.e[Matrix4x4::E42]*m2.e[Matrix4x4::E21] + m1.e[Matrix4x4::E43]*m2.e[Matrix4x4::E31] + m1.e[Matrix4x4::E44]*m2.e[Matrix4x4::E41];
+	result.e[Matrix4x4::E42] = m1.e[Matrix4x4::E41]*m2.e[Matrix4x4::E12] + m1.e[Matrix4x4::E42]*m2.e[Matrix4x4::E22] + m1.e[Matrix4x4::E43]*m2.e[Matrix4x4::E32] + m1.e[Matrix4x4::E44]*m2.e[Matrix4x4::E42];
+	result.e[Matrix4x4::E43] = m1.e[Matrix4x4::E41]*m2.e[Matrix4x4::E13] + m1.e[Matrix4x4::E42]*m2.e[Matrix4x4::E23] + m1.e[Matrix4x4::E43]*m2.e[Matrix4x4::E33] + m1.e[Matrix4x4::E44]*m2.e[Matrix4x4::E43];
+	result.e[Matrix4x4::E44] = m1.e[Matrix4x4::E41]*m2.e[Matrix4x4::E14] + m1.e[Matrix4x4::E42]*m2.e[Matrix4x4::E24] + m1.e[Matrix4x4::E43]*m2.e[Matrix4x4::E34] + m1.e[Matrix4x4::E44]*m2.e[Matrix4x4::E44];
+	return result;
 }

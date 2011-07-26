@@ -137,7 +137,8 @@ bool RenderDevice_Impl::InitializeEGL(HWND hWindow)
 		EGL_RED_SIZE, 8,
 		EGL_GREEN_SIZE, 8,
 		EGL_BLUE_SIZE, 8,
-		EGL_DEPTH_SIZE, 16,
+		EGL_ALPHA_SIZE, 8,
+		EGL_DEPTH_SIZE, 24,
 		EGL_RENDERABLE_TYPE, EGL_OPENGL_ES2_BIT,
 		EGL_NONE
 	};
@@ -170,8 +171,13 @@ bool RenderDevice_Impl::InitializeEGL(HWND hWindow)
 	int winWidth = IConfig::GetInstance().GetInt("WINDOW_WIDTH");
 	int winHeight = IConfig::GetInstance().GetInt("WINDOW_HEIGHT");
 	glViewport(0, 0, winWidth, winHeight);
+
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_FRONT);
+
 	return true;
 }
 

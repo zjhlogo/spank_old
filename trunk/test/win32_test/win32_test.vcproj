@@ -25,6 +25,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
+				CommandLine="copy $(ProjectDir)..\resources\*.* $(ProjectDir)bin\assets\"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -100,6 +101,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
+				CommandLine="copy $(ProjectDir)..\resources\*.* $(ProjectDir)bin\assets\"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"

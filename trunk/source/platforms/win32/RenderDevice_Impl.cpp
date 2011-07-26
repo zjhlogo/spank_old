@@ -169,6 +169,8 @@ bool RenderDevice_Impl::InitializeEGL(HWND hWindow)
 	int winWidth = IConfig::GetInstance().GetInt("WINDOW_WIDTH");
 	int winHeight = IConfig::GetInstance().GetInt("WINDOW_HEIGHT");
 	glViewport(0, 0, winWidth, winHeight);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	return true;
 }
 

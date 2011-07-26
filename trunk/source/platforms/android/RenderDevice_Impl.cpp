@@ -6,6 +6,7 @@
  * \author zjhlogo (zjhlogo@gmail.com)
  */
 #include "RenderDevice_Impl.h"
+#include <IConfig.h>
 #include <GLES2/gl2.h>
 
 IRenderDevice& IRenderDevice::GetInstance()
@@ -16,6 +17,11 @@ IRenderDevice& IRenderDevice::GetInstance()
 
 bool RenderDevice_Impl::Initialize()
 {
+	int winWidth = IConfig::GetInstance().GetInt("WINDOW_WIDTH");
+	int winHeight = IConfig::GetInstance().GetInt("WINDOW_HEIGHT");
+	glViewport(0, 0, winWidth, winHeight);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	return true;
 }
 
@@ -26,7 +32,9 @@ void RenderDevice_Impl::Terminate()
 
 void RenderDevice_Impl::BeginRender()
 {
-	glClearColor(0.8f, 0.8f, 0.8f, 1.0f);	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);}
+	glClearColor(0.8f, 0.8f, 0.8f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+}
 
 void RenderDevice_Impl::EndRender()
 {

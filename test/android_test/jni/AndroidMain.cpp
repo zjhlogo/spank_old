@@ -8,6 +8,17 @@
 #include "AndroidMain.h"
 #include <ICore.h>
 #include <IConfig.h>
+#include <time.h>
+
+static uint g_nCurrTime = 0;
+static uint g_nPrevTime = 0;
+
+static uint GetCurrTime()
+{
+	struct timespec now;
+	clock_gettime(CLOCK_MONOTONIC, &now);
+	return now.tv_sec*1000 + now.tv_nsec/1000000;
+}
 
 JNIEXPORT void JNICALL Java_com_zjhlogo_spank_SpankLibrary_setPackagePath(JNIEnv* env, jclass cls, jstring path)
 {
@@ -26,6 +37,9 @@ JNIEXPORT jboolean JNICALL Java_com_zjhlogo_spank_SpankLibrary_initialize(JNIEnv
 	IConfig::GetInstance().AddInt("WINDOW_WIDTH", width);
 	IConfig::GetInstance().AddInt("WINDOW_HEIGHT", height);
 	if (!ICore::GetInstance().Initialize()) return JNI_FALSE;
+
+	g_nCurrTime = GetCurrTime();
+	g_nPrevTime = g_nCurrTime;
 	return JNI_TRUE;
 }
 
@@ -37,9 +51,12 @@ JNIEXPORT void JNICALL Java_com_zjhlogo_spank_SpankLibrary_terminate(JNIEnv* env
 
 JNIEXPORT void JNICALL Java_com_zjhlogo_spank_SpankLibrary_step(JNIEnv* env, jclass cls)
 {
-	ICore::GetInstance().Update(0.0f);
+	g_nCurrTime = GetCurrTime();
+	ICore::GetInstance().Update((g_nCurrTime - g_nPrevTime)/1000.0f);
 
 	ICore::GetInstance().PreRender();
 	ICore::GetInstance().Render();
 	ICore::GetInstance().PostRender();
+
+	g_nPrevTime = g_nCurrTime;
 }

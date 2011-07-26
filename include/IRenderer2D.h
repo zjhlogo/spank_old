@@ -16,7 +16,10 @@ class IRenderer2D : public IMgr
 public:
 	static IRenderer2D& GetInstance();
 
-	virtual void SetShader(IShader* pShader) = 0;
+	virtual void SetTexture(ITexture* pTexture) = 0;
+
+	virtual void BeginRender2D() = 0;
+	virtual void EndRender2D() = 0;
 
 	virtual void DrawTriangleList(const void* pVerts, uint nNumVerts) = 0;
 	virtual void DrawTriangleStrip(const void* pVerts, uint nNumVerts, const ushort* pIndis, uint nNumIndis) = 0;

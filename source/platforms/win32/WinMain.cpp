@@ -15,6 +15,10 @@ void EnterMessageLoop()
 	MSG msg;
 	memset(&msg, 0, sizeof(msg));
 	bool run = true;
+
+	DWORD dwCurrTime = timeGetTime();
+	DWORD dwPrevTime = dwCurrTime;
+
 	while (run)
 	{
 		while(PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) 
@@ -29,11 +33,14 @@ void EnterMessageLoop()
 			DispatchMessage(&msg);
 		}
 
-		ICore::GetInstance().Update(0.0f);
+		dwCurrTime = timeGetTime();
+		ICore::GetInstance().Update((dwCurrTime - dwPrevTime)/1000.0f);
 
 		ICore::GetInstance().PreRender();
 		ICore::GetInstance().Render();
 		ICore::GetInstance().PostRender();
+
+		dwPrevTime = dwCurrTime;
 	}
 }
 

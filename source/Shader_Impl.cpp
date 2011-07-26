@@ -32,45 +32,32 @@ bool Shader_Impl::SetMatrix4x4(const char* pszParamName, const Matrix4x4* pMat)
 	int location = glGetUniformLocation(m_glProgramObject, pszParamName);
 	if (location == -1) return false;
 
-	m_mapMatrix4x4.insert(std::make_pair(location, pMat));
+	glUniformMatrix4fv(location, 1, GL_FALSE, pMat->GetAddress());
 	return true;
 }
 
-bool Shader_Impl::SetTexture(const char* pszParamName, ITexture* pTexture)
+bool Shader_Impl::SetTexture(const char* pszParamName, ITexture* pTexture, uint nIndex /* = 0 */)
 {
 	if (!pszParamName || !pTexture) return false;
 
 	int location = glGetUniformLocation(m_glProgramObject, pszParamName);
 	if (location == -1) return false;
 
-	m_mapTexture.insert(std::make_pair(location, pTexture));
+	Texture_Impl* pTexture_Impl = (Texture_Impl*)pTexture;
+	glActiveTexture(GL_TEXTURE0+nIndex);
+	glBindTexture(GL_TEXTURE_2D, pTexture_Impl->GetGLTextureID());
+	glUniform1i(location, nIndex);
+
 	return true;
+}
+
+void Shader_Impl::Reset()
+{
+	// TODO: 
 }
 
 bool Shader_Impl::Commit(const void* pVerts)
 {
-	// commit all matrixs
-	for (TM_MATRIX4X4::iterator it = m_mapMatrix4x4.begin(); it != m_mapMatrix4x4.end(); ++it)
-	{
-		int location = it->first;
-		const Matrix4x4* pMat = it->second;
-		glUniformMatrix4fv(location, 1, GL_FALSE, pMat->GetAddress());
-	}
-	m_mapMatrix4x4.clear();
-
-	// commit all textures
-	int nIndex = 0;
-	for (TM_TEXTURE::iterator it = m_mapTexture.begin(); it != m_mapTexture.end(); ++it)
-	{
-		int location = it->first;
-		Texture_Impl* pTexture_Impl = (Texture_Impl*)it->second;
-		glActiveTexture(GL_TEXTURE0+nIndex);
-		glBindTexture(GL_TEXTURE_2D, pTexture_Impl->GetGLTextureID());
-		glUniform1i(location, nIndex);
-		++nIndex;
-	}
-	m_mapTexture.clear();
-
 	// setup vertex attributes
 	int nNumAttrs = m_pVertexAttribute->GetNumAttributeItems();
 	for (int i = 0; i < nNumAttrs; ++i)

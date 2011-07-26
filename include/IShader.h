@@ -16,7 +16,8 @@ class IShader : public IObject
 {
 public:
 	virtual bool SetMatrix4x4(const char* pszParamName, const Matrix4x4* pMat) = 0;
-	virtual bool SetTexture(const char* pszParamName, ITexture* pTexture) = 0;
+	virtual bool SetTexture(const char* pszParamName, ITexture* pTexture, uint nIndex = 0) = 0;
+	virtual void Reset() = 0;
 	virtual bool Commit(const void* pVerts) = 0;
 };
 

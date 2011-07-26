@@ -29,7 +29,7 @@ public:
 	void MakeOrtho(float left, float right, float bottom, float top, float near, float far);
 	void MakeFrustum(float left, float right, float bottom, float top, float near, float far);
 
-	Matrix4x4& operator *=(const Matrix4x4& mat);
+	Matrix4x4& operator*=(const Matrix4x4& mat);
 
 	const float* GetAddress() const;
 

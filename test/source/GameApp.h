@@ -27,8 +27,6 @@ public:
 
 private:
 	ITexture* m_pTexture;
-	IShader* m_pShader;
-	Matrix4x4 m_matOrtho;
 
 };
 #endif // __GAMEAPP_H__

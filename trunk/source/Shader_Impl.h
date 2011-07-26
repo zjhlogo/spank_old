@@ -18,15 +18,12 @@
 class Shader_Impl : public IShader
 {
 public:
-	typedef std::map<int, const Matrix4x4*> TM_MATRIX4X4;
-	typedef std::map<int, ITexture*> TM_TEXTURE;
-
-public:
 	Shader_Impl(StreamReader* pVertexShader, StreamReader* pFregmentShader, const IVertexAttribute::ATTRIBUTE_ITEM* pAttrItems);
 	virtual ~Shader_Impl();
 
 	virtual bool SetMatrix4x4(const char* pszParamName, const Matrix4x4* pMat);
-	virtual bool SetTexture(const char* pszParamName, ITexture* pTexture);
+	virtual bool SetTexture(const char* pszParamName, ITexture* pTexture, uint nIndex = 0);
+	virtual void Reset();
 	virtual bool Commit(const void* pVerts);
 
 private:
@@ -40,9 +37,6 @@ private:
 	GLuint m_glVertexShader;
 	GLuint m_glFragmentShader;
 	GLuint m_glProgramObject;
-
-	TM_MATRIX4X4 m_mapMatrix4x4;
-	TM_TEXTURE m_mapTexture;
 
 };
 #endif // __SHADER_IMPL_H__

@@ -8,5 +8,9 @@
 #ifndef __VECTOR4_H__
 #define __VECTOR4_H__
 
-
+class Vector4
+{
+public:
+	// TODO: 
+};
 #endif // __VECTOR4_H__

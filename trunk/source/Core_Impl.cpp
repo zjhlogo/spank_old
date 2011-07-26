@@ -11,6 +11,8 @@
 #include <IFileMgr.h>
 #include <IRenderDevice.h>
 #include <ITextureMgr.h>
+#include <IShaderMgr.h>
+#include <IRenderer2D.h>
 #include <IGameApp.h>
 
 ICore& ICore::GetInstance()
@@ -36,6 +38,8 @@ bool Core_Impl::Initialize()
 	if (!IFileMgr::GetInstance().Initialize()) return false;
 	if (!IRenderDevice::GetInstance().Initialize()) return false;
 	if (!ITextureMgr::GetInstance().Initialize()) return false;
+	if (!IShaderMgr::GetInstance().Initialize()) return false;
+	if (!IRenderer2D::GetInstance().Initialize()) return false;
 	if (!IGameApp::GetInstance().Initialize()) return false;
 	return true;
 }
@@ -43,6 +47,8 @@ bool Core_Impl::Initialize()
 void Core_Impl::Terminate()
 {
 	IGameApp::GetInstance().Terminate();
+	IRenderer2D::GetInstance().Terminate();
+	IShaderMgr::GetInstance().Terminate();
 	ITextureMgr::GetInstance().Terminate();
 	IRenderDevice::GetInstance().Terminate();
 	IFileMgr::GetInstance().Terminate();
@@ -58,6 +64,7 @@ void Core_Impl::Update(float dt)
 void Core_Impl::PreRender()
 {
 	IRenderDevice::GetInstance().BeginRender();
+	IRenderer2D::GetInstance().BeginRender2D();
 }
 
 void Core_Impl::Render()
@@ -67,5 +74,6 @@ void Core_Impl::Render()
 
 void Core_Impl::PostRender()
 {
+	IRenderer2D::GetInstance().EndRender2D();
 	IRenderDevice::GetInstance().EndRender();
 }

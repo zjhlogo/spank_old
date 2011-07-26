@@ -45,6 +45,7 @@ void RenderDevice_Impl::BeginRender()
 {
 	glClearColor(0.8f, 0.8f, 0.8f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	// TODO: clear up render state
 }
 
 void RenderDevice_Impl::EndRender()

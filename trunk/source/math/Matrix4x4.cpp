@@ -92,7 +92,7 @@ void Matrix4x4::MakeFrustum(float left, float right, float bottom, float top, fl
 	e[E44] = 0.0f;
 }
 
-Matrix4x4& Matrix4x4::operator *=(const Matrix4x4& m)
+Matrix4x4& Matrix4x4::operator*=(const Matrix4x4& m)
 {
 	// “矩阵A与B的乘积矩阵C的第i行第j列的元素c(ij)等于A的第i行于B的第j列的对应元素乘积的和。”（实用数学手册，科学出版社，第二版）
 	Matrix4x4 result;

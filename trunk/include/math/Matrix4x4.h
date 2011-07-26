@@ -28,6 +28,7 @@ public:
 
 	void MakeOrtho(float left, float right, float bottom, float top, float near, float far);
 	void MakeFrustum(float left, float right, float bottom, float top, float near, float far);
+	void MakeRotateZ(float radian);
 
 	Matrix4x4& operator*=(const Matrix4x4& mat);
 
@@ -37,4 +38,7 @@ public:
 	float e[16];
 
 };
+
+Matrix4x4 operator*(const Matrix4x4& m1, const Matrix4x4& m2);
+
 #endif // __MATRIX4X4_H__

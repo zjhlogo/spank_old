@@ -55,6 +55,16 @@ void Renderer2D_Impl::Terminate()
 	SAFE_RELEASE(m_pShader);
 }
 
+const Matrix4x4& Renderer2D_Impl::GetProjectionMatrix() const
+{
+	return m_matOrtho;
+}
+
+void Renderer2D_Impl::SetMatrix(const Matrix4x4* pMat)
+{
+	m_pShader->SetMatrix4x4("u_project", pMat);
+}
+
 void Renderer2D_Impl::SetTexture(ITexture* pTexture)
 {
 	m_pShader->SetTexture("s_texture", pTexture);
@@ -63,7 +73,6 @@ void Renderer2D_Impl::SetTexture(ITexture* pTexture)
 void Renderer2D_Impl::BeginRender2D()
 {
 	m_pShader->Reset();
-	m_pShader->SetMatrix4x4("u_project", &m_matOrtho);
 }
 
 void Renderer2D_Impl::EndRender2D()
@@ -71,13 +80,41 @@ void Renderer2D_Impl::EndRender2D()
 	// TODO: 
 }
 
-void Renderer2D_Impl::DrawTriangleList(const void* pVerts, uint nNumVerts)
+void Renderer2D_Impl::DrawTriangleList(const void* pVerts, uint nNumVerts, const ushort* pIndis, uint nNumIndis)
 {
 	m_pShader->Commit(pVerts);
-	glDrawArrays(GL_TRIANGLES, 0, nNumVerts);
+	glDrawElements(GL_TRIANGLES, nNumIndis, GL_UNSIGNED_SHORT, pIndis);
 }
 
 void Renderer2D_Impl::DrawTriangleStrip(const void* pVerts, uint nNumVerts, const ushort* pIndis, uint nNumIndis)
 {
-	// TODO: 
+	m_pShader->Commit(pVerts);
+	glDrawElements(GL_TRIANGLE_STRIP, nNumIndis, GL_UNSIGNED_SHORT, pIndis);
+}
+
+void Renderer2D_Impl::DrawRect(float x, float y, float width, float height)
+{
+	static VERTEX_ATTRIBUTE s_Verts[4] =
+	{
+		{-0.5f, -0.5f, 0.0f, 0.0f, 0.0f},
+		{-0.5f, +0.5f, 0.0f, 0.0f, 1.0f},
+		{+0.5f, -0.5f, 0.0f, 1.0f, 0.0f},
+		{+0.5f, +0.5f, 0.0f, 1.0f, 1.0f},
+	};
+
+	static const ushort s_Indis[6] = {0, 1, 2, 1, 3, 2};
+
+	float halfWidth = width/2.0f;
+	float halfHeight = height/2.0f;
+
+	s_Verts[0].x = x - halfWidth;
+	s_Verts[0].y = y - halfHeight;
+	s_Verts[1].x = x - halfWidth;
+	s_Verts[1].y = y + halfHeight;
+	s_Verts[2].x = x + halfWidth;
+	s_Verts[2].y = y - halfHeight;
+	s_Verts[3].x = x + halfWidth;
+	s_Verts[3].y = y + halfHeight;
+
+	DrawTriangleList(s_Verts, 4, s_Indis, 6);
 }

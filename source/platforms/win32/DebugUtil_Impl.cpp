@@ -9,6 +9,7 @@
 #include <Windows.h>
 #include <stdio.h>
 #include <stdarg.h>
+#include <assert.h>
 
 IDebugUtil& IDebugUtil::GetInstance()
 {
@@ -36,6 +37,7 @@ void DebugUtil_Impl::Debug(const char* format, ...)
 	OutputDebugString(szOut);
 
 	va_end(marker);
+	assert(false);
 }
 
 void DebugUtil_Impl::Info(const char* format, ...)
@@ -48,6 +50,7 @@ void DebugUtil_Impl::Info(const char* format, ...)
 	OutputDebugString(szOut);
 
 	va_end(marker);
+	assert(false);
 }
 
 void DebugUtil_Impl::Error(const char* format, ...)
@@ -60,4 +63,5 @@ void DebugUtil_Impl::Error(const char* format, ...)
 	OutputDebugString(szOut);
 
 	va_end(marker);
+	assert(false);
 }

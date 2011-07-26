@@ -54,7 +54,7 @@ bool Shader_Impl::Commit(const void* pVerts)
 	{
 		int location = it->first;
 		const Matrix4x4* pMat = it->second;
-		glUniformMatrix4fv(location, 16, GL_FALSE, pMat->GetAddress());
+		glUniformMatrix4fv(location, 1, GL_FALSE, pMat->GetAddress());
 	}
 	m_mapMatrix4x4.clear();
 

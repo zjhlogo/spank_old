@@ -41,6 +41,7 @@ int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 {
 	IConfig::GetInstance().AddString("WINDOW_CLASS", "SPANK");
 	IConfig::GetInstance().AddString("WINDOW_TITLE", "spank");
+	IConfig::GetInstance().AddString("RESOURCE_DIR", ".\\data\\");
 	IConfig::GetInstance().AddInt("WINDOW_WIDTH", WindowConfig::WINDOW_WIDTH);
 	IConfig::GetInstance().AddInt("WINDOW_HEIGHT", WindowConfig::WINDOW_HEIGHT);
 

@@ -25,7 +25,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="copy $(ProjectDir)..\resources\*.* $(ProjectDir)bin\assets\"
+				CommandLine="echo &quot;mkdir $(ProjectDir)bin\data&quot;&#x0D;&#x0A;mkdir $(ProjectDir)bin\data&#x0D;&#x0A;&#x0D;&#x0A;echo &quot;copy $(ProjectDir)..\resources\*.* $(ProjectDir)bin\data\&quot;&#x0D;&#x0A;copy $(ProjectDir)..\resources\*.* $(ProjectDir)bin\data\&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -101,7 +101,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="copy $(ProjectDir)..\resources\*.* $(ProjectDir)bin\assets\"
+				CommandLine="echo &quot;mkdir $(ProjectDir)bin\data&quot;&#x0D;&#x0A;mkdir $(ProjectDir)bin\data&#x0D;&#x0A;&#x0D;&#x0A;echo &quot;copy $(ProjectDir)..\resources\*.* $(ProjectDir)bin\data\&quot;&#x0D;&#x0A;copy $(ProjectDir)..\resources\*.* $(ProjectDir)bin\data\&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"

@@ -42,6 +42,7 @@ bool FileMgr_Impl::Initialize()
 		return false;
 	}
 
+	m_strRootPath = IConfig::GetInstance().GetString("RESOURCE_DIR", "assets/");
 	return true;
 }
 
@@ -56,16 +57,14 @@ void FileMgr_Impl::Terminate()
 
 StreamReader* FileMgr_Impl::LoadFile(const char* pszFileName)
 {
-	if (!pszFileName || strlen(pszFileName) <= 0)
-	{
-		LOGE("invalid file");
-		return NULL;
-	}
+	if (!pszFileName || strlen(pszFileName) <= 0) return NULL;
 
-	int nRet = unzLocateFile(m_pMainFile, pszFileName, 1);
+	std::string strFullPath = m_strRootPath + pszFileName;
+
+	int nRet = unzLocateFile(m_pMainFile, strFullPath.c_str(), 1);
 	if (nRet != UNZ_OK)
 	{
-		LOGE("locate file failed: %s", pszFileName);
+		LOGE("locate file failed: %s", strFullPath.c_str());
 		return NULL;
 	}
 
@@ -74,7 +73,7 @@ StreamReader* FileMgr_Impl::LoadFile(const char* pszFileName)
 	nRet = unzGetCurrentFileInfo(m_pMainFile, &fileInfo, szFilePath, sizeof(szFilePath), NULL, 0, NULL, 0);
 	if (nRet != UNZ_OK)
 	{
-		LOGE("get file info failed: %s", pszFileName);
+		LOGE("get file info failed: %s", strFullPath.c_str());
 		return NULL;
 	}
 

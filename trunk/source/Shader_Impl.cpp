@@ -94,21 +94,21 @@ bool Shader_Impl::CreateShader(StreamReader* pVertexShader, StreamReader* pFregm
 	m_glVertexShader = LoadShader((const char*)pVertexShader->GetBuffer(), GL_VERTEX_SHADER);
 	if (m_glVertexShader == 0)
 	{
-		LOGE("Create Vertex Shader Failed");
+		LOGE("create vertex shader failed");
 		return false;
 	}
 
 	m_glFragmentShader = LoadShader((const char*)pFregmentShader->GetBuffer(), GL_FRAGMENT_SHADER);
 	if (m_glFragmentShader == 0)
 	{
-		LOGE("Create Fregment Shader Failed");
+		LOGE("create fregment shader failed");
 		return false;
 	}
 
 	m_glProgramObject = glCreateProgram();
 	if (m_glProgramObject == 0)
 	{
-		LOGE("Create Program Failed");
+		LOGE("create shader program failed");
 		return false;
 	}
 
@@ -126,7 +126,7 @@ bool Shader_Impl::CreateShader(StreamReader* pVertexShader, StreamReader* pFregm
 		{
 			char* pszErrorLog = new char[nErrorLength];
 			glGetProgramInfoLog(m_glProgramObject, nErrorLength, NULL, pszErrorLog);
-			LOGI("Error linking program: %s", pszErrorLog);
+			LOGE("error linking program: %s", pszErrorLog);
 			delete[] pszErrorLog;
 		}
 
@@ -179,7 +179,7 @@ GLuint Shader_Impl::LoadShader(const char* pszShaderSource, GLenum eType)
 		{
 			char* pszErrorLog = new char[nErrorLength];
 			glGetShaderInfoLog(glShader, nErrorLength, NULL, pszErrorLog);
-			LOGI("Error compiling shader: %s", pszErrorLog);
+			LOGE("error compiling shader: %s", pszErrorLog);
 			delete[] pszErrorLog;
 		}
 

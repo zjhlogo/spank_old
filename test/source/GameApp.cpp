@@ -37,8 +37,8 @@ bool GameApp::Initialize()
 		{0, IVertexAttribute::AT_UNKNOWN, 0, ""},
 	};
 
-	m_pTexture = ITextureMgr::GetInstance().CreateTexture("assets/emotion_small.png");
-	m_pShader = IShaderMgr::GetInstance().CreateShaderFromFiles("assets/shader.vs", "assets/shader.fs", s_VertAttrs);
+	m_pTexture = ITextureMgr::GetInstance().CreateTexture("emotion_small.png");
+	m_pShader = IShaderMgr::GetInstance().CreateShaderFromFiles("shader.vs", "shader.fs", s_VertAttrs);
 	m_matOrtho.MakeOrtho(-400.0f, 400.0f, -240.0f, 240.0f, 100.0f, -100.0f);
 	return true;
 }

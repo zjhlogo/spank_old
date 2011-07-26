@@ -10,6 +10,7 @@
 
 #include <IFileMgr.h>
 #include "unzip/unzip.h"
+#include <string>
 
 class FileMgr_Impl : public IFileMgr
 {
@@ -30,6 +31,7 @@ public:
 
 private:
 	unzFile m_pMainFile;
+	std::string m_strRootPath;
 
 };
 #endif // __FILEMGR_IMPL_H__

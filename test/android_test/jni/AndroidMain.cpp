@@ -16,6 +16,7 @@ JNIEXPORT void JNICALL Java_com_zjhlogo_spank_SpankLibrary_setPackagePath(JNIEnv
 	if (isCopy == JNI_TRUE)
 	{
 		IConfig::GetInstance().AddString("ANDROID_RESOURCE_PACKAGE", pszPath);
+		IConfig::GetInstance().AddString("RESOURCE_DIR", "assets/");
 		env->ReleaseStringUTFChars(path, pszPath);
 	}
 }

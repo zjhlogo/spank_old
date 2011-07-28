@@ -13,6 +13,17 @@ Matrix4x4::Matrix4x4()
 	// TODO: 
 }
 
+Matrix4x4::Matrix4x4(float e11, float e12, float e13, float e14,
+                     float e21, float e22, float e23, float e24,
+                     float e31, float e32, float e33, float e34,
+                     float e41, float e42, float e43, float e44)
+{
+	e[E11] = e11; e[E12] = e12; e[E13] = e13; e[E14] = e14;
+	e[E21] = e21; e[E22] = e22; e[E23] = e23; e[E24] = e24;
+	e[E31] = e31; e[E32] = e32; e[E33] = e33; e[E34] = e34;
+	e[E41] = e41; e[E42] = e42; e[E43] = e43; e[E44] = e44;
+}
+
 Matrix4x4::~Matrix4x4()
 {
 	// TODO: 

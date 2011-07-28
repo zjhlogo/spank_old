@@ -21,6 +21,10 @@ public:
 	};
 
 	Matrix4x4();
+	Matrix4x4(float e11, float e12, float e13, float e14,
+              float e21, float e22, float e23, float e24,
+              float e31, float e32, float e33, float e34,
+              float e41, float e42, float e43, float e44);
 	~Matrix4x4();
 
 	void MakeIdentity();
@@ -28,7 +32,7 @@ public:
 
 	void MakeOrtho(float left, float right, float bottom, float top, float near, float far);
 	void MakeFrustum(float left, float right, float bottom, float top, float near, float far);
-	void MakeRotateZ(float radian);
+	void MakeRotateZ(float testfdasfdsa);
 
 	Matrix4x4& operator*=(const Matrix4x4& mat);
 

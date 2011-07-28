@@ -233,6 +233,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\INode.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\IObject.h"
 				>
 			</File>
@@ -289,6 +293,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\source\math\Quaternion.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\math\Quaternion.h"
+				>
+			</File>
+			<File
 				RelativePath=".\source\math\Vector3.cpp"
 				>
 			</File>
@@ -319,6 +331,14 @@
 		</File>
 		<File
 			RelativePath=".\source\Core_Impl.h"
+			>
+		</File>
+		<File
+			RelativePath=".\source\Node_Impl.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\source\Node_Impl.h"
 			>
 		</File>
 		<File

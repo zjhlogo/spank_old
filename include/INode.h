@@ -18,6 +18,7 @@ public:
 	virtual bool RemoveChildNode(INode* pNode) = 0;
 	virtual INode* GetChildNode(int nIndex) = 0;
 	virtual int GetNumChildNodes() = 0;
+	virtual INode* GetParentNode() = 0;
 
 	virtual bool AttachObject(IObject* pObject) = 0;
 	virtual bool DettachObject(IObject* pObject) = 0;
@@ -30,8 +31,13 @@ public:
 	virtual void SetRotation(const Quaternion& qRot) = 0;
 	virtual const Quaternion& GetRotation() = 0;
 
+	virtual void SetScale(const Vector3& vScale) = 0;
+	virtual const Vector3& GetScale() = 0;
+
 	virtual const Matrix4x4& GetLocalMatrix() = 0;
 	virtual const Matrix4x4& GetFinalMatrix() = 0;
+
+	virtual void UpdateMatrix() = 0;
 };
 
 #endif // __INODE_H__

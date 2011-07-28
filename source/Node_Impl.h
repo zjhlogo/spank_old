@@ -9,9 +9,14 @@
 #define __NODE_IMPL_H__
 
 #include <INode.h>
+#include <vector>
 
 class Node_Impl : public INode
 {
+public:
+	typedef std::vector<INode*> TV_NODE;
+	typedef std::vector<IObject*> TV_OBJECT;
+
 public:
 	Node_Impl();
 	virtual ~Node_Impl();
@@ -20,6 +25,7 @@ public:
 	virtual bool RemoveChildNode(INode* pNode);
 	virtual INode* GetChildNode(int nIndex);
 	virtual int GetNumChildNodes();
+	virtual INode* GetParentNode();
 
 	virtual bool AttachObject(IObject* pObject);
 	virtual bool DettachObject(IObject* pObject);
@@ -32,8 +38,28 @@ public:
 	virtual void SetRotation(const Quaternion& qRot);
 	virtual const Quaternion& GetRotation();
 
+	virtual void SetScale(const Vector3& vScale);
+	virtual const Vector3& GetScale();
+
 	virtual const Matrix4x4& GetLocalMatrix();
 	virtual const Matrix4x4& GetFinalMatrix();
+
+	virtual void UpdateMatrix();
+
+private:
+	void FreeChildNodes();
+	void ClearAttachedObjects();
+
+private:
+	INode* m_pParentNode;
+	TV_NODE m_vChildNodes;
+	TV_OBJECT m_vAttachedObjects;
+
+	Vector3 m_vPosition;
+	Quaternion m_qRotation;
+	Vector3 m_vScale;
+	Matrix4x4 m_matLocal;
+	Matrix4x4 m_matFinal;
 
 };
 #endif // __NODE_IMPL_H__

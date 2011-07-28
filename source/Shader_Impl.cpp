@@ -32,7 +32,7 @@ bool Shader_Impl::SetMatrix4x4(const char* pszParamName, const Matrix4x4* pMat)
 	int location = glGetUniformLocation(m_glProgramObject, pszParamName);
 	if (location == -1) return false;
 
-	glUniformMatrix4fv(location, 1, GL_FALSE, pMat->GetAddress());
+	glUniformMatrix4fv(location, 1, GL_FALSE, pMat->e);
 	return true;
 }
 

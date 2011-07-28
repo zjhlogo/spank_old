@@ -1,6 +1,7 @@
 LIBSPANK_SOURCE_FILES := \
 		$(LIBSPANK_SOURCE)/Config_Impl.cpp \
 		$(LIBSPANK_SOURCE)/Core_Impl.cpp \
+		$(LIBSPANK_SOURCE)/Node_Impl.cpp \
 		$(LIBSPANK_SOURCE)/Renderer2D_Impl.cpp \
 		$(LIBSPANK_SOURCE)/Shader_Impl.cpp \
 		$(LIBSPANK_SOURCE)/ShaderMgr_Impl.cpp \
@@ -10,9 +11,9 @@ LIBSPANK_SOURCE_FILES := \
 		$(LIBSPANK_SOURCE)/math/IMath.cpp \
 		$(LIBSPANK_SOURCE)/math/Matrix3x3.cpp \
 		$(LIBSPANK_SOURCE)/math/Matrix4x4.cpp \
+		$(LIBSPANK_SOURCE)/math/Quaternion.cpp \
 		$(LIBSPANK_SOURCE)/math/Vector3.cpp \
 		$(LIBSPANK_SOURCE)/math/Vector4.cpp \
-		$(LIBSPANK_SOURCE)/math/Quaternion.cpp \
 		$(LIBSPANK_SOURCE)/platforms/android/DebugUtil_Impl.cpp \
 		$(LIBSPANK_SOURCE)/platforms/android/FileMgr_Impl.cpp \
 		$(LIBSPANK_SOURCE)/platforms/android/RenderDevice_Impl.cpp \

@@ -21,6 +21,7 @@ public:
 
 public:
 	static const Vector3 VEC3_ZERO;
+	static const Vector3 VEC3_ONE;
 	static const Matrix4x4 MAT4X4_ZERO;
 	static const Matrix4x4 MAT4X4_IDENTITY;
 	static const Quaternion ROT_ZERO;

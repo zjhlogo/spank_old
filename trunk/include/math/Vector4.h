@@ -1,3 +1,4 @@
+
 /*!
  * \file Vector4.h
  * \date 7-25-2011 14:02:06
@@ -11,6 +12,7 @@
 class Vector4
 {
 public:
-	// TODO: 
+	Vector4();
+	Vector4(float x, float y, float z, float w);
 };
 #endif // __VECTOR4_H__

@@ -273,6 +273,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\source\math\Matrix3x3.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\math\Matrix3x3.h"
+				>
+			</File>
+			<File
 				RelativePath=".\source\math\Matrix4x4.cpp"
 				>
 			</File>

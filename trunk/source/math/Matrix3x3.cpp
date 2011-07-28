@@ -139,12 +139,7 @@ Matirx3x3& Matirx3x3::operator-=(const Matirx3x3& mat)
 	return *this;
 }
 
-const float* Matirx3x3::GetAddress() const
-{
-	return e;
-}
-
-void Matirx3x3::Inverse()
+void Matirx3x3::Invert()
 {
 	//求行列式
 	float v1 = e[E11]*e[E22]*e[E33] + e[E12]*e[E23]*e[E31] + e[E13]*e[E21]*e[E32]; 

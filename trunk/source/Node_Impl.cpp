@@ -9,92 +9,150 @@
 
 Node_Impl::Node_Impl()
 {
-	// TODO: 
+	m_pParentNode = NULL;
+	m_vPosition = IMath::VEC3_ZERO;
+	m_qRotation = IMath::ROT_ZERO;
+	m_vScale = IMath::VEC3_ONE;
+	m_matLocal.MakeIdentity();
+	m_matFinal.MakeIdentity();
 }
 
 Node_Impl::~Node_Impl()
 {
-	// TODO: 
+	FreeChildNodes();
+	ClearAttachedObjects();
 }
 
 INode* Node_Impl::CreateChildNode()
 {
-	// TODO: 
-	return NULL;
+	Node_Impl* pNode = new Node_Impl();
+	pNode->m_pParentNode = this;
+	m_vChildNodes.push_back(pNode);
+	return pNode;
 }
 
 bool Node_Impl::RemoveChildNode(INode* pNode)
 {
-	// TODO: 
+	for (TV_NODE::iterator it = m_vChildNodes.begin(); it != m_vChildNodes.end(); ++it)
+	{
+		if (pNode == (*it))
+		{
+			m_vChildNodes.erase(it);
+			SAFE_DELETE(pNode);
+			return true;
+		}
+	}
+
 	return false;
 }
 
 INode* Node_Impl::GetChildNode(int nIndex)
 {
-	// TODO: 
-	return NULL;
+	if (nIndex < 0 || nIndex >= (int)m_vChildNodes.size()) return NULL;
+	return m_vChildNodes[nIndex];
 }
 
 int Node_Impl::GetNumChildNodes()
 {
-	// TODO: 
-	return 0;
+	return (int)m_vChildNodes.size();
+}
+
+INode* Node_Impl::GetParentNode()
+{
+	return m_pParentNode;
 }
 
 bool Node_Impl::AttachObject(IObject* pObject)
 {
-	// TODO: 
-	return false;
+	// TODO: check pObject exist?
+	m_vAttachedObjects.push_back(pObject);
+	return true;
 }
 
 bool Node_Impl::DettachObject(IObject* pObject)
 {
-	// TODO: 
+	for (TV_OBJECT::iterator it = m_vAttachedObjects.begin(); it != m_vAttachedObjects.end(); ++it)
+	{
+		if (pObject == (*it))
+		{
+			m_vAttachedObjects.erase(it);
+			return true;
+		}
+	}
+
 	return false;
 }
 
 IObject* Node_Impl::GetAttachedObject(int nIndex)
 {
-	// TODO: 
-	return NULL;
+	if (nIndex < 0 || nIndex >= (int)m_vAttachedObjects.size()) return NULL;
+	return m_vAttachedObjects[nIndex];
 }
 
 int Node_Impl::GetNumAttachedObjects()
 {
-	// TODO: 
-	return 0;
+	return (int)m_vAttachedObjects.size();
 }
 
 void Node_Impl::SetPosition(const Vector3& vPos)
 {
-	// TODO: 
+	m_vPosition = vPos;
 }
 
 const Vector3& Node_Impl::GetPosition()
 {
-	// TODO: 
-	return IMath::VEC3_ZERO;
+	return m_vPosition;
 }
 
 void Node_Impl::SetRotation(const Quaternion& qRot)
 {
-	// TODO: 
+	m_qRotation = qRot;
 }
 
 const Quaternion& Node_Impl::GetRotation()
 {
-	// TODO: 
-	return IMath::ROT_ZERO;
+	return m_qRotation;
+}
+
+void Node_Impl::SetScale(const Vector3& vScale)
+{
+	m_vScale = vScale;
+}
+
+const Vector3& Node_Impl::GetScale()
+{
+	return m_vScale;
 }
 
 const Matrix4x4& Node_Impl::GetLocalMatrix()
 {
-	// TODO: 
-	return IMath::MAT4X4_IDENTITY;
+	return m_matLocal;
 }
 
 const Matrix4x4& Node_Impl::GetFinalMatrix()
 {
-	// TODO: 
-	return IMath::MAT4X4_IDENTITY;
+	return m_matFinal;
+}
+
+void Node_Impl::UpdateMatrix()
+{
+	// TODO: setup local matrix
+	// TODO: setup final matrix
+	// TODO: tell children setup their matrix
+}
+
+void Node_Impl::FreeChildNodes()
+{
+	for (TV_NODE::iterator it = m_vChildNodes.begin(); it != m_vChildNodes.end(); ++it)
+	{
+		INode* pNode = (*it);
+		SAFE_DELETE(pNode);
+	}
+
+	m_vChildNodes.clear();
+}
+
+void Node_Impl::ClearAttachedObjects()
+{
+	m_vAttachedObjects.clear();
 }

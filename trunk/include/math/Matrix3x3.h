@@ -25,13 +25,12 @@ public:
 	void MakeRotateX(float radian);
 	void MakeRotateY(float radian);
 	void MakeScale(float x, float y, float z);
-	
+
+	void Invert();
+
 	Matirx3x3& operator*=(const Matirx3x3& mat);
 	Matirx3x3& operator+=(const Matirx3x3& mat);
 	Matirx3x3& operator-=(const Matirx3x3& mat);
-
-	const float* GetAddress() const;
-	void Inverse();
 
 public:
 	float e[9];

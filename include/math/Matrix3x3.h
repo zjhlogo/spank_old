@@ -40,7 +40,6 @@ public:
 Matirx3x3 operator*(const Matirx3x3& m1, const Matirx3x3& m2);
 Matirx3x3 operator+(const Matirx3x3& m1, const Matirx3x3& m2);
 Matirx3x3 operator-(const Matirx3x3& m1, const Matirx3x3& m2);
-
 Vector3 operator*(const Matirx3x3& mat, const Vector3& vec);
 
 #endif // __MATRIX3X3_H__

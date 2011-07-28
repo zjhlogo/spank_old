@@ -7,7 +7,7 @@
  */
 #ifndef __MATRIX4X4_H__
 #define __MATRIX4X4_H__
-
+#include <math/Vector4.h>
 class Matrix4x4
 {
 public:
@@ -32,10 +32,15 @@ public:
 
 	void MakeOrtho(float left, float right, float bottom, float top, float near, float far);
 	void MakeFrustum(float left, float right, float bottom, float top, float near, float far);
-	void MakeRotateZ(float testfdasfdsa);
-
+	void MakeRotateZ(float radian);
+	void MakeRotateX(float radian);
+	void MakeRotateY(float radian);
+	void MakeScale(float x, float y, float z);
+	void MakeTranslate(float x, float y, float z);
+	void Inverse();
 	Matrix4x4& operator*=(const Matrix4x4& mat);
-
+	Matrix4x4& operator+=(const Matrix4x4& mat);
+	Matrix4x4& operator-=(const Matrix4x4& mat);
 	const float* GetAddress() const;
 
 public:
@@ -44,5 +49,7 @@ public:
 };
 
 Matrix4x4 operator*(const Matrix4x4& m1, const Matrix4x4& m2);
-
+Matrix4x4 operator*(const Matrix4x4& m1, const Vector4& vec);
+Matrix4x4 operator+(const Matrix4x4& m1, const Matrix4x4& m2);
+Matrix4x4 operator-(const Matrix4x4& m1, const Matrix4x4& m2);
 #endif // __MATRIX4X4_H__

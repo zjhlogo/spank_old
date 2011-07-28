@@ -24,13 +24,20 @@ public:
 	void MakeScale(float x, float y, float z);
 	
 	Matirx3x3& operator *=(const Matirx3x3& mat);
+	Matirx3x3& operator +=(const Matirx3x3& mat);
+	Matirx3x3& operator -=(const Matirx3x3& mat);
+
 	const float* GetAddress() const;
-	float Matirx3x3Det();
+	void Inverse();
 
 public:
 	float e[9];
 };
 
 Matirx3x3 operator* (const Matirx3x3& m1, const Matirx3x3& m2);
+Matirx3x3 operator+ (const Matirx3x3& m1, const Matirx3x3& m2);
+Matirx3x3 operator- (const Matirx3x3& m1, const Matirx3x3& m2);
+
 Vector3   operator* (const Matirx3x3& mat, const Vector3& vec);
+
 #endif//_MATRIX3X3_H_

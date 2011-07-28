@@ -53,6 +53,7 @@ void Matrix4x4::MakeOrtho(float left, float right, float bottom, float top, floa
 	// [  0                           0                          -2/(far-near)           0 ]
 	// [ -(right+left)/(right-left)  -(top+bottom)/(top-bottom)  -(far+near)/(far-near)  1 ]
 	// 
+
 	e[E11] = 2.0f/(right - left);
 	e[E12] = 0.0f;
 	e[E13] = 0.0f;
@@ -103,8 +104,40 @@ void Matrix4x4::MakeFrustum(float left, float right, float bottom, float top, fl
 	e[E44] = 0.0f;
 }
 
+void Matrix4x4::MakeRotateZ(float radian)
+{
+	// 
+	// [ cos(r)  -sin(r)  0  0 ]
+	// [ sin(r)   cos(r)  0  0 ]
+	// [ 0        0       1  0 ]
+	// [ 0        0       0  1 ]
+	// 
+	float cr = cosf(radian);
+	float sr = sinf(radian);
+
+	e[E11] = cr;
+	e[E12] = -sr;
+	e[E13] = 0.0f;
+	e[E14] = 0.0f;
+
+	e[E21] = sr;
+	e[E22] = cr;
+	e[E23] = 0.0f;
+	e[E24] = 0.0f;
+
+	e[E31] = 0.0f;
+	e[E32] = 0.0f;
+	e[E33] = 1.0f;
+	e[E34] = 0.0f;
+
+	e[E41] = 0.0f;
+	e[E42] = 0.0f;
+	e[E43] = 0.0f;
+	e[E44] = 1.0f;
+}
 void Matrix4x4::MakeRotateX(float radian)
 {
+
 	//
 	//[1	0		    0   0]
 	//[0	cos(r)	-sin(r) 0]
@@ -114,10 +147,26 @@ void Matrix4x4::MakeRotateX(float radian)
 	float cr = cosf(radian);
 	float sr = sinf(radian);
 
-	e[E11] = 1.0f;	e[E12] = 0.0f;	e[E13] = 0.0f;	e[E14] = 0.0f;
-	e[E21] = 0.0f;	e[E22] = cr;	e[E23] =-sr;	e[E24] = 0.0f;
-	e[E31] = 0.0f;	e[E32] = sr;	e[E33] = cr;	e[E34] = 0.0f;
-	e[E41] = 0.0f;	e[E42] = 0.0f;	e[E43] = 0.0f;	e[E44] = 1.0f;
+	e[E11] = 1.0f;
+	e[E12] = 0.0f;
+	e[E13] = 0.0f;
+	e[E14] = 0.0f;
+
+	e[E21] = 0.0f;
+	e[E22] = cr;
+	e[E23] = -sr;;
+	e[E24] = 0.0f;
+
+	e[E31] = 0.0f;
+	e[E32] = sr;
+	e[E33] = cr;
+	e[E34] = 0.0f;
+
+	e[E41] = 0.0f;
+	e[E42] = 0.0f;
+	e[E43] = 0.0f;
+	e[E44] = 1.0f;
+
 }
 
 void Matrix4x4::MakeRotateY(float radian)
@@ -131,29 +180,27 @@ void Matrix4x4::MakeRotateY(float radian)
 	float cr = cosf(radian);
 	float sr = sinf(radian);
 
-	e[E11] = cr;	e[E12] = 0.0f;	e[E13] = sr;	e[E14] = 0.0f;
-	e[E21] = 0.0f;	e[E22] = 1.0f;	e[E23] = 0.0f;	e[E24] = 0.0f;
-	e[E31] =-sr;	e[E32] = 0.0f;	e[E33] = cr;	e[E34] = 0.0f;
-	e[E41] = 0.0f;	e[E42] = 0.0f;	e[E43] = 0.0f;	e[E44] = 1.0f;
+	e[E11] = cr;
+	e[E12] = 0.0f;
+	e[E13] = sr;
+	e[E14] = 0.0f;
+
+	e[E21] = 0.0f;
+	e[E22] = 1.0f;
+	e[E23] = 0.0f;
+	e[E24] = 0.0f;
+
+	e[E31] = -sr;
+	e[E32] = 0.0f;
+	e[E33] = cr;
+	e[E34] = 0.0f;
+
+	e[E41] = 0.0f;
+	e[E42] = 0.0f;
+	e[E43] = 0.0f;
+	e[E44] = 1.0f;
+
 }
-
-void Matrix4x4::MakeRotateZ(float radian)
-{
-	// 
-	// [ cos(r)  -sin(r)  0  0 ]
-	// [ sin(r)   cos(r)  0  0 ]
-	// [ 0        0       1  0 ]
-	// [ 0        0       0  1 ]
-	// 
-	float cr = cosf(radian);
-	float sr = sinf(radian);
-
-	e[E11] = cr;	e[E12] =-sr;	e[E13] = 0.0f;	e[E14] = 0.0f;
-	e[E21] = sr;	e[E22] = cr;	e[E23] = 0.0f;	e[E24] = 0.0f;
-	e[E31] = 0.0f;	e[E32] = 0.0f;	e[E33] = 1.0f;	e[E34] = 0.0f;
-	e[E41] = 0.0f;	e[E42] = 0.0f;	e[E43] = 0.0f;	e[E44] = 1.0f;
-}
-
 void Matrix4x4::MakeScale(float x, float y, float z)
 {
 	//
@@ -162,12 +209,12 @@ void Matrix4x4::MakeScale(float x, float y, float z)
 	//[0	0	z	0]
 	//[0	0	0	1]
 	//
+
 	e[E11] = x;		e[E12] = 0.0f;	e[E13] = 0.0f;	e[E14] = 0.0f;
 	e[E21] = 0.0f;	e[E22] = y;		e[E23] = 0.0f;	e[E24] = 0.0f;
 	e[E31] = 0.0f;	e[E32] = 0.0f;	e[E33] = z;		e[E34] = 0.0f;
 	e[E41] = 0.0f;	e[E42] = 0.0f;	e[E43] =0.0f;	e[E44] = 1.0f;
 }
-
 void Matrix4x4::MakeTranslate(float x, float y, float z)
 {
 	//
@@ -176,18 +223,55 @@ void Matrix4x4::MakeTranslate(float x, float y, float z)
 	//[0	0	1	z]
 	//[0	0	0	1]
 	//
+
 	e[E11] = 1.0f; e[E12] = 0.0f; e[E13] = 0.0f; e[E14] = x;
 	e[E21] = 0.0f; e[E22] = 1.0f; e[E23] = 0.0f; e[E24] = y;
 	e[E31] = 0.0f; e[E32] = 0.0f; e[E33] = 1.0f; e[E34] = z;
 	e[E41] = 0.0f; e[E42] = 0.0f; e[E43] = 0.0f; e[E44] = 1;
 }
-
-void Matrix4x4::Invert()
+void Matrix4x4::Inverse()
 {
 	//|A*| = |A|^(n-1)
+	float fa0 = e[E11]*e[E22] - e[E12]*e[E21];
+	float fa1 = e[E11]*e[E23] - e[E13]*e[E21];
+	float fa2 = e[E11]*e[E24] - e[E14]*e[E21];
+	float fa3 = e[E12]*e[E23] - e[E13]*e[E22];
+	float fa4 = e[E12]*e[E24] - e[E14]*e[E22];
+	float fa5 = e[E13]*e[E24] - e[E14]*e[E23];
+
+	float fb0 = e[E31]*e[E42] - e[E32]*e[E41];
+	float fb1 = e[E31]*e[E43] - e[E33]*e[E41];
+	float fb2 = e[E31]*e[E44] - e[E34]*e[E41];
+	float fb3 = e[E32]*e[E43] - e[E33]*e[E42];
+	float fb4 = e[E32]*e[E44] - e[E34]*e[E42];
+	float fb5 = e[E33]*e[E44] - e[E34]*e[E43];
+
+	float del = fa0*fb5-fa1*fb4+fa2*fb3+fa3*fb2-fa4*fb1+fa5*fb0;
+
+	Matrix4x4 adjoint;
+
+	adjoint.e[E11] = +e[E22]*fb5 - e[E23]*fb4 + e[E33]*fb3;
+	adjoint.e[E12] = -e[E12]*fb5 + e[E13]*fb4 - e[E14]*fb3;
+	adjoint.e[E13] = +e[E42]*fa5 - e[E43]*fa4 + e[E44]*fa3;
+	adjoint.e[E14] = -e[E32]*fa5 + e[E33]*fa4 + e[E34]*fa3;
+
+	adjoint.e[E21] = -e[E21]*fb5 + e[E23]*fb2 - e[E24]*fb1;
+	adjoint.e[E22] = +e[E11]*fb5 - e[E13]*fb2 + e[E14]*fb1;
+	adjoint.e[E23] = -e[E41]*fa5 - e[E43]*fa4 + e[E44]*fa3;
+	adjoint.e[E24] = +e[E31]*fa5 - e[E33]*fa4 + e[E34]*fa3;
+
+	adjoint.e[E31] = +e[E21]*fb4 - e[E22]*fb2 + e[E24]*fb0;
+	adjoint.e[E32] = -e[E11]*fb4 + e[E13]*fb2 - e[E14]*fb0;
+	adjoint.e[E33] = +e[E41]*fa4 - e[E42]*fa2 + e[E44]*fa0;
+	adjoint.e[E34] = -e[E41]*fa4 - e[E42]*fa2 + e[E44]*fa0;
+
+	adjoint.e[E41] = -e[E21]*fb3 + e[E22]*fb1 - e[E23]*fb0;
+	adjoint.e[E42] = +e[E11]*fb3 - e[E12]*fb1 + e[E13]*fb0;
+	adjoint.e[E43] = -e[E41]*fa3 + e[E42]*fa1 - e[E43]*fa0;
+	adjoint.e[E44] = +e[E31]*fa3 + e[E32]*fa1 - e[E33]*fa0;
+
 
 }
-
 Matrix4x4& Matrix4x4::operator*=(const Matrix4x4& m)
 {
 	// “矩阵A与B的乘积矩阵C的第i行第j列的元素c(ij)等于A的第i行于B的第j列的对应元素乘积的和。”（实用数学手册，科学出版社，第二版）
@@ -243,7 +327,6 @@ Matrix4x4& Matrix4x4::operator +=(const Matrix4x4& m)
 	(*this = result);
 	return *this;
 }
-
 Matrix4x4& Matrix4x4::operator -=(const Matrix4x4& m)
 {	
 	Matrix4x4 result;
@@ -269,6 +352,10 @@ Matrix4x4& Matrix4x4::operator -=(const Matrix4x4& m)
 	result.e[E44] = e[E44] - m.e[E44];
 	(*this = result);
 	return *this;
+}
+const float* Matrix4x4::GetAddress() const
+{
+	return e;
 }
 
 Matrix4x4 operator*(const Matrix4x4& m1, const Matrix4x4& m2)

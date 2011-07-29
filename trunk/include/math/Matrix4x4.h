@@ -53,7 +53,7 @@ public:
 };
 
 Matrix4x4 operator*(const Matrix4x4& m1, const Matrix4x4& m2);
-Matrix4x4 operator*(const Matrix4x4& m1, const Vector4& vec);
+Vector4 operator*(const Matrix4x4& m1, const Vector4& vec);
 Matrix4x4 operator+(const Matrix4x4& m1, const Matrix4x4& m2);
 Matrix4x4 operator-(const Matrix4x4& m1, const Matrix4x4& m2);
 #endif // __MATRIX4X4_H__

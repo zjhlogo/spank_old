@@ -145,7 +145,8 @@ void Matirx3x3::Invert()
 	float v1 = e[E11]*e[E22]*e[E33] + e[E12]*e[E23]*e[E31] + e[E13]*e[E21]*e[E32]; 
 	float v2 = e[E13]*e[E22]*e[E31] + e[E23]*e[E32]*e[E11] + e[E33]*e[E12]*e[E21];
 	float det = v1 - v2;
-
+	if( det < 0.00001 && det > -0.00001)
+		return;
 	//°éËæ¾ØÕó
 	Matirx3x3 adjoint;
 

@@ -231,6 +231,7 @@ void Matrix4x4::MakeTranslate(float x, float y, float z)
 }
 void Matrix4x4::Invert()
 {
+	
 	//|A*| = |A|^(n-1)
 	float fa0 = e[E11]*e[E22] - e[E12]*e[E21];
 	float fa1 = e[E11]*e[E23] - e[E13]*e[E21];
@@ -246,50 +247,53 @@ void Matrix4x4::Invert()
 	float fb4 = e[E32]*e[E44] - e[E34]*e[E42];
 	float fb5 = e[E33]*e[E44] - e[E34]*e[E43];
 
-	float del = fa0*fb5-fa1*fb4+fa2*fb3+fa3*fb2-fa4*fb1+fa5*fb0;
-	if( del < 0.00001 && del > -0.00001)
+	float det = fa0*fb5 - fa1*fb4 + fa2*fb3 + fa3*fb2 - fa4*fb1 + fa5*fb0;
+	if( det < 0.00001 && det > -0.00001)
 		return;
+	det = (1.0f) / det;  
 	Matrix4x4 adjoint;
 
-	adjoint.e[E11] = +e[E22]*fb5 - e[E23]*fb4 + e[E33]*fb3;
+	adjoint.e[E11] = +e[E22]*fb5 - e[E23]*fb4 + e[E24]*fb3; 
 	adjoint.e[E12] = -e[E12]*fb5 + e[E13]*fb4 - e[E14]*fb3;
 	adjoint.e[E13] = +e[E42]*fa5 - e[E43]*fa4 + e[E44]*fa3;
-	adjoint.e[E14] = -e[E32]*fa5 + e[E33]*fa4 + e[E34]*fa3;
+	adjoint.e[E14] = -e[E32]*fa5 + e[E33]*fa4 - e[E34]*fa3;
 
 	adjoint.e[E21] = -e[E21]*fb5 + e[E23]*fb2 - e[E24]*fb1;
 	adjoint.e[E22] = +e[E11]*fb5 - e[E13]*fb2 + e[E14]*fb1;
-	adjoint.e[E23] = -e[E41]*fa5 - e[E43]*fa4 + e[E44]*fa3;
-	adjoint.e[E24] = +e[E31]*fa5 - e[E33]*fa4 + e[E34]*fa3;
+	adjoint.e[E23] = -e[E41]*fa5 + e[E43]*fa2 - e[E44]*fa1;
+	adjoint.e[E24] = +e[E31]*fa5 - e[E33]*fa2 + e[E34]*fa1;
 
 	adjoint.e[E31] = +e[E21]*fb4 - e[E22]*fb2 + e[E24]*fb0;
-	adjoint.e[E32] = -e[E11]*fb4 + e[E13]*fb2 - e[E14]*fb0;
+	adjoint.e[E32] = -e[E11]*fb4 + e[E12]*fb2 - e[E14]*fb0;
 	adjoint.e[E33] = +e[E41]*fa4 - e[E42]*fa2 + e[E44]*fa0;
-	adjoint.e[E34] = -e[E41]*fa4 - e[E42]*fa2 + e[E44]*fa0;
+
+	adjoint.e[E34] = -e[E31]*fa4 + e[E32]*fa2 - e[E34]*fa0;
 
 	adjoint.e[E41] = -e[E21]*fb3 + e[E22]*fb1 - e[E23]*fb0;
 	adjoint.e[E42] = +e[E11]*fb3 - e[E12]*fb1 + e[E13]*fb0;
 	adjoint.e[E43] = -e[E41]*fa3 + e[E42]*fa1 - e[E43]*fa0;
-	adjoint.e[E44] = +e[E31]*fa3 + e[E32]*fa1 - e[E33]*fa0;
+	adjoint.e[E44] = +e[E31]*fa3 - e[E32]*fa1 + e[E33]*fa0;
 
-	e[E11] = adjoint.e[E11] * del;
-	e[E12] = adjoint.e[E12] * del;
-	e[E13] = adjoint.e[E13] * del;
-	e[E14] = adjoint.e[E14] * del;
+	//displayMatirx4x4(adjoint);
+	e[E11] = adjoint.e[E11] * det;
+	e[E12] = adjoint.e[E12] * det;
+	e[E13] = adjoint.e[E13] * det;
+	e[E14] = adjoint.e[E14] * det;
 
-	e[E21] = adjoint.e[E21] * del;
-	e[E22] = adjoint.e[E22] * del;
-	e[E23] = adjoint.e[E23] * del;
-	e[E24] = adjoint.e[E24] * del;
+	e[E21] = adjoint.e[E21] * det;
+	e[E22] = adjoint.e[E22] * det;
+	e[E23] = adjoint.e[E23] * det;
+	e[E24] = adjoint.e[E24] * det;
 
-	e[E31] = adjoint.e[E31] * del;
-	e[E32] = adjoint.e[E32] * del;
-	e[E33] = adjoint.e[E33] * del;
-	e[E34] = adjoint.e[E34] * del;
+	e[E31] = adjoint.e[E31] * det;
+	e[E32] = adjoint.e[E32] * det;
+	e[E33] = adjoint.e[E33] * det;
+	e[E34] = adjoint.e[E34] * det;
 
-	e[E41] = adjoint.e[E41] * del;
-	e[E42] = adjoint.e[E42] * del;
-	e[E43] = adjoint.e[E43] * del;
-	e[E44] = adjoint.e[E44] * del;
+	e[E41] = adjoint.e[E41] * det;
+	e[E42] = adjoint.e[E42] * det;
+	e[E43] = adjoint.e[E43] * det;
+	e[E44] = adjoint.e[E44] * det;
 
 
 }

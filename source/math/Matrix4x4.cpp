@@ -403,3 +403,61 @@ Matrix4x4 operator*(const Matrix4x4& m1, const Matrix4x4& m2)
 	result.e[Matrix4x4::E44] = m1.e[Matrix4x4::E41]*m2.e[Matrix4x4::E14] + m1.e[Matrix4x4::E42]*m2.e[Matrix4x4::E24] + m1.e[Matrix4x4::E43]*m2.e[Matrix4x4::E34] + m1.e[Matrix4x4::E44]*m2.e[Matrix4x4::E44];
 	return result;
 }
+Vector4 operator*(const Matrix4x4& m1, const Vector4& vec)
+{
+	
+	
+	Vector4 result;
+	//TODO:
+	return result;
+}
+Matrix4x4 operator+(const Matrix4x4& m1, const Matrix4x4& m2)
+{
+	Matrix4x4 result;
+	result.e[Matrix4x4::E11] = m1.e[Matrix4x4::E11] + m2.e[Matrix4x4::E11];
+	result.e[Matrix4x4::E12] = m1.e[Matrix4x4::E12] + m2.e[Matrix4x4::E12];
+	result.e[Matrix4x4::E13] = m1.e[Matrix4x4::E13] + m2.e[Matrix4x4::E13];
+	result.e[Matrix4x4::E14] = m1.e[Matrix4x4::E14] + m2.e[Matrix4x4::E14];
+
+	result.e[Matrix4x4::E21] = m1.e[Matrix4x4::E21] + m2.e[Matrix4x4::E21];
+	result.e[Matrix4x4::E22] = m1.e[Matrix4x4::E22] + m2.e[Matrix4x4::E22];
+	result.e[Matrix4x4::E23] = m1.e[Matrix4x4::E23] + m2.e[Matrix4x4::E23];
+	result.e[Matrix4x4::E24] = m1.e[Matrix4x4::E24] + m2.e[Matrix4x4::E24];
+
+	result.e[Matrix4x4::E31] = m1.e[Matrix4x4::E31] + m2.e[Matrix4x4::E31];
+	result.e[Matrix4x4::E32] = m1.e[Matrix4x4::E32] + m2.e[Matrix4x4::E32];
+	result.e[Matrix4x4::E33] = m1.e[Matrix4x4::E33] + m2.e[Matrix4x4::E33];
+	result.e[Matrix4x4::E34] = m1.e[Matrix4x4::E34] + m2.e[Matrix4x4::E34];
+
+	result.e[Matrix4x4::E41] = m1.e[Matrix4x4::E41] + m2.e[Matrix4x4::E41];
+	result.e[Matrix4x4::E42] = m1.e[Matrix4x4::E42] + m2.e[Matrix4x4::E42];
+	result.e[Matrix4x4::E43] = m1.e[Matrix4x4::E43] + m2.e[Matrix4x4::E43];
+	result.e[Matrix4x4::E44] = m1.e[Matrix4x4::E44] + m2.e[Matrix4x4::E44];
+
+	return result;
+}
+Matrix4x4 operator-(const Matrix4x4& m1, const Matrix4x4& m2)
+{
+	Matrix4x4 result;
+	result.e[Matrix4x4::E11] = m1.e[Matrix4x4::E11] - m2.e[Matrix4x4::E11];
+	result.e[Matrix4x4::E12] = m1.e[Matrix4x4::E12] - m2.e[Matrix4x4::E12];
+	result.e[Matrix4x4::E13] = m1.e[Matrix4x4::E13] - m2.e[Matrix4x4::E13];
+	result.e[Matrix4x4::E14] = m1.e[Matrix4x4::E14] - m2.e[Matrix4x4::E14];
+
+	result.e[Matrix4x4::E21] = m1.e[Matrix4x4::E21] - m2.e[Matrix4x4::E21];
+	result.e[Matrix4x4::E22] = m1.e[Matrix4x4::E22] - m2.e[Matrix4x4::E22];
+	result.e[Matrix4x4::E23] = m1.e[Matrix4x4::E23] - m2.e[Matrix4x4::E23];
+	result.e[Matrix4x4::E24] = m1.e[Matrix4x4::E24] - m2.e[Matrix4x4::E24];
+
+	result.e[Matrix4x4::E31] = m1.e[Matrix4x4::E31] - m2.e[Matrix4x4::E31];
+	result.e[Matrix4x4::E32] = m1.e[Matrix4x4::E32] - m2.e[Matrix4x4::E32];
+	result.e[Matrix4x4::E33] = m1.e[Matrix4x4::E33] - m2.e[Matrix4x4::E33];
+	result.e[Matrix4x4::E34] = m1.e[Matrix4x4::E34] - m2.e[Matrix4x4::E34];
+
+	result.e[Matrix4x4::E41] = m1.e[Matrix4x4::E41] - m2.e[Matrix4x4::E41];
+	result.e[Matrix4x4::E42] = m1.e[Matrix4x4::E42] - m2.e[Matrix4x4::E42];
+	result.e[Matrix4x4::E43] = m1.e[Matrix4x4::E43] - m2.e[Matrix4x4::E43];
+	result.e[Matrix4x4::E44] = m1.e[Matrix4x4::E44] - m2.e[Matrix4x4::E44];
+
+	return result;
+}

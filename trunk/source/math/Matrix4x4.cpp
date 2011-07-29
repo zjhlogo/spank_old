@@ -229,7 +229,7 @@ void Matrix4x4::MakeTranslate(float x, float y, float z)
 	e[E31] = 0.0f; e[E32] = 0.0f; e[E33] = 1.0f; e[E34] = z;
 	e[E41] = 0.0f; e[E42] = 0.0f; e[E43] = 0.0f; e[E44] = 1;
 }
-void Matrix4x4::Inverse()
+void Matrix4x4::Invert()
 {
 	//|A*| = |A|^(n-1)
 	float fa0 = e[E11]*e[E22] - e[E12]*e[E21];
@@ -352,10 +352,6 @@ Matrix4x4& Matrix4x4::operator -=(const Matrix4x4& m)
 	result.e[E44] = e[E44] - m.e[E44];
 	(*this = result);
 	return *this;
-}
-const float* Matrix4x4::GetAddress() const
-{
-	return e;
 }
 
 Matrix4x4 operator*(const Matrix4x4& m1, const Matrix4x4& m2)

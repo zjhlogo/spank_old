@@ -30,6 +30,11 @@ public:
 			  float e41, float e42, float e43, float e44);
 	~Matrix4x4();
 
+	Vector3 GetTranslate();
+
+	Matrix4x4& SetTranslate(const Vector3& v);
+	Matrix4x4& SetTranslate(float x, float y, float z);
+
 	Matrix4x4& Translate(const Vector3& v);
 	Matrix4x4& Translate(float x, float y, float z);
 
@@ -39,6 +44,10 @@ public:
 	Matrix4x4& Transport();
 	float Det();
 	bool Invert();
+
+	Vector3 GetAxisX();
+	Vector3 GetAxisY();
+	Vector3 GetAxisZ();
 
 	Matrix4x4& operator+=(const Matrix4x4& m);
 	Matrix4x4& operator-=(const Matrix4x4& m);

@@ -39,6 +39,10 @@ public:
 	float Det();
 	bool Invert();
 
+	Vector3 GetAxisX();
+	Vector3 GetAxisY();
+	Vector3 GetAxisZ();
+
 	Matrix3x3& operator*=(const Matrix3x3& m);
 	Matrix3x3& operator+=(const Matrix3x3& m);
 	Matrix3x3& operator-=(const Matrix3x3& m);

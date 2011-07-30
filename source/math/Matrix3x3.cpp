@@ -37,13 +37,27 @@ Matrix3x3::~Matrix3x3()
 
 Matrix3x3& Matrix3x3::Scale(const Vector3& v)
 {
-	e[E11] *= v.x; e[E22] *= v.y; e[E33] *= v.z;
+	//
+	// [ *x    N/E   N/E ]
+	// [ N/E   *y    N/E ]
+	// [ N/E   N/E   *z  ]
+	//
+	e[E11] *= v.x;
+	e[E22] *= v.y;
+	e[E33] *= v.z;
 	return (*this);
 }
 
 Matrix3x3& Matrix3x3::Scale(float x, float y, float z)
 {
-	e[E11] *= x; e[E22] *= y; e[E33] *= z;
+	//
+	// [ *x    N/E   N/E ]
+	// [ N/E   *y    N/E ]
+	// [ N/E   N/E   *z  ]
+	//
+	e[E11] *= x;
+	e[E22] *= y;
+	e[E33] *= z;
 	return (*this);
 }
 
@@ -103,6 +117,21 @@ bool Matrix3x3::Invert()
 	e[E32] = matAdjoint.e[E32] * fInvDet;
 	e[E33] = matAdjoint.e[E33] * fInvDet;
 	return true;
+}
+
+Vector3 Matrix3x3::GetAxisX()
+{
+	return Vector3(e[E11], e[E21], e[E31]);
+}
+
+Vector3 Matrix3x3::GetAxisY()
+{
+	return Vector3(e[E12], e[E22], e[E32]);
+}
+
+Vector3 Matrix3x3::GetAxisZ()
+{
+	return Vector3(e[E13], e[E23], e[E33]);
 }
 
 Matrix3x3& Matrix3x3::operator*=(const Matrix3x3& m)

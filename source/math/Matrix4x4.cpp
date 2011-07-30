@@ -38,13 +38,46 @@ Matrix4x4::~Matrix4x4()
 	// TODO: 
 }
 
+Vector3 Matrix4x4::GetTranslate()
+{
+	return Vector3(e[E14], e[E24], e[E34]);
+}
+
+Matrix4x4& Matrix4x4::SetTranslate(const Vector3& v)
+{
+	//
+	// [ N/E  N/E  N/E   x  ]
+	// [ N/E  N/E  N/E   y  ]
+	// [ N/E  N/E  N/E   z  ]
+	// [ N/E  N/E  N/E  N/E ]
+	//
+	e[E14] = v.x;
+	e[E24] = v.y;
+	e[E34] = v.z;
+	return (*this);
+}
+
+Matrix4x4& Matrix4x4::SetTranslate(float x, float y, float z)
+{
+	//
+	// [ N/E  N/E  N/E   x  ]
+	// [ N/E  N/E  N/E   y  ]
+	// [ N/E  N/E  N/E   z  ]
+	// [ N/E  N/E  N/E  N/E ]
+	//
+	e[E14] = x;
+	e[E24] = y;
+	e[E34] = z;
+	return (*this);
+}
+
 Matrix4x4& Matrix4x4::Translate(const Vector3& v)
 {
 	//
-	//[1	0	0	x]
-	//[0	1	0	y]
-	//[0	0	1	z]
-	//[0	0	0	1]
+	// [ N/E  N/E  N/E  +x  ]
+	// [ N/E  N/E  N/E  +y  ]
+	// [ N/E  N/E  N/E  +z  ]
+	// [ N/E  N/E  N/E  N/E ]
 	//
 	e[E14] += v.x;
 	e[E24] += v.y;
@@ -55,10 +88,10 @@ Matrix4x4& Matrix4x4::Translate(const Vector3& v)
 Matrix4x4& Matrix4x4::Translate(float x, float y, float z)
 {
 	//
-	//[1	0	0	x]
-	//[0	1	0	y]
-	//[0	0	1	z]
-	//[0	0	0	1]
+	// [ N/E  N/E  N/E  +x  ]
+	// [ N/E  N/E  N/E  +y  ]
+	// [ N/E  N/E  N/E  +z  ]
+	// [ N/E  N/E  N/E  N/E ]
 	//
 	e[E14] += x;
 	e[E24] += y;
@@ -69,10 +102,10 @@ Matrix4x4& Matrix4x4::Translate(float x, float y, float z)
 Matrix4x4& Matrix4x4::Scale(const Vector3& v)
 {
 	//
-	//[x	0	0	0]
-	//[0	y	0	0]
-	//[0	0	z	0]
-	//[0	0	0	1]
+	// [ *x    N/E   N/E   N/E ]
+	// [ N/E   *y    N/E   N/E ]
+	// [ N/E   N/E   *z    N/E ]
+	// [ N/E   N/E   N/E   N/E ]
 	//
 	e[E11] *= v.x;
 	e[E22] *= v.y;
@@ -83,10 +116,10 @@ Matrix4x4& Matrix4x4::Scale(const Vector3& v)
 Matrix4x4& Matrix4x4::Scale(float x, float y, float z)
 {
 	//
-	//[x	0	0	0]
-	//[0	y	0	0]
-	//[0	0	z	0]
-	//[0	0	0	1]
+	// [ *x    N/E   N/E   N/E ]
+	// [ N/E   *y    N/E   N/E ]
+	// [ N/E   N/E   *z    N/E ]
+	// [ N/E   N/E   N/E   N/E ]
 	//
 	e[E11] *= x;
 	e[E22] *= y;
@@ -191,6 +224,21 @@ bool Matrix4x4::Invert()
 	e[E44] = matAdjoint.e[E44] * fInvDet;
 
 	return true;
+}
+
+Vector3 Matrix4x4::GetAxisX()
+{
+	return Vector3(e[E11], e[E21], e[E31]);
+}
+
+Vector3 Matrix4x4::GetAxisY()
+{
+	return Vector3(e[E12], e[E22], e[E32]);
+}
+
+Vector3 Matrix4x4::GetAxisZ()
+{
+	return Vector3(e[E13], e[E23], e[E33]);
 }
 
 Matrix4x4& Matrix4x4::operator +=(const Matrix4x4& m)

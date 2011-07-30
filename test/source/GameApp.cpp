@@ -52,7 +52,7 @@ void GameApp::Update(float dt)
 	static float s_fTotalTime = 0.0f;
 	s_fTotalTime += dt;
 
-	m_matRot.MakeRotateZ(s_fTotalTime);
+	IMath::BuildRotateMatrixZ(m_matRot, s_fTotalTime);
 }
 
 void GameApp::Render()
@@ -61,6 +61,7 @@ void GameApp::Render()
 	float height = (float)m_pTexture[m_nIndex]->GetHeight();
 
 	Matrix4x4 matResult = IRenderer2D::GetInstance().GetProjectionMatrix() * m_matRot;
+	matResult.Transport();
 	IRenderer2D::GetInstance().SetMatrix(&matResult);
 	IRenderer2D::GetInstance().SetTexture(m_pTexture[m_nIndex]);
 	IRenderer2D::GetInstance().DrawRect(0.0f, 0.0f, width, height);

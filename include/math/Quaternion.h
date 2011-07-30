@@ -12,6 +12,7 @@ class Quaternion
 {
 public:
 	Quaternion();
+	Quaternion(const Quaternion& q);
 	Quaternion(float x, float y, float z, float w);
 	~Quaternion();
 

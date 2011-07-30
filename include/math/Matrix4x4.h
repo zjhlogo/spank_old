@@ -14,46 +14,45 @@
 class Matrix4x4
 {
 public:
-	// open gl matrix elements order
-	enum OGL_ELEMENT_ORDER
+	enum GL_ELEMENT_ORDER
 	{
-		E11 = 0, E12 = 4, E13 = 8,  E14 = 12,
-		E21 = 1, E22 = 5, E23 = 9,  E24 = 13,
-		E31 = 2, E32 = 6, E33 = 10, E34 = 14,
-		E41 = 3, E42 = 7, E43 = 11, E44 = 15,
+		E11 = 0,  E12 = 1,  E13 = 2,  E14 = 3,
+		E21 = 4,  E22 = 5,  E23 = 6,  E24 = 7,
+		E31 = 8,  E32 = 9,  E33 = 10, E34 = 11,
+		E41 = 12, E42 = 13, E43 = 14, E44 = 15,
 	};
 
 	Matrix4x4();
+	Matrix4x4(const Matrix4x4& m);
 	Matrix4x4(float e11, float e12, float e13, float e14,
-              float e21, float e22, float e23, float e24,
-              float e31, float e32, float e33, float e34,
-              float e41, float e42, float e43, float e44);
+			  float e21, float e22, float e23, float e24,
+			  float e31, float e32, float e33, float e34,
+			  float e41, float e42, float e43, float e44);
 	~Matrix4x4();
 
-	void MakeIdentity();
-	void MakeZero();
+	Matrix4x4& Translate(const Vector3& v);
+	Matrix4x4& Translate(float x, float y, float z);
 
-	void MakeOrtho(float left, float right, float bottom, float top, float near, float far);
-	void MakeFrustum(float left, float right, float bottom, float top, float near, float far);
+	Matrix4x4& Scale(const Vector3& v);
+	Matrix4x4& Scale(float x, float y, float z);
 
-	void MakeRotateX(float radian);
-	void MakeRotateY(float radian);
-	void MakeRotateZ(float radian);
-	void MakeScale(float x, float y, float z);
-	void MakeTranslate(float x, float y, float z);
-	void Invert();
+	Matrix4x4& Transport();
+	float Det();
+	bool Invert();
 
-	Matrix4x4& operator*=(const Matrix4x4& mat);
-	Matrix4x4& operator+=(const Matrix4x4& mat);
-	Matrix4x4& operator-=(const Matrix4x4& mat);
+	Matrix4x4& operator+=(const Matrix4x4& m);
+	Matrix4x4& operator-=(const Matrix4x4& m);
+	Matrix4x4& operator*=(const Matrix4x4& m);
 
 public:
 	float e[16];
 
 };
 
-Matrix4x4 operator*(const Matrix4x4& m1, const Matrix4x4& m2);
-Vector4 operator*(const Matrix4x4& m1, const Vector4& vec);
 Matrix4x4 operator+(const Matrix4x4& m1, const Matrix4x4& m2);
 Matrix4x4 operator-(const Matrix4x4& m1, const Matrix4x4& m2);
+Matrix4x4 operator*(const Matrix4x4& m1, const Matrix4x4& m2);
+
+Vector4 operator*(const Matrix4x4& m, const Vector4& v);
+
 #endif // __MATRIX4X4_H__

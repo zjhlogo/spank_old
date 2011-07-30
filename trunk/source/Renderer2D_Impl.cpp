@@ -45,7 +45,7 @@ bool Renderer2D_Impl::Initialize()
 
 	int winWidth = IConfig::GetInstance().GetInt("WINDOW_WIDTH");
 	int winHeight = IConfig::GetInstance().GetInt("WINDOW_HEIGHT");
-	m_matOrtho.MakeOrtho(-winWidth/2.0f, winWidth/2.0f, -winHeight/2.0f, winHeight/2.0f, 1000.0f, -1000.0f);
+	IMath::BuildOrthoMatrix(m_matOrtho, -winWidth/2.0f, winWidth/2.0f, -winHeight/2.0f, winHeight/2.0f, 1000.0f, -1000.0f);
 
 	return true;
 }

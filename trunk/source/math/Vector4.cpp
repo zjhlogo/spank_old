@@ -6,16 +6,22 @@
  * \author zjhlogo (zjhlogo@gmail.com)
  */
 #include <math/Vector4.h>
+#include <math/IMath.h>
 #include <math.h>
 
 Vector4::Vector4()
 {
 	//TODO:
 }
-Vector4::~Vector4()
+
+Vector4::Vector4(const Vector4& v)
 {
-	//TODO:
+	x = v.x;
+	y = v.y;
+	z = v.z;
+	w = v.w;
 }
+
 Vector4::Vector4(float x, float y, float z,float w)
 {
 	this->x = x;
@@ -24,48 +30,33 @@ Vector4::Vector4(float x, float y, float z,float w)
 	this->w = w;
 }
 
-float Vector4::GetLength() const
+Vector4::~Vector4()
+{
+	//TODO:
+}
+
+float Vector4::Length() const
 {
 	return sqrtf(x*x + y*y +z*z +w*w);
 }
 
-float Vector4::GetSquaredLength() const
+bool Vector4::Normalize()
 {
-	return x*x + y*y +z*z +w*w;
+	float fMag = sqrtf(x*x + y*y +z*z +w*w);
+	if (fMag <= IMath::FLOAT_MIN) return false;
+
+	float fInvMag = (1.0f) / fMag;
+	x *= fInvMag;
+	y *= fInvMag;
+	z *= fInvMag;
+	w *= fInvMag;
+
+	return true;
 }
 
-void Vector4::Normalize()
+Vector4 Vector4::operator-() const
 {
-	float fMag = GetLength();
-
-	if(fMag > 0)
-	{
-		float fInvMag = (1.0f) / fMag;
-
-		x *= fInvMag;
-		y *= fInvMag;
-		z *= fInvMag;
-		w *= fInvMag;
-	}
-}
-
-Vector4& Vector4::operator *=(float s)
-{
-	x *= s;
-	y *= s;
-	z *= s;
-	w *= s;
-	return *this;
-}
-
-Vector4& Vector4::operator /=(float s)
-{
-	x /= s;
-	y /= s;
-	z /= s;
-	w /= s;
-
-	return *this;
+	return Vector4(x-1, y-1, z-1, w-1);
 }
 
 Vector4& Vector4::operator +=(const Vector4& v)
@@ -86,10 +77,15 @@ Vector4& Vector4::operator -=(const Vector4& v)
 	return *this;
 }
 
-Vector4 Vector4::operator-() const
+Vector4& Vector4::operator *=(float s)
 {
-	return Vector4(x-1, y-1, z-1, w-1);
+	x *= s;
+	y *= s;
+	z *= s;
+	w *= s;
+	return *this;
 }
+
 Vector4 operator+(const Vector4& v1, const Vector4& v2)
 {
 	Vector4 result;
@@ -101,6 +97,7 @@ Vector4 operator+(const Vector4& v1, const Vector4& v2)
 
 	return result;
 }
+
 Vector4 operator-(const Vector4& v1, const Vector4& v2)
 {
 	Vector4 result;
@@ -111,19 +108,18 @@ Vector4 operator-(const Vector4& v1, const Vector4& v2)
 	result.w = v1.w - v2.w;
 	return result;
 }
+
 float operator*(const Vector4& v1, const Vector4& v2)
 {
 	return (v1.x*v2.x + v1.y*v2.y +v1.z*v2.z+v1.w*v2.w);
 }
+
 Vector4 operator*(float s, const Vector4& v)
 {
 	return Vector4(v.x*s, v.y*s,v.z*s,v.w*s);
 }
+
 Vector4 operator*(const Vector4& v, float s)
 {
 	return Vector4(v.x*s, v.y*s,v.z*s,v.w*s);
-}
-Vector4 operator/(const Vector4& v, float s)
-{
-	return Vector4(v.x/s, v.y/s,v.z/s,v.w/s);
 }

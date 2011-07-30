@@ -1,244 +1,208 @@
+/*!
+ * \file Matrix3x3.cpp
+ * \date 29-07-2011 23:17:42
+ * 
+ * 
+ * \author zjhlogo (zjhlogo@gmail.com)
+ */
 #include <math/Matrix3x3.h>
+#include <math/IMath.h>
 #include <math.h>
 
-Matirx3x3::Matirx3x3()
+Matrix3x3::Matrix3x3()
 {
 	//TODO:
 }
 
-Matirx3x3::~Matirx3x3()
+Matrix3x3::Matrix3x3(const Matrix3x3& m)
+{
+	e[E11] = m.e[E11]; e[E12] = m.e[E12]; e[E13] = m.e[E13];
+	e[E21] = m.e[E21]; e[E22] = m.e[E22]; e[E23] = m.e[E23];
+	e[E31] = m.e[E31]; e[E32] = m.e[E32]; e[E33] = m.e[E33];
+}
+
+Matrix3x3::Matrix3x3(float e11, float e12, float e13,
+					 float e21, float e22, float e23,
+					 float e31, float e32, float e33)
+{
+	e[E11] = e11; e[E12] = e12; e[E13] = e13;
+	e[E21] = e21; e[E22] = e22; e[E23] = e23;
+	e[E31] = e31; e[E32] = e32; e[E33] = e33;
+}
+
+Matrix3x3::~Matrix3x3()
 {
 	//TODO:
 }
 
-void Matirx3x3::MakeIdentity()
+Matrix3x3& Matrix3x3::Scale(const Vector3& v)
 {
-	e[E11] = 1.0f; e[E12] = 0.0f; e[E13] = 0.0f;
-	e[E21] = 0.0f; e[E22] = 1.0f; e[E23] = 0.0f;
-	e[E31] = 0.0f; e[E32] = 0.0f; e[E33] = 1.0f;
+	e[E11] *= v.x; e[E22] *= v.y; e[E33] *= v.z;
+	return (*this);
 }
 
-void Matirx3x3::MakeZero()
+Matrix3x3& Matrix3x3::Scale(float x, float y, float z)
 {
-	e[E11] = 0.0f; e[E12] = 0.0f; e[E13] = 0.0f;
-	e[E21] = 0.0f; e[E22] = 0.0f; e[E23] = 0.0f;
-	e[E31] = 0.0f; e[E32] = 0.0f; e[E33] = 0.0f;
+	e[E11] *= x; e[E22] *= y; e[E33] *= z;
+	return (*this);
 }
 
-void Matirx3x3::MakeRotateZ(float radian)
-{	
-	//
-	//[cos(r)  -sin(r)  0]
-	//[sin(r)   cos(r)  0]
-	//[  0	 	  0	  	1]
-	//
-	float cr = cosf(radian);
-	float sr = sinf(radian);
-	
-	e[E11] = cr;	e[E12] =-sr;	e[E13] = 0.0f;
-	e[E21] = sr;	e[E22] = cr;	e[E23] = 0.0f;
-	e[E31] = 0.0f;	e[E32] = 0.0f;	e[E33] = 1.0f;
-
-}
-
-void Matirx3x3::MakeRotateY(float radian)
+Matrix3x3& Matrix3x3::Transport()
 {
-	//
-	//[cos(r)	0  sin(r)]
-	//[  0		1	0	 ]
-	//[-sin(r)	0  cos(r)]
-	//
+	float temp = 0.0f;
 
-	float cr = cosf(radian);
-	float sr = cosf(radian);
+	temp = e[E12]; e[E12] = e[E21]; e[E21] = temp;
+	temp = e[E13]; e[E13] = e[E31]; e[E31] = temp;
+	temp = e[E23]; e[E23] = e[E32]; e[E32] = temp;
 
-	e[E11] = cr;	e[E12] = 0.0f; e[E13] = sr;
-	e[E21] = 0.0f;	e[E22] = 1.0f; e[E23] = 0.0f;
-	e[E31] =-sr;	e[E32] = 0.0f; e[E33] = cr;
+	return (*this);
 }
 
-void Matirx3x3::MakeRotateX(float radian)
+float Matrix3x3::Det()
 {
-	//
-	//[1	0		    0  ]
-	//[0	cos(r)	-sin(r)]
-	//[0	sin(r)	cos(r) ]
-	//
-
-	float cr = cosf(radian);
-	float sr = sinf(radian);
-
-	e[E11] = 1.0f; e[E12] = 0.0f; e[E13] = 0.0f;
-	e[E21] = 0.0f; e[E22] = cr;   e[E23] =-sr;
-	e[E31] = 0.0f; e[E32] = sr;	  e[E33] = cr;
+	//求行列式
+	float fV1 = e[E11]*e[E22]*e[E33] + e[E12]*e[E23]*e[E31] + e[E13]*e[E21]*e[E32];
+	float fV2 = e[E13]*e[E22]*e[E31] + e[E23]*e[E32]*e[E11] + e[E33]*e[E12]*e[E21];
+	return fV1 - fV2;
 }
 
-void Matirx3x3::MakeScale(float x, float y, float z)
+bool Matrix3x3::Invert()
 {
-	e[E11] = x;	e[E12] = 0;	e[E13] = 0;
-	e[E21] = 0; e[E22] = y; e[E23] = 0;
-	e[E31] = 0; e[E32] = 0; e[E33] = z;
+	//求行列式
+	float fV1 = e[E11]*e[E22]*e[E33] + e[E12]*e[E23]*e[E31] + e[E13]*e[E21]*e[E32];
+	float fV2 = e[E13]*e[E22]*e[E31] + e[E23]*e[E32]*e[E11] + e[E33]*e[E12]*e[E21];
+	float fDet = fV1 - fV2;
+	if (fabsf(fDet) < IMath::FLOAT_MIN) return false;
+
+	//伴随矩阵
+	Matrix3x3 matAdjoint;
+
+	matAdjoint.e[E11] =   e[E22]*e[E33] - e[E23]*e[E32];
+	matAdjoint.e[E22] =   e[E11]*e[E33] - e[E13]*e[E31];
+	matAdjoint.e[E33] =   e[E11]*e[E22] - e[E12]*e[E21];
+
+	matAdjoint.e[E12] = -(e[E12]*e[E33] - e[E13]*e[E32]);
+	matAdjoint.e[E13] =  (e[E12]*e[E23] - e[E13]*e[E22]);
+
+	matAdjoint.e[E21] = -(e[E21]*e[E33] - e[E23]*e[E31]);
+	matAdjoint.e[E23] = -(e[E11]*e[E23] - e[E13]*e[E21]);
+
+	matAdjoint.e[E31] =  (e[E21]*e[E32] -e[E22]*e[E31]);
+	matAdjoint.e[E32] = -(e[E11]*e[E32] -e[E12]*e[E31]);
+
+	float fInvDet = 1.0f/fDet;
+	e[E11] = matAdjoint.e[E11] * fInvDet;
+	e[E12] = matAdjoint.e[E12] * fInvDet;
+	e[E13] = matAdjoint.e[E13] * fInvDet;
+
+	e[E21] = matAdjoint.e[E21] * fInvDet;
+	e[E22] = matAdjoint.e[E22] * fInvDet;
+	e[E23] = matAdjoint.e[E23] * fInvDet;
+
+	e[E31] = matAdjoint.e[E31] * fInvDet;
+	e[E32] = matAdjoint.e[E32] * fInvDet;
+	e[E33] = matAdjoint.e[E33] * fInvDet;
+	return true;
 }
 
-Matirx3x3& Matirx3x3::operator*=(const Matirx3x3& mat)
+Matrix3x3& Matrix3x3::operator*=(const Matrix3x3& m)
 {
 	// “矩阵A与B的乘积矩阵C的第i行第j列的元素c(ij)等于A的第i行于B的第j列的对应元素乘积的和。”（实用数学手册，科学出版社，第二版）
-	Matirx3x3 result;
-	result.e[E11] = e[E11]*mat.e[E11] + e[E12]*mat.e[E21] + e[E13]*mat.e[E31];
-	result.e[E12] = e[E11]*mat.e[E12] + e[E12]*mat.e[E22] + e[E13]*mat.e[E32];
-	result.e[E13] = e[E11]*mat.e[E13] + e[E12]*mat.e[E23] + e[E13]*mat.e[E33];
+	Matrix3x3 result;
+	result.e[E11] = e[E11]*m.e[E11] + e[E12]*m.e[E21] + e[E13]*m.e[E31];
+	result.e[E12] = e[E11]*m.e[E12] + e[E12]*m.e[E22] + e[E13]*m.e[E32];
+	result.e[E13] = e[E11]*m.e[E13] + e[E12]*m.e[E23] + e[E13]*m.e[E33];
 
-	result.e[E21] = e[E21]*mat.e[E11] + e[E22]*mat.e[E21] + e[E23]*mat.e[E31];
-	result.e[E22] = e[E21]*mat.e[E12] +	e[E22]*mat.e[E22] + e[E23]*mat.e[E32];
-	result.e[E23] = e[E21]*mat.e[E13] + e[E22]*mat.e[E23] + e[E23]*mat.e[E33];
+	result.e[E21] = e[E21]*m.e[E11] + e[E22]*m.e[E21] + e[E23]*m.e[E31];
+	result.e[E22] = e[E21]*m.e[E12] + e[E22]*m.e[E22] + e[E23]*m.e[E32];
+	result.e[E23] = e[E21]*m.e[E13] + e[E22]*m.e[E23] + e[E23]*m.e[E33];
 
-	result.e[E31] = e[E31]*mat.e[E11] + e[E32]*mat.e[E21] + e[E33]*mat.e[E31];
-	result.e[E32] = e[E31]*mat.e[E12] + e[E32]*mat.e[E22] + e[E33]*mat.e[E32];
-	result.e[E33] = e[E31]*mat.e[E13] + e[E32]*mat.e[E23] + e[E33]*mat.e[E33];
+	result.e[E31] = e[E31]*m.e[E11] + e[E32]*m.e[E21] + e[E33]*m.e[E31];
+	result.e[E32] = e[E31]*m.e[E12] + e[E32]*m.e[E22] + e[E33]*m.e[E32];
+	result.e[E33] = e[E31]*m.e[E13] + e[E32]*m.e[E23] + e[E33]*m.e[E33];
 
 	(*this) = result;
 	return (*this);
 }
 
-Matirx3x3& Matirx3x3::operator+=(const Matirx3x3& mat)
+Matrix3x3& Matrix3x3::operator+=(const Matrix3x3& m)
 {
-	
-	Matirx3x3 result;
-	result.e[E11] = e[E11] + mat.e[E11]; 
-	result.e[E12] = e[E12] + mat.e[E12]; 
-	result.e[E13] = e[E13] + mat.e[E13]; 
-
-	result.e[E21] = e[E21] + mat.e[E21]; 
-	result.e[E22] = e[E22] + mat.e[E22]; 
-	result.e[E23] = e[E23] + mat.e[E23]; 
-
-	result.e[E31] = e[E31] + mat.e[E31]; 
-	result.e[E32] = e[E32] + mat.e[E32]; 
-	result.e[E33] = e[E33] + mat.e[E33]; 
-	
-	(*this = result);
-	return *this;
+	e[E11] += m.e[E11]; e[E12] += m.e[E12]; e[E13] += m.e[E13];
+	e[E21] += m.e[E21]; e[E22] += m.e[E22]; e[E23] += m.e[E23];
+	e[E31] += m.e[E31]; e[E32] += m.e[E32]; e[E33] += m.e[E33];
+	return (*this);
 }
 
-Matirx3x3& Matirx3x3::operator-=(const Matirx3x3& mat)
+Matrix3x3& Matrix3x3::operator-=(const Matrix3x3& m)
 {
-	Matirx3x3 result;
-	result.e[E11] = e[E11] - mat.e[E11]; 
-	result.e[E12] = e[E12] - mat.e[E12]; 
-	result.e[E13] = e[E13] - mat.e[E13]; 
-
-	result.e[E21] = e[E21] - mat.e[E21]; 
-	result.e[E22] = e[E22] - mat.e[E22]; 
-	result.e[E23] = e[E23] - mat.e[E23]; 
-
-	result.e[E31] = e[E31] - mat.e[E31]; 
-	result.e[E32] = e[E32] - mat.e[E32]; 
-	result.e[E33] = e[E33] - mat.e[E33]; 
-
-	(*this = result);
-	return *this;
+	e[E11] -= m.e[E11]; e[E12] -= m.e[E12]; e[E13] -= m.e[E13];
+	e[E21] -= m.e[E21]; e[E22] -= m.e[E22]; e[E23] -= m.e[E23];
+	e[E31] -= m.e[E31]; e[E32] -= m.e[E32]; e[E33] -= m.e[E33];
+	return (*this);
 }
 
-void Matirx3x3::Invert()
+Matrix3x3 operator*(const Matrix3x3& m1, const Matrix3x3& m2)
 {
-	//求行列式
-	float v1 = e[E11]*e[E22]*e[E33] + e[E12]*e[E23]*e[E31] + e[E13]*e[E21]*e[E32]; 
-	float v2 = e[E13]*e[E22]*e[E31] + e[E23]*e[E32]*e[E11] + e[E33]*e[E12]*e[E21];
-	float det = v1 - v2;
-	if( det < 0.00001 && det > -0.00001)
-		return;
-	//伴随矩阵
-	Matirx3x3 adjoint;
+	Matrix3x3 result;
 
-	adjoint.e[E11] = e[E22]*e[E33] - e[E23]*e[E32];
-	adjoint.e[E22] = e[E11]*e[E33] - e[E13]*e[E31];
-	adjoint.e[E33] = e[E11]*e[E22] - e[E12]*e[E21];
+	result.e[Matrix3x3::E11] = m1.e[Matrix3x3::E11]*m2.e[Matrix3x3::E11] + m1.e[Matrix3x3::E12]*m2.e[Matrix3x3::E21] + m1.e[Matrix3x3::E13]*m2.e[Matrix3x3::E31];
+	result.e[Matrix3x3::E12] = m1.e[Matrix3x3::E11]*m2.e[Matrix3x3::E12] + m1.e[Matrix3x3::E12]*m2.e[Matrix3x3::E22] + m1.e[Matrix3x3::E13]*m2.e[Matrix3x3::E32];
+	result.e[Matrix3x3::E13] = m1.e[Matrix3x3::E11]*m2.e[Matrix3x3::E13] + m1.e[Matrix3x3::E12]*m2.e[Matrix3x3::E23] + m1.e[Matrix3x3::E13]*m2.e[Matrix3x3::E33];
 
-	adjoint.e[E12] = -(e[E12]*e[E33] - e[E13]*e[E32]);//(-1^)(x+y) == -1;
-	adjoint.e[E13] =  (e[E12]*e[E23] - e[E13]*e[E22]);//(-1^)(x+y) == 1;
+	result.e[Matrix3x3::E21] = m1.e[Matrix3x3::E21]*m2.e[Matrix3x3::E11] + m1.e[Matrix3x3::E22]*m2.e[Matrix3x3::E21] + m1.e[Matrix3x3::E23]*m2.e[Matrix3x3::E31];
+	result.e[Matrix3x3::E22] = m1.e[Matrix3x3::E21]*m2.e[Matrix3x3::E12] + m1.e[Matrix3x3::E22]*m2.e[Matrix3x3::E22] + m1.e[Matrix3x3::E23]*m2.e[Matrix3x3::E32];
+	result.e[Matrix3x3::E23] = m1.e[Matrix3x3::E21]*m2.e[Matrix3x3::E13] + m1.e[Matrix3x3::E22]*m2.e[Matrix3x3::E23] + m1.e[Matrix3x3::E23]*m2.e[Matrix3x3::E33];
 
-	adjoint.e[E21] = -(e[E21]*e[E33] - e[E23]*e[E31]);
-	adjoint.e[E23] = -(e[E11]*e[E23] - e[E13]*e[E21]);
-
-	adjoint.e[E31] =  (e[E21]*e[E32] -e[E22]*e[E31]);
-	adjoint.e[E32] = -(e[E11]*e[E32] -e[E12]*e[E31]);
-	
-	e[E11] = adjoint.e[E11] / det; 
-	e[E12] = adjoint.e[E12] / det;
-	e[E13] = adjoint.e[E13] / det;
-
-	e[E21] = adjoint.e[E21] / det;
-	e[E22] = adjoint.e[E22] / det;
-	e[E23] = adjoint.e[E23] / det;
-
-	e[E31] = adjoint.e[E31] / det;
-	e[E32] = adjoint.e[E32] / det;
-	e[E33] = adjoint.e[E33] / det;
-}
-
-Matirx3x3 operator*(const Matirx3x3& m1, const Matirx3x3& m2)
-{
-	Matirx3x3 result;
-
-	result.e[Matirx3x3::E11] = m1.e[Matirx3x3::E11]*m2.e[Matirx3x3::E11] + m1.e[Matirx3x3::E12]*m2.e[Matirx3x3::E21] + m1.e[Matirx3x3::E13]*m2.e[Matirx3x3::E31];
-	result.e[Matirx3x3::E12] = m1.e[Matirx3x3::E11]*m2.e[Matirx3x3::E12] + m1.e[Matirx3x3::E12]*m2.e[Matirx3x3::E22] + m1.e[Matirx3x3::E13]*m2.e[Matirx3x3::E32];
-	result.e[Matirx3x3::E13] = m1.e[Matirx3x3::E11]*m2.e[Matirx3x3::E13] + m1.e[Matirx3x3::E12]*m2.e[Matirx3x3::E23] + m1.e[Matirx3x3::E13]*m2.e[Matirx3x3::E33];
-
-	result.e[Matirx3x3::E21] = m1.e[Matirx3x3::E21]*m2.e[Matirx3x3::E11] + m1.e[Matirx3x3::E22]*m2.e[Matirx3x3::E21] + m1.e[Matirx3x3::E23]*m2.e[Matirx3x3::E31];
-	result.e[Matirx3x3::E22] = m1.e[Matirx3x3::E21]*m2.e[Matirx3x3::E12] + m1.e[Matirx3x3::E22]*m2.e[Matirx3x3::E22] + m1.e[Matirx3x3::E23]*m2.e[Matirx3x3::E32];
-	result.e[Matirx3x3::E23] = m1.e[Matirx3x3::E21]*m2.e[Matirx3x3::E13] + m1.e[Matirx3x3::E22]*m2.e[Matirx3x3::E23] + m1.e[Matirx3x3::E23]*m2.e[Matirx3x3::E33];
-
-	result.e[Matirx3x3::E31] = m1.e[Matirx3x3::E31]*m2.e[Matirx3x3::E11] + m1.e[Matirx3x3::E32]*m2.e[Matirx3x3::E21] + m1.e[Matirx3x3::E33]*m2.e[Matirx3x3::E31];
-	result.e[Matirx3x3::E32] = m1.e[Matirx3x3::E31]*m2.e[Matirx3x3::E12] + m1.e[Matirx3x3::E32]*m2.e[Matirx3x3::E22] + m1.e[Matirx3x3::E33]*m2.e[Matirx3x3::E32];
-	result.e[Matirx3x3::E33] = m1.e[Matirx3x3::E31]*m2.e[Matirx3x3::E13] + m1.e[Matirx3x3::E32]*m2.e[Matirx3x3::E23] + m1.e[Matirx3x3::E33]*m2.e[Matirx3x3::E33];
+	result.e[Matrix3x3::E31] = m1.e[Matrix3x3::E31]*m2.e[Matrix3x3::E11] + m1.e[Matrix3x3::E32]*m2.e[Matrix3x3::E21] + m1.e[Matrix3x3::E33]*m2.e[Matrix3x3::E31];
+	result.e[Matrix3x3::E32] = m1.e[Matrix3x3::E31]*m2.e[Matrix3x3::E12] + m1.e[Matrix3x3::E32]*m2.e[Matrix3x3::E22] + m1.e[Matrix3x3::E33]*m2.e[Matrix3x3::E32];
+	result.e[Matrix3x3::E33] = m1.e[Matrix3x3::E31]*m2.e[Matrix3x3::E13] + m1.e[Matrix3x3::E32]*m2.e[Matrix3x3::E23] + m1.e[Matrix3x3::E33]*m2.e[Matrix3x3::E33];
 	
 	return result;
 }
 
-Vector3 operator*(const Matirx3x3& mat, const Vector3& vec)
+Matrix3x3 operator+(const Matrix3x3& m1, const Matrix3x3& m2)
+{
+	Matrix3x3 result;
+	result.e[Matrix3x3::E11] = m1.e[Matrix3x3::E11] + m2.e[Matrix3x3::E11]; 
+	result.e[Matrix3x3::E12] = m1.e[Matrix3x3::E12] + m2.e[Matrix3x3::E12]; 
+	result.e[Matrix3x3::E13] = m1.e[Matrix3x3::E13] + m2.e[Matrix3x3::E13]; 
+
+	result.e[Matrix3x3::E21] = m1.e[Matrix3x3::E21] + m2.e[Matrix3x3::E21]; 
+	result.e[Matrix3x3::E22] = m1.e[Matrix3x3::E22] + m2.e[Matrix3x3::E22]; 
+	result.e[Matrix3x3::E23] = m1.e[Matrix3x3::E23] + m2.e[Matrix3x3::E23]; 
+
+	result.e[Matrix3x3::E31] = m1.e[Matrix3x3::E31] + m2.e[Matrix3x3::E31]; 
+	result.e[Matrix3x3::E32] = m1.e[Matrix3x3::E32] + m2.e[Matrix3x3::E32]; 
+	result.e[Matrix3x3::E33] = m1.e[Matrix3x3::E33] + m2.e[Matrix3x3::E33]; 
+
+	return result;
+}
+
+Matrix3x3 operator-(const Matrix3x3& m1, const Matrix3x3& m2)
+{
+	Matrix3x3 result;
+	result.e[Matrix3x3::E11] = m1.e[Matrix3x3::E11] - m2.e[Matrix3x3::E11]; 
+	result.e[Matrix3x3::E12] = m1.e[Matrix3x3::E12] - m2.e[Matrix3x3::E12]; 
+	result.e[Matrix3x3::E13] = m1.e[Matrix3x3::E13] - m2.e[Matrix3x3::E13]; 
+
+	result.e[Matrix3x3::E21] = m1.e[Matrix3x3::E21] - m2.e[Matrix3x3::E21]; 
+	result.e[Matrix3x3::E22] = m1.e[Matrix3x3::E22] - m2.e[Matrix3x3::E22]; 
+	result.e[Matrix3x3::E23] = m1.e[Matrix3x3::E23] - m2.e[Matrix3x3::E23]; 
+
+	result.e[Matrix3x3::E31] = m1.e[Matrix3x3::E31] - m2.e[Matrix3x3::E31]; 
+	result.e[Matrix3x3::E32] = m1.e[Matrix3x3::E32] - m2.e[Matrix3x3::E32]; 
+	result.e[Matrix3x3::E33] = m1.e[Matrix3x3::E33] - m2.e[Matrix3x3::E33]; 
+
+	return result;
+}
+
+Vector3 operator*(const Matrix3x3& m, const Vector3& v)
 {
 	Vector3 result;
 
-	result.x = mat.e[Matirx3x3::E11]* vec.x + mat.e[Matirx3x3::E12]* vec.y + mat.e[Matirx3x3::E13]*vec.z;
-	result.y = mat.e[Matirx3x3::E21]* vec.x + mat.e[Matirx3x3::E22]* vec.y + mat.e[Matirx3x3::E23]*vec.z;
-	result.z = mat.e[Matirx3x3::E31]* vec.x + mat.e[Matirx3x3::E32]* vec.y + mat.e[Matirx3x3::E33]*vec.z;
-
-	return result;
-}
-
-Matirx3x3 operator+(const Matirx3x3& m1, const Matirx3x3& m2)
-{
-
-	Matirx3x3 result;
-	result.e[Matirx3x3::E11] = m1.e[Matirx3x3::E11] + m2.e[Matirx3x3::E11]; 
-	result.e[Matirx3x3::E12] = m1.e[Matirx3x3::E12] + m2.e[Matirx3x3::E12]; 
-	result.e[Matirx3x3::E13] = m1.e[Matirx3x3::E13] + m2.e[Matirx3x3::E13]; 
-
-	result.e[Matirx3x3::E21] = m1.e[Matirx3x3::E21] + m2.e[Matirx3x3::E21]; 
-	result.e[Matirx3x3::E22] = m1.e[Matirx3x3::E22] + m2.e[Matirx3x3::E22]; 
-	result.e[Matirx3x3::E23] = m1.e[Matirx3x3::E23] + m2.e[Matirx3x3::E23]; 
-
-	result.e[Matirx3x3::E31] = m1.e[Matirx3x3::E31] + m2.e[Matirx3x3::E31]; 
-	result.e[Matirx3x3::E32] = m1.e[Matirx3x3::E32] + m2.e[Matirx3x3::E32]; 
-	result.e[Matirx3x3::E33] = m1.e[Matirx3x3::E33] + m2.e[Matirx3x3::E33]; 
-	
-	return result;
-}
-
-Matirx3x3 operator-(const Matirx3x3& m1, const Matirx3x3& m2)
-{
-	Matirx3x3 result;
-	result.e[Matirx3x3::E11] = m1.e[Matirx3x3::E11] - m2.e[Matirx3x3::E11]; 
-	result.e[Matirx3x3::E12] = m1.e[Matirx3x3::E12] - m2.e[Matirx3x3::E12]; 
-	result.e[Matirx3x3::E13] = m1.e[Matirx3x3::E13] - m2.e[Matirx3x3::E13]; 
-
-	result.e[Matirx3x3::E21] = m1.e[Matirx3x3::E21] - m2.e[Matirx3x3::E21]; 
-	result.e[Matirx3x3::E22] = m1.e[Matirx3x3::E22] - m2.e[Matirx3x3::E22]; 
-	result.e[Matirx3x3::E23] = m1.e[Matirx3x3::E23] - m2.e[Matirx3x3::E23]; 
-
-	result.e[Matirx3x3::E31] = m1.e[Matirx3x3::E31] - m2.e[Matirx3x3::E31]; 
-	result.e[Matirx3x3::E32] = m1.e[Matirx3x3::E32] - m2.e[Matirx3x3::E32]; 
-	result.e[Matirx3x3::E33] = m1.e[Matirx3x3::E33] - m2.e[Matirx3x3::E33]; 
+	result.x = m.e[Matrix3x3::E11]* v.x + m.e[Matrix3x3::E12]* v.y + m.e[Matrix3x3::E13]*v.z;
+	result.y = m.e[Matrix3x3::E21]* v.x + m.e[Matrix3x3::E22]* v.y + m.e[Matrix3x3::E23]*v.z;
+	result.z = m.e[Matrix3x3::E31]* v.x + m.e[Matrix3x3::E32]* v.y + m.e[Matrix3x3::E33]*v.z;
 
 	return result;
 }

@@ -17,13 +17,34 @@
 class IMath
 {
 public:
-	// TODO: 
+	static void BuildIdentityMatrix(Matrix3x3& matOut);
+	static void BuildIdentityMatrix(Matrix4x4& matOut);
+
+	static void BuildZeroMatrix(Matrix3x3& matOut);
+	static void BuildZeroMatrix(Matrix4x4& matOut);
+
+	static void BuildRotateMatrixX(Matrix3x3& matOut, float fRadian);
+	static void BuildRotateMatrixX(Matrix4x4& matOut, float fRadian);
+
+	static void BuildRotateMatrixY(Matrix3x3& matOut, float fRadian);
+	static void BuildRotateMatrixY(Matrix4x4& matOut, float fRadian);
+
+	static void BuildRotateMatrixZ(Matrix3x3& matOut, float fRadian);
+	static void BuildRotateMatrixZ(Matrix4x4& matOut, float fRadian);
+
+	static void BuildOrthoMatrix(Matrix4x4& matOut, float left, float right, float bottom, float top, float near, float far);
+	static void BuildFrustumMatrix(Matrix4x4& matOut, float left, float right, float bottom, float top, float near, float far);
 
 public:
+	static const float FLOAT_MIN;
+//	static const float FLOAT_MAX;
+
 	static const Vector3 VEC3_ZERO;
 	static const Vector3 VEC3_ONE;
+
 	static const Matrix4x4 MAT4X4_ZERO;
 	static const Matrix4x4 MAT4X4_IDENTITY;
+
 	static const Quaternion ROT_ZERO;
 
 };

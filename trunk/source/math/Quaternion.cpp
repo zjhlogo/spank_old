@@ -12,6 +12,14 @@ Quaternion::Quaternion()
 	// TODO: 
 }
 
+Quaternion::Quaternion(const Quaternion& q)
+{
+	x = q.x;
+	y = q.y;
+	z = q.z;
+	w = q.w;
+}
+
 Quaternion::Quaternion(float x, float y, float z, float w)
 {
 	this->x = x;

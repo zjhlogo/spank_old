@@ -13,8 +13,8 @@ Node_Impl::Node_Impl()
 	m_vPosition = IMath::VEC3_ZERO;
 	m_qRotation = IMath::ROT_ZERO;
 	m_vScale = IMath::VEC3_ONE;
-	m_matLocal.MakeIdentity();
-	m_matFinal.MakeIdentity();
+	IMath::BuildIdentityMatrix(m_matLocal);
+	IMath::BuildIdentityMatrix(m_matFinal);
 }
 
 Node_Impl::~Node_Impl()

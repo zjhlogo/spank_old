@@ -172,6 +172,32 @@ void IMath::BuildRotateMatrixZ(Matrix4x4& matOut, float fRadian)
 	matOut.e[Matrix4x4::E41] = 0.0f; matOut.e[Matrix4x4::E42] = 0.0f; matOut.e[Matrix4x4::E43] = 0.0f; matOut.e[Matrix4x4::E44] = 1.0f;
 }
 
+void IMath::BuildRotateMatrix(Matrix3x3& matOut, const Vector3& vx, const Vector3& vy, const Vector3& vz)
+{
+	//
+	// [ vx.x  vy.x  vz.x ]
+	// [ vx.y  vy.y  vz.y ]
+	// [ vx.z  vy.z  vz.z ]
+	//
+	matOut.e[Matrix3x3::E11] = vx.x; matOut.e[Matrix3x3::E12] = vy.x; matOut.e[Matrix3x3::E13] = vz.x;
+	matOut.e[Matrix3x3::E21] = vx.y; matOut.e[Matrix3x3::E22] = vy.y; matOut.e[Matrix3x3::E23] = vz.y;
+	matOut.e[Matrix3x3::E31] = vx.z; matOut.e[Matrix3x3::E32] = vy.z; matOut.e[Matrix3x3::E33] = vz.z;
+}
+
+void IMath::BuildRotateMatrix(Matrix4x4& matOut, const Vector3& vx, const Vector3& vy, const Vector3& vz)
+{
+	//
+	// [ vx.x  vy.x  vz.x  0 ]
+	// [ vx.y  vy.y  vz.y  0 ]
+	// [ vx.z  vy.z  vz.z  0 ]
+	// [  0     0     0    1 ]
+	//
+	matOut.e[Matrix4x4::E11] = vx.x; matOut.e[Matrix4x4::E12] = vy.x; matOut.e[Matrix4x4::E13] = vz.x; matOut.e[Matrix4x4::E14] = 0.0f;
+	matOut.e[Matrix4x4::E21] = vx.y; matOut.e[Matrix4x4::E22] = vy.y; matOut.e[Matrix4x4::E23] = vz.y; matOut.e[Matrix4x4::E24] = 0.0f;
+	matOut.e[Matrix4x4::E31] = vx.z; matOut.e[Matrix4x4::E32] = vy.z; matOut.e[Matrix4x4::E33] = vz.z; matOut.e[Matrix4x4::E34] = 0.0f;
+	matOut.e[Matrix4x4::E41] = 0.0f; matOut.e[Matrix4x4::E42] = 0.0f; matOut.e[Matrix4x4::E43] = 0.0f; matOut.e[Matrix4x4::E44] = 1.0f;
+}
+
 void IMath::BuildOrthoMatrix(Matrix4x4& matOut, float left, float right, float bottom, float top, float near, float far)
 {
 	// 

@@ -26,7 +26,24 @@ public:
 
 	virtual void DrawTriangleList(const void* pVerts, uint nNumVerts, const ushort* pIndis, uint nNumIndis) = 0;
 	virtual void DrawTriangleStrip(const void* pVerts, uint nNumVerts, const ushort* pIndis, uint nNumIndis) = 0;
+
 	virtual void DrawRect(float x, float y, float width, float height) = 0;
+
+	/*!
+	 * \brief below shows the points order
+	 * 
+	 *     v1---------v3
+	 *     |  \       |
+	 *     |     \    |
+	 *     |        \ |
+	 *     v0---------v2
+	 *
+	 * two triangles: t1(v0, v1, v2) and t1(v1, v3, v2)
+	 *
+	 * \param pVerts
+	 * \return 
+	 */
+	virtual void DrawRect(const void* pVerts) = 0;
 
 };
 #endif // __IRENDERER2D_H__

@@ -241,6 +241,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\IRenderableObject.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\IRenderDevice.h"
 				>
 			</File>
@@ -250,6 +254,10 @@
 			</File>
 			<File
 				RelativePath=".\include\IShaderMgr.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\ISprite.h"
 				>
 			</File>
 			<File
@@ -363,6 +371,14 @@
 		</File>
 		<File
 			RelativePath=".\source\ShaderMgr_Impl.h"
+			>
+		</File>
+		<File
+			RelativePath=".\source\Sprite_Impl.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\source\Sprite_Impl.h"
 			>
 		</File>
 		<File

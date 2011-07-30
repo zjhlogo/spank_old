@@ -36,7 +36,9 @@ public:
 
 	virtual void DrawTriangleList(const void* pVerts, uint nNumVerts, const ushort* pIndis, uint nNumIndis);
 	virtual void DrawTriangleStrip(const void* pVerts, uint nNumVerts, const ushort* pIndis, uint nNumIndis);
+
 	virtual void DrawRect(float x, float y, float width, float height);
+	virtual void DrawRect(const void* pVerts);
 
 private:
 	IShader* m_pShader;

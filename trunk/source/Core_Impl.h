@@ -19,10 +19,20 @@ public:
 	virtual bool Initialize();
 	virtual void Terminate();
 
+	virtual INode* GetRootNode();
+
 	virtual void Update(float dt);
+
 	virtual void PreRender();
 	virtual void Render();
 	virtual void PostRender();
+
+private:
+	bool Init();
+	void Term();
+
+private:
+	INode* m_pRootNode;
 
 };
 #endif // __CORE_IMPL_H__

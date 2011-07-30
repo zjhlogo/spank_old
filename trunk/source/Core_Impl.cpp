@@ -14,6 +14,7 @@
 #include <IShaderMgr.h>
 #include <IRenderer2D.h>
 #include <IGameApp.h>
+#include "Node_Impl.h"
 
 ICore& ICore::GetInstance()
 {
@@ -23,7 +24,7 @@ ICore& ICore::GetInstance()
 
 Core_Impl::Core_Impl()
 {
-	// TODO: 
+	m_pRootNode = NULL;
 }
 
 Core_Impl::~Core_Impl()
@@ -40,6 +41,7 @@ bool Core_Impl::Initialize()
 	if (!ITextureMgr::GetInstance().Initialize()) return false;
 	if (!IShaderMgr::GetInstance().Initialize()) return false;
 	if (!IRenderer2D::GetInstance().Initialize()) return false;
+	if (!Init()) return false;
 	if (!IGameApp::GetInstance().Initialize()) return false;
 	return true;
 }
@@ -47,6 +49,7 @@ bool Core_Impl::Initialize()
 void Core_Impl::Terminate()
 {
 	IGameApp::GetInstance().Terminate();
+	Term();
 	IRenderer2D::GetInstance().Terminate();
 	IShaderMgr::GetInstance().Terminate();
 	ITextureMgr::GetInstance().Terminate();
@@ -54,6 +57,11 @@ void Core_Impl::Terminate()
 	IFileMgr::GetInstance().Terminate();
 	IDebugUtil::GetInstance().Terminate();
 	IConfig::GetInstance().Terminate();
+}
+
+INode* Core_Impl::GetRootNode()
+{
+	return 	m_pRootNode;
 }
 
 void Core_Impl::Update(float dt)
@@ -76,4 +84,15 @@ void Core_Impl::PostRender()
 {
 	IRenderer2D::GetInstance().EndRender2D();
 	IRenderDevice::GetInstance().EndRender();
+}
+
+bool Core_Impl::Init()
+{
+	m_pRootNode = new Node_Impl();
+	return true;
+}
+
+void Core_Impl::Term()
+{
+	SAFE_DELETE(m_pRootNode);
 }

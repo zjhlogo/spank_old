@@ -20,13 +20,13 @@ static void PngReaderCallback(png_structp pPngStruct, png_bytep pData, png_size_
 	}
 }
 
-Texture_Impl::Texture_Impl(const char* pszFileName)
+Texture_Impl::Texture_Impl(const char* pszFileName, SAMPLE_TYPE eSample)
 {
 	m_nWidth = 0;
 	m_nHeight = 0;
 	m_nGLTextureID = 0;
 
-	m_bOK = LoadTextureFromFile(pszFileName);
+	m_bOK = LoadTextureFromFile(pszFileName, eSample);
 }
 
 Texture_Impl::~Texture_Impl()
@@ -49,7 +49,7 @@ GLuint Texture_Impl::GetGLTextureID() const
 	return m_nGLTextureID;
 }
 
-bool Texture_Impl::LoadTextureFromFile(const char* pszFileName)
+bool Texture_Impl::LoadTextureFromFile(const char* pszFileName, SAMPLE_TYPE eSample)
 {
 	StreamReader* pTextureStream = IFileMgr::GetInstance().LoadFile(pszFileName);
 	if (!pTextureStream || !pTextureStream->IsOK())
@@ -148,14 +148,14 @@ bool Texture_Impl::LoadTextureFromFile(const char* pszFileName)
 	SAFE_DELETE_ARRAY(pRowPointers);
 
 	// create gl texture
-	bool bOK = CreateGLTexture(m_nWidth, m_nHeight, pTextureDataRGBA);
+	bool bOK = CreateGLTexture(m_nWidth, m_nHeight, eSample, pTextureDataRGBA);
 	// free texture data
 	SAFE_DELETE_ARRAY(pTextureDataRGBA);
 
 	return bOK;
 }
 
-bool Texture_Impl::CreateGLTexture(uint width, uint height, const uchar* pTextureData)
+bool Texture_Impl::CreateGLTexture(uint width, uint height, SAMPLE_TYPE eSample, const uchar* pTextureData)
 {
 	FreeGLTexture();
 
@@ -165,8 +165,16 @@ bool Texture_Impl::CreateGLTexture(uint width, uint height, const uchar* pTextur
 	glBindTexture(GL_TEXTURE_2D, m_nGLTextureID);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, pTextureData);
 
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	if (eSample == SAMPLE_POINT)
+	{
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	}
+	else
+	{
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	}
 
 	return true;
 }

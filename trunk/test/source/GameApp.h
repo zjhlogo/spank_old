@@ -10,7 +10,7 @@
 
 #include <IGameApp.h>
 #include <ITexture.h>
-#include <IShader.h>
+#include <ISprite.h>
 #include <math/IMath.h>
 
 class GameApp : public IGameApp
@@ -26,10 +26,8 @@ public:
 	virtual void Render();
 
 private:
-	int m_nIndex;
-	ITexture* m_pTexture[6];
-
 	Matrix4x4 m_matRot;
+	ISprite* m_pSprite;
 
 };
 #endif // __GAMEAPP_H__

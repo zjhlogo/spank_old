@@ -9,13 +9,17 @@
 #define __ICORE_H__
 
 #include "IMgr.h"
+#include "INode.h"
 
 class ICore : public IMgr
 {
 public:
 	static ICore& GetInstance();
 
+	virtual INode* GetRootNode() = 0;
+
 	virtual void Update(float dt) = 0;
+
 	virtual void PreRender() = 0;
 	virtual void Render() = 0;
 	virtual void PostRender() = 0;

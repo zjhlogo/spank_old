@@ -14,7 +14,7 @@
 class Texture_Impl : public ITexture
 {
 public:
-	Texture_Impl(const char* pszFileName);
+	Texture_Impl(const char* pszFileName, SAMPLE_TYPE eSample);
 	virtual ~Texture_Impl();
 
 	virtual uint GetWidth() const;
@@ -23,9 +23,9 @@ public:
 	GLuint GetGLTextureID() const;
 
 private:
-	bool LoadTextureFromFile(const char* pszFileName);
+	bool LoadTextureFromFile(const char* pszFileName, SAMPLE_TYPE eSample);
 
-	bool CreateGLTexture(uint width, uint height, const uchar* pTextureData);
+	bool CreateGLTexture(uint width, uint height, SAMPLE_TYPE eSample, const uchar* pTextureData);
 	void FreeGLTexture();
 
 private:

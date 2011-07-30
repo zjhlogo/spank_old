@@ -34,9 +34,9 @@ void TextureMgr_Impl::Terminate()
 	// TODO: 
 }
 
-ITexture* TextureMgr_Impl::CreateTexture(const char* pszFileName)
+ITexture* TextureMgr_Impl::CreateTexture(const char* pszFileName, ITexture::SAMPLE_TYPE eSample /* = ITexture::SAMPLE_POINT */)
 {
-	Texture_Impl* pTexture = new Texture_Impl(pszFileName);
+	Texture_Impl* pTexture = new Texture_Impl(pszFileName, eSample);
 	if (!pTexture || !pTexture->IsOK())
 	{
 		SAFE_DELETE(pTexture);

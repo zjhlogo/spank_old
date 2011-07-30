@@ -118,3 +118,9 @@ void Renderer2D_Impl::DrawRect(float x, float y, float width, float height)
 
 	DrawTriangleList(s_Verts, 4, s_Indis, 6);
 }
+
+void Renderer2D_Impl::DrawRect(const void* pVerts)
+{
+	static const ushort s_Indis[6] = {0, 1, 2, 1, 3, 2};
+	DrawTriangleList(pVerts, 4, s_Indis, 6);
+}

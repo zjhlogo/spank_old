@@ -19,7 +19,7 @@ public:
 	virtual bool Initialize();
 	virtual void Terminate();
 
-	virtual ITexture* CreateTexture(const char* pszFileName);
+	virtual ITexture* CreateTexture(const char* pszFileName, ITexture::SAMPLE_TYPE eSample = ITexture::SAMPLE_POINT);
 
 };
 #endif // __TEXTUREMGR_IMPL_H__

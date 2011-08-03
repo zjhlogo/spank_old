@@ -130,8 +130,8 @@ void Sprite_Impl::CreateVertexs()
 	int nTextureWidth = m_pTexture->GetWidth();
 	int nTextureHeight = m_pTexture->GetHeight();
 
-	float fTextureWidth = (float)m_pTexture->GetWidth();
-	float fTextureHeight = (float)m_pTexture->GetHeight();
+	float fTextureWidth = (float)nTextureWidth;
+	float fTextureHeight = (float)nTextureHeight;
 
 	for (int i = 0; i < m_nNumFrames; ++i)
 	{

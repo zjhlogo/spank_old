@@ -92,7 +92,6 @@ bool Texture_Impl::LoadTextureFromFile(const char* pszFileName, SAMPLE_TYPE eSam
 	m_nHeight = png_get_image_height(pPngStruct, pPngInfo);
 	png_byte nColorType = png_get_color_type(pPngStruct, pPngInfo);	//可以是PNG_COLOR_TYPE_RGB,PNG_COLOR_TYPE_PALETTE.......等
 	png_byte nBitDepth = png_get_bit_depth(pPngStruct, pPngInfo);
-	int nRowBytes = png_get_rowbytes(pPngStruct, pPngInfo);
 
 	// Convert stuff to appropriate formats!
 	if(nColorType == PNG_COLOR_TYPE_PALETTE)

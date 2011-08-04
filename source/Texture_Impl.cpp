@@ -7,18 +7,7 @@
  */
 #include "Texture_Impl.h"
 #include <IFileMgr.h>
-#include <lpng154/png.h>
 #include <GLES2/gl2.h>
-
-static void PngReaderCallback(png_structp pPngStruct, png_bytep pData, png_size_t nSize)
-{
-	StreamReader* pStream = (StreamReader*)png_get_io_ptr(pPngStruct);
-
-	if (!pStream->Read(pData, nSize))
-	{
-		png_error(pPngStruct,"pngReaderCallback failed");
-	}
-}
 
 Texture_Impl::Texture_Impl(const char* pszFileName, SAMPLE_TYPE eSample)
 {
@@ -51,110 +40,19 @@ GLuint Texture_Impl::GetGLTextureID() const
 
 bool Texture_Impl::LoadTextureFromFile(const char* pszFileName, SAMPLE_TYPE eSample)
 {
-	StreamReader* pTextureStream = IFileMgr::GetInstance().LoadFile(pszFileName);
-	if (!pTextureStream || !pTextureStream->IsOK())
-	{
-		SAFE_RELEASE(pTextureStream);
-		return false;
-	}
-
-	png_structp pPngStruct = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
-	if (!pPngStruct)
-	{
-		png_destroy_read_struct(&pPngStruct, NULL, NULL);
-		// TODO: logout
-		SAFE_DELETE(pTextureStream);
-		return false;
-	}
-
-	png_infop pPngInfo = png_create_info_struct(pPngStruct);
-	if (!pPngInfo)
-	{
-		png_destroy_read_struct(&pPngStruct, &pPngInfo, NULL);
-		// TODO: logout
-		SAFE_DELETE(pTextureStream);
-		return false;
-	}
-
-	if (setjmp(png_jmpbuf(pPngStruct)))
-	{
-		png_destroy_read_struct(&pPngStruct, &pPngInfo, NULL);
-		// TODO: logout
-		SAFE_DELETE(pTextureStream);
-		return false;
-	}
-
-	//define our own callback function for I/O instead of reading from a file
-	png_set_read_fn(pPngStruct, pTextureStream, PngReaderCallback);
-
-	png_read_info(pPngStruct, pPngInfo);
-	m_nWidth = png_get_image_width(pPngStruct, pPngInfo);
-	m_nHeight = png_get_image_height(pPngStruct, pPngInfo);
-	png_byte nColorType = png_get_color_type(pPngStruct, pPngInfo);	//可以是PNG_COLOR_TYPE_RGB,PNG_COLOR_TYPE_PALETTE.......等
-	png_byte nBitDepth = png_get_bit_depth(pPngStruct, pPngInfo);
-
-	// Convert stuff to appropriate formats!
-	if(nColorType == PNG_COLOR_TYPE_PALETTE)
-	{
-		png_set_packing(pPngStruct);
-		png_set_palette_to_rgb(pPngStruct); //Expand data to 24-bit RGB or 32-bit RGBA if alpha available.
-	}
-
-	// TODO: why?
-	if (nColorType == PNG_COLOR_TYPE_GRAY && nBitDepth < 8) png_set_expand_gray_1_2_4_to_8(pPngStruct);
-	if (nColorType == PNG_COLOR_TYPE_GRAY_ALPHA) png_set_gray_to_rgb(pPngStruct);
-	if (nBitDepth == 16) png_set_strip_16(pPngStruct);
-
-	//Expand paletted or RGB images with transparency to full alpha channels so the data will be available as RGBA quartets.
-	if(png_get_valid(pPngStruct, pPngInfo, PNG_INFO_tRNS))
-	{
-		png_set_tRNS_to_alpha(pPngStruct);
-	}
-
-	// read image data into pRowPointers
-	uchar** pRowPointers = new uchar*[m_nHeight];
-	for (uint y = 0; y < m_nHeight; y++)
-	{
-		pRowPointers[y] = new uchar[m_nWidth * 4]; //each pixel(RGBA) has 4 bytes
-	}
-	png_read_image(pPngStruct, pRowPointers);
-
-	// free the stream object and png structure
-	png_destroy_read_struct(&pPngStruct, &pPngInfo, NULL);
-	SAFE_RELEASE(pTextureStream);
-
-	// store image data into our pRGBAData
-	uchar* pTextureDataRGBA = new uchar[m_nWidth * m_nHeight * 4];  //each pixel(RGBA) has 4 bytes
-	//unlike store the pixel data from top-left corner, store them from bottom-left corner for OGLES Texture drawing...
-	int nCurrPos = (m_nWidth * m_nHeight * 4) - (4 * m_nWidth);
-	for(uint row = 0; row < m_nHeight; row++)
-	{
-		for(uint col = 0; col < (4 * m_nWidth); col += 4)
-		{
-			pTextureDataRGBA[nCurrPos++] = pRowPointers[row][col];        // red
-			pTextureDataRGBA[nCurrPos++] = pRowPointers[row][col + 1];    // green
-			pTextureDataRGBA[nCurrPos++] = pRowPointers[row][col + 2];    // blue
-			pTextureDataRGBA[nCurrPos++] = pRowPointers[row][col + 3];    // alpha
-		}
-		nCurrPos = (nCurrPos - (m_nWidth * 4) * 2); //move the pointer back two rows
-	}
-
-	// free pRowPointers
-	for (uint y = 0; y < m_nHeight; y++)
-	{
-		SAFE_DELETE_ARRAY(pRowPointers[y]);
-	}
-	SAFE_DELETE_ARRAY(pRowPointers);
+	StreamReader* pTextureStream = IFileMgr::GetInstance().LoadImageFile(pszFileName, &m_nWidth, &m_nHeight);
+	if (!pTextureStream) return false;
 
 	// create gl texture
-	bool bOK = CreateGLTexture(m_nWidth, m_nHeight, eSample, pTextureDataRGBA);
+	bool bOK = CreateGLTexture(m_nWidth, m_nHeight, eSample, pTextureStream->GetBuffer());
+
 	// free texture data
-	SAFE_DELETE_ARRAY(pTextureDataRGBA);
+	SAFE_RELEASE(pTextureStream);
 
 	return bOK;
 }
 
-bool Texture_Impl::CreateGLTexture(uint width, uint height, SAMPLE_TYPE eSample, const uchar* pTextureData)
+bool Texture_Impl::CreateGLTexture(uint width, uint height, SAMPLE_TYPE eSample, const void* pTextureData)
 {
 	FreeGLTexture();
 

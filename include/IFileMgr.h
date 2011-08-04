@@ -17,6 +17,8 @@ public:
 	static IFileMgr& GetInstance();
 
 	virtual StreamReader* LoadFile(const char* pszFileName) = 0;
+	virtual StreamReader* LoadImageFile(const char* pszFileName, uint* pnWidth, uint* pnHeight) = 0;
+
 };
 
 #endif // __IFILEMGR_H__

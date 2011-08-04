@@ -25,7 +25,7 @@ public:
 private:
 	bool LoadTextureFromFile(const char* pszFileName, SAMPLE_TYPE eSample);
 
-	bool CreateGLTexture(uint width, uint height, SAMPLE_TYPE eSample, const uchar* pTextureData);
+	bool CreateGLTexture(uint width, uint height, SAMPLE_TYPE eSample, const void* pTextureData);
 	void FreeGLTexture();
 
 private:

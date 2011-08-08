@@ -121,7 +121,7 @@ StreamReader* FileMgr_Impl::LoadImageFile(const char* pszFileName, uint* pnWidth
 		return false;
 	}
 
-	setjmp(png_jmpbuf(pPngStruct))
+	setjmp(png_jmpbuf(pPngStruct));
 
 	// define our own callback function for I/O instead of reading from a file
 	png_set_read_fn(pPngStruct, pTextureStream, PngReaderCallback);

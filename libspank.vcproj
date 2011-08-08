@@ -229,6 +229,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\IImage.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\ILevel2D.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\IMgr.h"
 				>
 			</File>
@@ -285,6 +293,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\source\math\Matrix2x2.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\math\Matrix2x2.h"
+				>
+			</File>
+			<File
 				RelativePath=".\source\math\Matrix3x3.cpp"
 				>
 			</File>
@@ -306,6 +322,14 @@
 			</File>
 			<File
 				RelativePath=".\include\math\Quaternion.h"
+				>
+			</File>
+			<File
+				RelativePath=".\source\math\Vector2.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\math\Vector2.h"
 				>
 			</File>
 			<File
@@ -339,6 +363,22 @@
 		</File>
 		<File
 			RelativePath=".\source\Core_Impl.h"
+			>
+		</File>
+		<File
+			RelativePath=".\source\Image_Impl.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\source\Image_Impl.h"
+			>
+		</File>
+		<File
+			RelativePath=".\source\Level2D_Impl.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\source\Level2D_Impl.h"
 			>
 		</File>
 		<File

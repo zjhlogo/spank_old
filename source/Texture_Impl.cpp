@@ -11,8 +11,8 @@
 
 Texture_Impl::Texture_Impl(const char* pszFileName, SAMPLE_TYPE eSample)
 {
-	m_nWidth = 0;
-	m_nHeight = 0;
+	m_nTextureWidth = 0;
+	m_nTextureHeight = 0;
 	m_nGLTextureID = 0;
 
 	m_bOK = LoadTextureFromFile(pszFileName, eSample);
@@ -25,12 +25,12 @@ Texture_Impl::~Texture_Impl()
 
 uint Texture_Impl::GetWidth() const
 {
-	return m_nWidth;
+	return m_nTextureWidth;
 }
 
 uint Texture_Impl::GetHeight() const
 {
-	return m_nHeight;
+	return m_nTextureHeight;
 }
 
 GLuint Texture_Impl::GetGLTextureID() const
@@ -40,11 +40,11 @@ GLuint Texture_Impl::GetGLTextureID() const
 
 bool Texture_Impl::LoadTextureFromFile(const char* pszFileName, SAMPLE_TYPE eSample)
 {
-	StreamReader* pTextureStream = IFileMgr::GetInstance().LoadImageFile(pszFileName, &m_nWidth, &m_nHeight);
+	StreamReader* pTextureStream = IFileMgr::GetInstance().LoadImageFile(pszFileName, &m_nTextureWidth, &m_nTextureHeight);
 	if (!pTextureStream) return false;
 
 	// create gl texture
-	bool bOK = CreateGLTexture(m_nWidth, m_nHeight, eSample, pTextureStream->GetBuffer());
+	bool bOK = CreateGLTexture(m_nTextureWidth, m_nTextureHeight, eSample, pTextureStream->GetBuffer());
 
 	// free texture data
 	SAFE_RELEASE(pTextureStream);

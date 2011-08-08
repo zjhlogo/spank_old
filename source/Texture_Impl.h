@@ -29,8 +29,8 @@ private:
 	void FreeGLTexture();
 
 private:
-	uint m_nWidth;
-	uint m_nHeight;
+	uint m_nTextureWidth;
+	uint m_nTextureHeight;
 	GLuint m_nGLTextureID;
 
 };

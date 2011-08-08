@@ -30,7 +30,7 @@ public:
 	virtual void DrawRect(float x, float y, float width, float height) = 0;
 
 	/*!
-	 * \brief below shows the points order
+	 * \brief the points order is showing below
 	 * 
 	 *     v1---------v3
 	 *     |  \       |

@@ -6,8 +6,8 @@
  * \author zjhlogo (zjhlogo@gmail.com)
  */
 #include "Renderer2D_Impl.h"
+#include <IRenderDevice.h>
 #include <IShaderMgr.h>
-#include <IConfig.h>
 #include <IDebugUtil.h>
 #include <GLES2/gl2.h>
 
@@ -43,9 +43,9 @@ bool Renderer2D_Impl::Initialize()
 		return false;
 	}
 
-	int winWidth = IConfig::GetInstance().GetInt("WINDOW_WIDTH");
-	int winHeight = IConfig::GetInstance().GetInt("WINDOW_HEIGHT");
-	IMath::BuildOrthoMatrix(m_matOrtho, -winWidth/2.0f, winWidth/2.0f, -winHeight/2.0f, winHeight/2.0f, 1000.0f, -1000.0f);
+	float fSurfaceWidth = IRenderDevice::GetInstance().GetSurfaceWidth();
+	float fSurfaceHeight = IRenderDevice::GetInstance().GetSurfaceHeight();
+	IMath::BuildOrthoMatrix(m_matOrtho, -fSurfaceWidth/2.0f, fSurfaceWidth/2.0f, -fSurfaceHeight/2.0f, fSurfaceHeight/2.0f, 0.1f, 1000.0f);
 
 	return true;
 }

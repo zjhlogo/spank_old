@@ -195,10 +195,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\pngvalid.c"
-				>
-			</File>
-			<File
 				RelativePath=".\pngwio.c"
 				>
 			</File>

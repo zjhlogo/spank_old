@@ -9,7 +9,7 @@
 #define __SPRITE_IMPL_H__
 
 #include <ISprite.h>
-#include <ITexture.h>
+#include <IShader.h>
 
 class Sprite_Impl : public ISprite
 {
@@ -34,6 +34,7 @@ private:
 	void CreateVertexs();
 
 private:
+	IShader* m_pShader;
 	ITexture* m_pTexture;
 	int m_nNumFrames;
 	int m_nColumn;

@@ -38,8 +38,23 @@ Matrix4x4::~Matrix4x4()
 	// TODO: 
 }
 
+Matrix4x4& Matrix4x4::operator=(const Matrix4x4& m)
+{
+	e[E11] = m.e[E11]; e[E12] = m.e[E12]; e[E13] = m.e[E13]; e[E14] = m.e[E14];
+	e[E21] = m.e[E21]; e[E22] = m.e[E22]; e[E23] = m.e[E23]; e[E24] = m.e[E24];
+	e[E31] = m.e[E31]; e[E32] = m.e[E32]; e[E33] = m.e[E33]; e[E34] = m.e[E34];
+	e[E41] = m.e[E41]; e[E42] = m.e[E42]; e[E43] = m.e[E43]; e[E44] = m.e[E44];
+	return (*this);
+}
+
 Vector3 Matrix4x4::GetTranslate()
 {
+	//
+	// [ N/E  N/E  N/E   x  ]
+	// [ N/E  N/E  N/E   y  ]
+	// [ N/E  N/E  N/E   z  ]
+	// [ N/E  N/E  N/E  N/E ]
+	//
 	return Vector3(e[E14], e[E24], e[E34]);
 }
 

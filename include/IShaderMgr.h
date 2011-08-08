@@ -16,12 +16,14 @@
 class IShaderMgr : public IMgr
 {
 public:
+	enum SHADER_IDS
+	{
+		DEFAULT_SHADER = 1,
+	};
+
+public:
 	static IShaderMgr& GetInstance();
 
-	virtual IShader* CreateShaderFromFiles(const char* pszVertexShaderFile, const char* pszFregmentShaderFile, const IVertexAttribute::ATTRIBUTE_ITEM* pAttrItems) = 0;
-	virtual IShader* CreateShaderFromBuffers(const char* pszVertexShader, const char* pszFregmentShader, const IVertexAttribute::ATTRIBUTE_ITEM* pAttrItems) = 0;
-	virtual IShader* CreateShaderFromStreams(StreamReader* pVertexShader, StreamReader* pFregmentShader, const IVertexAttribute::ATTRIBUTE_ITEM* pAttrItems) = 0;
-
-	virtual IVertexAttribute* CreateVertexAttribute(const IVertexAttribute::ATTRIBUTE_ITEM* pAttrItems) = 0;
+	virtual IShader* CreateShader(const char* pszShaderFile) = 0;
 };
 #endif // __ISHADERMGR_H__

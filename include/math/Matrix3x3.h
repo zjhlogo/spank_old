@@ -32,6 +32,8 @@ public:
 			  float e31, float e32, float e33);
 	~Matrix3x3();
 
+	Matrix3x3& operator=(const Matrix3x3& m);
+
 	Matrix3x3& Scale(const Vector3& v);
 	Matrix3x3& Scale(float x, float y, float z);
 

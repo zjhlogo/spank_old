@@ -18,7 +18,7 @@
 class Shader_Impl : public IShader
 {
 public:
-	Shader_Impl(StreamReader* pVertexShader, StreamReader* pFregmentShader, const IVertexAttribute::ATTRIBUTE_ITEM* pAttrItems);
+	Shader_Impl(StreamReader* pVertexShader, StreamReader* pFregmentShader, IVertexAttribute* pVertexAttribute);
 	virtual ~Shader_Impl();
 
 	virtual bool SetMatrix4x4(const char* pszParamName, const Matrix4x4* pMat);
@@ -28,7 +28,7 @@ public:
 	virtual bool Commit(const void* pVerts);
 
 private:
-	bool CreateShader(StreamReader* pVertexShader, StreamReader* pFregmentShader, const IVertexAttribute::ATTRIBUTE_ITEM* pAttrItems);
+	bool CreateShader(StreamReader* pVertexShader, StreamReader* pFregmentShader, IVertexAttribute* pVertexAttribute);
 	void FreeShader();
 	GLuint LoadShader(const char* pszShaderSource, GLenum eType);
 	GLenum GetGLType(IVertexAttribute::ATTRIBUTE_TYPE eType);

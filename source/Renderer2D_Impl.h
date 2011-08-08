@@ -27,10 +27,10 @@ public:
 	virtual bool Initialize();
 	virtual void Terminate();
 
-	virtual void SetModelViewMatrix(const Matrix4x4* pMat);
+	virtual void SetModelViewMatrix(const Matrix4x4& mat);
 	virtual const Matrix4x4& GetModelViewMatrix() const;
 
-	virtual void SetProjectionMatrix(const Matrix4x4* pMat);
+	virtual void SetProjectionMatrix(const Matrix4x4& mat);
 	virtual const Matrix4x4& GetProjectionMatrix() const;
 
 	virtual void SetShader(IShader* pShader);

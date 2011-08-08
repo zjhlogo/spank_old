@@ -17,10 +17,10 @@ class IRenderer2D : public IMgr
 public:
 	static IRenderer2D& GetInstance();
 
-	virtual void SetModelViewMatrix(const Matrix4x4* pMat) = 0;
+	virtual void SetModelViewMatrix(const Matrix4x4& mat) = 0;
 	virtual const Matrix4x4& GetModelViewMatrix() const = 0;
 
-	virtual void SetProjectionMatrix(const Matrix4x4* pMat) = 0;
+	virtual void SetProjectionMatrix(const Matrix4x4& mat) = 0;
 	virtual const Matrix4x4& GetProjectionMatrix() const = 0;
 
 	virtual void SetShader(IShader* pShader) = 0;

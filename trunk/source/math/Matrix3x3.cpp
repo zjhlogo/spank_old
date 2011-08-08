@@ -98,7 +98,6 @@ bool Matrix3x3::Invert()
 
 	//°éËæ¾ØÕó
 	Matrix3x3 matAdjoint;
-
 	matAdjoint.e[E11] =   e[E22]*e[E33] - e[E23]*e[E32];
 	matAdjoint.e[E22] =   e[E11]*e[E33] - e[E13]*e[E31];
 	matAdjoint.e[E33] =   e[E11]*e[E22] - e[E12]*e[E21];
@@ -109,8 +108,8 @@ bool Matrix3x3::Invert()
 	matAdjoint.e[E21] = -(e[E21]*e[E33] - e[E23]*e[E31]);
 	matAdjoint.e[E23] = -(e[E11]*e[E23] - e[E13]*e[E21]);
 
-	matAdjoint.e[E31] =  (e[E21]*e[E32] -e[E22]*e[E31]);
-	matAdjoint.e[E32] = -(e[E11]*e[E32] -e[E12]*e[E31]);
+	matAdjoint.e[E31] =  (e[E21]*e[E32] - e[E22]*e[E31]);
+	matAdjoint.e[E32] = -(e[E11]*e[E32] - e[E12]*e[E31]);
 
 	float fInvDet = 1.0f/fDet;
 	e[E11] = matAdjoint.e[E11] * fInvDet;

@@ -39,17 +39,16 @@ void GameApp::Terminate()
 
 void GameApp::Update(float dt)
 {
-	//static float s_fTotalTime = 0.0f;
-	//s_fTotalTime += dt;
-
-	//IMath::BuildRotateMatrixZ(m_matRot, s_fTotalTime);
-	//m_matRot.SetTranslate(100.0f, 100.0f, 0.0f);
+//	static float s_fTotalTime = 0.0f;
+//	s_fTotalTime += dt;
+//
+//	IMath::BuildRotateMatrixZ(m_matRot, s_fTotalTime);
 	m_pSprite->Update(dt);
 }
 
 void GameApp::Render()
 {
-	Matrix4x4 matResult = IRenderer2D::GetInstance().GetProjectionMatrix()/* * m_matRot*/;
+	Matrix4x4 matResult = IRenderer2D::GetInstance().GetProjectionMatrix(); // * m_matRot;
 	matResult.Transport();
 	IRenderer2D::GetInstance().SetMatrix(&matResult);
 	m_pSprite->Render();

@@ -34,8 +34,8 @@ JNIEXPORT void JNICALL Java_com_zjhlogo_spank_SpankLibrary_setPackagePath(JNIEnv
 
 JNIEXPORT jboolean JNICALL Java_com_zjhlogo_spank_SpankLibrary_initialize(JNIEnv* env, jclass cls, jint width, jint height)
 {
-	IConfig::GetInstance().AddInt("WINDOW_WIDTH", width);
-	IConfig::GetInstance().AddInt("WINDOW_HEIGHT", height);
+	IConfig::GetInstance().AddInt("SURFACE_WIDTH", width);
+	IConfig::GetInstance().AddInt("SURFACE_HEIGHT", height);
 	if (!ICore::GetInstance().Initialize()) return JNI_FALSE;
 
 	g_nCurrTime = GetCurrTime();

@@ -28,8 +28,8 @@ IRenderDevice& IRenderDevice::GetInstance()
 
 bool RenderDevice_Impl::Initialize()
 {
-	m_nSurfaceWidth = IConfig::GetInstance().GetInt("WINDOW_WIDTH");
-	m_nSurfaceHeight = IConfig::GetInstance().GetInt("WINDOW_HEIGHT");
+	m_nSurfaceWidth = IConfig::GetInstance().GetInt("SURFACE_WIDTH");
+	m_nSurfaceHeight = IConfig::GetInstance().GetInt("SURFACE_HEIGHT");
 	if (m_nSurfaceWidth <= 0 || m_nSurfaceHeight <= 0) return false;
 
 	glViewport(0, 0, m_nSurfaceWidth, m_nSurfaceHeight);

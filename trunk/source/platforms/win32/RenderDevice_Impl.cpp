@@ -6,8 +6,9 @@
  * \author zjhlogo (zjhlogo@gmail.com)
  */
 #include "RenderDevice_Impl.h"
-#include <GLES2/gl2.h>
 #include <IConfig.h>
+#include <IDebugUtil.h>
+#include <GLES2/gl2.h>
 
 IRenderDevice& IRenderDevice::GetInstance()
 {
@@ -61,7 +62,6 @@ void RenderDevice_Impl::BeginRender()
 {
 	glClearColor(0.8f, 0.8f, 0.8f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	// TODO: clear up render state
 }
 
 void RenderDevice_Impl::EndRender()
@@ -113,6 +113,7 @@ bool RenderDevice_Impl::InitializeWindow()
 	SetForegroundWindow(m_hWindow);
 	SetFocus(m_hWindow);
 
+	LOGD("window initialized");
 	return true;
 }
 
@@ -123,6 +124,7 @@ void RenderDevice_Impl::TerminateWindow()
 		DestroyWindow(m_hWindow);
 		m_hWindow = NULL;
 	}
+	LOGD("window terminated");
 }
 
 LRESULT CALLBACK RenderDevice_Impl::MainWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
@@ -181,6 +183,7 @@ bool RenderDevice_Impl::InitializeEGL(HWND hWindow)
 
 	eglMakeCurrent(m_EGLDisplay, m_EGLSurface, m_EGLSurface, m_EGLContext);
 
+	LOGD("OpenGLES 2.0 initialized");
 	return true;
 }
 
@@ -197,6 +200,8 @@ void RenderDevice_Impl::TerminateEGL()
 	m_EGLDisplay = NULL;
 	m_EGLSurface = NULL;
 	m_EGLContext = NULL;
+
+	LOGD("OpenGLES 2.0 terminated");
 }
 
 int RenderDevice_Impl::GetSurfaceWidth() const

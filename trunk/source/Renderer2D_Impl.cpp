@@ -44,9 +44,9 @@ void Renderer2D_Impl::Terminate()
 	// TODO: 
 }
 
-void Renderer2D_Impl::SetModelViewMatrix(const Matrix4x4* pMat)
+void Renderer2D_Impl::SetModelViewMatrix(const Matrix4x4& mat)
 {
-	m_matModelView = (*pMat);
+	m_matModelView = mat;
 }
 
 const Matrix4x4& Renderer2D_Impl::GetModelViewMatrix() const
@@ -54,9 +54,9 @@ const Matrix4x4& Renderer2D_Impl::GetModelViewMatrix() const
 	return m_matModelView;
 }
 
-void Renderer2D_Impl::SetProjectionMatrix(const Matrix4x4* pMat)
+void Renderer2D_Impl::SetProjectionMatrix(const Matrix4x4& mat)
 {
-	m_matProj = (*pMat);
+	m_matProj = mat;
 }
 
 const Matrix4x4& Renderer2D_Impl::GetProjectionMatrix() const

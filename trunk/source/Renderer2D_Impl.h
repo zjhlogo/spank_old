@@ -27,9 +27,14 @@ public:
 	virtual bool Initialize();
 	virtual void Terminate();
 
+	virtual void SetModelViewMatrix(const Matrix4x4* pMat);
+	virtual const Matrix4x4& GetModelViewMatrix() const;
+
+	virtual void SetProjectionMatrix(const Matrix4x4* pMat);
 	virtual const Matrix4x4& GetProjectionMatrix() const;
-	virtual void SetMatrix(const Matrix4x4* pMat);
-	virtual void SetTexture(ITexture* pTexture);
+
+	virtual void SetShader(IShader* pShader);
+	virtual IShader* GetShader();
 
 	virtual void BeginRender2D();
 	virtual void EndRender2D();
@@ -42,7 +47,8 @@ public:
 
 private:
 	IShader* m_pShader;
-	Matrix4x4 m_matOrtho;
+	Matrix4x4 m_matModelView;
+	Matrix4x4 m_matProj;
 
 };
 #endif // __RENDERER2D_IMPL_H__

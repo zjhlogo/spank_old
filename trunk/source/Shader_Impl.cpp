@@ -10,14 +10,14 @@
 #include <IDebugUtil.h>
 #include <IShaderMgr.h>
 
-Shader_Impl::Shader_Impl(StreamReader* pVertexShader, StreamReader* pFregmentShader, const IVertexAttribute::ATTRIBUTE_ITEM* pAttrItems)
+Shader_Impl::Shader_Impl(StreamReader* pVertexShader, StreamReader* pFregmentShader, IVertexAttribute* pVertexAttribute)
 {
 	m_pVertexAttribute = NULL;
 	m_glVertexShader = 0;
 	m_glFragmentShader = 0;
 	m_glProgramObject = 0;
 
-	m_bOK = CreateShader(pVertexShader, pFregmentShader, pAttrItems);
+	m_bOK = CreateShader(pVertexShader, pFregmentShader, pVertexAttribute);
 }
 
 Shader_Impl::~Shader_Impl()
@@ -79,9 +79,9 @@ bool Shader_Impl::Commit(const void* pVerts)
 	return true;
 }
 
-bool Shader_Impl::CreateShader(StreamReader* pVertexShader, StreamReader* pFregmentShader, const IVertexAttribute::ATTRIBUTE_ITEM* pAttrItems)
+bool Shader_Impl::CreateShader(StreamReader* pVertexShader, StreamReader* pFregmentShader, IVertexAttribute* pVertexAttribute)
 {
-	m_pVertexAttribute = IShaderMgr::GetInstance().CreateVertexAttribute(pAttrItems);
+	m_pVertexAttribute = pVertexAttribute;
 	if (!m_pVertexAttribute) return false;
 
 	m_glVertexShader = LoadShader((const char*)pVertexShader->GetBuffer(), GL_VERTEX_SHADER);

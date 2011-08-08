@@ -35,6 +35,14 @@ Matrix3x3::~Matrix3x3()
 	//TODO:
 }
 
+Matrix3x3& Matrix3x3::operator=(const Matrix3x3& m)
+{
+	e[E11] = m.e[E11]; e[E12] = m.e[E12]; e[E13] = m.e[E13];
+	e[E21] = m.e[E21]; e[E22] = m.e[E22]; e[E23] = m.e[E23];
+	e[E31] = m.e[E31]; e[E32] = m.e[E32]; e[E33] = m.e[E33];
+	return (*this);
+}
+
 Matrix3x3& Matrix3x3::Scale(const Vector3& v)
 {
 	//

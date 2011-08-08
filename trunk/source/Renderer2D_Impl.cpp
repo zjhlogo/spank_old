@@ -29,49 +29,55 @@ Renderer2D_Impl::~Renderer2D_Impl()
 
 bool Renderer2D_Impl::Initialize()
 {
-	static const IVertexAttribute::ATTRIBUTE_ITEM s_VertAttrs[] = 
-	{
-		{3, IVertexAttribute::AT_FLOAT, 0, "a_position"},
-		{2, IVertexAttribute::AT_FLOAT, 0, "a_texCoord"},
-		{0, IVertexAttribute::AT_UNKNOWN, 0, ""},
-	};
+	IMath::BuildIdentityMatrix(m_matModelView);
+	IMath::BuildIdentityMatrix(m_matProj);
 
-	m_pShader = IShaderMgr::GetInstance().CreateShaderFromFiles("shader.vs", "shader.fs", s_VertAttrs);
-	if (!m_pShader)
-	{
-		LOGE("load default shader failed: shader.vs, shader.fs");
-		return false;
-	}
-
-	float fSurfaceWidth = IRenderDevice::GetInstance().GetSurfaceWidth();
-	float fSurfaceHeight = IRenderDevice::GetInstance().GetSurfaceHeight();
-	IMath::BuildOrthoMatrix(m_matOrtho, -fSurfaceWidth/2.0f, fSurfaceWidth/2.0f, -fSurfaceHeight/2.0f, fSurfaceHeight/2.0f, 0.1f, 1000.0f);
+	float fSurfaceWidth = (float)IRenderDevice::GetInstance().GetSurfaceWidth();
+	float fSurfaceHeight = (float)IRenderDevice::GetInstance().GetSurfaceHeight();
+	IMath::BuildOrthoMatrix(m_matProj, -fSurfaceWidth/2.0f, fSurfaceWidth/2.0f, -fSurfaceHeight/2.0f, fSurfaceHeight/2.0f, 0.1f, 1000.0f);
 
 	return true;
 }
 
 void Renderer2D_Impl::Terminate()
 {
-	SAFE_RELEASE(m_pShader);
+	// TODO: 
+}
+
+void Renderer2D_Impl::SetModelViewMatrix(const Matrix4x4* pMat)
+{
+	m_matModelView = (*pMat);
+}
+
+const Matrix4x4& Renderer2D_Impl::GetModelViewMatrix() const
+{
+	return m_matModelView;
+}
+
+void Renderer2D_Impl::SetProjectionMatrix(const Matrix4x4* pMat)
+{
+	m_matProj = (*pMat);
 }
 
 const Matrix4x4& Renderer2D_Impl::GetProjectionMatrix() const
 {
-	return m_matOrtho;
+	return m_matProj;
 }
 
-void Renderer2D_Impl::SetMatrix(const Matrix4x4* pMat)
+void Renderer2D_Impl::SetShader(IShader* pShader)
 {
-	m_pShader->SetMatrix4x4("u_project", pMat);
+	m_pShader = pShader;
 }
 
-void Renderer2D_Impl::SetTexture(ITexture* pTexture)
+IShader* Renderer2D_Impl::GetShader()
 {
-	m_pShader->SetTexture("s_texture", pTexture);
+	return m_pShader;
 }
 
 void Renderer2D_Impl::BeginRender2D()
 {
+	if (!m_pShader) return;
+
 	m_pShader->Reset();
 }
 
@@ -82,12 +88,24 @@ void Renderer2D_Impl::EndRender2D()
 
 void Renderer2D_Impl::DrawTriangleList(const void* pVerts, uint nNumVerts, const ushort* pIndis, uint nNumIndis)
 {
+	if (!m_pShader) return;
+
+	Matrix4x4 matModelViewProj = m_matProj*m_matModelView;
+	matModelViewProj.Transport();
+	m_pShader->SetMatrix4x4("u_matModelViewProj", &matModelViewProj);
+
 	m_pShader->Commit(pVerts);
 	glDrawElements(GL_TRIANGLES, nNumIndis, GL_UNSIGNED_SHORT, pIndis);
 }
 
 void Renderer2D_Impl::DrawTriangleStrip(const void* pVerts, uint nNumVerts, const ushort* pIndis, uint nNumIndis)
 {
+	if (!m_pShader) return;
+
+	Matrix4x4 matModelViewProj = m_matProj*m_matModelView;
+	matModelViewProj.Transport();
+	m_pShader->SetMatrix4x4("u_matModelViewProj", &matModelViewProj);
+
 	m_pShader->Commit(pVerts);
 	glDrawElements(GL_TRIANGLE_STRIP, nNumIndis, GL_UNSIGNED_SHORT, pIndis);
 }
@@ -103,6 +121,8 @@ void Renderer2D_Impl::DrawRect(float x, float y, float width, float height)
 	};
 
 	static const ushort s_Indis[6] = {0, 1, 2, 1, 3, 2};
+
+	if (!m_pShader) return;
 
 	float halfWidth = width/2.0f;
 	float halfHeight = height/2.0f;
@@ -122,5 +142,8 @@ void Renderer2D_Impl::DrawRect(float x, float y, float width, float height)
 void Renderer2D_Impl::DrawRect(const void* pVerts)
 {
 	static const ushort s_Indis[6] = {0, 1, 2, 1, 3, 2};
+
+	if (!m_pShader) return;
+
 	DrawTriangleList(pVerts, 4, s_Indis, 6);
 }

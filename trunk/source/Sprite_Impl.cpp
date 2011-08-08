@@ -7,6 +7,7 @@
  */
 #include "Sprite_Impl.h"
 #include <IFileMgr.h>
+#include <IShaderMgr.h>
 #include <ITextureMgr.h>
 #include <IRenderer2D.h>
 #include <tinyxml-2.6.2/tinyxml.h>
@@ -25,6 +26,7 @@ ISprite* ISprite::CreateSprite(const char* pszSpriteFile)
 
 Sprite_Impl::Sprite_Impl(const char* pszSpriteFile)
 {
+	m_pShader = NULL;
 	m_pTexture = NULL;
 	m_nNumFrames = 0;
 	m_nColumn = 0;
@@ -44,6 +46,7 @@ Sprite_Impl::Sprite_Impl(const char* pszSpriteFile)
 
 Sprite_Impl::~Sprite_Impl()
 {
+	SAFE_RELEASE(m_pShader);
 	SAFE_RELEASE(m_pTexture);
 	SAFE_DELETE_ARRAY(m_pVerts);
 }
@@ -60,7 +63,8 @@ void Sprite_Impl::Update(float dt)
 
 void Sprite_Impl::Render()
 {
-	IRenderer2D::GetInstance().SetTexture(m_pTexture);
+	m_pShader->SetTexture("u_texture", m_pTexture);
+	IRenderer2D::GetInstance().SetShader(m_pShader);
 	IRenderer2D::GetInstance().DrawRect(&m_pVerts[m_nCurrIndex*4]);
 }
 
@@ -80,9 +84,13 @@ bool Sprite_Impl::LoadSpriteFromFile(const char* pszSpriteFile)
 
 	if (doc.Error()) return false;
 
-	// TODO: parse the xml files
+	// parse the xml files
 	TiXmlElement* pElmSprite = doc.RootElement();
 	if (!pElmSprite) return false;
+
+	const char* pszShader = NULL;
+	pszShader = pElmSprite->Attribute("shader");
+	if (!pszShader) return false;
 
 	const char* pszTexture = NULL;
 	pszTexture = pElmSprite->Attribute("texture");
@@ -107,6 +115,9 @@ bool Sprite_Impl::LoadSpriteFromFile(const char* pszSpriteFile)
 
 	pElmSprite->Attribute("offset_x", &m_nOffsetX);
 	pElmSprite->Attribute("offset_y", &m_nOffsetY);
+
+	m_pShader = IShaderMgr::GetInstance().CreateShader(pszShader);
+	if (!m_pShader) return false;
 
 	m_pTexture = ITextureMgr::GetInstance().CreateTexture(pszTexture);
 	if (!m_pTexture) return false;

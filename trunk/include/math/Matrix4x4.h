@@ -30,6 +30,8 @@ public:
 			  float e41, float e42, float e43, float e44);
 	~Matrix4x4();
 
+	Matrix4x4& operator=(const Matrix4x4& m);
+
 	Vector3 GetTranslate();
 
 	Matrix4x4& SetTranslate(const Vector3& v);

@@ -1,2 +1,2 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<sprite texture="test_sprite.png" num_pieces="8" column="3" frame_time="70" piece_width="129" piece_height="110" offset_x="0" offset_y="0" />
+<sprite shader="default_shader.xml" texture="test_sprite.png" num_pieces="8" column="3" frame_time="70" piece_width="129" piece_height="110" offset_x="0" offset_y="0" />

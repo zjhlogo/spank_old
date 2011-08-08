@@ -9,6 +9,17 @@
 #include <IConfig.h>
 #include <GLES2/gl2.h>
 
+RenderDevice_Impl::RenderDevice_Impl()
+{
+	m_nSurfaceWidth = 0;
+	m_nSurfaceHeight = 0;
+}
+
+RenderDevice_Impl::~RenderDevice_Impl()
+{
+	// TODO: 
+}
+
 IRenderDevice& IRenderDevice::GetInstance()
 {
 	static RenderDevice_Impl s_RenderDevice_Impl;
@@ -17,17 +28,31 @@ IRenderDevice& IRenderDevice::GetInstance()
 
 bool RenderDevice_Impl::Initialize()
 {
-	int winWidth = IConfig::GetInstance().GetInt("WINDOW_WIDTH");
-	int winHeight = IConfig::GetInstance().GetInt("WINDOW_HEIGHT");
-	glViewport(0, 0, winWidth, winHeight);
+	m_nSurfaceWidth = IConfig::GetInstance().GetInt("WINDOW_WIDTH");
+	m_nSurfaceHeight = IConfig::GetInstance().GetInt("WINDOW_HEIGHT");
+	if (m_nSurfaceWidth <= 0 || m_nSurfaceHeight <= 0) return false;
+
+	glViewport(0, 0, m_nSurfaceWidth, m_nSurfaceHeight);
+
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 	return true;
 }
 
 void RenderDevice_Impl::Terminate()
 {
 	// TODO: 
+}
+
+int RenderDevice_Impl::GetSurfaceWidth() const
+{
+	return m_nSurfaceWidth;
+}
+
+int RenderDevice_Impl::GetSurfaceHeight() const
+{
+	return m_nSurfaceHeight;
 }
 
 void RenderDevice_Impl::BeginRender()

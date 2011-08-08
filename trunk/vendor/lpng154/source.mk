@@ -10,7 +10,6 @@ LIBPNG_SOURCE_FILES := \
 		$(LIBPNG_SOURCE)/pngrutil.c \
 		$(LIBPNG_SOURCE)/pngset.c \
 		$(LIBPNG_SOURCE)/pngtrans.c \
-		$(LIBPNG_SOURCE)/pngvalid.c \
 		$(LIBPNG_SOURCE)/pngwio.c \
 		$(LIBPNG_SOURCE)/pngwrite.c \
 		$(LIBPNG_SOURCE)/pngwtran.c \

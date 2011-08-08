@@ -21,6 +21,8 @@ RenderDevice_Impl::RenderDevice_Impl()
 	m_EGLSurface = NULL;
 	m_EGLContext = NULL;
 	m_hWindow = NULL;
+	m_nSurfaceWidth = 0;
+	m_nSurfaceHeight = 0;
 }
 
 RenderDevice_Impl::~RenderDevice_Impl()
@@ -30,8 +32,22 @@ RenderDevice_Impl::~RenderDevice_Impl()
 
 bool RenderDevice_Impl::Initialize()
 {
+	m_nSurfaceWidth = IConfig::GetInstance().GetInt("SURFACE_WIDTH");
+	m_nSurfaceHeight = IConfig::GetInstance().GetInt("SURFACE_HEIGHT");
+	if (m_nSurfaceWidth <= 0 || m_nSurfaceHeight <= 0) return false;
+
 	if (!InitializeWindow()) return false;
 	if (!InitializeEGL(m_hWindow)) return false;
+
+	// set view port
+	glViewport(0, 0, m_nSurfaceWidth, m_nSurfaceHeight);
+
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_FRONT);
+
 	return true;
 }
 
@@ -77,9 +93,7 @@ bool RenderDevice_Impl::InitializeWindow()
 
 	// window width, height
 	DWORD dwStyle = WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU;
-	int winWidth = IConfig::GetInstance().GetInt("WINDOW_WIDTH");
-	int winHeight = IConfig::GetInstance().GetInt("WINDOW_HEIGHT");
-	RECT rc = {0, 0, winWidth, winHeight};
+	RECT rc = {0, 0, m_nSurfaceWidth, m_nSurfaceHeight};
 	AdjustWindowRect(&rc, dwStyle, FALSE);
 	int nAdjustWidth = rc.right - rc.left;
 	int nAdjustHeight = rc.bottom - rc.top;
@@ -167,17 +181,6 @@ bool RenderDevice_Impl::InitializeEGL(HWND hWindow)
 
 	eglMakeCurrent(m_EGLDisplay, m_EGLSurface, m_EGLSurface, m_EGLContext);
 
-	// set view port
-	int winWidth = IConfig::GetInstance().GetInt("WINDOW_WIDTH");
-	int winHeight = IConfig::GetInstance().GetInt("WINDOW_HEIGHT");
-	glViewport(0, 0, winWidth, winHeight);
-
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-	glEnable(GL_CULL_FACE);
-	glCullFace(GL_FRONT);
-
 	return true;
 }
 
@@ -194,4 +197,14 @@ void RenderDevice_Impl::TerminateEGL()
 	m_EGLDisplay = NULL;
 	m_EGLSurface = NULL;
 	m_EGLContext = NULL;
+}
+
+int RenderDevice_Impl::GetSurfaceWidth() const
+{
+	return m_nSurfaceWidth;
+}
+
+int RenderDevice_Impl::GetSurfaceHeight() const
+{
+	return m_nSurfaceHeight;
 }

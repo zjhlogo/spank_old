@@ -15,6 +15,9 @@ class IRenderDevice : public IMgr
 public:
 	static IRenderDevice& GetInstance();
 
+	virtual int GetSurfaceWidth() const = 0;
+	virtual int GetSurfaceHeight() const = 0;
+
 	virtual void BeginRender() = 0;
 	virtual void EndRender() = 0;
 };

@@ -63,6 +63,8 @@ const IVertexAttribute* Shader_Impl::GetVertexAttribute() const
 
 bool Shader_Impl::Commit(const void* pVerts)
 {
+	glUseProgram(m_glProgramObject);
+
 	// setup vertex attributes
 	int nNumAttrs = m_pVertexAttribute->GetNumAttributeItems();
 	for (int i = 0; i < nNumAttrs; ++i)
@@ -74,7 +76,6 @@ bool Shader_Impl::Commit(const void* pVerts)
 		glBindAttribLocation(m_glProgramObject, i, pAttrItem->szParamName);
 	}
 
-	glUseProgram(m_glProgramObject);
 	return true;
 }
 

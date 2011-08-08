@@ -21,6 +21,9 @@ public:
 	virtual bool Initialize();
 	virtual void Terminate();
 
+	virtual int GetSurfaceWidth() const;
+	virtual int GetSurfaceHeight() const;
+
 	virtual void BeginRender();
 	virtual void EndRender();
 
@@ -36,7 +39,10 @@ private:
 	EGLDisplay m_EGLDisplay;
 	EGLSurface m_EGLSurface;
 	EGLContext m_EGLContext;
+
 	HWND m_hWindow;
+	int m_nSurfaceWidth;
+	int m_nSurfaceHeight;
 
 };
 #endif // __RENDERDEVICE_IMPL_H__

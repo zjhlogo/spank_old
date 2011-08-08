@@ -9,9 +9,7 @@
 #define __GAMEAPP_H__
 
 #include <IGameApp.h>
-#include <ITexture.h>
 #include <ISprite.h>
-#include <math/IMath.h>
 
 class GameApp : public IGameApp
 {
@@ -26,7 +24,6 @@ public:
 	virtual void Render();
 
 private:
-	Matrix4x4 m_matRot;
 	ISprite* m_pSprite;
 
 };

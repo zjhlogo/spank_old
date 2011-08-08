@@ -6,10 +6,7 @@
  * \author zjhlogo (zjhlogo@gmail.com)
  */
 #include "DebugUtil_Impl.h"
-#include <Windows.h>
-#include <stdio.h>
 #include <stdarg.h>
-#include <assert.h>
 
 IDebugUtil& IDebugUtil::GetInstance()
 {
@@ -19,12 +16,20 @@ IDebugUtil& IDebugUtil::GetInstance()
 
 bool DebugUtil_Impl::Initialize()
 {
+	m_pLogFile = NULL;
+	fopen_s(&m_pLogFile, "log.txt", "w");
+	if (!m_pLogFile) return false;
+
 	return true;
 }
 
 void DebugUtil_Impl::Terminate()
 {
-	// TODO: 
+	if (m_pLogFile)
+	{
+		fclose(m_pLogFile);
+		m_pLogFile = NULL;
+	}
 }
 
 void DebugUtil_Impl::Debug(const char* format, ...)
@@ -34,10 +39,9 @@ void DebugUtil_Impl::Debug(const char* format, ...)
 
 	char szOut[MAX_BUFFER_SIZE];
 	vsprintf_s(szOut, MAX_BUFFER_SIZE, format, marker);
-	OutputDebugString(szOut);
+	fprintf(m_pLogFile, "DEBUG: %s\n", szOut);
 
 	va_end(marker);
-	assert(false);
 }
 
 void DebugUtil_Impl::Info(const char* format, ...)
@@ -47,10 +51,9 @@ void DebugUtil_Impl::Info(const char* format, ...)
 
 	char szOut[MAX_BUFFER_SIZE];
 	vsprintf_s(szOut, MAX_BUFFER_SIZE, format, marker);
-	OutputDebugString(szOut);
+	fprintf(m_pLogFile, "INFO: %s\n", szOut);
 
 	va_end(marker);
-	assert(false);
 }
 
 void DebugUtil_Impl::Error(const char* format, ...)
@@ -60,8 +63,7 @@ void DebugUtil_Impl::Error(const char* format, ...)
 
 	char szOut[MAX_BUFFER_SIZE];
 	vsprintf_s(szOut, MAX_BUFFER_SIZE, format, marker);
-	OutputDebugString(szOut);
+	fprintf(m_pLogFile, "ERROR: %s\n", szOut);
 
 	va_end(marker);
-	assert(false);
 }

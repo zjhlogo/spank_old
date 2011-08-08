@@ -43,6 +43,7 @@ bool Core_Impl::Initialize()
 	if (!IRenderer2D::GetInstance().Initialize()) return false;
 	if (!Init()) return false;
 	if (!IGameApp::GetInstance().Initialize()) return false;
+
 	return true;
 }
 

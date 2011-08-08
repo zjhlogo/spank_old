@@ -54,6 +54,8 @@ bool FileMgr_Impl::Initialize()
 	}
 
 	m_strRootPath = IConfig::GetInstance().GetString("RESOURCE_DIR", "assets/");
+	LOGD("resource directory: %s", m_strRootPath.c_str());
+
 	return true;
 }
 
@@ -100,7 +102,7 @@ StreamReader* FileMgr_Impl::LoadFile(const char* pszFileName)
 	int nReadSize = unzReadCurrentFile(m_pMainFile, pszBuffer, nFileSize);
 	if (nReadSize != nFileSize)
 	{
-		LOGE("read size mismatch: %d/%d read", nReadSize, nFileSize);
+		LOGE("read size miss-match: %d/%d read", nReadSize, nFileSize);
 	}
 	unzCloseCurrentFile(m_pMainFile);
 
@@ -123,7 +125,8 @@ StreamReader* FileMgr_Impl::LoadImageFile(const char* pszFileName, uint* pnWidth
 	if (!pPngStruct)
 	{
 		png_destroy_read_struct(&pPngStruct, NULL, NULL);
-		// TODO: logout
+		// logout
+		LOGE("load image file failed: %s", pszFileName);
 		SAFE_DELETE(pTextureStream);
 		return false;
 	}
@@ -132,7 +135,8 @@ StreamReader* FileMgr_Impl::LoadImageFile(const char* pszFileName, uint* pnWidth
 	if (!pPngInfo)
 	{
 		png_destroy_read_struct(&pPngStruct, &pPngInfo, NULL);
-		// TODO: logout
+		// logout
+		LOGE("create png info failed: %s", pszFileName);
 		SAFE_DELETE(pTextureStream);
 		return false;
 	}

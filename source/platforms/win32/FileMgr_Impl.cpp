@@ -40,7 +40,14 @@ FileMgr_Impl::~FileMgr_Impl()
 
 bool FileMgr_Impl::Initialize()
 {
-	m_strRootPath = IConfig::GetInstance().GetString("RESOURCE_DIR", ".\\data\\");
+	m_strRootPath = IConfig::GetInstance().GetString("RESOURCE_DIR", "");
+	if (m_strRootPath.empty())
+	{
+		LOGE("empty resource directory, please set the config of [RESOURCE_DIR]");
+		return false;
+	}
+
+	LOGD("resource directory: %s", m_strRootPath.c_str());
 	return true;
 }
 
@@ -98,7 +105,8 @@ StreamReader* FileMgr_Impl::LoadImageFile(const char* pszFileName, uint* pnWidth
 	if (!pPngStruct)
 	{
 		png_destroy_read_struct(&pPngStruct, NULL, NULL);
-		// TODO: logout
+		// logout
+		LOGE("load image file failed: %s", pszFileName);
 		SAFE_DELETE(pTextureStream);
 		return false;
 	}
@@ -107,45 +115,39 @@ StreamReader* FileMgr_Impl::LoadImageFile(const char* pszFileName, uint* pnWidth
 	if (!pPngInfo)
 	{
 		png_destroy_read_struct(&pPngStruct, &pPngInfo, NULL);
-		// TODO: logout
+		// logout
+		LOGE("create png info failed: %s", pszFileName);
 		SAFE_DELETE(pTextureStream);
 		return false;
 	}
 
-	if (setjmp(png_jmpbuf(pPngStruct)))
-	{
-		png_destroy_read_struct(&pPngStruct, &pPngInfo, NULL);
-		// TODO: logout
-		SAFE_DELETE(pTextureStream);
-		return false;
-	}
+	setjmp(png_jmpbuf(pPngStruct))
 
-	//define our own callback function for I/O instead of reading from a file
+	// define our own callback function for I/O instead of reading from a file
 	png_set_read_fn(pPngStruct, pTextureStream, PngReaderCallback);
 
 	png_read_info(pPngStruct, pPngInfo);
 	int nTextureWidth = png_get_image_width(pPngStruct, pPngInfo);
 	int nTextureHeight = png_get_image_height(pPngStruct, pPngInfo);
-	png_byte nColorType = png_get_color_type(pPngStruct, pPngInfo);	//可以是PNG_COLOR_TYPE_RGB,PNG_COLOR_TYPE_PALETTE.......等
+	// can be PNG_COLOR_TYPE_RGB, PNG_COLOR_TYPE_PALETTE, ...
+	png_byte nColorType = png_get_color_type(pPngStruct, pPngInfo);
 	png_byte nBitDepth = png_get_bit_depth(pPngStruct, pPngInfo);
 
-	// Convert stuff to appropriate formats!
+	// convert stuff to appropriate formats!
 	if(nColorType == PNG_COLOR_TYPE_PALETTE)
 	{
 		png_set_packing(pPngStruct);
-		png_set_palette_to_rgb(pPngStruct); //Expand data to 24-bit RGB or 32-bit RGBA if alpha available.
+		// expand data to 24-bit RGB or 32-bit RGBA if alpha available
+		png_set_palette_to_rgb(pPngStruct);
 	}
 
-	// TODO: why?
+	// expand data to 24-bit RGB or 32-bit RGBA if alpha available
 	if (nColorType == PNG_COLOR_TYPE_GRAY && nBitDepth < 8) png_set_expand_gray_1_2_4_to_8(pPngStruct);
 	if (nColorType == PNG_COLOR_TYPE_GRAY_ALPHA) png_set_gray_to_rgb(pPngStruct);
 	if (nBitDepth == 16) png_set_strip_16(pPngStruct);
 
-	//Expand paletted or RGB images with transparency to full alpha channels so the data will be available as RGBA quartets.
-	if(png_get_valid(pPngStruct, pPngInfo, PNG_INFO_tRNS))
-	{
-		png_set_tRNS_to_alpha(pPngStruct);
-	}
+	// expand paletted or RGB images with transparency to full alpha channels so the data will be available as RGBA quartets.
+	if(png_get_valid(pPngStruct, pPngInfo, PNG_INFO_tRNS)) png_set_tRNS_to_alpha(pPngStruct);
 
 	// read image data into pRowPointers
 	uchar** pRowPointers = new uchar*[nTextureHeight];
@@ -159,8 +161,8 @@ StreamReader* FileMgr_Impl::LoadImageFile(const char* pszFileName, uint* pnWidth
 	png_destroy_read_struct(&pPngStruct, &pPngInfo, NULL);
 	SAFE_RELEASE(pTextureStream);
 
-	// store image data into our pRGBAData
-	uchar* pTextureDataRGBA = new uchar[nTextureWidth * nTextureHeight * 4];  //each pixel(RGBA) has 4 bytes
+	// store image data into our pRGBAData, each pixel(RGBA) has 4 bytes
+	uchar* pTextureDataRGBA = new uchar[nTextureWidth * nTextureHeight * 4];
 	//unlike store the pixel data from top-left corner, store them from bottom-left corner for OGLES Texture drawing...
 	int nCurrPos = (nTextureWidth * nTextureHeight * 4) - (4 * nTextureWidth);
 	for(int row = 0; row < nTextureHeight; row++)

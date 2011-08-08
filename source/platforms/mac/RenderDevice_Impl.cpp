@@ -18,7 +18,8 @@ IRenderDevice& IRenderDevice::GetInstance()
 
 RenderDevice_Impl::RenderDevice_Impl()
 {
-	// TODO: 
+	m_nSurfaceWidth = 0;
+	m_nSurfaceHeight = 0;
 }
 
 RenderDevice_Impl::~RenderDevice_Impl()
@@ -28,6 +29,10 @@ RenderDevice_Impl::~RenderDevice_Impl()
 
 bool RenderDevice_Impl::Initialize()
 {
+	m_nSurfaceWidth = IConfig::GetInstance().GetInt("SURFACE_WIDTH");
+	m_nSurfaceHeight = IConfig::GetInstance().GetInt("SURFACE_HEIGHT");
+	if (m_nSurfaceWidth <= 0 || m_nSurfaceHeight <= 0) return false;
+
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	
@@ -36,15 +41,23 @@ bool RenderDevice_Impl::Initialize()
 	
 	glEnable(GL_TEXTURE_2D);
 	
-	m_nWindowWidth = IConfig::GetInstance().GetInt("WINDOW_WIDTH");
-	m_nWindowHeight = IConfig::GetInstance().GetInt("WINDOW_HEIGHT");
-	glViewport(0, 0, m_nWindowWidth, m_nWindowHeight);
+	glViewport(0, 0, m_nSurfaceWidth, m_nSurfaceHeight);
 	return true;
 }
 
 void RenderDevice_Impl::Terminate()
 {
 	// TODO: 
+}
+
+int RenderDevice_Impl::GetSurfaceWidth() const
+{
+	return m_nSurfaceWidth;
+}
+
+int RenderDevice_Impl::GetSurfaceHeight() const
+{
+	return m_nSurfaceHeight;
 }
 
 void RenderDevice_Impl::BeginRender()

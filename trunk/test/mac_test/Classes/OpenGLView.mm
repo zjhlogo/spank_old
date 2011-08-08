@@ -11,6 +11,7 @@
 #import <GLES2/gl2ext.h>
 #include <ICore.h>
 #include <IConfig.h>
+#include <IRenderer2D.h>
 
 @implementation OpenGLView
 
@@ -82,9 +83,14 @@
         [self setupRenderBuffer];
         [self setupFrameBuffer];
 		
-		IConfig::GetInstance().AddInt("WINDOW_WIDTH", self.frame.size.width);
-		IConfig::GetInstance().AddInt("WINDOW_HEIGHT", self.frame.size.height);
+		IConfig::GetInstance().AddInt("SURFACE_WIDTH", self.frame.size.width);
+		IConfig::GetInstance().AddInt("SURFACE_HEIGHT", self.frame.size.height);
 		ICore::GetInstance().Initialize();
+		
+		Matrix4x4 matRot;
+		IMath::BuildRotateMatrixZ(matRot, -3.14159f/2.0f);
+		Matrix4x4 matProj = IRenderer2D::GetInstance().GetProjectionMatrix() * matRot;
+		IRenderer2D::GetInstance().SetProjectionMatrix(matProj);
 		
         [self setupDisplayLink];
     }

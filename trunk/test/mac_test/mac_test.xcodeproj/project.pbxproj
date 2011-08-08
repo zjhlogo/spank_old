@@ -11,9 +11,6 @@
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		CE606B7613EC028000D43BA2 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE606B7513EC028000D43BA2 /* OpenGLES.framework */; };
 		CE606B7813EC028B00D43BA2 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE606B7713EC028B00D43BA2 /* QuartzCore.framework */; };
-		CE894FE413EA372600A83D7D /* emotion_small.png in Resources */ = {isa = PBXBuildFile; fileRef = CE894FDF13EA372600A83D7D /* emotion_small.png */; };
-		CE894FE513EA372600A83D7D /* shader.fs in Resources */ = {isa = PBXBuildFile; fileRef = CE894FE013EA372600A83D7D /* shader.fs */; };
-		CE894FE613EA372600A83D7D /* shader.vs in Resources */ = {isa = PBXBuildFile; fileRef = CE894FE113EA372600A83D7D /* shader.vs */; };
 		CE894FE713EA372600A83D7D /* test_sprite.png in Resources */ = {isa = PBXBuildFile; fileRef = CE894FE213EA372600A83D7D /* test_sprite.png */; };
 		CE894FE813EA372600A83D7D /* test_sprite.xml in Resources */ = {isa = PBXBuildFile; fileRef = CE894FE313EA372600A83D7D /* test_sprite.xml */; };
 		CE89542A13EA939100A83D7D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE89542913EA939100A83D7D /* CoreGraphics.framework */; };
@@ -74,6 +71,9 @@
 		CEDF5D9313EC04B300A15B8D /* StreamReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CEDF5D7713EC04B300A15B8D /* StreamReader.cpp */; };
 		CEDF5D9413EC04B300A15B8D /* StreamWriter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CEDF5D7813EC04B300A15B8D /* StreamWriter.cpp */; };
 		CEDF5D9513EC04B300A15B8D /* VertexAttribute_Impl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CEDF5D7913EC04B300A15B8D /* VertexAttribute_Impl.cpp */; };
+		CEED2BE913EFDE0A0093D333 /* default_shader.fs in Resources */ = {isa = PBXBuildFile; fileRef = CEED2BE613EFDE0A0093D333 /* default_shader.fs */; };
+		CEED2BEA13EFDE0A0093D333 /* default_shader.vs in Resources */ = {isa = PBXBuildFile; fileRef = CEED2BE713EFDE0A0093D333 /* default_shader.vs */; };
+		CEED2BEB13EFDE0A0093D333 /* default_shader.xml in Resources */ = {isa = PBXBuildFile; fileRef = CEED2BE813EFDE0A0093D333 /* default_shader.xml */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -83,9 +83,6 @@
 		8D1107310486CEB800E47090 /* mac_test-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "mac_test-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 		CE606B7513EC028000D43BA2 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		CE606B7713EC028B00D43BA2 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		CE894FDF13EA372600A83D7D /* emotion_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = emotion_small.png; path = ../resources/emotion_small.png; sourceTree = SOURCE_ROOT; };
-		CE894FE013EA372600A83D7D /* shader.fs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = shader.fs; path = ../resources/shader.fs; sourceTree = SOURCE_ROOT; };
-		CE894FE113EA372600A83D7D /* shader.vs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = shader.vs; path = ../resources/shader.vs; sourceTree = SOURCE_ROOT; };
 		CE894FE213EA372600A83D7D /* test_sprite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = test_sprite.png; path = ../resources/test_sprite.png; sourceTree = SOURCE_ROOT; };
 		CE894FE313EA372600A83D7D /* test_sprite.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = test_sprite.xml; path = ../resources/test_sprite.xml; sourceTree = SOURCE_ROOT; };
 		CE89542913EA939100A83D7D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -182,6 +179,9 @@
 		CEDF5D7813EC04B300A15B8D /* StreamWriter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StreamWriter.cpp; sourceTree = "<group>"; };
 		CEDF5D7913EC04B300A15B8D /* VertexAttribute_Impl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = VertexAttribute_Impl.cpp; path = ../../source/VertexAttribute_Impl.cpp; sourceTree = SOURCE_ROOT; };
 		CEDF5D7A13EC04B300A15B8D /* VertexAttribute_Impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VertexAttribute_Impl.h; path = ../../source/VertexAttribute_Impl.h; sourceTree = SOURCE_ROOT; };
+		CEED2BE613EFDE0A0093D333 /* default_shader.fs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = default_shader.fs; path = ../resources/default_shader.fs; sourceTree = SOURCE_ROOT; };
+		CEED2BE713EFDE0A0093D333 /* default_shader.vs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = default_shader.vs; path = ../resources/default_shader.vs; sourceTree = SOURCE_ROOT; };
+		CEED2BE813EFDE0A0093D333 /* default_shader.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = default_shader.xml; path = ../resources/default_shader.xml; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -236,10 +236,10 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				CEED2BE613EFDE0A0093D333 /* default_shader.fs */,
+				CEED2BE713EFDE0A0093D333 /* default_shader.vs */,
+				CEED2BE813EFDE0A0093D333 /* default_shader.xml */,
 				CEDB108313EBF35800CFA7E3 /* MainWindow.xib */,
-				CE894FDF13EA372600A83D7D /* emotion_small.png */,
-				CE894FE013EA372600A83D7D /* shader.fs */,
-				CE894FE113EA372600A83D7D /* shader.vs */,
 				CE894FE213EA372600A83D7D /* test_sprite.png */,
 				CE894FE313EA372600A83D7D /* test_sprite.xml */,
 				8D1107310486CEB800E47090 /* mac_test-Info.plist */,
@@ -363,14 +363,9 @@
 		CEDF5D1E13EC046C00A15B8D /* libspank */ = {
 			isa = PBXGroup;
 			children = (
+				CEED2BBF13EFB4B40093D333 /* mac_impl */,
 				CEDF5D7613EC04B300A15B8D /* util */,
 				CEDF5D3613EC04B300A15B8D /* math */,
-				CEDF5D4D13EC04B300A15B8D /* DebugUtil_Impl.cpp */,
-				CEDF5D4E13EC04B300A15B8D /* DebugUtil_Impl.h */,
-				CEDF5D4F13EC04B300A15B8D /* FileMgr_Impl.cpp */,
-				CEDF5D5013EC04B300A15B8D /* FileMgr_Impl.h */,
-				CEDF5D5513EC04B300A15B8D /* RenderDevice_Impl.cpp */,
-				CEDF5D5613EC04B300A15B8D /* RenderDevice_Impl.h */,
 				CEDF5D3313EC04B300A15B8D /* Config_Impl.cpp */,
 				CEDF5D3413EC04B300A15B8D /* Config_Impl.h */,
 				CED1C22413EF74FC00C21EC9 /* Core_Impl.cpp */,
@@ -418,6 +413,19 @@
 			name = util;
 			path = ../../source/util;
 			sourceTree = SOURCE_ROOT;
+		};
+		CEED2BBF13EFB4B40093D333 /* mac_impl */ = {
+			isa = PBXGroup;
+			children = (
+				CEDF5D4D13EC04B300A15B8D /* DebugUtil_Impl.cpp */,
+				CEDF5D4E13EC04B300A15B8D /* DebugUtil_Impl.h */,
+				CEDF5D4F13EC04B300A15B8D /* FileMgr_Impl.cpp */,
+				CEDF5D5013EC04B300A15B8D /* FileMgr_Impl.h */,
+				CEDF5D5513EC04B300A15B8D /* RenderDevice_Impl.cpp */,
+				CEDF5D5613EC04B300A15B8D /* RenderDevice_Impl.h */,
+			);
+			name = mac_impl;
+			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
@@ -468,12 +476,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CE894FE413EA372600A83D7D /* emotion_small.png in Resources */,
-				CE894FE513EA372600A83D7D /* shader.fs in Resources */,
-				CE894FE613EA372600A83D7D /* shader.vs in Resources */,
 				CE894FE713EA372600A83D7D /* test_sprite.png in Resources */,
 				CE894FE813EA372600A83D7D /* test_sprite.xml in Resources */,
 				CEDB108413EBF35800CFA7E3 /* MainWindow.xib in Resources */,
+				CEED2BE913EFDE0A0093D333 /* default_shader.fs in Resources */,
+				CEED2BEA13EFDE0A0093D333 /* default_shader.vs in Resources */,
+				CEED2BEB13EFDE0A0093D333 /* default_shader.xml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

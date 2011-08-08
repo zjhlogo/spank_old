@@ -15,6 +15,8 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+	[[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeRight];
+	
 	// spank initialize
 	NSString* rootPath = [[NSBundle mainBundle] resourcePath];
 	const char* pszRootPath = [rootPath cStringUsingEncoding: [NSString defaultCStringEncoding]];

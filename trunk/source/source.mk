@@ -21,6 +21,7 @@ LIBSPANK_SOURCE_FILES := \
 		$(LIBSPANK_SOURCE)/math/Vector4.cpp \
 		$(LIBSPANK_SOURCE)/platforms/android/DebugUtil_Impl.cpp \
 		$(LIBSPANK_SOURCE)/platforms/android/FileMgr_Impl.cpp \
+		$(LIBSPANK_SOURCE)/platforms/android/Input_Impl.cpp \
 		$(LIBSPANK_SOURCE)/platforms/android/RenderDevice_Impl.cpp \
 		$(LIBSPANK_SOURCE)/platforms/android/unzip/unzip.cpp \
 		$(LIBSPANK_SOURCE)/platforms/android/unzip/ioapi.cpp \

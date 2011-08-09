@@ -6,6 +6,7 @@
  * \author zjhlogo (zjhlogo@gmail.com)
  */
 #include "RenderDevice_Impl.h"
+#include <ICore.h>
 #include <IConfig.h>
 #include <IDebugUtil.h>
 #include <GLES2/gl2.h>
@@ -131,6 +132,33 @@ LRESULT CALLBACK RenderDevice_Impl::MainWndProc(HWND hWnd, UINT uMsg, WPARAM wPa
 {
 	switch(uMsg)
 	{
+	case WM_LBUTTONDOWN:
+		{
+			int nPosX = (int)(short)LOWORD(lParam);
+			int nPosY = (int)(short)HIWORD(lParam);
+			float fPosX = nPosX - IRenderDevice::GetInstance().GetSurfaceWidth() / 2.0f;
+			float fPosY = IRenderDevice::GetInstance().GetSurfaceHeight() / 2.0f - nPosY;
+			ICore::GetInstance().OnTouchEvent(0, ICore::TT_BEGIN, fPosX, fPosY);
+		}
+		break;
+	case WM_MOUSEMOVE:
+		{
+			int nPosX = (int)(short)LOWORD(lParam);
+			int nPosY = (int)(short)HIWORD(lParam);
+			float fPosX = nPosX - IRenderDevice::GetInstance().GetSurfaceWidth() / 2.0f;
+			float fPosY = IRenderDevice::GetInstance().GetSurfaceHeight() / 2.0f - nPosY;
+			ICore::GetInstance().OnTouchEvent(0, ICore::TT_MOVE, fPosX, fPosY);
+		}
+		break;
+	case WM_LBUTTONUP:
+		{
+			int nPosX = (int)(short)LOWORD(lParam);
+			int nPosY = (int)(short)HIWORD(lParam);
+			float fPosX = nPosX - IRenderDevice::GetInstance().GetSurfaceWidth() / 2.0f;
+			float fPosY = IRenderDevice::GetInstance().GetSurfaceHeight() / 2.0f - nPosY;
+			ICore::GetInstance().OnTouchEvent(0, ICore::TT_END, fPosX, fPosY);
+		}
+		break;
 	case WM_DESTROY:
 		{
 			PostQuitMessage(0);

@@ -27,12 +27,15 @@ public:
 	virtual void Render();
 	virtual void PostRender();
 
+	virtual void OnTouchEvent(int nIndex, TOUCH_TYPE eType, float x, float y);
+
 private:
 	bool Init();
 	void Term();
 
 private:
 	INode* m_pRootNode;
+	TOUCH_INFO m_Touches[MAX_TOUCHES_SUPPORT];
 
 };
 #endif // __CORE_IMPL_H__

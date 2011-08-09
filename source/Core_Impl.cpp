@@ -25,6 +25,7 @@ ICore& ICore::GetInstance()
 Core_Impl::Core_Impl()
 {
 	m_pRootNode = NULL;
+	memset(m_Touches, 0, sizeof(m_Touches));
 }
 
 Core_Impl::~Core_Impl()
@@ -85,6 +86,17 @@ void Core_Impl::PostRender()
 {
 	IRenderer2D::GetInstance().EndRender2D();
 	IRenderDevice::GetInstance().EndRender();
+}
+
+void Core_Impl::OnTouchEvent(int nIndex, TOUCH_TYPE eType, float x, float y)
+{
+	if (nIndex < 0 || nIndex >= MAX_TOUCHES_SUPPORT) return;
+
+	m_Touches[nIndex].eType = eType;
+	m_Touches[nIndex].x = x;
+	m_Touches[nIndex].y = y;
+
+	// TODO: dispatched event
 }
 
 bool Core_Impl::Init()

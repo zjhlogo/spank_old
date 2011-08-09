@@ -185,6 +185,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\source\platforms\win32\Input_Impl.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\source\platforms\win32\Input_Impl.h"
+				>
+			</File>
+			<File
 				RelativePath=".\source\platforms\win32\RenderDevice_Impl.cpp"
 				>
 			</File>
@@ -230,6 +238,10 @@
 			</File>
 			<File
 				RelativePath=".\include\IImage.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\IInput.h"
 				>
 			</File>
 			<File

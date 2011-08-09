@@ -179,5 +179,29 @@ void Sprite_Impl::CreateVertexs()
 		m_pVerts[i*4+3].z = 0.0f;
 		m_pVerts[i*4+3].u = (nCurrOffsetX+m_nPieceWidth) / fTextureWidth;
 		m_pVerts[i*4+3].v = (nTextureHeight - nCurrOffsetY) / fTextureHeight;
+
+		/*m_pVerts[i*4+0].x = -400;
+		m_pVerts[i*4+0].y = 130;
+		m_pVerts[i*4+0].z = 0.0f;
+		m_pVerts[i*4+0].u = nCurrOffsetX / fTextureWidth;
+		m_pVerts[i*4+0].v = (nTextureHeight - nCurrOffsetY - m_nPieceHeight) / fTextureHeight;
+
+		m_pVerts[i*4+1].x = -400;
+		m_pVerts[i*4+1].y = 240;
+		m_pVerts[i*4+1].z = 0.0f;
+		m_pVerts[i*4+1].u = nCurrOffsetX / fTextureWidth;
+		m_pVerts[i*4+1].v = (nTextureHeight - nCurrOffsetY) / fTextureHeight;
+
+		m_pVerts[i*4+2].x = -400+129;
+		m_pVerts[i*4+2].y = 240-110;
+		m_pVerts[i*4+2].z = 0.0f;
+		m_pVerts[i*4+2].u = (nCurrOffsetX+m_nPieceWidth) / fTextureWidth;
+		m_pVerts[i*4+2].v = (nTextureHeight - nCurrOffsetY - m_nPieceHeight) / fTextureHeight;
+
+		m_pVerts[i*4+3].x = -400+129;
+		m_pVerts[i*4+3].y = 240;
+		m_pVerts[i*4+3].z = 0.0f;
+		m_pVerts[i*4+3].u = (nCurrOffsetX+m_nPieceWidth) / fTextureWidth;
+		m_pVerts[i*4+3].v = (nTextureHeight - nCurrOffsetY) / fTextureHeight;*/
 	}
 }

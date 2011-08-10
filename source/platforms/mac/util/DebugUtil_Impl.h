@@ -8,8 +8,7 @@
 #ifndef __DEBUGUTIL_IMPL_H__
 #define __DEBUGUTIL_IMPL_H__
 
-#include <IDebugUtil.h>
-#include <stdio.h>
+#include <util/IDebugUtil.h>
 
 class DebugUtil_Impl : public IDebugUtil
 {
@@ -26,9 +25,6 @@ public:
 	virtual void Debug(const char* format, ...);
 	virtual void Info(const char* format, ...);
 	virtual void Error(const char* format, ...);
-
-private:
-	FILE* m_pLogFile;
 
 };
 

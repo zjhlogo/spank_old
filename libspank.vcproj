@@ -149,6 +149,14 @@
 			Name="util"
 			>
 			<File
+				RelativePath=".\source\platforms\win32\util\DebugUtil_Impl.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\source\platforms\win32\util\DebugUtil_Impl.h"
+				>
+			</File>
+			<File
 				RelativePath=".\source\util\StreamReader.cpp"
 				>
 			</File>
@@ -275,14 +283,6 @@
 		</File>
 		<File
 			RelativePath=".\source\Core_Impl.h"
-			>
-		</File>
-		<File
-			RelativePath=".\source\platforms\win32\DebugUtil_Impl.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\source\platforms\win32\DebugUtil_Impl.h"
 			>
 		</File>
 		<File

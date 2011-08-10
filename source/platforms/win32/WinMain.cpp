@@ -9,7 +9,7 @@
 #include <windows.h>
 #include <IConfig.h>
 #include <ICore.h>
-#include <IDebugUtil.h>
+#include <util/IDebugUtil.h>
 
 void EnterMessageLoop()
 {

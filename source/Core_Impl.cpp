@@ -7,7 +7,7 @@
  */
 #include "Core_Impl.h"
 #include <IConfig.h>
-#include <IDebugUtil.h>
+#include <util/IDebugUtil.h>
 #include <IFileMgr.h>
 #include <msg/MsgMgr.h>
 #include <IRenderDevice.h>

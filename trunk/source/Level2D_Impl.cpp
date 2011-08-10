@@ -44,7 +44,7 @@ void Level2D_Impl::Render()
 {
 	// TODO: 
 	CreateVertexs();
-	IRenderer2D.GetInstance().DrawRect()
+	
 }
 
 void Level2D_Impl::SetCenterPosition(const Vector2& pos)

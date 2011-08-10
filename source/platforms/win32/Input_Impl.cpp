@@ -6,6 +6,7 @@
  * \author zjhlogo (zjhlogo@gmail.com)
  */
 #include "Input_Impl.h"
+#include <IDebugUtil.h>
 
 IInput& IInput::GetInstance()
 {
@@ -15,7 +16,8 @@ IInput& IInput::GetInstance()
 
 Input_Impl::Input_Impl()
 {
-	// TODO: 
+	memset(m_TouchInfoCache, 0, sizeof(m_TouchInfoCache));
+	m_nAllocIndex = 0;
 }
 
 Input_Impl::~Input_Impl()
@@ -25,7 +27,9 @@ Input_Impl::~Input_Impl()
 
 bool Input_Impl::Initialize()
 {
-	// TODO: 
+	memset(m_TouchInfoCache, 0, sizeof(m_TouchInfoCache));
+	m_nAllocIndex = 0;
+	while (!m_TouchInfoQueue.empty()) m_TouchInfoQueue.pop();
 	return true;
 }
 
@@ -36,20 +40,81 @@ void Input_Impl::Terminate()
 
 void Input_Impl::OnTouchStart(int nIndex, float x, float y)
 {
-	// TODO: 
+	TOUCH_INFO* pInfo = AllocTouchInfo();
+	if (!pInfo)
+	{
+		LOGE("touch queue full");
+		return;
+	}
+
+	pInfo->eType = TT_START;
+	pInfo->x = x;
+	pInfo->y = y;
+	m_TouchInfoQueue.push(pInfo);
 }
 
 void Input_Impl::OnTouch(int nIndex, float x, float y)
 {
-	// TODO: 
+	TOUCH_INFO* pInfo = AllocTouchInfo();
+	if (!pInfo)
+	{
+		LOGE("touch queue full");
+		return;
+	}
+
+	pInfo->eType = TT_MOVE;
+	pInfo->x = x;
+	pInfo->y = y;
+	m_TouchInfoQueue.push(pInfo);
 }
 
 void Input_Impl::OnTouchEnd(int nIndex, float x, float y)
 {
-	// TODO: 
+	TOUCH_INFO* pInfo = AllocTouchInfo();
+	if (!pInfo)
+	{
+		LOGE("touch queue full");
+		return;
+	}
+
+	pInfo->eType = TT_END;
+	pInfo->x = x;
+	pInfo->y = y;
+	m_TouchInfoQueue.push(pInfo);
 }
 
 void Input_Impl::DispatchTouchEvents()
 {
-	// TODO: 
+	while (!m_TouchInfoQueue.empty())
+	{
+		TOUCH_INFO* pInfo = m_TouchInfoQueue.front();
+		m_TouchInfoQueue.pop();
+
+		// TODO: send message to notify input event
+
+		FreeTouchInfo(pInfo);
+	}
+}
+
+Input_Impl::TOUCH_INFO* Input_Impl::AllocTouchInfo()
+{
+	for (int i = 0; i < TOUCH_INFO_CACHE_SIZE; ++i)
+	{
+		if (m_TouchInfoCache[m_nAllocIndex].eType == TT_UNKNOWN)
+		{
+			int nIndex = m_nAllocIndex;
+			m_nAllocIndex = ((++m_nAllocIndex) % TOUCH_INFO_CACHE_SIZE);
+			m_TouchInfoCache[nIndex].eType = TT_ALLOCATED;
+			return &m_TouchInfoCache[nIndex];
+		}
+
+		m_nAllocIndex = ((++m_nAllocIndex) % TOUCH_INFO_CACHE_SIZE);
+	}
+
+	return NULL;
+}
+
+void Input_Impl::FreeTouchInfo(TOUCH_INFO* pInfo)
+{
+	pInfo->eType = TT_UNKNOWN;
 }

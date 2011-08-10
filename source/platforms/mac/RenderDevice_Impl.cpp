@@ -6,7 +6,7 @@
  * \author zjhlogo (zjhlogo@gmail.com)
  */
 #include "RenderDevice_Impl.h"
-#include <IConfig.h>
+#include <util/ConfigUtil.h>
 #include <OpenGLES/ES2/glext.h>
 #include <OpenGLES/ES2/gl.h>
 
@@ -29,8 +29,8 @@ RenderDevice_Impl::~RenderDevice_Impl()
 
 bool RenderDevice_Impl::Initialize()
 {
-	m_nSurfaceWidth = IConfig::GetInstance().GetInt("SURFACE_WIDTH");
-	m_nSurfaceHeight = IConfig::GetInstance().GetInt("SURFACE_HEIGHT");
+	m_nSurfaceWidth = ConfigUtil::GetInstance().GetInt("SURFACE_WIDTH");
+	m_nSurfaceHeight = ConfigUtil::GetInstance().GetInt("SURFACE_HEIGHT");
 	if (m_nSurfaceWidth <= 0 || m_nSurfaceHeight <= 0) return false;
 
 	glEnable(GL_BLEND);

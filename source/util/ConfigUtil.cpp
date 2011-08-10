@@ -1,37 +1,47 @@
 /*!
- * \file Config_Impl.cpp
+ * \file ConfigUtil.cpp
  * \date 7-25-2011 10:11:11
  * 
  * 
  * \author zjhlogo (zjhlogo@gmail.com)
  */
-#include "Config_Impl.h"
+#include <util/ConfigUtil.h>
 
-IConfig& IConfig::GetInstance()
+ConfigUtil& ConfigUtil::GetInstance()
 {
-	static Config_Impl s_Config_Impl;
-	return s_Config_Impl;
+	static ConfigUtil s_ConfigUtil;
+	return s_ConfigUtil;
 }
 
-bool Config_Impl::Initialize()
+ConfigUtil::ConfigUtil()
+{
+	// TODO: 
+}
+
+ConfigUtil::~ConfigUtil()
+{
+	// TODO: 
+}
+
+bool ConfigUtil::Initialize()
 {
 	return true;
 }
 
-void Config_Impl::Terminate()
+void ConfigUtil::Terminate()
 {
 	m_mapString.clear();
 	m_mapInt.clear();
 }
 
-void Config_Impl::AddString(const char* pszKey, const char* pszValue)
+void ConfigUtil::AddString(const char* pszKey, const char* pszValue)
 {
 	std::string strKey = pszKey;
 	std::string strValue = pszValue;
 	m_mapString.insert(std::make_pair(strKey, strValue));
 }
 
-const char* Config_Impl::GetString(const char* pszKey, const char* pszDefaultValue /*= NULL*/)
+const char* ConfigUtil::GetString(const char* pszKey, const char* pszDefaultValue /*= NULL*/)
 {
 	std::string strKey = pszKey;
 	TM_STRING::iterator itfound = m_mapString.find(strKey);
@@ -40,13 +50,13 @@ const char* Config_Impl::GetString(const char* pszKey, const char* pszDefaultVal
 	return itfound->second.c_str();
 }
 
-void Config_Impl::AddInt(const char* pszKey, int nValue)
+void ConfigUtil::AddInt(const char* pszKey, int nValue)
 {
 	std::string strKey = pszKey;
 	m_mapInt.insert(std::make_pair(strKey, nValue));
 }
 
-int Config_Impl::GetInt(const char* pszKey, int nDefaultValue /* = 0 */)
+int ConfigUtil::GetInt(const char* pszKey, int nDefaultValue /* = 0 */)
 {
 	std::string strKey = pszKey;
 	TM_INT::iterator itfound = m_mapInt.find(strKey);

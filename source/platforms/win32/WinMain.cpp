@@ -6,10 +6,10 @@
  * \author zjhlogo (zjhlogo@gmail.com)
  */
 #include "WinMain.h"
-#include <windows.h>
-#include <IConfig.h>
-#include <ICore.h>
+#include <util/ConfigUtil.h>
 #include <util/IDebugUtil.h>
+#include <ICore.h>
+#include <windows.h>
 
 void EnterMessageLoop()
 {
@@ -47,11 +47,11 @@ void EnterMessageLoop()
 
 int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
-	IConfig::GetInstance().AddString("WINDOW_CLASS", "SPANK");
-	IConfig::GetInstance().AddString("WINDOW_TITLE", "spank");
-	IConfig::GetInstance().AddString("RESOURCE_DIR", "..\\..\\resources\\");
-	IConfig::GetInstance().AddInt("SURFACE_WIDTH", WindowConfig::SURFACE_WIDTH);
-	IConfig::GetInstance().AddInt("SURFACE_HEIGHT", WindowConfig::SURFACE_HEIGHT);
+	ConfigUtil::GetInstance().AddString("WINDOW_CLASS", "SPANK");
+	ConfigUtil::GetInstance().AddString("WINDOW_TITLE", "spank");
+	ConfigUtil::GetInstance().AddString("RESOURCE_DIR", "..\\..\\resources\\");
+	ConfigUtil::GetInstance().AddInt("SURFACE_WIDTH", WindowConfig::SURFACE_WIDTH);
+	ConfigUtil::GetInstance().AddInt("SURFACE_HEIGHT", WindowConfig::SURFACE_HEIGHT);
 
 	if (ICore::GetInstance().Initialize())
 	{

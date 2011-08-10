@@ -1,5 +1,4 @@
 LIBSPANK_SOURCE_FILES := \
-		$(LIBSPANK_SOURCE)/Config_Impl.cpp \
 		$(LIBSPANK_SOURCE)/Core_Impl.cpp \
 		$(LIBSPANK_SOURCE)/Image_Impl.cpp \
 		$(LIBSPANK_SOURCE)/InputMgr.cpp \
@@ -31,3 +30,4 @@ LIBSPANK_SOURCE_FILES := \
 		$(LIBSPANK_SOURCE)/platforms/android/util/FileUtil_Impl.cpp \
 		$(LIBSPANK_SOURCE)/platforms/android/unzip/unzip.cpp \
 		$(LIBSPANK_SOURCE)/platforms/android/unzip/ioapi.cpp \
+		$(LIBSPANK_SOURCE)/util/ConfigUtil.cpp \

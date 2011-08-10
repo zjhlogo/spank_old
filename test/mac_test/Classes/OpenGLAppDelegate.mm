@@ -6,7 +6,7 @@
  * \author zjhlogo (zjhlogo@gmail.com)
  */
 #import "OpenGLAppDelegate.h"
-#include <IConfig.h>
+#include <util/ConfigUtil.h>
 
 @implementation OpenGLAppDelegate
 
@@ -20,7 +20,7 @@
 	// spank initialize
 	NSString* rootPath = [[NSBundle mainBundle] resourcePath];
 	const char* pszRootPath = [rootPath cStringUsingEncoding: [NSString defaultCStringEncoding]];
-	IConfig::GetInstance().AddString("RESOURCE_DIR", pszRootPath);
+	ConfigUtil::GetInstance().AddString("RESOURCE_DIR", pszRootPath);
 	
     // Override point for customization after application launch.
     CGRect screenBounds = [[UIScreen mainScreen] bounds];

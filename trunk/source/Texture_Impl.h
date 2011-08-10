@@ -9,6 +9,7 @@
 #define __TEXTURE_IMPL_H__
 
 #include <ITexture.h>
+#include <Image.h>
 #include <GLES2/gl2.h>
 
 class Texture_Impl : public ITexture
@@ -25,7 +26,7 @@ public:
 private:
 	bool LoadTextureFromFile(const char* pszFileName, SAMPLE_TYPE eSample);
 
-	bool CreateGLTexture(uint width, uint height, SAMPLE_TYPE eSample, const void* pTextureData);
+	bool CreateGLTexture(Image* pImage, SAMPLE_TYPE eSample);
 	void FreeGLTexture();
 
 private:

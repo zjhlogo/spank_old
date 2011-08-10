@@ -21,7 +21,6 @@ public:
 	virtual void Terminate();
 
 	virtual StreamReader* LoadFile(const char* pszFileName);
-	virtual StreamReader* LoadImageFile(const char* pszFileName, uint* pnWidth, uint* pnHeight);
 
 private:
 	std::string m_strRootPath;

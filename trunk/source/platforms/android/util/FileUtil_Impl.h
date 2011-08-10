@@ -28,7 +28,6 @@ public:
 	virtual void Terminate();
 
 	virtual StreamReader* LoadFile(const char* pszFileName);
-	virtual StreamReader* LoadImageFile(const char* pszFileName, uint* pnWidth, uint* pnHeight);
 
 private:
 	unzFile m_pMainFile;

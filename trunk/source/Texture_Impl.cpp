@@ -40,27 +40,34 @@ GLuint Texture_Impl::GetGLTextureID() const
 
 bool Texture_Impl::LoadTextureFromFile(const char* pszFileName, SAMPLE_TYPE eSample)
 {
-	StreamReader* pTextureStream = IFileUtil::GetInstance().LoadImageFile(pszFileName, &m_nTextureWidth, &m_nTextureHeight);
-	if (!pTextureStream) return false;
+	Image* pImage = new Image(pszFileName);
+	if (!pImage || !pImage->IsOK())
+	{
+		SAFE_DELETE(pImage);
+		return false;
+	}
 
 	// create gl texture
-	bool bOK = CreateGLTexture(m_nTextureWidth, m_nTextureHeight, eSample, pTextureStream->GetBuffer());
+	bool bOK = CreateGLTexture(pImage, eSample);
 
-	// free texture data
-	SAFE_RELEASE(pTextureStream);
+	// free image data
+	SAFE_DELETE(pImage);
 
 	return bOK;
 }
 
-bool Texture_Impl::CreateGLTexture(uint width, uint height, SAMPLE_TYPE eSample, const void* pTextureData)
+bool Texture_Impl::CreateGLTexture(Image* pImage, SAMPLE_TYPE eSample)
 {
 	FreeGLTexture();
 
 	glGenTextures(1, &m_nGLTextureID);
 	if (m_nGLTextureID == 0) return false;
 
+	m_nTextureWidth = pImage->GetWidth();
+	m_nTextureHeight = pImage->GetHeight();
+
 	glBindTexture(GL_TEXTURE_2D, m_nGLTextureID);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, pTextureData);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, m_nTextureWidth, m_nTextureHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, pImage->GetPixelData());
 
 	if (eSample == SAMPLE_POINT)
 	{

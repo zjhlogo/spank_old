@@ -39,6 +39,30 @@ JNIEXPORT void JNICALL Java_com_zjhlogo_spank_SpankLibrary_terminate
 JNIEXPORT void JNICALL Java_com_zjhlogo_spank_SpankLibrary_step
   (JNIEnv *, jclass);
 
+/*
+ * Class:     com_zjhlogo_spank_SpankLibrary
+ * Method:    touchBegin
+ * Signature: (IFF)V
+ */
+JNIEXPORT void JNICALL Java_com_zjhlogo_spank_SpankLibrary_touchBegin
+  (JNIEnv *, jclass, jint, jfloat, jfloat);
+
+/*
+ * Class:     com_zjhlogo_spank_SpankLibrary
+ * Method:    touchMove
+ * Signature: (IFF)V
+ */
+JNIEXPORT void JNICALL Java_com_zjhlogo_spank_SpankLibrary_touchMove
+  (JNIEnv *, jclass, jint, jfloat, jfloat);
+
+/*
+ * Class:     com_zjhlogo_spank_SpankLibrary
+ * Method:    touchEnd
+ * Signature: (IFF)V
+ */
+JNIEXPORT void JNICALL Java_com_zjhlogo_spank_SpankLibrary_touchEnd
+  (JNIEnv *, jclass, jint, jfloat, jfloat);
+
 #ifdef __cplusplus
 }
 #endif

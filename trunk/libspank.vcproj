@@ -166,134 +166,6 @@
 			</File>
 		</Filter>
 		<Filter
-			Name="win32_impl"
-			>
-			<File
-				RelativePath=".\source\platforms\win32\DebugUtil_Impl.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\source\platforms\win32\DebugUtil_Impl.h"
-				>
-			</File>
-			<File
-				RelativePath=".\source\platforms\win32\FileMgr_Impl.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\source\platforms\win32\FileMgr_Impl.h"
-				>
-			</File>
-			<File
-				RelativePath=".\source\platforms\win32\Input_Impl.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\source\platforms\win32\Input_Impl.h"
-				>
-			</File>
-			<File
-				RelativePath=".\source\platforms\win32\RenderDevice_Impl.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\source\platforms\win32\RenderDevice_Impl.h"
-				>
-			</File>
-			<File
-				RelativePath=".\source\platforms\win32\WinMain.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\source\platforms\win32\WinMain.h"
-				>
-			</File>
-		</Filter>
-		<Filter
-			Name="sdk"
-			>
-			<File
-				RelativePath=".\include\BaseType.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\IConfig.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\ICore.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\IDebugUtil.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\IFileMgr.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\IGameApp.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\IImage.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\IInput.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\ILevel2D.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\IMgr.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\INode.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\IObject.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\IRenderableObject.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\IRenderDevice.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\IShader.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\IShaderMgr.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\ISprite.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\ITexture.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\ITextureMgr.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\IVertexAttribute.h"
-				>
-			</File>
-		</Filter>
-		<Filter
 			Name="math"
 			>
 			<File
@@ -361,6 +233,34 @@
 				>
 			</File>
 		</Filter>
+		<Filter
+			Name="msg"
+			>
+			<File
+				RelativePath=".\source\msg\IMsgBase.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\msg\IMsgBase.h"
+				>
+			</File>
+			<File
+				RelativePath=".\source\msg\MsgMgr.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\msg\MsgMgr.h"
+				>
+			</File>
+			<File
+				RelativePath=".\source\msg\MsgTouchEvent.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\msg\MsgTouchEvent.h"
+				>
+			</File>
+		</Filter>
 		<File
 			RelativePath=".\source\Config_Impl.cpp"
 			>
@@ -378,11 +278,35 @@
 			>
 		</File>
 		<File
+			RelativePath=".\source\platforms\win32\DebugUtil_Impl.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\source\platforms\win32\DebugUtil_Impl.h"
+			>
+		</File>
+		<File
+			RelativePath=".\source\platforms\win32\FileMgr_Impl.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\source\platforms\win32\FileMgr_Impl.h"
+			>
+		</File>
+		<File
 			RelativePath=".\source\Image_Impl.cpp"
 			>
 		</File>
 		<File
 			RelativePath=".\source\Image_Impl.h"
+			>
+		</File>
+		<File
+			RelativePath=".\source\InputMgr.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\include\InputMgr.h"
 			>
 		</File>
 		<File
@@ -394,11 +318,27 @@
 			>
 		</File>
 		<File
+			RelativePath=".\source\platforms\win32\Mutex_Impl.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\source\platforms\win32\Mutex_Impl.h"
+			>
+		</File>
+		<File
 			RelativePath=".\source\Node_Impl.cpp"
 			>
 		</File>
 		<File
 			RelativePath=".\source\Node_Impl.h"
+			>
+		</File>
+		<File
+			RelativePath=".\source\platforms\win32\RenderDevice_Impl.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\source\platforms\win32\RenderDevice_Impl.h"
 			>
 		</File>
 		<File
@@ -455,6 +395,14 @@
 		</File>
 		<File
 			RelativePath=".\source\VertexAttribute_Impl.h"
+			>
+		</File>
+		<File
+			RelativePath=".\source\platforms\win32\WinMain.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\source\platforms\win32\WinMain.h"
 			>
 		</File>
 	</Files>

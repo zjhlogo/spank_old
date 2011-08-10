@@ -8,9 +8,9 @@
 #ifndef __IOBJECT_H__
 #define __IOBJECT_H__
 
-#include "BaseType.h"
+#include "msg/IMsgHandler.h"
 
-class IObject
+class IObject : public IMsgHandler
 {
 public:
 	IObject():m_bOK(false), m_nRef(1){};

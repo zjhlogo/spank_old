@@ -2,6 +2,7 @@ LIBSPANK_SOURCE_FILES := \
 		$(LIBSPANK_SOURCE)/Config_Impl.cpp \
 		$(LIBSPANK_SOURCE)/Core_Impl.cpp \
 		$(LIBSPANK_SOURCE)/Image_Impl.cpp \
+		$(LIBSPANK_SOURCE)/InputMgr.cpp \
 		$(LIBSPANK_SOURCE)/Level2D_Impl.cpp \
 		$(LIBSPANK_SOURCE)/Node_Impl.cpp \
 		$(LIBSPANK_SOURCE)/Renderer2D_Impl.cpp \
@@ -19,9 +20,12 @@ LIBSPANK_SOURCE_FILES := \
 		$(LIBSPANK_SOURCE)/math/Vector2.cpp \
 		$(LIBSPANK_SOURCE)/math/Vector3.cpp \
 		$(LIBSPANK_SOURCE)/math/Vector4.cpp \
+		$(LIBSPANK_SOURCE)/msg/IMsgBase.cpp \
+		$(LIBSPANK_SOURCE)/msg/MsgMgr.cpp \
+		$(LIBSPANK_SOURCE)/msg/MsgTouchEvent.cpp \
 		$(LIBSPANK_SOURCE)/platforms/android/DebugUtil_Impl.cpp \
 		$(LIBSPANK_SOURCE)/platforms/android/FileMgr_Impl.cpp \
-		$(LIBSPANK_SOURCE)/platforms/android/Input_Impl.cpp \
+		$(LIBSPANK_SOURCE)/platforms/android/Mutex_Impl.cpp \
 		$(LIBSPANK_SOURCE)/platforms/android/RenderDevice_Impl.cpp \
 		$(LIBSPANK_SOURCE)/platforms/android/unzip/unzip.cpp \
 		$(LIBSPANK_SOURCE)/platforms/android/unzip/ioapi.cpp \

@@ -9,11 +9,12 @@
 #include <IConfig.h>
 #include <IDebugUtil.h>
 #include <IFileMgr.h>
+#include <msg/MsgMgr.h>
 #include <IRenderDevice.h>
 #include <ITextureMgr.h>
 #include <IShaderMgr.h>
 #include <IRenderer2D.h>
-#include <IInput.h>
+#include <InputMgr.h>
 #include <IGameApp.h>
 #include "Node_Impl.h"
 
@@ -38,11 +39,12 @@ bool Core_Impl::Initialize()
 	if (!IConfig::GetInstance().Initialize()) return false;
 	if (!IDebugUtil::GetInstance().Initialize()) return false;
 	if (!IFileMgr::GetInstance().Initialize()) return false;
+	if (!MsgMgr::GetInstance().Initialize()) return false;
 	if (!IRenderDevice::GetInstance().Initialize()) return false;
 	if (!ITextureMgr::GetInstance().Initialize()) return false;
 	if (!IShaderMgr::GetInstance().Initialize()) return false;
 	if (!IRenderer2D::GetInstance().Initialize()) return false;
-	if (!IInput::GetInstance().Initialize()) return false;
+	if (!InputMgr::GetInstance().Initialize()) return false;
 	if (!Init()) return false;
 	if (!IGameApp::GetInstance().Initialize()) return false;
 
@@ -53,11 +55,12 @@ void Core_Impl::Terminate()
 {
 	IGameApp::GetInstance().Terminate();
 	Term();
-	IInput::GetInstance().Terminate();
+	InputMgr::GetInstance().Terminate();
 	IRenderer2D::GetInstance().Terminate();
 	IShaderMgr::GetInstance().Terminate();
 	ITextureMgr::GetInstance().Terminate();
 	IRenderDevice::GetInstance().Terminate();
+	MsgMgr::GetInstance().Terminate();
 	IFileMgr::GetInstance().Terminate();
 	IDebugUtil::GetInstance().Terminate();
 	IConfig::GetInstance().Terminate();
@@ -70,7 +73,7 @@ INode* Core_Impl::GetRootNode()
 
 void Core_Impl::Update(float dt)
 {
-	IInput::GetInstance().DispatchTouchEvents();
+	MsgMgr::GetInstance().DispatchMessage();
 	IGameApp::GetInstance().Update(dt);
 }
 

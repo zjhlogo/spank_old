@@ -8,6 +8,8 @@
 #include "AndroidMain.h"
 #include <ICore.h>
 #include <IConfig.h>
+#include <InputMgr.h>
+#include <IRenderDevice.h>
 #include <time.h>
 
 static uint g_nCurrTime = 0;
@@ -59,4 +61,25 @@ JNIEXPORT void JNICALL Java_com_zjhlogo_spank_SpankLibrary_step(JNIEnv* env, jcl
 	ICore::GetInstance().PostRender();
 
 	g_nPrevTime = g_nCurrTime;
+}
+
+JNIEXPORT void JNICALL Java_com_zjhlogo_spank_SpankLibrary_touchBegin(JNIEnv* env, jclass cls, jint index, jfloat x, jfloat y)
+{
+	float fx = x - IRenderDevice::GetInstance().GetSurfaceWidth() / 2.0f;
+	float fy = IRenderDevice::GetInstance().GetSurfaceHeight() / 2.0f - y;
+	InputMgr::GetInstance().OnTouchStart(index, fx, fy);
+}
+
+JNIEXPORT void JNICALL Java_com_zjhlogo_spank_SpankLibrary_touchMove(JNIEnv* env, jclass cls, jint index, jfloat x, jfloat y)
+{
+	float fx = x - IRenderDevice::GetInstance().GetSurfaceWidth() / 2.0f;
+	float fy = IRenderDevice::GetInstance().GetSurfaceHeight() / 2.0f - y;
+	InputMgr::GetInstance().OnTouchMove(index, fx, fy);
+}
+
+JNIEXPORT void JNICALL Java_com_zjhlogo_spank_SpankLibrary_touchEnd(JNIEnv* env, jclass cls, jint index, jfloat x, jfloat y)
+{
+	float fx = x - IRenderDevice::GetInstance().GetSurfaceWidth() / 2.0f;
+	float fy = IRenderDevice::GetInstance().GetSurfaceHeight() / 2.0f - y;
+	InputMgr::GetInstance().OnTouchEnd(index, fx, fy);
 }

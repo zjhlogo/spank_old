@@ -12,4 +12,8 @@ public class SpankLibrary
     public static native boolean initialize(int width, int height);
     public static native void terminate();
     public static native void step();
+    
+    public static native void touchBegin(int index, float x, float y);
+    public static native void touchMove(int index, float x, float y);
+    public static native void touchEnd(int index, float x, float y);
 }

@@ -6,7 +6,7 @@
  * \author zjhlogo (zjhlogo@gmail.com)
  */
 #include "Texture_Impl.h"
-#include <IFileMgr.h>
+#include <util/IFileUtil.h>
 #include <GLES2/gl2.h>
 
 Texture_Impl::Texture_Impl(const char* pszFileName, SAMPLE_TYPE eSample)
@@ -40,7 +40,7 @@ GLuint Texture_Impl::GetGLTextureID() const
 
 bool Texture_Impl::LoadTextureFromFile(const char* pszFileName, SAMPLE_TYPE eSample)
 {
-	StreamReader* pTextureStream = IFileMgr::GetInstance().LoadImageFile(pszFileName, &m_nTextureWidth, &m_nTextureHeight);
+	StreamReader* pTextureStream = IFileUtil::GetInstance().LoadImageFile(pszFileName, &m_nTextureWidth, &m_nTextureHeight);
 	if (!pTextureStream) return false;
 
 	// create gl texture

@@ -8,7 +8,7 @@
 #include "ShaderMgr_Impl.h"
 #include "Shader_Impl.h"
 #include "VertexAttribute_Impl.h"
-#include <IFileMgr.h>
+#include <util/IFileUtil.h>
 #include <tinyxml-2.6.2/tinyxml.h>
 
 IShaderMgr& IShaderMgr::GetInstance()
@@ -40,7 +40,7 @@ void ShaderMgr_Impl::Terminate()
 
 IShader* ShaderMgr_Impl::CreateShader(const char* pszShaderFile)
 {
-	StreamReader* pReader = IFileMgr::GetInstance().LoadFile(pszShaderFile);
+	StreamReader* pReader = IFileUtil::GetInstance().LoadFile(pszShaderFile);
 	if (!pReader) return NULL;
 
 	TiXmlDocument doc;
@@ -108,14 +108,14 @@ IShader* ShaderMgr_Impl::CreateShader(const char* pszShaderFile)
 
 IShader* ShaderMgr_Impl::InternalCreateShader(int nShaderID, const char* pszVertexShaderFile, const char* pszFregmentShaderFile, const IVertexAttribute::ATTRIBUTE_ITEM* pAttrItems)
 {
-	StreamReader* pVertexShader = IFileMgr::GetInstance().LoadFile(pszVertexShaderFile);
+	StreamReader* pVertexShader = IFileUtil::GetInstance().LoadFile(pszVertexShaderFile);
 	if (!pVertexShader || !pVertexShader->IsOK())
 	{
 		SAFE_RELEASE(pVertexShader);
 		return NULL;
 	}
 
-	StreamReader* pFregmentShader = IFileMgr::GetInstance().LoadFile(pszFregmentShaderFile);
+	StreamReader* pFregmentShader = IFileUtil::GetInstance().LoadFile(pszFregmentShaderFile);
 	if (!pFregmentShader || !pFregmentShader->IsOK())
 	{
 		SAFE_RELEASE(pVertexShader);

@@ -8,7 +8,7 @@
 #ifndef __STREAMREADER_H__
 #define __STREAMREADER_H__
 
-#include "../IObject.h"
+#include "IObject.h"
 
 class StreamReader : public IObject
 {

@@ -1,19 +1,19 @@
 /*!
- * \file FileMgr_Impl.cpp
+ * \file FileUtil_Impl.cpp
  * \date 7-20-2011 10:59:23
  * 
  * 
  * \author zjhlogo (zjhlogo@gmail.com)
  */
-#include "FileMgr_Impl.h"
+#include "FileUtil_Impl.h"
 #include <util/IDebugUtil.h>
 #include <IConfig.h>
 #include <lpng154/png.h>
 
-IFileMgr& IFileMgr::GetInstance()
+IFileUtil& IFileUtil::GetInstance()
 {
-	static FileMgr_Impl s_FileMgr_Impl;
-	return s_FileMgr_Impl;
+	static FileUtil_Impl s_FileUtil_Impl;
+	return s_FileUtil_Impl;
 }
 
 static void PngReaderCallback(png_structp pPngStruct, png_bytep pData, png_size_t nSize)
@@ -26,17 +26,17 @@ static void PngReaderCallback(png_structp pPngStruct, png_bytep pData, png_size_
 	}
 }
 
-FileMgr_Impl::FileMgr_Impl()
+FileUtil_Impl::FileUtil_Impl()
 {
 	// TODO: 
 }
 
-FileMgr_Impl::~FileMgr_Impl()
+FileUtil_Impl::~FileUtil_Impl()
 {
 	Terminate();
 }
 
-bool FileMgr_Impl::Initialize()
+bool FileUtil_Impl::Initialize()
 {
 	const char* pszResourceDir = IConfig::GetInstance().GetString("RESOURCE_DIR");
 	if (!pszResourceDir || strlen(pszResourceDir) <= 0)
@@ -50,12 +50,12 @@ bool FileMgr_Impl::Initialize()
 	return true;
 }
 
-void FileMgr_Impl::Terminate()
+void FileUtil_Impl::Terminate()
 {
 	// TODO: 
 }
 
-StreamReader* FileMgr_Impl::LoadFile(const char* pszFileName)
+StreamReader* FileUtil_Impl::LoadFile(const char* pszFileName)
 {
 	if (!pszFileName || strlen(pszFileName) <= 0) return NULL;
 	
@@ -96,7 +96,7 @@ StreamReader* FileMgr_Impl::LoadFile(const char* pszFileName)
 	return pStreamReader;
 }
 
-StreamReader* FileMgr_Impl::LoadImageFile(const char* pszFileName, uint* pnWidth, uint* pnHeight)
+StreamReader* FileUtil_Impl::LoadImageFile(const char* pszFileName, uint* pnWidth, uint* pnHeight)
 {
 	StreamReader* pTextureStream = LoadFile(pszFileName);
 	if (!pTextureStream || !pTextureStream->IsOK())

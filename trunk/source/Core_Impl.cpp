@@ -8,7 +8,7 @@
 #include "Core_Impl.h"
 #include <IConfig.h>
 #include <util/IDebugUtil.h>
-#include <IFileMgr.h>
+#include <util/IFileUtil.h>
 #include <msg/MsgMgr.h>
 #include <IRenderDevice.h>
 #include <ITextureMgr.h>
@@ -38,7 +38,7 @@ bool Core_Impl::Initialize()
 {
 	if (!IConfig::GetInstance().Initialize()) return false;
 	if (!IDebugUtil::GetInstance().Initialize()) return false;
-	if (!IFileMgr::GetInstance().Initialize()) return false;
+	if (!IFileUtil::GetInstance().Initialize()) return false;
 	if (!MsgMgr::GetInstance().Initialize()) return false;
 	if (!IRenderDevice::GetInstance().Initialize()) return false;
 	if (!ITextureMgr::GetInstance().Initialize()) return false;
@@ -61,7 +61,7 @@ void Core_Impl::Terminate()
 	ITextureMgr::GetInstance().Terminate();
 	IRenderDevice::GetInstance().Terminate();
 	MsgMgr::GetInstance().Terminate();
-	IFileMgr::GetInstance().Terminate();
+	IFileUtil::GetInstance().Terminate();
 	IDebugUtil::GetInstance().Terminate();
 	IConfig::GetInstance().Terminate();
 }

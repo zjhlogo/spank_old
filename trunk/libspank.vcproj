@@ -157,19 +157,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\source\util\StreamReader.cpp"
+				RelativePath=".\source\platforms\win32\util\FileUtil_Impl.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\include\util\StreamReader.h"
-				>
-			</File>
-			<File
-				RelativePath=".\source\util\StreamWriter.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\include\util\StreamWriter.h"
+				RelativePath=".\source\platforms\win32\util\FileUtil_Impl.h"
 				>
 			</File>
 		</Filter>
@@ -286,14 +278,6 @@
 			>
 		</File>
 		<File
-			RelativePath=".\source\platforms\win32\FileMgr_Impl.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\source\platforms\win32\FileMgr_Impl.h"
-			>
-		</File>
-		<File
 			RelativePath=".\source\Image_Impl.cpp"
 			>
 		</File>
@@ -371,6 +355,22 @@
 		</File>
 		<File
 			RelativePath=".\source\Sprite_Impl.h"
+			>
+		</File>
+		<File
+			RelativePath=".\source\StreamReader.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\include\StreamReader.h"
+			>
+		</File>
+		<File
+			RelativePath=".\source\StreamWriter.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\include\StreamWriter.h"
 			>
 		</File>
 		<File

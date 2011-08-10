@@ -7,7 +7,7 @@
  */
 #include "RenderDevice_Impl.h"
 #include <IConfig.h>
-#include <IDebugUtil.h>
+#include <util/IDebugUtil.h>
 #include <InputMgr.h>
 #include <GLES2/gl2.h>
 

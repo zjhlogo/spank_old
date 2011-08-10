@@ -7,7 +7,7 @@
  */
 #include "Shader_Impl.h"
 #include "Texture_Impl.h"
-#include <IDebugUtil.h>
+#include <util/IDebugUtil.h>
 #include <IShaderMgr.h>
 
 Shader_Impl::Shader_Impl(StreamReader* pVertexShader, StreamReader* pFregmentShader, IVertexAttribute* pVertexAttribute)

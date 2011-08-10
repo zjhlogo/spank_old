@@ -6,7 +6,7 @@
  * \author zjhlogo (zjhlogo@gmail.com)
  */
 #include "FileMgr_Impl.h"
-#include <IDebugUtil.h>
+#include <util/IDebugUtil.h>
 #include <IConfig.h>
 #include <util/StreamWriter.h>
 #include <lpng154/png.h>

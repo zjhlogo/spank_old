@@ -8,7 +8,7 @@
 #include "Renderer2D_Impl.h"
 #include <IRenderDevice.h>
 #include <IShaderMgr.h>
-#include <IDebugUtil.h>
+#include <util/IDebugUtil.h>
 #include <GLES2/gl2.h>
 
 IRenderer2D& IRenderer2D::GetInstance()

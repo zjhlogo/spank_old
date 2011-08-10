@@ -7,7 +7,7 @@
  */
 #include "FileMgr_Impl.h"
 #include <IConfig.h>
-#include <IDebugUtil.h>
+#include <util/IDebugUtil.h>
 #include <stdio.h>
 #include <string.h>
 #include <lpng154/png.h>

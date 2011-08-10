@@ -8,7 +8,7 @@
 #ifndef __DEBUGUTIL_IMPL_H__
 #define __DEBUGUTIL_IMPL_H__
 
-#include <IDebugUtil.h>
+#include <util/IDebugUtil.h>
 
 class DebugUtil_Impl : public IDebugUtil
 {

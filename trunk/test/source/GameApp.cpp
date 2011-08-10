@@ -6,7 +6,7 @@
  * \author zjhlogo (zjhlogo@gmail.com)
  */
 #include "GameApp.h"
-#include <IDebugUtil.h>
+#include <util/IDebugUtil.h>
 #include <msg/MsgID.h>
 #include <msg/MsgMgr.h>
 #include <msg/MsgTouchEvent.h>

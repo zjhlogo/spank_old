@@ -23,10 +23,10 @@ LIBSPANK_SOURCE_FILES := \
 		$(LIBSPANK_SOURCE)/msg/IMsgBase.cpp \
 		$(LIBSPANK_SOURCE)/msg/MsgMgr.cpp \
 		$(LIBSPANK_SOURCE)/msg/MsgTouchEvent.cpp \
-		$(LIBSPANK_SOURCE)/platforms/android/DebugUtil_Impl.cpp \
 		$(LIBSPANK_SOURCE)/platforms/android/FileMgr_Impl.cpp \
 		$(LIBSPANK_SOURCE)/platforms/android/Mutex_Impl.cpp \
 		$(LIBSPANK_SOURCE)/platforms/android/RenderDevice_Impl.cpp \
+		$(LIBSPANK_SOURCE)/platforms/android/util/DebugUtil_Impl.cpp \
 		$(LIBSPANK_SOURCE)/platforms/android/unzip/unzip.cpp \
 		$(LIBSPANK_SOURCE)/platforms/android/unzip/ioapi.cpp \
 		$(LIBSPANK_SOURCE)/util/StreamReader.cpp \

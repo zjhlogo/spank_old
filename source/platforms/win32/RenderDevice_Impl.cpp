@@ -8,7 +8,7 @@
 #include "RenderDevice_Impl.h"
 #include <IConfig.h>
 #include <IDebugUtil.h>
-#include <IInput.h>
+#include <InputMgr.h>
 #include <GLES2/gl2.h>
 
 IRenderDevice& IRenderDevice::GetInstance()
@@ -138,7 +138,7 @@ LRESULT CALLBACK RenderDevice_Impl::MainWndProc(HWND hWnd, UINT uMsg, WPARAM wPa
 			int nPosY = (int)(short)HIWORD(lParam);
 			float fPosX = nPosX - IRenderDevice::GetInstance().GetSurfaceWidth() / 2.0f;
 			float fPosY = IRenderDevice::GetInstance().GetSurfaceHeight() / 2.0f - nPosY;
-			IInput::GetInstance().OnTouchStart(0, fPosX, fPosY);
+			InputMgr::GetInstance().OnTouchStart(0, fPosX, fPosY);
 		}
 		break;
 	case WM_MOUSEMOVE:
@@ -147,7 +147,7 @@ LRESULT CALLBACK RenderDevice_Impl::MainWndProc(HWND hWnd, UINT uMsg, WPARAM wPa
 			int nPosY = (int)(short)HIWORD(lParam);
 			float fPosX = nPosX - IRenderDevice::GetInstance().GetSurfaceWidth() / 2.0f;
 			float fPosY = IRenderDevice::GetInstance().GetSurfaceHeight() / 2.0f - nPosY;
-			IInput::GetInstance().OnTouch(0, fPosX, fPosY);
+			InputMgr::GetInstance().OnTouchMove(0, fPosX, fPosY);
 		}
 		break;
 	case WM_LBUTTONUP:
@@ -156,7 +156,7 @@ LRESULT CALLBACK RenderDevice_Impl::MainWndProc(HWND hWnd, UINT uMsg, WPARAM wPa
 			int nPosY = (int)(short)HIWORD(lParam);
 			float fPosX = nPosX - IRenderDevice::GetInstance().GetSurfaceWidth() / 2.0f;
 			float fPosY = IRenderDevice::GetInstance().GetSurfaceHeight() / 2.0f - nPosY;
-			IInput::GetInstance().OnTouchEnd(0, fPosX, fPosY);
+			InputMgr::GetInstance().OnTouchEnd(0, fPosX, fPosY);
 		}
 		break;
 	case WM_DESTROY:

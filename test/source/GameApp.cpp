@@ -6,6 +6,10 @@
  * \author zjhlogo (zjhlogo@gmail.com)
  */
 #include "GameApp.h"
+#include <IDebugUtil.h>
+#include <msg/MsgID.h>
+#include <msg/MsgMgr.h>
+#include <msg/MsgTouchEvent.h>
 
 IGameApp& IGameApp::GetInstance()
 {
@@ -25,6 +29,8 @@ GameApp::~GameApp()
 
 bool GameApp::Initialize()
 {
+	MsgMgr::GetInstance().SubscribeMessage(MI_TOUCH_EVENT, this, (MSG_CALLBACK)&GameApp::OnTouchEvent);
+
 	m_pSprite = ISprite::CreateSprite("test_sprite.xml");
 	return true;
 }
@@ -42,4 +48,24 @@ void GameApp::Update(float dt)
 void GameApp::Render()
 {
 	m_pSprite->Render();
+}
+
+bool GameApp::OnTouchEvent(uint nMsgID, IMsgBase* pMsg)
+{
+	MsgTouchEvent* pTouchEvent = (MsgTouchEvent*)pMsg;
+
+	if (pTouchEvent->IsTouchBegin())
+	{
+		LOGD("touch begin: (%.02f, %.02f)", pTouchEvent->GetPosition().x, pTouchEvent->GetPosition().y);
+	}
+	else if (pTouchEvent->IsTouchMove())
+	{
+		LOGD("touch move: (%.02f, %.02f)", pTouchEvent->GetPosition().x, pTouchEvent->GetPosition().y);
+	}
+	else if (pTouchEvent->IsTouchEnd())
+	{
+		LOGD("touch end: (%.02f, %.02f)", pTouchEvent->GetPosition().x, pTouchEvent->GetPosition().y);
+	}
+
+	return true;
 }

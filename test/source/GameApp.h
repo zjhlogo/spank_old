@@ -10,6 +10,7 @@
 
 #include <IGameApp.h>
 #include <ISprite.h>
+#include <msg/IMsgBase.h>
 
 class GameApp : public IGameApp
 {
@@ -22,6 +23,9 @@ public:
 
 	virtual void Update(float dt);
 	virtual void Render();
+
+private:
+	bool OnTouchEvent(uint nMsgID, IMsgBase* pMsg);
 
 private:
 	ISprite* m_pSprite;

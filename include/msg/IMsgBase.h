@@ -1,0 +1,25 @@
+/*!
+ * \file IMsgBase.h
+ * \date 8-10-2011 11:37:52
+ * 
+ * 
+ * \author zjhlogo (zjhlogo@gmail.com)
+ */
+#ifndef __IMSGBASE_H__
+#define __IMSGBASE_H__
+
+#include "BaseType.h"
+
+class IMsgBase
+{
+public:
+	IMsgBase(uint nMsgID);
+	~IMsgBase();
+
+	uint GetMsgID() const;
+
+private:
+	uint m_nMsgID;
+
+};
+#endif // __IMSGBASE_H__

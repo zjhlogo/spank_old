@@ -8,9 +8,9 @@
 #ifndef __IMGR_H__
 #define __IMGR_H__
 
-#include "BaseType.h"
+#include "msg/IMsgHandler.h"
 
-class IMgr
+class IMgr : public IMsgHandler
 {
 public:
 	virtual bool Initialize() = 0;

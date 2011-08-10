@@ -9,14 +9,21 @@
 #define __INPUT_IMPL_H__
 
 #include <IInput.h>
+#include <queue>
 
 class Input_Impl : public IInput
 {
 public:
+	enum CONST_DEFINE
+	{
+		TOUCH_INFO_CACHE_SIZE = 64,
+	};
+
 	enum TOUCH_TYPE
 	{
 		TT_UNKNOWN = 0,
-		TT_BEGIN,
+		TT_ALLOCATED,
+		TT_START,
 		TT_MOVE,
 		TT_END,
 	};
@@ -26,6 +33,8 @@ public:
 		TOUCH_TYPE eType;
 		float x, y;
 	} TOUCH_INFO;
+
+	typedef std::queue<TOUCH_INFO*> TQ_TOUCH_INFO;
 
 public:
 	Input_Impl();
@@ -39,6 +48,15 @@ public:
 	virtual void OnTouchEnd(int nIndex, float x, float y);
 
 	virtual void DispatchTouchEvents();
+
+private:
+	TOUCH_INFO* AllocTouchInfo();
+	void FreeTouchInfo(TOUCH_INFO* pInfo);
+
+private:
+	TQ_TOUCH_INFO m_TouchInfoQueue;
+	TOUCH_INFO m_TouchInfoCache[TOUCH_INFO_CACHE_SIZE];
+	int m_nAllocIndex;
 
 };
 #endif // __INPUT_IMPL_H__

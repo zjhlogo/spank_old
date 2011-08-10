@@ -1,6 +1,6 @@
 LIBSPANK_SOURCE_FILES := \
 		$(LIBSPANK_SOURCE)/Core_Impl.cpp \
-		$(LIBSPANK_SOURCE)/Image_Impl.cpp \
+		$(LIBSPANK_SOURCE)/Image.cpp \
 		$(LIBSPANK_SOURCE)/InputMgr.cpp \
 		$(LIBSPANK_SOURCE)/Level2D_Impl.cpp \
 		$(LIBSPANK_SOURCE)/Node_Impl.cpp \

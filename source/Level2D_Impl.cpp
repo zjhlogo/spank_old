@@ -7,7 +7,7 @@
  */
 #include "Level2D_Impl.h"
 #include <math/IMath.h>
-#include <IFileMgr.h>
+#include <util/IFileUtil.h>
 #include <ITextureMgr.h>
 #include <IRenderer2D.h>
 #include <tinyxml-2.6.2/tinyxml.h>
@@ -62,7 +62,7 @@ const Vector2& Level2D_Impl::GetCenterPosition() const
 bool Level2D_Impl::LoadLevel2DFromFile(const char* pszLevel2DFile)
 {
 	//TODO:
-	StreamReader* pReader = IFileMgr::GetInstance().LoadFile(pszLevel2DFile);
+	StreamReader* pReader = IFileUtil::GetInstance().LoadFile(pszLevel2DFile);
 	if (!pReader) return false;
 
 	TiXmlDocument doc;

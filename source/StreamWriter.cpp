@@ -5,7 +5,7 @@
  * 
  * \author zjhlogo (zjhlogo@gmail.com)
  */
-#include <util/StreamWriter.h>
+#include <StreamWriter.h>
 #include <memory>
 
 StreamWriter::StreamWriter()

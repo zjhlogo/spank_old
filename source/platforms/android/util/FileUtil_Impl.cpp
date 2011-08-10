@@ -1,21 +1,20 @@
 /*!
- * \file FileMgr_Impl.cpp
+ * \file FileUtil_Impl.cpp
  * \date 7-20-2011 10:59:23
  * 
  * 
  * \author zjhlogo (zjhlogo@gmail.com)
  */
-#include "FileMgr_Impl.h"
-#include <IConfig.h>
+#include "FileUtil_Impl.h"
 #include <util/IDebugUtil.h>
-#include <stdio.h>
-#include <string.h>
+#include <IConfig.h>
+#include <StreamWriter.h>
 #include <lpng154/png.h>
 
-IFileMgr& IFileMgr::GetInstance()
+IFileUtil& IFileUtil::GetInstance()
 {
-	static FileMgr_Impl s_FileMgr_Impl;
-	return s_FileMgr_Impl;
+	static FileUtil_Impl s_FileUtil_Impl;
+	return s_FileUtil_Impl;
 }
 
 static void PngReaderCallback(png_structp pPngStruct, png_bytep pData, png_size_t nSize)
@@ -28,71 +27,92 @@ static void PngReaderCallback(png_structp pPngStruct, png_bytep pData, png_size_
 	}
 }
 
-FileMgr_Impl::FileMgr_Impl()
+FileUtil_Impl::FileUtil_Impl()
+{
+	m_pMainFile = NULL;
+}
+
+FileUtil_Impl::~FileUtil_Impl()
 {
 	// TODO: 
 }
 
-FileMgr_Impl::~FileMgr_Impl()
+bool FileUtil_Impl::Initialize()
 {
-	Terminate();
-}
-
-bool FileMgr_Impl::Initialize()
-{
-	m_strRootPath = IConfig::GetInstance().GetString("RESOURCE_DIR", "");
-	if (m_strRootPath.empty())
+	const char* pszPackageFilePath = IConfig::GetInstance().GetString("ANDROID_RESOURCE_PACKAGE");
+	if (!pszPackageFilePath || strlen(pszPackageFilePath) <= 0)
 	{
-		LOGE("empty resource directory, please set the config of [RESOURCE_DIR]");
+		LOGE("invalid resource package path");
 		return false;
 	}
 
+	m_pMainFile = unzOpen(pszPackageFilePath);
+	if (!m_pMainFile)
+	{
+		LOGE("open resource package file failed: %s", pszPackageFilePath);
+		return false;
+	}
+
+	m_strRootPath = IConfig::GetInstance().GetString("RESOURCE_DIR", "assets/");
 	LOGD("resource directory: %s", m_strRootPath.c_str());
+
 	return true;
 }
 
-void FileMgr_Impl::Terminate()
+void FileUtil_Impl::Terminate()
 {
-	// TODO: 
+	if (m_pMainFile)
+	{
+		unzClose(m_pMainFile);
+		m_pMainFile = NULL;
+	}
 }
 
-StreamReader* FileMgr_Impl::LoadFile(const char* pszFileName)
+StreamReader* FileUtil_Impl::LoadFile(const char* pszFileName)
 {
 	if (!pszFileName || strlen(pszFileName) <= 0) return NULL;
 
 	std::string strFullPath = m_strRootPath + pszFileName;
 
-	FILE* pFile = NULL;
-	fopen_s(&pFile, strFullPath.c_str(), "rb");
-	if (pFile == NULL)
+	int nRet = unzLocateFile(m_pMainFile, strFullPath.c_str(), 1);
+	if (nRet != UNZ_OK)
 	{
-		LOGE("open file failed: %s", strFullPath.c_str());
+		LOGE("locate file failed: %s", strFullPath.c_str());
 		return NULL;
 	}
 
-	fseek(pFile, 0, SEEK_END);
-	uint nFileSize = ftell(pFile);
-	fseek(pFile, 0, SEEK_SET);
+	char szFilePath[MAX_FILE_PATH];
+	unz_file_info fileInfo;
+	nRet = unzGetCurrentFileInfo(m_pMainFile, &fileInfo, szFilePath, sizeof(szFilePath), NULL, 0, NULL, 0);
+	if (nRet != UNZ_OK)
+	{
+		LOGE("get file info failed: %s", strFullPath.c_str());
+		return NULL;
+	}
 
+	nRet = unzOpenCurrentFile(m_pMainFile);
+	if (nRet != UNZ_OK)
+	{
+		LOGE("open file failed: %s", szFilePath);
+		return NULL;
+	}
+
+	int nFileSize = fileInfo.uncompressed_size;
 	char* pszBuffer = new char[nFileSize+1];
-	int nReadSize = fread(pszBuffer, 1, nFileSize, pFile);
-	fclose(pFile);
+	int nReadSize = unzReadCurrentFile(m_pMainFile, pszBuffer, nFileSize);
+	if (nReadSize != nFileSize)
+	{
+		LOGE("read size miss-match: %d/%d read", nReadSize, nFileSize);
+	}
+	unzCloseCurrentFile(m_pMainFile);
 
 	pszBuffer[nFileSize] = '\0';
 
 	StreamReader* pStreamReader = new StreamReader(pszBuffer, nFileSize, true);
-	if (!pStreamReader || !pStreamReader->IsOK())
-	{
-		LOGE("create stream reader failed with file size: %d", nFileSize);
-		SAFE_DELETE(pStreamReader);
-		SAFE_DELETE_ARRAY(pszBuffer);
-		return NULL;
-	}
-
 	return pStreamReader;
 }
 
-StreamReader* FileMgr_Impl::LoadImageFile(const char* pszFileName, uint* pnWidth, uint* pnHeight)
+StreamReader* FileUtil_Impl::LoadImageFile(const char* pszFileName, uint* pnWidth, uint* pnHeight)
 {
 	StreamReader* pTextureStream = LoadFile(pszFileName);
 	if (!pTextureStream || !pTextureStream->IsOK())
@@ -121,33 +141,40 @@ StreamReader* FileMgr_Impl::LoadImageFile(const char* pszFileName, uint* pnWidth
 		return false;
 	}
 
-	setjmp(png_jmpbuf(pPngStruct));
+	if (setjmp(png_jmpbuf(pPngStruct)))
+	{
+		png_destroy_read_struct(&pPngStruct, &pPngInfo, NULL);
+		// TODO: logout
+		SAFE_DELETE(pTextureStream);
+		return false;
+	}
 
-	// define our own callback function for I/O instead of reading from a file
+	//define our own callback function for I/O instead of reading from a file
 	png_set_read_fn(pPngStruct, pTextureStream, PngReaderCallback);
 
 	png_read_info(pPngStruct, pPngInfo);
 	int nTextureWidth = png_get_image_width(pPngStruct, pPngInfo);
 	int nTextureHeight = png_get_image_height(pPngStruct, pPngInfo);
-	// can be PNG_COLOR_TYPE_RGB, PNG_COLOR_TYPE_PALETTE, ...
-	png_byte nColorType = png_get_color_type(pPngStruct, pPngInfo);
+	png_byte nColorType = png_get_color_type(pPngStruct, pPngInfo);	//可以是PNG_COLOR_TYPE_RGB,PNG_COLOR_TYPE_PALETTE.......等
 	png_byte nBitDepth = png_get_bit_depth(pPngStruct, pPngInfo);
 
-	// convert stuff to appropriate formats!
+	// Convert stuff to appropriate formats!
 	if(nColorType == PNG_COLOR_TYPE_PALETTE)
 	{
 		png_set_packing(pPngStruct);
-		// expand data to 24-bit RGB or 32-bit RGBA if alpha available
-		png_set_palette_to_rgb(pPngStruct);
+		png_set_palette_to_rgb(pPngStruct); //Expand data to 24-bit RGB or 32-bit RGBA if alpha available.
 	}
 
-	// expand data to 24-bit RGB or 32-bit RGBA if alpha available
+	// TODO: why?
 	if (nColorType == PNG_COLOR_TYPE_GRAY && nBitDepth < 8) png_set_expand_gray_1_2_4_to_8(pPngStruct);
 	if (nColorType == PNG_COLOR_TYPE_GRAY_ALPHA) png_set_gray_to_rgb(pPngStruct);
 	if (nBitDepth == 16) png_set_strip_16(pPngStruct);
 
-	// expand paletted or RGB images with transparency to full alpha channels so the data will be available as RGBA quartets.
-	if(png_get_valid(pPngStruct, pPngInfo, PNG_INFO_tRNS)) png_set_tRNS_to_alpha(pPngStruct);
+	//Expand paletted or RGB images with transparency to full alpha channels so the data will be available as RGBA quartets.
+	if(png_get_valid(pPngStruct, pPngInfo, PNG_INFO_tRNS))
+	{
+		png_set_tRNS_to_alpha(pPngStruct);
+	}
 
 	// read image data into pRowPointers
 	uchar** pRowPointers = new uchar*[nTextureHeight];
@@ -161,8 +188,8 @@ StreamReader* FileMgr_Impl::LoadImageFile(const char* pszFileName, uint* pnWidth
 	png_destroy_read_struct(&pPngStruct, &pPngInfo, NULL);
 	SAFE_RELEASE(pTextureStream);
 
-	// store image data into our pRGBAData, each pixel(RGBA) has 4 bytes
-	uchar* pTextureDataRGBA = new uchar[nTextureWidth * nTextureHeight * 4];
+	// store image data into our pRGBAData
+	uchar* pTextureDataRGBA = new uchar[nTextureWidth * nTextureHeight * 4];  //each pixel(RGBA) has 4 bytes
 	//unlike store the pixel data from top-left corner, store them from bottom-left corner for OGLES Texture drawing...
 	int nCurrPos = (nTextureWidth * nTextureHeight * 4) - (4 * nTextureWidth);
 	for(int row = 0; row < nTextureHeight; row++)

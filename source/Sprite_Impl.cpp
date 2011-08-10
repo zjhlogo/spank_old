@@ -6,7 +6,7 @@
  * \author zjhlogo (zjhlogo@gmail.com)
  */
 #include "Sprite_Impl.h"
-#include <IFileMgr.h>
+#include <util/IFileUtil.h>
 #include <IShaderMgr.h>
 #include <ITextureMgr.h>
 #include <IRenderer2D.h>
@@ -75,7 +75,7 @@ void Sprite_Impl::SetLoop(bool bLoop)
 
 bool Sprite_Impl::LoadSpriteFromFile(const char* pszSpriteFile)
 {
-	StreamReader* pReader = IFileMgr::GetInstance().LoadFile(pszSpriteFile);
+	StreamReader* pReader = IFileUtil::GetInstance().LoadFile(pszSpriteFile);
 	if (!pReader) return false;
 
 	TiXmlDocument doc;

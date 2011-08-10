@@ -1,24 +1,23 @@
 /*!
- * \file IFileMgr.h
- * \date 7-20-2011 10:27:26
+ * \file IFileUtil.h
+ * \date 10-08-2011 21:46:42
  * 
  * 
  * \author zjhlogo (zjhlogo@gmail.com)
  */
-#ifndef __IFILEMGR_H__
-#define __IFILEMGR_H__
+#ifndef __IFILEUTIL_H__
+#define __IFILEUTIL_H__
 
-#include "util/StreamReader.h"
+#include "../StreamReader.h"
 #include "IMgr.h"
 
-class IFileMgr : public IMgr
+class IFileUtil : public IMgr
 {
 public:
-	static IFileMgr& GetInstance();
+	static IFileUtil& GetInstance();
 
 	virtual StreamReader* LoadFile(const char* pszFileName) = 0;
 	virtual StreamReader* LoadImageFile(const char* pszFileName, uint* pnWidth, uint* pnHeight) = 0;
 
 };
-
-#endif // __IFILEMGR_H__
+#endif // __IFILEUTIL_H__

@@ -9,6 +9,8 @@ LIBSPANK_SOURCE_FILES := \
 		$(LIBSPANK_SOURCE)/Shader_Impl.cpp \
 		$(LIBSPANK_SOURCE)/ShaderMgr_Impl.cpp \
 		$(LIBSPANK_SOURCE)/Sprite_Impl.cpp \
+		$(LIBSPANK_SOURCE)/StreamReader.cpp \
+		$(LIBSPANK_SOURCE)/StreamWriter.cpp \
 		$(LIBSPANK_SOURCE)/Texture_Impl.cpp \
 		$(LIBSPANK_SOURCE)/TextureMgr_Impl.cpp \
 		$(LIBSPANK_SOURCE)/VertexAttribute_Impl.cpp \
@@ -23,11 +25,9 @@ LIBSPANK_SOURCE_FILES := \
 		$(LIBSPANK_SOURCE)/msg/IMsgBase.cpp \
 		$(LIBSPANK_SOURCE)/msg/MsgMgr.cpp \
 		$(LIBSPANK_SOURCE)/msg/MsgTouchEvent.cpp \
-		$(LIBSPANK_SOURCE)/platforms/android/FileMgr_Impl.cpp \
 		$(LIBSPANK_SOURCE)/platforms/android/Mutex_Impl.cpp \
 		$(LIBSPANK_SOURCE)/platforms/android/RenderDevice_Impl.cpp \
 		$(LIBSPANK_SOURCE)/platforms/android/util/DebugUtil_Impl.cpp \
+		$(LIBSPANK_SOURCE)/platforms/android/util/FileUtil_Impl.cpp \
 		$(LIBSPANK_SOURCE)/platforms/android/unzip/unzip.cpp \
 		$(LIBSPANK_SOURCE)/platforms/android/unzip/ioapi.cpp \
-		$(LIBSPANK_SOURCE)/util/StreamReader.cpp \
-		$(LIBSPANK_SOURCE)/util/StreamWriter.cpp \

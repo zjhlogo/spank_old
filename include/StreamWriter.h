@@ -8,7 +8,7 @@
 #ifndef __STREAMWRITER_H__
 #define __STREAMWRITER_H__
 
-#include "../IObject.h"
+#include "IObject.h"
 
 class StreamWriter : public IObject
 {

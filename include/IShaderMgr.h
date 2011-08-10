@@ -11,7 +11,6 @@
 #include "IMgr.h"
 #include "IShader.h"
 #include "IVertexAttribute.h"
-#include "util/StreamReader.h"
 
 class IShaderMgr : public IMgr
 {

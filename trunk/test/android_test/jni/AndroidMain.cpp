@@ -7,7 +7,7 @@
  */
 #include "AndroidMain.h"
 #include <ICore.h>
-#include <IConfig.h>
+#include <util/ConfigUtil.h>
 #include <InputMgr.h>
 #include <IRenderDevice.h>
 #include <time.h>
@@ -28,16 +28,16 @@ JNIEXPORT void JNICALL Java_com_zjhlogo_spank_SpankLibrary_setPackagePath(JNIEnv
 	const char* pszPath = env->GetStringUTFChars(path, &isCopy);
 	if (isCopy == JNI_TRUE)
 	{
-		IConfig::GetInstance().AddString("ANDROID_RESOURCE_PACKAGE", pszPath);
-		IConfig::GetInstance().AddString("RESOURCE_DIR", "assets/");
+		ConfigUtil::GetInstance().AddString("ANDROID_RESOURCE_PACKAGE", pszPath);
+		ConfigUtil::GetInstance().AddString("RESOURCE_DIR", "assets/");
 		env->ReleaseStringUTFChars(path, pszPath);
 	}
 }
 
 JNIEXPORT jboolean JNICALL Java_com_zjhlogo_spank_SpankLibrary_initialize(JNIEnv* env, jclass cls, jint width, jint height)
 {
-	IConfig::GetInstance().AddInt("SURFACE_WIDTH", width);
-	IConfig::GetInstance().AddInt("SURFACE_HEIGHT", height);
+	ConfigUtil::GetInstance().AddInt("SURFACE_WIDTH", width);
+	ConfigUtil::GetInstance().AddInt("SURFACE_HEIGHT", height);
 	if (!ICore::GetInstance().Initialize()) return JNI_FALSE;
 
 	g_nCurrTime = GetCurrTime();

@@ -149,6 +149,14 @@
 			Name="util"
 			>
 			<File
+				RelativePath=".\source\util\ConfigUtil.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\util\ConfigUtil.h"
+				>
+			</File>
+			<File
 				RelativePath=".\source\platforms\win32\util\DebugUtil_Impl.cpp"
 				>
 			</File>
@@ -261,14 +269,6 @@
 				>
 			</File>
 		</Filter>
-		<File
-			RelativePath=".\source\Config_Impl.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\source\Config_Impl.h"
-			>
-		</File>
 		<File
 			RelativePath=".\source\Core_Impl.cpp"
 			>

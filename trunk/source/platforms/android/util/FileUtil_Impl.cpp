@@ -6,8 +6,8 @@
  * \author zjhlogo (zjhlogo@gmail.com)
  */
 #include "FileUtil_Impl.h"
+#include <util/ConfigUtil.h>
 #include <util/IDebugUtil.h>
-#include <IConfig.h>
 #include <StreamWriter.h>
 #include <lpng154/png.h>
 
@@ -39,7 +39,7 @@ FileUtil_Impl::~FileUtil_Impl()
 
 bool FileUtil_Impl::Initialize()
 {
-	const char* pszPackageFilePath = IConfig::GetInstance().GetString("ANDROID_RESOURCE_PACKAGE");
+	const char* pszPackageFilePath = ConfigUtil::GetInstance().GetString("ANDROID_RESOURCE_PACKAGE");
 	if (!pszPackageFilePath || strlen(pszPackageFilePath) <= 0)
 	{
 		LOGE("invalid resource package path");
@@ -53,7 +53,7 @@ bool FileUtil_Impl::Initialize()
 		return false;
 	}
 
-	m_strRootPath = IConfig::GetInstance().GetString("RESOURCE_DIR", "assets/");
+	m_strRootPath = ConfigUtil::GetInstance().GetString("RESOURCE_DIR", "assets/");
 	LOGD("resource directory: %s", m_strRootPath.c_str());
 
 	return true;

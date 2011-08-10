@@ -6,7 +6,7 @@
  * \author zjhlogo (zjhlogo@gmail.com)
  */
 #include "RenderDevice_Impl.h"
-#include <IConfig.h>
+#include <util/ConfigUtil.h>
 #include <GLES2/gl2.h>
 
 RenderDevice_Impl::RenderDevice_Impl()
@@ -28,8 +28,8 @@ IRenderDevice& IRenderDevice::GetInstance()
 
 bool RenderDevice_Impl::Initialize()
 {
-	m_nSurfaceWidth = IConfig::GetInstance().GetInt("SURFACE_WIDTH");
-	m_nSurfaceHeight = IConfig::GetInstance().GetInt("SURFACE_HEIGHT");
+	m_nSurfaceWidth = ConfigUtil::GetInstance().GetInt("SURFACE_WIDTH");
+	m_nSurfaceHeight = ConfigUtil::GetInstance().GetInt("SURFACE_HEIGHT");
 	if (m_nSurfaceWidth <= 0 || m_nSurfaceHeight <= 0) return false;
 
 	glViewport(0, 0, m_nSurfaceWidth, m_nSurfaceHeight);

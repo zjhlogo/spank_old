@@ -6,8 +6,8 @@
  * \author zjhlogo (zjhlogo@gmail.com)
  */
 #include "FileUtil_Impl.h"
-#include <IConfig.h>
 #include <util/IDebugUtil.h>
+#include <util/ConfigUtil.h>
 #include <stdio.h>
 #include <string.h>
 #include <lpng154/png.h>
@@ -40,7 +40,7 @@ FileUtil_Impl::~FileUtil_Impl()
 
 bool FileUtil_Impl::Initialize()
 {
-	m_strRootPath = IConfig::GetInstance().GetString("RESOURCE_DIR", "");
+	m_strRootPath = ConfigUtil::GetInstance().GetString("RESOURCE_DIR", "");
 	if (m_strRootPath.empty())
 	{
 		LOGE("empty resource directory, please set the config of [RESOURCE_DIR]");

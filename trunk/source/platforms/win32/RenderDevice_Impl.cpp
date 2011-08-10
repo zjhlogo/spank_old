@@ -6,7 +6,7 @@
  * \author zjhlogo (zjhlogo@gmail.com)
  */
 #include "RenderDevice_Impl.h"
-#include <IConfig.h>
+#include <util/ConfigUtil.h>
 #include <util/IDebugUtil.h>
 #include <InputMgr.h>
 #include <GLES2/gl2.h>
@@ -34,8 +34,8 @@ RenderDevice_Impl::~RenderDevice_Impl()
 
 bool RenderDevice_Impl::Initialize()
 {
-	m_nSurfaceWidth = IConfig::GetInstance().GetInt("SURFACE_WIDTH");
-	m_nSurfaceHeight = IConfig::GetInstance().GetInt("SURFACE_HEIGHT");
+	m_nSurfaceWidth = ConfigUtil::GetInstance().GetInt("SURFACE_WIDTH");
+	m_nSurfaceHeight = ConfigUtil::GetInstance().GetInt("SURFACE_HEIGHT");
 	if (m_nSurfaceWidth <= 0 || m_nSurfaceHeight <= 0) return false;
 
 	if (!InitializeWindow()) return false;
@@ -85,7 +85,7 @@ bool RenderDevice_Impl::InitializeWindow()
 	winClass.hCursor = LoadCursor(NULL, IDC_ARROW);
 	winClass.hbrBackground = NULL;
 	winClass.lpszMenuName = NULL;
-	winClass.lpszClassName = IConfig::GetInstance().GetString("WINDOW_CLASS");
+	winClass.lpszClassName = ConfigUtil::GetInstance().GetString("WINDOW_CLASS");
 	RegisterClass(&winClass);
 
 	// screen width, height
@@ -101,8 +101,8 @@ bool RenderDevice_Impl::InitializeWindow()
 
 	// create the window
 	m_hWindow = CreateWindow(
-		IConfig::GetInstance().GetString("WINDOW_CLASS"),
-		IConfig::GetInstance().GetString("WINDOW_TITLE"),
+		ConfigUtil::GetInstance().GetString("WINDOW_CLASS"),
+		ConfigUtil::GetInstance().GetString("WINDOW_TITLE"),
 		dwStyle,
 		(nScreenWidth-nAdjustWidth)/2,
 		(nScreenHeight-nAdjustHeight)/2,

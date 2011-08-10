@@ -10,7 +10,7 @@
 #import <GLES2/gl2.h>
 #import <GLES2/gl2ext.h>
 #include <ICore.h>
-#include <IConfig.h>
+#include <util/ConfigUtil.h>
 #include <IRenderer2D.h>
 
 @implementation OpenGLView
@@ -83,8 +83,8 @@
         [self setupRenderBuffer];
         [self setupFrameBuffer];
 		
-		IConfig::GetInstance().AddInt("SURFACE_WIDTH", self.frame.size.width);
-		IConfig::GetInstance().AddInt("SURFACE_HEIGHT", self.frame.size.height);
+		ConfigUtil::GetInstance().AddInt("SURFACE_WIDTH", self.frame.size.width);
+		ConfigUtil::GetInstance().AddInt("SURFACE_HEIGHT", self.frame.size.height);
 		ICore::GetInstance().Initialize();
 		
 		Matrix4x4 matRot;

@@ -6,8 +6,8 @@
  * \author zjhlogo (zjhlogo@gmail.com)
  */
 #include "FileUtil_Impl.h"
+#include <util/ConfigUtil.h>
 #include <util/IDebugUtil.h>
-#include <IConfig.h>
 #include <lpng154/png.h>
 
 IFileUtil& IFileUtil::GetInstance()
@@ -38,7 +38,7 @@ FileUtil_Impl::~FileUtil_Impl()
 
 bool FileUtil_Impl::Initialize()
 {
-	const char* pszResourceDir = IConfig::GetInstance().GetString("RESOURCE_DIR");
+	const char* pszResourceDir = ConfigUtil::GetInstance().GetString("RESOURCE_DIR");
 	if (!pszResourceDir || strlen(pszResourceDir) <= 0)
 	{
 		LOGE("invalid resource dir");

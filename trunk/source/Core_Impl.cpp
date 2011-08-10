@@ -6,7 +6,7 @@
  * \author zjhlogo (zjhlogo@gmail.com)
  */
 #include "Core_Impl.h"
-#include <IConfig.h>
+#include <util/ConfigUtil.h>
 #include <util/IDebugUtil.h>
 #include <util/IFileUtil.h>
 #include <msg/MsgMgr.h>
@@ -36,7 +36,7 @@ Core_Impl::~Core_Impl()
 
 bool Core_Impl::Initialize()
 {
-	if (!IConfig::GetInstance().Initialize()) return false;
+	if (!ConfigUtil::GetInstance().Initialize()) return false;
 	if (!IDebugUtil::GetInstance().Initialize()) return false;
 	if (!IFileUtil::GetInstance().Initialize()) return false;
 	if (!MsgMgr::GetInstance().Initialize()) return false;
@@ -63,7 +63,7 @@ void Core_Impl::Terminate()
 	MsgMgr::GetInstance().Terminate();
 	IFileUtil::GetInstance().Terminate();
 	IDebugUtil::GetInstance().Terminate();
-	IConfig::GetInstance().Terminate();
+	ConfigUtil::GetInstance().Terminate();
 }
 
 INode* Core_Impl::GetRootNode()

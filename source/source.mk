@@ -31,3 +31,4 @@ LIBSPANK_SOURCE_FILES := \
 		$(LIBSPANK_SOURCE)/platforms/android/unzip/unzip.cpp \
 		$(LIBSPANK_SOURCE)/platforms/android/unzip/ioapi.cpp \
 		$(LIBSPANK_SOURCE)/util/ConfigUtil.cpp \
+		$(LIBSPANK_SOURCE)/util/ScreenUtil.cpp \

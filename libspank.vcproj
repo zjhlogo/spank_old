@@ -172,6 +172,14 @@
 				RelativePath=".\source\platforms\win32\util\FileUtil_Impl.h"
 				>
 			</File>
+			<File
+				RelativePath=".\source\util\ScreenUtil.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\util\ScreenUtil.h"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="math"

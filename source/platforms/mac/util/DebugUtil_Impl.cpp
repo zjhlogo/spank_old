@@ -31,7 +31,7 @@ void DebugUtil_Impl::Debug(const char* format, ...)
 	va_start(marker, format);
 
 	vprintf(format, marker);
-	
+	printf("\n");
 	va_end(marker);
 }
 
@@ -41,6 +41,7 @@ void DebugUtil_Impl::Info(const char* format, ...)
 	va_start(marker, format);
 	
 	vprintf(format, marker);
+	printf("\n");
 	
 	va_end(marker);
 }
@@ -51,6 +52,7 @@ void DebugUtil_Impl::Error(const char* format, ...)
 	va_start(marker, format);
 	
 	vprintf(format, marker);
+	printf("\n");
 	
 	va_end(marker);
 }

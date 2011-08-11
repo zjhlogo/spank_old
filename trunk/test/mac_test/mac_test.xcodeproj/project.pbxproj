@@ -66,6 +66,7 @@
 		CED5EF4C13F36299006137BE /* MsgTouchEvent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CED5EF4913F36299006137BE /* MsgTouchEvent.cpp */; };
 		CED5EF6413F3630B006137BE /* Mutex_Impl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CED5EF6013F3630B006137BE /* Mutex_Impl.cpp */; };
 		CED5EF6513F3630B006137BE /* RenderDevice_Impl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CED5EF6213F3630B006137BE /* RenderDevice_Impl.cpp */; };
+		CED5EFFD13F393F9006137BE /* ScreenUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CED5EFFC13F393F9006137BE /* ScreenUtil.cpp */; };
 		CEDB108413EBF35800CFA7E3 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = CEDB108313EBF35800CFA7E3 /* MainWindow.xib */; };
 		CEDB10A813EBF7AA00CFA7E3 /* OpenGLAppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = CEDB10A513EBF7AA00CFA7E3 /* OpenGLAppDelegate.mm */; };
 		CEDB10A913EBF7AA00CFA7E3 /* OpenGLView.mm in Sources */ = {isa = PBXBuildFile; fileRef = CEDB10A713EBF7AA00CFA7E3 /* OpenGLView.mm */; };
@@ -189,6 +190,8 @@
 		CED5EF6113F3630B006137BE /* Mutex_Impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Mutex_Impl.h; path = ../../source/platforms/mac/Mutex_Impl.h; sourceTree = SOURCE_ROOT; };
 		CED5EF6213F3630B006137BE /* RenderDevice_Impl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RenderDevice_Impl.cpp; path = ../../source/platforms/mac/RenderDevice_Impl.cpp; sourceTree = SOURCE_ROOT; };
 		CED5EF6313F3630B006137BE /* RenderDevice_Impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RenderDevice_Impl.h; path = ../../source/platforms/mac/RenderDevice_Impl.h; sourceTree = SOURCE_ROOT; };
+		CED5EFFC13F393F9006137BE /* ScreenUtil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ScreenUtil.cpp; sourceTree = "<group>"; };
+		CED5EFFE13F3940D006137BE /* ScreenUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ScreenUtil.h; path = ../../include/util/ScreenUtil.h; sourceTree = SOURCE_ROOT; };
 		CEDB108313EBF35800CFA7E3 /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
 		CEDB10A413EBF7AA00CFA7E3 /* OpenGLAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenGLAppDelegate.h; sourceTree = "<group>"; };
 		CEDB10A513EBF7AA00CFA7E3 /* OpenGLAppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OpenGLAppDelegate.mm; sourceTree = "<group>"; };
@@ -477,6 +480,8 @@
 		CEDF5D7613EC04B300A15B8D /* util */ = {
 			isa = PBXGroup;
 			children = (
+				CED5EFFC13F393F9006137BE /* ScreenUtil.cpp */,
+				CED5EFFE13F3940D006137BE /* ScreenUtil.h */,
 				CED5EF2913F361E8006137BE /* ConfigUtil.cpp */,
 				CED5EF2B13F36213006137BE /* ConfigUtil.h */,
 				CED5EF2E13F36229006137BE /* DebugUtil_Impl.cpp */,
@@ -618,6 +623,7 @@
 				CED5EF4C13F36299006137BE /* MsgTouchEvent.cpp in Sources */,
 				CED5EF6413F3630B006137BE /* Mutex_Impl.cpp in Sources */,
 				CED5EF6513F3630B006137BE /* RenderDevice_Impl.cpp in Sources */,
+				CED5EFFD13F393F9006137BE /* ScreenUtil.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

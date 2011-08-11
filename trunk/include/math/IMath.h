@@ -19,8 +19,8 @@
 class IMath
 {
 public:
-	static float ToRadius(float fDegree);
-	static float ToDegree(float fRadius);
+	static float ToRadian(float fDegree);
+	static float ToDegree(float fRadian);
 	
 	static void BuildZeroMatrix(Matrix2x2& matOut);
 	static void BuildZeroMatrix(Matrix3x3& matOut);

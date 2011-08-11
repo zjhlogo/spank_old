@@ -8,15 +8,23 @@
 #ifndef __QUATERNION_H__
 #define __QUATERNION_H__
 
+#include "Vector3.h"
+
 class Quaternion
 {
 public:
 	Quaternion();
 	Quaternion(const Quaternion& q);
 	Quaternion(float x, float y, float z, float w);
+	Quaternion(const Vector3& vDir, float fRadian);
 	~Quaternion();
 
-	// TODO: 
+	float Length();
+	bool Normalize();
+	float GetRadian() const;
+
+	Quaternion& operator*=(const Quaternion& q);
+	Quaternion operator-() const;
 
 public:
 	float x;
@@ -25,5 +33,7 @@ public:
 	float w;
 
 };
+
+Quaternion operator*(const Quaternion& q1, const Quaternion& q2);
 
 #endif // __QUATERNION_H__

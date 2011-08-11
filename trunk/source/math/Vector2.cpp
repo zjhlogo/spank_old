@@ -39,9 +39,9 @@ float Vector2::Length() const
 bool Vector2::Normalize()
 {
 	float fMag = sqrtf(x*x+y*y);
-	if (fMag <= IMath::FLOAT_MIN) return false;
+	if (fMag <= IMath::FLOAT_MIN) fMag = 0.0f;
+	float fInvMag = 1.0f / fMag;		// if fMag == 0.0f, must crush here
 
-	float fInvMag = 1.0f / fMag;
 	x *= fInvMag;
 	y *= fInvMag;
 

@@ -51,7 +51,6 @@ JNIEXPORT void JNICALL Java_com_zjhlogo_spank_SpankLibrary_terminate(JNIEnv* env
 	ICore::GetInstance().Terminate();
 }
 
-
 JNIEXPORT void JNICALL Java_com_zjhlogo_spank_SpankLibrary_step(JNIEnv* env, jclass cls)
 {
 	g_nCurrTime = GetCurrTime();

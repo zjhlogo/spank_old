@@ -78,7 +78,7 @@ float ScreenUtil::GetRotationDegree() const
 	return s_Degree[m_eScreenRotation];
 }
 
-void ScreenUtil::PointToScreen(Vector2& vPosOut, float x, float y)
+void ScreenUtil::DevicePointToScreen(Vector2& vPosOut, float x, float y)
 {
 	switch (m_eScreenRotation)
 	{
@@ -109,12 +109,12 @@ void ScreenUtil::PointToScreen(Vector2& vPosOut, float x, float y)
 	}
 }
 
-void ScreenUtil::PointToScreen(Vector2& vPosOut, const Vector2& pos)
+void ScreenUtil::DevicePointToScreen(Vector2& vPosOut, const Vector2& pos)
 {
-	PointToScreen(vPosOut, pos.x, pos.y);
+	DevicePointToScreen(vPosOut, pos.x, pos.y);
 }
 
-void ScreenUtil::PointToScreen(Vector2& vPosInOut)
+void ScreenUtil::DevicePointToScreen(Vector2& vPosInOut)
 {
-	PointToScreen(vPosInOut, vPosInOut.x, vPosInOut.y);
+	DevicePointToScreen(vPosInOut, vPosInOut.x, vPosInOut.y);
 }

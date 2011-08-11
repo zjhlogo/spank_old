@@ -67,20 +67,20 @@ JNIEXPORT void JNICALL Java_com_zjhlogo_spank_SpankLibrary_step(JNIEnv* env, jcl
 JNIEXPORT void JNICALL Java_com_zjhlogo_spank_SpankLibrary_touchBegin(JNIEnv* env, jclass cls, jint index, jfloat x, jfloat y)
 {
 	Vector2 vPos;
-	ScreenUtil::GetInstance().PointToScreen(vPos, x, y);
+	ScreenUtil::GetInstance().DevicePointToScreen(vPos, x, y);
 	InputMgr::GetInstance().OnTouchStart(index, vPos.x, vPos.y);
 }
 
 JNIEXPORT void JNICALL Java_com_zjhlogo_spank_SpankLibrary_touchMove(JNIEnv* env, jclass cls, jint index, jfloat x, jfloat y)
 {
 	Vector2 vPos;
-	ScreenUtil::GetInstance().PointToScreen(vPos, x, y);
+	ScreenUtil::GetInstance().DevicePointToScreen(vPos, x, y);
 	InputMgr::GetInstance().OnTouchMove(index, vPos.x, vPos.y);
 }
 
 JNIEXPORT void JNICALL Java_com_zjhlogo_spank_SpankLibrary_touchEnd(JNIEnv* env, jclass cls, jint index, jfloat x, jfloat y)
 {
 	Vector2 vPos;
-	ScreenUtil::GetInstance().PointToScreen(vPos, x, y);
+	ScreenUtil::GetInstance().DevicePointToScreen(vPos, x, y);
 	InputMgr::GetInstance().OnTouchEnd(index, vPos.x, vPos.y);
 }

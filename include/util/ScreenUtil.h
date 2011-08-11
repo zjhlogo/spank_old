@@ -38,9 +38,9 @@ public:
 	SCREEN_ROTATION GetScreenRotation() const;
 	float GetRotationDegree() const;
 
-	void PointToScreen(Vector2& vPosOut, float x, float y);
-	void PointToScreen(Vector2& vPosOut, const Vector2& pos);
-	void PointToScreen(Vector2& vPosInOut);
+	void DevicePointToScreen(Vector2& vPosOut, float x, float y);
+	void DevicePointToScreen(Vector2& vPosOut, const Vector2& pos);
+	void DevicePointToScreen(Vector2& vPosInOut);
 
 private:
 	int m_nScreenWidth;

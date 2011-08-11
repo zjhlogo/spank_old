@@ -93,7 +93,7 @@
 {
 	CGPoint pos = [[touches anyObject] locationInView: self.superview];
 	Vector2 vPos;
-	ScreenUtil::GetInstance().PointToScreen(vPos, pos.x, pos.y);
+	ScreenUtil::GetInstance().DevicePointToScreen(vPos, pos.x, pos.y);
 	InputMgr::GetInstance().OnTouchStart(0, vPos.x, vPos.y);
 }
 
@@ -101,7 +101,7 @@
 {
 	CGPoint pos = [[touches anyObject] locationInView: self.superview];
 	Vector2 vPos;
-	ScreenUtil::GetInstance().PointToScreen(vPos, pos.x, pos.y);
+	ScreenUtil::GetInstance().DevicePointToScreen(vPos, pos.x, pos.y);
 	InputMgr::GetInstance().OnTouchMove(0, vPos.x, vPos.y);
 }
 
@@ -109,7 +109,7 @@
 {
 	CGPoint pos = [[touches anyObject] locationInView: self.superview];
 	Vector2 vPos;
-	ScreenUtil::GetInstance().PointToScreen(vPos, pos.x, pos.y);
+	ScreenUtil::GetInstance().DevicePointToScreen(vPos, pos.x, pos.y);
 	InputMgr::GetInstance().OnTouchEnd(0, vPos.x, vPos.y);
 }
 
@@ -117,7 +117,7 @@
 {
 	CGPoint pos = [[touches anyObject] locationInView: self.superview];
 	Vector2 vPos;
-	ScreenUtil::GetInstance().PointToScreen(vPos, pos.x, pos.y);
+	ScreenUtil::GetInstance().DevicePointToScreen(vPos, pos.x, pos.y);
 	InputMgr::GetInstance().OnTouchEnd(0, vPos.x, vPos.y);
 }
 

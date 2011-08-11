@@ -80,7 +80,8 @@ bool Matrix2x2::Invert()
 {
 	//求行列式
 	float fDet = e[E11]*e[E22] - e[E12]*e[E21];
-	if (fabsf(fDet) < IMath::FLOAT_MIN) return false;
+	if (fabsf(fDet) <= IMath::FLOAT_MIN) fDet = 0.0f;
+	float fInvDet = 1.0f / fDet;		// can be crush here, if fDet == 0.0f
 
 	//伴随矩阵
 	Matrix2x2 matAdjoint;
@@ -89,7 +90,6 @@ bool Matrix2x2::Invert()
 	matAdjoint.e[E21] = -e[E12];
 	matAdjoint.e[E22] =  e[E11];
 
-	float fInvDet = 1.0f/fDet;
 	e[E11] = matAdjoint.e[E11] * fInvDet;
 	e[E12] = matAdjoint.e[E12] * fInvDet;
 	e[E21] = matAdjoint.e[E21] * fInvDet;

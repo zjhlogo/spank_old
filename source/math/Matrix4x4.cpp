@@ -192,7 +192,8 @@ bool Matrix4x4::Invert()
 	float fB5 = e[E33]*e[E44] - e[E34]*e[E43];
 
 	float fDet = fA0*fB5 - fA1*fB4 + fA2*fB3 + fA3*fB2 - fA4*fB1 + fA5*fB0;
-	if (fabsf(fDet) <= IMath::FLOAT_MIN) return false;
+	if (fabsf(fDet) <= IMath::FLOAT_MIN) fDet = 0.0f;
+	float fInvDet = 1.0f / fDet;		// can be crush here, if fDet == 0.0f
 
 	Matrix4x4 matAdjoint;
 
@@ -217,7 +218,6 @@ bool Matrix4x4::Invert()
 	matAdjoint.e[E43] = -e[E41]*fA3 + e[E42]*fA1 - e[E43]*fA0;
 	matAdjoint.e[E44] = +e[E31]*fA3 - e[E32]*fA1 + e[E33]*fA0;
 
-	float fInvDet = 1.0f / fDet;
 	e[E11] = matAdjoint.e[E11] * fInvDet;
 	e[E12] = matAdjoint.e[E12] * fInvDet;
 	e[E13] = matAdjoint.e[E13] * fInvDet;

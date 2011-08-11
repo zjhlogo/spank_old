@@ -94,7 +94,8 @@ bool Matrix3x3::Invert()
 	float fV1 = e[E11]*e[E22]*e[E33] + e[E12]*e[E23]*e[E31] + e[E13]*e[E21]*e[E32];
 	float fV2 = e[E13]*e[E22]*e[E31] + e[E23]*e[E32]*e[E11] + e[E33]*e[E12]*e[E21];
 	float fDet = fV1 - fV2;
-	if (fabsf(fDet) < IMath::FLOAT_MIN) return false;
+	if (fabsf(fDet) <= IMath::FLOAT_MIN) fDet = 0.0f;
+	float fInvDet = 1.0f / fDet;		// can be crush here, if fDet == 0.0f
 
 	//°éËæ¾ØÕó
 	Matrix3x3 matAdjoint;
@@ -111,7 +112,6 @@ bool Matrix3x3::Invert()
 	matAdjoint.e[E31] =  (e[E21]*e[E32] - e[E22]*e[E31]);
 	matAdjoint.e[E32] = -(e[E11]*e[E32] - e[E12]*e[E31]);
 
-	float fInvDet = 1.0f/fDet;
 	e[E11] = matAdjoint.e[E11] * fInvDet;
 	e[E12] = matAdjoint.e[E12] * fInvDet;
 	e[E13] = matAdjoint.e[E13] * fInvDet;

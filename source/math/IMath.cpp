@@ -44,14 +44,14 @@ const Matrix4x4 IMath::MAT4X4_IDENTITY(1.0f, 0.0f, 0.0f, 0.0f,
 
 const Quaternion IMath::ROT_ZERO(0.0f, 0.0f, 0.0f, 0.0f);
 
-float IMath::ToRadius(float fDegree)
+float IMath::ToRadian(float fDegree)
 {
 	return fDegree / 180.0f * F_PI;
 }
 
-float IMath::ToDegree(float fRadius)
+float IMath::ToDegree(float fRadian)
 {
-	return fRadius / F_PI * 180.0f;
+	return fRadian / F_PI * 180.0f;
 }
 
 void IMath::BuildZeroMatrix(Matrix2x2& matOut)

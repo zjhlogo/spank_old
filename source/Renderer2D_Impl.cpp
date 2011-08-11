@@ -43,7 +43,7 @@ bool Renderer2D_Impl::Initialize()
 	{
 		// setup the rotation matrix to rotate world
 		Matrix4x4 matRot;
-		IMath::BuildRotateMatrixZ(matRot, IMath::ToRadius(fDegree));
+		IMath::BuildRotateMatrixZ(matRot, IMath::ToRadian(fDegree));
 		m_matProj *= matRot;
 	}
 

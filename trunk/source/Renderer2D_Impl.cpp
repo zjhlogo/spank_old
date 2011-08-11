@@ -9,7 +9,9 @@
 #include <IRenderDevice.h>
 #include <IShaderMgr.h>
 #include <util/IDebugUtil.h>
+#include <util/ScreenUtil.h>
 #include <GLES2/gl2.h>
+#include <math.h>
 
 IRenderer2D& IRenderer2D::GetInstance()
 {
@@ -36,19 +38,12 @@ bool Renderer2D_Impl::Initialize()
 	float fSurfaceHeight = (float)IRenderDevice::GetInstance().GetSurfaceHeight();
 	IMath::BuildOrthoMatrix(m_matProj, -fSurfaceWidth/2.0f, fSurfaceWidth/2.0f, -fSurfaceHeight/2.0f, fSurfaceHeight/2.0f, 0.1f, 1000.0f);
 
-	IRenderDevice::SCREEN_ROTATION eScreenRotation = IRenderDevice::GetInstance().GetScreenRotation();
-	if (eScreenRotation == IRenderDevice::SR_P90)		// landscape left mode
+	float fDegree = ScreenUtil::GetInstance().GetRotationDegree();
+	if (fabsf(fDegree - 0.0f) > IMath::FLOAT_MIN)
 	{
 		// setup the rotation matrix to rotate world
 		Matrix4x4 matRot;
-		IMath::BuildRotateMatrixZ(matRot, IMath::ToRadius(90.0f));
-		m_matProj *= matRot;
-	}
-	else if (eScreenRotation == IRenderDevice::SR_N90)	// landscape right mode
-	{
-		// setup the rotation matrix to rotate world
-		Matrix4x4 matRot;
-		IMath::BuildRotateMatrixZ(matRot, IMath::ToRadius(-90.0f));
+		IMath::BuildRotateMatrixZ(matRot, IMath::ToRadius(fDegree));
 		m_matProj *= matRot;
 	}
 

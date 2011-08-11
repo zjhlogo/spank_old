@@ -32,10 +32,14 @@ bool RenderDevice_Impl::Initialize()
 	m_nSurfaceHeight = ConfigUtil::GetInstance().GetInt("SURFACE_HEIGHT");
 	if (m_nSurfaceWidth <= 0 || m_nSurfaceHeight <= 0) return false;
 
+	// set view port
 	glViewport(0, 0, m_nSurfaceWidth, m_nSurfaceHeight);
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_FRONT);
 
 	return true;
 }

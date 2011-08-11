@@ -8,6 +8,7 @@
 #include "RenderDevice_Impl.h"
 #include <util/ConfigUtil.h>
 #include <util/IDebugUtil.h>
+#include <util/ScreenUtil.h>
 #include <InputMgr.h>
 #include <GLES2/gl2.h>
 
@@ -136,27 +137,27 @@ LRESULT CALLBACK RenderDevice_Impl::MainWndProc(HWND hWnd, UINT uMsg, WPARAM wPa
 		{
 			int nPosX = (int)(short)LOWORD(lParam);
 			int nPosY = (int)(short)HIWORD(lParam);
-			float fPosX = nPosX - IRenderDevice::GetInstance().GetSurfaceWidth() / 2.0f;
-			float fPosY = IRenderDevice::GetInstance().GetSurfaceHeight() / 2.0f - nPosY;
-			InputMgr::GetInstance().OnTouchStart(0, fPosX, fPosY);
+			Vector2 vPos;
+			ScreenUtil::GetInstance().PointToScreen(vPos, (float)nPosX, (float)nPosY);
+			InputMgr::GetInstance().OnTouchStart(0, vPos.x, vPos.y);
 		}
 		break;
 	case WM_MOUSEMOVE:
 		{
 			int nPosX = (int)(short)LOWORD(lParam);
 			int nPosY = (int)(short)HIWORD(lParam);
-			float fPosX = nPosX - IRenderDevice::GetInstance().GetSurfaceWidth() / 2.0f;
-			float fPosY = IRenderDevice::GetInstance().GetSurfaceHeight() / 2.0f - nPosY;
-			InputMgr::GetInstance().OnTouchMove(0, fPosX, fPosY);
+			Vector2 vPos;
+			ScreenUtil::GetInstance().PointToScreen(vPos, (float)nPosX, (float)nPosY);
+			InputMgr::GetInstance().OnTouchMove(0, vPos.x, vPos.y);
 		}
 		break;
 	case WM_LBUTTONUP:
 		{
 			int nPosX = (int)(short)LOWORD(lParam);
 			int nPosY = (int)(short)HIWORD(lParam);
-			float fPosX = nPosX - IRenderDevice::GetInstance().GetSurfaceWidth() / 2.0f;
-			float fPosY = IRenderDevice::GetInstance().GetSurfaceHeight() / 2.0f - nPosY;
-			InputMgr::GetInstance().OnTouchEnd(0, fPosX, fPosY);
+			Vector2 vPos;
+			ScreenUtil::GetInstance().PointToScreen(vPos, (float)nPosX, (float)nPosY);
+			InputMgr::GetInstance().OnTouchEnd(0, vPos.x, vPos.y);
 		}
 		break;
 	case WM_DESTROY:

@@ -10,6 +10,7 @@
 #include <util/IDebugUtil.h>
 #include <util/IFileUtil.h>
 #include <msg/MsgMgr.h>
+#include <util/ScreenUtil.h>
 #include <IRenderDevice.h>
 #include <ITextureMgr.h>
 #include <IShaderMgr.h>
@@ -40,6 +41,7 @@ bool Core_Impl::Initialize()
 	if (!IDebugUtil::GetInstance().Initialize()) return false;
 	if (!IFileUtil::GetInstance().Initialize()) return false;
 	if (!MsgMgr::GetInstance().Initialize()) return false;
+	if (!ScreenUtil::GetInstance().Initialize()) return false;
 	if (!IRenderDevice::GetInstance().Initialize()) return false;
 	if (!ITextureMgr::GetInstance().Initialize()) return false;
 	if (!IShaderMgr::GetInstance().Initialize()) return false;
@@ -60,6 +62,7 @@ void Core_Impl::Terminate()
 	IShaderMgr::GetInstance().Terminate();
 	ITextureMgr::GetInstance().Terminate();
 	IRenderDevice::GetInstance().Terminate();
+	ScreenUtil::GetInstance().Terminate();
 	MsgMgr::GetInstance().Terminate();
 	IFileUtil::GetInstance().Terminate();
 	IDebugUtil::GetInstance().Terminate();

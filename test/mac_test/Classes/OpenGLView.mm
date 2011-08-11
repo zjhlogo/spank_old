@@ -9,7 +9,6 @@
 #import "OpenGLView.h"
 #import <GLES2/gl2.h>
 #import <GLES2/gl2ext.h>
-#include <util/ConfigUtil.h>
 #include <ICore.h>
 #include <InputMgr.h>
 #include <IRenderer2D.h>
@@ -83,17 +82,7 @@
         [self setupDepthBuffer];
         [self setupRenderBuffer];
         [self setupFrameBuffer];
-		
-		ConfigUtil::GetInstance().AddInt("SURFACE_WIDTH", self.frame.size.width);
-		ConfigUtil::GetInstance().AddInt("SURFACE_HEIGHT", self.frame.size.height);
 		ICore::GetInstance().Initialize();
-		
-		// setup the rotation matrix to rotate world as landscape
-		Matrix4x4 matRot;
-		IMath::BuildRotateMatrixZ(matRot, -3.14159f/2.0f);
-		Matrix4x4 matProj = IRenderer2D::GetInstance().GetProjectionMatrix() * matRot;
-		IRenderer2D::GetInstance().SetProjectionMatrix(matProj);
-		
         [self setupDisplayLink];
     }
     return self;

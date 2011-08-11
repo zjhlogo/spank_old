@@ -7,6 +7,7 @@
  */
 #import "OpenGLAppDelegate.h"
 #include <util/ConfigUtil.h>
+#include <IRenderDevice.h>
 
 @implementation OpenGLAppDelegate
 
@@ -16,14 +17,18 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
 	[[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeRight];
+	ConfigUtil::GetInstance().AddInt("SCREEN_ORIENTATION", IRenderDevice::SR_N90);
 	
 	// spank initialize
 	NSString* rootPath = [[NSBundle mainBundle] resourcePath];
 	const char* pszRootPath = [rootPath cStringUsingEncoding: [NSString defaultCStringEncoding]];
 	ConfigUtil::GetInstance().AddString("RESOURCE_DIR", pszRootPath);
-	
+
     // Override point for customization after application launch.
     CGRect screenBounds = [[UIScreen mainScreen] bounds];
+	ConfigUtil::GetInstance().AddInt("SURFACE_WIDTH", screenBounds.size.width);
+	ConfigUtil::GetInstance().AddInt("SURFACE_HEIGHT", screenBounds.size.height);
+	
     self.glView = [[[OpenGLView alloc] initWithFrame:screenBounds] autorelease];
 	
     [self.glWindow addSubview: self.glView];

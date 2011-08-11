@@ -8,6 +8,7 @@
 #include <math/IMath.h>
 #include <math.h>
 
+const float IMath::F_PI = 3.141592f;
 const float IMath::FLOAT_MIN = 0.000001f;
 
 const Vector2 IMath::VEC2_ZERO(0.0f, 0.0f);
@@ -42,6 +43,16 @@ const Matrix4x4 IMath::MAT4X4_IDENTITY(1.0f, 0.0f, 0.0f, 0.0f,
                                        0.0f, 0.0f, 0.0f, 1.0f);
 
 const Quaternion IMath::ROT_ZERO(0.0f, 0.0f, 0.0f, 0.0f);
+
+float IMath::ToRadius(float fDegree)
+{
+	return fDegree / 180.0f * F_PI;
+}
+
+float IMath::ToDegree(float fRadius)
+{
+	return fRadius / F_PI * 180.0f;
+}
 
 void IMath::BuildZeroMatrix(Matrix2x2& matOut)
 {

@@ -19,6 +19,9 @@
 class IMath
 {
 public:
+	static float ToRadius(float fDegree);
+	static float ToDegree(float fRadius);
+	
 	static void BuildZeroMatrix(Matrix2x2& matOut);
 	static void BuildZeroMatrix(Matrix3x3& matOut);
 	static void BuildZeroMatrix(Matrix4x4& matOut);
@@ -45,6 +48,7 @@ public:
 	static void BuildFrustumMatrix(Matrix4x4& matOut, float left, float right, float bottom, float top, float near, float far);
 
 public:
+	static const float F_PI;
 	static const float FLOAT_MIN;
 //	static const float FLOAT_MAX;
 

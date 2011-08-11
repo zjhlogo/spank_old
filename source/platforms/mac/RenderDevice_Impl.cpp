@@ -20,6 +20,7 @@ RenderDevice_Impl::RenderDevice_Impl()
 {
 	m_nSurfaceWidth = 0;
 	m_nSurfaceHeight = 0;
+	m_eScreenRotation = SR_NONE;
 }
 
 RenderDevice_Impl::~RenderDevice_Impl()
@@ -31,6 +32,7 @@ bool RenderDevice_Impl::Initialize()
 {
 	m_nSurfaceWidth = ConfigUtil::GetInstance().GetInt("SURFACE_WIDTH");
 	m_nSurfaceHeight = ConfigUtil::GetInstance().GetInt("SURFACE_HEIGHT");
+	m_eScreenRotation = (SCREEN_ROTATION)ConfigUtil::GetInstance().GetInt("SCREEN_ORIENTATION", IRenderDevice::SR_NONE);
 	if (m_nSurfaceWidth <= 0 || m_nSurfaceHeight <= 0) return false;
 
 	glEnable(GL_BLEND);
@@ -58,6 +60,11 @@ int RenderDevice_Impl::GetSurfaceWidth() const
 int RenderDevice_Impl::GetSurfaceHeight() const
 {
 	return m_nSurfaceHeight;
+}
+
+IRenderDevice::SCREEN_ROTATION RenderDevice_Impl::GetScreenRotation() const
+{
+	return m_eScreenRotation;
 }
 
 void RenderDevice_Impl::BeginRender()

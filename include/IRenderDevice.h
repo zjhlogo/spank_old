@@ -13,11 +13,21 @@
 class IRenderDevice : public IMgr
 {
 public:
+	enum SCREEN_ROTATION
+	{
+		SR_NONE = 1,
+		SR_P90 = 2,
+		SR_N90 = 3,
+	};
+
+public:
 	static IRenderDevice& GetInstance();
 
 	virtual int GetSurfaceWidth() const = 0;
 	virtual int GetSurfaceHeight() const = 0;
 
+	virtual SCREEN_ROTATION GetScreenRotation() const = 0;
+	
 	virtual void BeginRender() = 0;
 	virtual void EndRender() = 0;
 };

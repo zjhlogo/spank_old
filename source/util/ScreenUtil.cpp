@@ -7,7 +7,6 @@
  */
 #include <util/ScreenUtil.h>
 #include <util/ConfigUtil.h>
-#include <IRenderDevice.h>
 
 ScreenUtil::ScreenUtil()
 {
@@ -34,12 +33,12 @@ bool ScreenUtil::Initialize()
 	{
 	case SR_P90:
 	case SR_N90:
-		m_nScreenWidth = IRenderDevice::GetInstance().GetSurfaceHeight();
-		m_nScreenHeight = IRenderDevice::GetInstance().GetSurfaceWidth();
+		m_nScreenWidth = ConfigUtil::GetInstance().GetInt("SURFACE_HEIGHT");
+		m_nScreenHeight = ConfigUtil::GetInstance().GetInt("SURFACE_WIDTH");
 		break;
 	default:
-		m_nScreenWidth = IRenderDevice::GetInstance().GetSurfaceWidth();
-		m_nScreenHeight = IRenderDevice::GetInstance().GetSurfaceHeight();
+		m_nScreenWidth = ConfigUtil::GetInstance().GetInt("SURFACE_WIDTH");
+		m_nScreenHeight = ConfigUtil::GetInstance().GetInt("SURFACE_HEIGHT");
 		break;
 	}
 

@@ -7,7 +7,7 @@
  */
 #import "OpenGLAppDelegate.h"
 #include <util/ConfigUtil.h>
-#include <IRenderDevice.h>
+#include <util/ScreenUtil.h>
 
 @implementation OpenGLAppDelegate
 
@@ -17,7 +17,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
 	[[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeRight];
-	ConfigUtil::GetInstance().AddInt("SCREEN_ORIENTATION", IRenderDevice::SR_N90);
+	ConfigUtil::GetInstance().AddInt("SCREEN_ROTATION", ScreenUtil::SR_P90);
 	
 	// spank initialize
 	NSString* rootPath = [[NSBundle mainBundle] resourcePath];

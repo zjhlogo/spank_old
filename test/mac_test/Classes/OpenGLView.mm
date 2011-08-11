@@ -9,6 +9,7 @@
 #import "OpenGLView.h"
 #import <GLES2/gl2.h>
 #import <GLES2/gl2ext.h>
+#include <util/ScreenUtil.h>
 #include <ICore.h>
 #include <InputMgr.h>
 #include <IRenderer2D.h>
@@ -91,25 +92,33 @@
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
 	CGPoint pos = [[touches anyObject] locationInView: self.superview];
-	InputMgr::GetInstance().OnTouchStart(0, pos.x, pos.y);
+	Vector2 vPos;
+	ScreenUtil::GetInstance().PointToScreen(vPos, pos.x, pos.y);
+	InputMgr::GetInstance().OnTouchStart(0, vPos.x, vPos.y);
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
 {
 	CGPoint pos = [[touches anyObject] locationInView: self.superview];
-	InputMgr::GetInstance().OnTouchMove(0, pos.x, pos.y);
+	Vector2 vPos;
+	ScreenUtil::GetInstance().PointToScreen(vPos, pos.x, pos.y);
+	InputMgr::GetInstance().OnTouchMove(0, vPos.x, vPos.y);
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
 	CGPoint pos = [[touches anyObject] locationInView: self.superview];
-	InputMgr::GetInstance().OnTouchEnd(0, pos.x, pos.y);
+	Vector2 vPos;
+	ScreenUtil::GetInstance().PointToScreen(vPos, pos.x, pos.y);
+	InputMgr::GetInstance().OnTouchEnd(0, vPos.x, vPos.y);
 }
 
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
 {
 	CGPoint pos = [[touches anyObject] locationInView: self.superview];
-	InputMgr::GetInstance().OnTouchEnd(0, pos.x, pos.y);
+	Vector2 vPos;
+	ScreenUtil::GetInstance().PointToScreen(vPos, pos.x, pos.y);
+	InputMgr::GetInstance().OnTouchEnd(0, vPos.x, vPos.y);
 }
 
 - (void)dealloc

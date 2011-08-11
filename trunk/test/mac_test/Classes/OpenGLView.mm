@@ -9,8 +9,9 @@
 #import "OpenGLView.h"
 #import <GLES2/gl2.h>
 #import <GLES2/gl2ext.h>
-#include <ICore.h>
 #include <util/ConfigUtil.h>
+#include <ICore.h>
+#include <InputMgr.h>
 #include <IRenderer2D.h>
 
 @implementation OpenGLView
@@ -87,6 +88,7 @@
 		ConfigUtil::GetInstance().AddInt("SURFACE_HEIGHT", self.frame.size.height);
 		ICore::GetInstance().Initialize();
 		
+		// setup the rotation matrix to rotate world as landscape
 		Matrix4x4 matRot;
 		IMath::BuildRotateMatrixZ(matRot, -3.14159f/2.0f);
 		Matrix4x4 matProj = IRenderer2D::GetInstance().GetProjectionMatrix() * matRot;
@@ -95,6 +97,30 @@
         [self setupDisplayLink];
     }
     return self;
+}
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+	CGPoint pos = [[touches anyObject] locationInView: self.superview];
+	InputMgr::GetInstance().OnTouchStart(0, pos.x, pos.y);
+}
+
+- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
+{
+	CGPoint pos = [[touches anyObject] locationInView: self.superview];
+	InputMgr::GetInstance().OnTouchMove(0, pos.x, pos.y);
+}
+
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+{
+	CGPoint pos = [[touches anyObject] locationInView: self.superview];
+	InputMgr::GetInstance().OnTouchEnd(0, pos.x, pos.y);
+}
+
+- (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
+{
+	CGPoint pos = [[touches anyObject] locationInView: self.superview];
+	InputMgr::GetInstance().OnTouchEnd(0, pos.x, pos.y);
 }
 
 - (void)dealloc

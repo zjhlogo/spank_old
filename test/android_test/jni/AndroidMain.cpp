@@ -54,11 +54,9 @@ JNIEXPORT void JNICALL Java_com_zjhlogo_spank_SpankLibrary_terminate(JNIEnv* env
 JNIEXPORT void JNICALL Java_com_zjhlogo_spank_SpankLibrary_step(JNIEnv* env, jclass cls)
 {
 	g_nCurrTime = GetCurrTime();
-	ICore::GetInstance().Update((g_nCurrTime - g_nPrevTime)/1000.0f);
 
-	ICore::GetInstance().PreRender();
+	ICore::GetInstance().Update((g_nCurrTime - g_nPrevTime)/1000.0f);
 	ICore::GetInstance().Render();
-	ICore::GetInstance().PostRender();
 
 	g_nPrevTime = g_nCurrTime;
 }

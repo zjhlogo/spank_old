@@ -15,7 +15,7 @@ class IMsgHandler
 {
 public:
 	IMsgHandler() {};
-	~IMsgHandler() {};
+	virtual ~IMsgHandler() {};
 	// TODO: 
 };
 

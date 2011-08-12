@@ -45,10 +45,14 @@ public:
 	virtual const Matrix4x4& GetFinalMatrix();
 
 	virtual void UpdateMatrix();
+	virtual void UpdateObjects(float dt);
+	virtual void RenderObjects();
 
 private:
 	void FreeChildNodes();
 	void ClearAttachedObjects();
+
+	bool IsObjectExist(IObject* pObject);
 
 private:
 	INode* m_pParentNode;
@@ -58,8 +62,10 @@ private:
 	Vector3 m_vPosition;
 	Quaternion m_qRotation;
 	Vector3 m_vScale;
+
 	Matrix4x4 m_matLocal;
 	Matrix4x4 m_matFinal;
+	bool m_bNeedUpdateMatrix;
 
 };
 #endif // __NODE_IMPL_H__

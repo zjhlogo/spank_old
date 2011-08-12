@@ -85,14 +85,12 @@ IShader* Renderer2D_Impl::GetShader()
 	return m_pShader;
 }
 
-void Renderer2D_Impl::BeginRender2D()
+void Renderer2D_Impl::BeginRender()
 {
-	if (!m_pShader) return;
-
-	m_pShader->Reset();
+	// TODO: 
 }
 
-void Renderer2D_Impl::EndRender2D()
+void Renderer2D_Impl::EndRender()
 {
 	// TODO: 
 }

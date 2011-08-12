@@ -37,9 +37,7 @@ void EnterMessageLoop()
 		dwCurrTime = timeGetTime();
 		ICore::GetInstance().Update((dwCurrTime - dwPrevTime)/1000.0f);
 
-		ICore::GetInstance().PreRender();
 		ICore::GetInstance().Render();
-		ICore::GetInstance().PostRender();
 
 		dwPrevTime = dwCurrTime;
 	}

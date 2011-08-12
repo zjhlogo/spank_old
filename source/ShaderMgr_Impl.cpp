@@ -7,7 +7,6 @@
  */
 #include "ShaderMgr_Impl.h"
 #include "Shader_Impl.h"
-#include "VertexAttribute_Impl.h"
 #include <util/IFileUtil.h>
 #include <tinyxml-2.6.2/tinyxml.h>
 
@@ -74,7 +73,7 @@ IShader* ShaderMgr_Impl::CreateShader(const char* pszShaderFile)
 	TiXmlElement* pElmAttrs = pElmShader->FirstChildElement("attributes");
 	if (!pElmAttrs) return NULL;
 
-	IVertexAttribute::ATTRIBUTE_ITEM attrItems[IVertexAttribute::MAX_ATTRIBUTES+1];
+	VertexAttribute::ATTRIBUTE_ITEM attrItems[VertexAttribute::MAX_ATTRIBUTES+1];
 	int nAttrIndex = 0;
 
 	TiXmlElement* pElmAttr = pElmAttrs->FirstChildElement("attribute");
@@ -88,9 +87,9 @@ IShader* ShaderMgr_Impl::CreateShader(const char* pszShaderFile)
 		if (!pszAttrName) return NULL;
 
 		attrItems[nAttrIndex].nSize = nSize;
-		attrItems[nAttrIndex].eItemType = IVertexAttribute::AT_FLOAT;
-		strncpy(attrItems[nAttrIndex].szParamName, pszAttrName, IVertexAttribute::MAX_NAME_LENGTH);
-		attrItems[nAttrIndex].szParamName[IVertexAttribute::MAX_NAME_LENGTH-1] = '\0';
+		attrItems[nAttrIndex].eItemType = VertexAttribute::AT_FLOAT;
+		strncpy(attrItems[nAttrIndex].szParamName, pszAttrName, VertexAttribute::MAX_NAME_LENGTH);
+		attrItems[nAttrIndex].szParamName[VertexAttribute::MAX_NAME_LENGTH-1] = '\0';
 
 		++nAttrIndex;
 		pElmAttr = pElmAttr->NextSiblingElement("attribute");
@@ -99,14 +98,14 @@ IShader* ShaderMgr_Impl::CreateShader(const char* pszShaderFile)
 	if (nAttrIndex <= 0) return NULL;
 
 	attrItems[nAttrIndex].nSize = 0;
-	attrItems[nAttrIndex].eItemType = IVertexAttribute::AT_UNKNOWN;
+	attrItems[nAttrIndex].eItemType = VertexAttribute::AT_UNKNOWN;
 	attrItems[nAttrIndex].nOffset = 0;
 	attrItems[nAttrIndex].szParamName[0] = '\0';
 
 	return InternalCreateShader(nShaderID, pszVertexShader, pszFregmentShader, attrItems);
 }
 
-IShader* ShaderMgr_Impl::InternalCreateShader(int nShaderID, const char* pszVertexShaderFile, const char* pszFregmentShaderFile, const IVertexAttribute::ATTRIBUTE_ITEM* pAttrItems)
+IShader* ShaderMgr_Impl::InternalCreateShader(int nShaderID, const char* pszVertexShaderFile, const char* pszFregmentShaderFile, const VertexAttribute::ATTRIBUTE_ITEM* pAttrItems)
 {
 	StreamReader* pVertexShader = IFileUtil::GetInstance().LoadFile(pszVertexShaderFile);
 	if (!pVertexShader || !pVertexShader->IsOK())
@@ -123,7 +122,7 @@ IShader* ShaderMgr_Impl::InternalCreateShader(int nShaderID, const char* pszVert
 		return NULL;
 	}
 
-	IVertexAttribute* pVertAttrib = InternalCreateVertexAttribute(pAttrItems);
+	VertexAttribute* pVertAttrib = InternalCreateVertexAttribute(pAttrItems);
 	if (!pVertAttrib || !pVertAttrib->IsOK())
 	{
 		SAFE_RELEASE(pVertAttrib);
@@ -148,9 +147,9 @@ IShader* ShaderMgr_Impl::InternalCreateShader(int nShaderID, const char* pszVert
 	return pShader;
 }
 
-IVertexAttribute* ShaderMgr_Impl::InternalCreateVertexAttribute(const IVertexAttribute::ATTRIBUTE_ITEM* pAttrItems)
+VertexAttribute* ShaderMgr_Impl::InternalCreateVertexAttribute(const VertexAttribute::ATTRIBUTE_ITEM* pAttrItems)
 {
-	VertexAttribute_Impl* pVertAttr = new VertexAttribute_Impl(pAttrItems);
+	VertexAttribute* pVertAttr = new VertexAttribute(pAttrItems);
 	if (!pVertAttr || !pVertAttr->IsOK())
 	{
 		SAFE_DELETE(pVertAttr);

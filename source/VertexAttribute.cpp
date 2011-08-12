@@ -1,49 +1,49 @@
 /*!
- * \file VertexAttribute_Impl.cpp
+ * \file VertexAttribute.cpp
  * \date 25-07-2011 21:20:11
  * 
  * 
  * \author zjhlogo (zjhlogo@gmail.com)
  */
-#include "VertexAttribute_Impl.h"
+#include <VertexAttribute.h>
 #include <memory.h>
 #include <string.h>
 
-VertexAttribute_Impl::VertexAttribute_Impl(const ATTRIBUTE_ITEM* pAttrItems)
+VertexAttribute::VertexAttribute(const ATTRIBUTE_ITEM* pAttrItems)
 {
 	m_nNumItems = 0;
 	memset(m_AttributeItems, 0, sizeof(m_AttributeItems));
 	m_bOK = CreateVertexAttribute(pAttrItems);
 }
 
-VertexAttribute_Impl::~VertexAttribute_Impl()
+VertexAttribute::~VertexAttribute()
 {
 	// TODO: 
 }
 
-uint VertexAttribute_Impl::GetStride() const
+uint VertexAttribute::GetStride() const
 {
 	return m_AttributeItems[m_nNumItems].nOffset;
 }
 
-int VertexAttribute_Impl::GetNumAttributeItems() const
+int VertexAttribute::GetNumAttributeItems() const
 {
 	return m_nNumItems;
 }
 
-const IVertexAttribute::ATTRIBUTE_ITEM* VertexAttribute_Impl::GetAttributeItem(int nIndex) const
+const VertexAttribute::ATTRIBUTE_ITEM* VertexAttribute::GetAttributeItem(int nIndex) const
 {
 	if (nIndex < 0 || nIndex >= m_nNumItems) return NULL;
 	return &m_AttributeItems[nIndex];
 }
 
-bool VertexAttribute_Impl::operator==(const IVertexAttribute& VertexAttribute) const
+bool VertexAttribute::operator==(const VertexAttribute& VertexAttribute) const
 {
 	if (m_nNumItems != VertexAttribute.GetNumAttributeItems()) return false;
 
 	for (int i = 0; i < m_nNumItems; ++i)
 	{
-		const IVertexAttribute::ATTRIBUTE_ITEM* pAttrItem = VertexAttribute.GetAttributeItem(i);
+		const VertexAttribute::ATTRIBUTE_ITEM* pAttrItem = VertexAttribute.GetAttributeItem(i);
 
 		if (m_AttributeItems[i].nSize != pAttrItem->nSize) return false;
 		if (m_AttributeItems[i].eItemType != pAttrItem->eItemType) return false;
@@ -53,7 +53,7 @@ bool VertexAttribute_Impl::operator==(const IVertexAttribute& VertexAttribute) c
 	return true;
 }
 
-bool VertexAttribute_Impl::CreateVertexAttribute(const ATTRIBUTE_ITEM* pAttrItems)
+bool VertexAttribute::CreateVertexAttribute(const ATTRIBUTE_ITEM* pAttrItems)
 {
 	int nNumItems = 0;
 	const ATTRIBUTE_ITEM* pCurrItem = pAttrItems;
@@ -84,7 +84,7 @@ bool VertexAttribute_Impl::CreateVertexAttribute(const ATTRIBUTE_ITEM* pAttrItem
 	return true;
 }
 
-uint VertexAttribute_Impl::GetAttributeItemSize(uint nSize, ATTRIBUTE_TYPE eType)
+uint VertexAttribute::GetAttributeItemSize(uint nSize, ATTRIBUTE_TYPE eType)
 {
 	static const int s_ItemSizes[NUM_AT] =
 	{

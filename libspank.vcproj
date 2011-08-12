@@ -398,11 +398,11 @@
 			>
 		</File>
 		<File
-			RelativePath=".\source\VertexAttribute_Impl.cpp"
+			RelativePath=".\source\VertexAttribute.cpp"
 			>
 		</File>
 		<File
-			RelativePath=".\source\VertexAttribute_Impl.h"
+			RelativePath=".\include\VertexAttribute.h"
 			>
 		</File>
 		<File

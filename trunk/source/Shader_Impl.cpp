@@ -10,7 +10,7 @@
 #include <util/IDebugUtil.h>
 #include <IShaderMgr.h>
 
-Shader_Impl::Shader_Impl(StreamReader* pVertexShader, StreamReader* pFregmentShader, IVertexAttribute* pVertexAttribute)
+Shader_Impl::Shader_Impl(StreamReader* pVertexShader, StreamReader* pFregmentShader, VertexAttribute* pVertexAttribute)
 {
 	m_pVertexAttribute = NULL;
 	m_glVertexShader = 0;
@@ -56,7 +56,7 @@ void Shader_Impl::Reset()
 	// TODO: 
 }
 
-const IVertexAttribute* Shader_Impl::GetVertexAttribute() const
+const VertexAttribute* Shader_Impl::GetVertexAttribute() const
 {
 	return m_pVertexAttribute;
 }
@@ -69,7 +69,7 @@ bool Shader_Impl::Commit(const void* pVerts)
 	int nNumAttrs = m_pVertexAttribute->GetNumAttributeItems();
 	for (int i = 0; i < nNumAttrs; ++i)
 	{
-		const IVertexAttribute::ATTRIBUTE_ITEM* pAttrItem = m_pVertexAttribute->GetAttributeItem(i);
+		const VertexAttribute::ATTRIBUTE_ITEM* pAttrItem = m_pVertexAttribute->GetAttributeItem(i);
 		GLenum eType = GetGLType(pAttrItem->eItemType);
 		glVertexAttribPointer(i, pAttrItem->nSize, eType, GL_FALSE, m_pVertexAttribute->GetStride(), ((const uchar*)pVerts)+pAttrItem->nOffset);
 		glEnableVertexAttribArray(i);
@@ -79,7 +79,7 @@ bool Shader_Impl::Commit(const void* pVerts)
 	return true;
 }
 
-bool Shader_Impl::CreateShader(StreamReader* pVertexShader, StreamReader* pFregmentShader, IVertexAttribute* pVertexAttribute)
+bool Shader_Impl::CreateShader(StreamReader* pVertexShader, StreamReader* pFregmentShader, VertexAttribute* pVertexAttribute)
 {
 	m_pVertexAttribute = pVertexAttribute;
 	if (!m_pVertexAttribute) return false;
@@ -183,9 +183,9 @@ GLuint Shader_Impl::LoadShader(const char* pszShaderSource, GLenum eType)
 	return glShader;
 }
 
-GLenum Shader_Impl::GetGLType(IVertexAttribute::ATTRIBUTE_TYPE eType)
+GLenum Shader_Impl::GetGLType(VertexAttribute::ATTRIBUTE_TYPE eType)
 {
-	static const GLenum s_GLType[IVertexAttribute::NUM_AT] = 
+	static const GLenum s_GLType[VertexAttribute::NUM_AT] = 
 	{
 		GL_FLOAT,			// AT_UNKNOWN,
 		GL_BYTE,			// AT_BYTE,
@@ -197,6 +197,6 @@ GLenum Shader_Impl::GetGLType(IVertexAttribute::ATTRIBUTE_TYPE eType)
 		GL_HALF_FLOAT_OES,	// AT_HALF_FLOAT_OES,
 	};
 
-	if (eType < IVertexAttribute::AT_UNKNOWN || eType >= IVertexAttribute::NUM_AT) return GL_FLOAT;
+	if (eType < VertexAttribute::AT_UNKNOWN || eType >= VertexAttribute::NUM_AT) return GL_FLOAT;
 	return s_GLType[eType];
 }

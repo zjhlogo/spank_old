@@ -10,7 +10,6 @@
 
 #include "IMgr.h"
 #include "IShader.h"
-#include "IVertexAttribute.h"
 
 class IShaderMgr : public IMgr
 {

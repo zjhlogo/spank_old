@@ -12,7 +12,7 @@ LIBSPANK_SOURCE_FILES := \
 		$(LIBSPANK_SOURCE)/StreamWriter.cpp \
 		$(LIBSPANK_SOURCE)/Texture_Impl.cpp \
 		$(LIBSPANK_SOURCE)/TextureMgr_Impl.cpp \
-		$(LIBSPANK_SOURCE)/VertexAttribute_Impl.cpp \
+		$(LIBSPANK_SOURCE)/VertexAttribute.cpp \
 		$(LIBSPANK_SOURCE)/math/IMath.cpp \
 		$(LIBSPANK_SOURCE)/math/Matrix2x2.cpp \
 		$(LIBSPANK_SOURCE)/math/Matrix3x3.cpp \

@@ -22,14 +22,20 @@ public:
 	virtual INode* GetRootNode();
 
 	virtual void Update(float dt);
-
-	virtual void PreRender();
 	virtual void Render();
-	virtual void PostRender();
 
 private:
-	bool Init();
-	void Term();
+	bool PreInitialize();
+	bool PostInitialize();
+
+	void PreTerminate();
+	void PostTerminate();
+
+	void PreRender();
+	void PostRender();
+
+	void PreUpdate(float dt);
+	void PostUpdate(float dt);
 
 private:
 	INode* m_pRootNode;

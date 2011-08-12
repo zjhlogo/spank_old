@@ -262,6 +262,75 @@ void IMath::BuildRotateMatrix(Matrix4x4& matOut, const Vector3& vx, const Vector
 	matOut.e[Matrix4x4::E41] = 0.0f; matOut.e[Matrix4x4::E42] = 0.0f; matOut.e[Matrix4x4::E43] = 0.0f; matOut.e[Matrix4x4::E44] = 1.0f;
 }
 
+void IMath::BuildRotateMatrix(Matrix3x3& matOut, const Quaternion& q)
+{
+	// 
+	// [ 1-2*y*y-2*z*z   2*x*y-2*z*w    2*x*z+2*y*w  ]
+	// [  2*x*y+2*z*w   1-2*x*x-2*z*z   2*y*z-2*x*w  ]
+	// [  2*x*z-2*y*w    2*y*z+2*x*w   1-2*x*x-2*y*y ]
+	// 
+	float f2WX = 2.0f*q.w*q.x;
+	float f2WY = 2.0f*q.w*q.y;
+	float f2WZ = 2.0f*q.w*q.z;
+	float f2XX = 2.0f*q.x*q.x;
+	float f2XY = 2.0f*q.x*q.y;
+	float f2XZ = 2.0f*q.x*q.z;
+	float f2YY = 2.0f*q.y*q.y;
+	float f2YZ = 2.0f*q.y*q.z;
+	float f2ZZ = 2.0f*q.z*q.z;
+
+	matOut.e[Matrix3x3::E11] = 1.0f - f2YY - f2ZZ;
+	matOut.e[Matrix3x3::E12] = f2XY + f2WZ;
+	matOut.e[Matrix3x3::E13] = f2XZ - f2WY;
+
+	matOut.e[Matrix3x3::E21] = f2XY - f2WZ;
+	matOut.e[Matrix3x3::E22] = 1.0f - f2XX - f2ZZ;
+	matOut.e[Matrix3x3::E23] = f2YZ + f2WX;
+
+	matOut.e[Matrix3x3::E31] = f2XZ + f2WY;
+	matOut.e[Matrix3x3::E32] = f2YZ - f2WX;
+	matOut.e[Matrix3x3::E33] = 1.0f - f2XX - f2YY;
+}
+
+void IMath::BuildRotateMatrix(Matrix4x4& matOut, const Quaternion& q)
+{
+	// 
+	// [ 1-2*y*y-2*z*z   2*x*y-2*z*w    2*x*z+2*y*w   0 ]
+	// [  2*x*y+2*z*w   1-2*x*x-2*z*z   2*y*z-2*x*w   0 ]
+	// [  2*x*z-2*y*w    2*y*z+2*x*w   1-2*x*x-2*y*y  0 ]
+	// [       0              0              0        1 ]
+	// 
+	float f2WX = 2.0f*q.w*q.x;
+	float f2WY = 2.0f*q.w*q.y;
+	float f2WZ = 2.0f*q.w*q.z;
+	float f2XX = 2.0f*q.x*q.x;
+	float f2XY = 2.0f*q.x*q.y;
+	float f2XZ = 2.0f*q.x*q.z;
+	float f2YY = 2.0f*q.y*q.y;
+	float f2YZ = 2.0f*q.y*q.z;
+	float f2ZZ = 2.0f*q.z*q.z;
+
+	matOut.e[Matrix4x4::E11] = 1.0f - f2YY - f2ZZ;
+	matOut.e[Matrix4x4::E12] = f2XY + f2WZ;
+	matOut.e[Matrix4x4::E13] = f2XZ - f2WY;
+	matOut.e[Matrix4x4::E14] = 0.0f;
+
+	matOut.e[Matrix4x4::E21] = f2XY - f2WZ;
+	matOut.e[Matrix4x4::E22] = 1.0f - f2XX - f2ZZ;
+	matOut.e[Matrix4x4::E23] = f2YZ + f2WX;
+	matOut.e[Matrix4x4::E24] = 0.0f;
+
+	matOut.e[Matrix4x4::E31] = f2XZ + f2WY;
+	matOut.e[Matrix4x4::E32] = f2YZ - f2WX;
+	matOut.e[Matrix4x4::E33] = 1.0f - f2XX - f2YY;
+	matOut.e[Matrix4x4::E34] = 0.0f;
+
+	matOut.e[Matrix4x4::E41] = 0.0f;
+	matOut.e[Matrix4x4::E42] = 0.0f;
+	matOut.e[Matrix4x4::E43] = 0.0f;
+	matOut.e[Matrix4x4::E44] = 1.0f;
+}
+
 void IMath::BuildOrthoMatrix(Matrix4x4& matOut, float left, float right, float bottom, float top, float near, float far)
 {
 	// 

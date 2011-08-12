@@ -38,6 +38,9 @@ public:
 	virtual const Matrix4x4& GetFinalMatrix() = 0;
 
 	virtual void UpdateMatrix() = 0;
+	virtual void UpdateObjects(float dt) = 0;
+	virtual void RenderObjects() = 0;
+
 };
 
 #endif // __INODE_H__

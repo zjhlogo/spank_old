@@ -19,10 +19,7 @@ public:
 	virtual INode* GetRootNode() = 0;
 
 	virtual void Update(float dt) = 0;
-
-	virtual void PreRender() = 0;
 	virtual void Render() = 0;
-	virtual void PostRender() = 0;
 
 };
 #endif // __ICORE_H__

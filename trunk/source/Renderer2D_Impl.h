@@ -36,8 +36,8 @@ public:
 	virtual void SetShader(IShader* pShader);
 	virtual IShader* GetShader();
 
-	virtual void BeginRender2D();
-	virtual void EndRender2D();
+	virtual void BeginRender();
+	virtual void EndRender();
 
 	virtual void DrawTriangleList(const void* pVerts, uint nNumVerts, const ushort* pIndis, uint nNumIndis);
 	virtual void DrawTriangleStrip(const void* pVerts, uint nNumVerts, const ushort* pIndis, uint nNumIndis);

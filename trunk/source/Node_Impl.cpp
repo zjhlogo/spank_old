@@ -13,8 +13,10 @@ Node_Impl::Node_Impl()
 	m_vPosition = IMath::VEC3_ZERO;
 	m_qRotation = IMath::ROT_ZERO;
 	m_vScale = IMath::VEC3_ONE;
-	IMath::BuildIdentityMatrix(m_matLocal);
-	IMath::BuildIdentityMatrix(m_matFinal);
+
+	m_matLocal = IMath::MAT4X4_IDENTITY;
+	m_matFinal = IMath::MAT4X4_IDENTITY;
+	m_bNeedUpdateMatrix = true;
 }
 
 Node_Impl::~Node_Impl()
@@ -64,7 +66,10 @@ INode* Node_Impl::GetParentNode()
 
 bool Node_Impl::AttachObject(IObject* pObject)
 {
-	// TODO: check pObject exist?
+	// check pObject exist
+	if (IsObjectExist(pObject)) return false;
+
+	pObject->SetParent(this);
 	m_vAttachedObjects.push_back(pObject);
 	return true;
 }
@@ -76,6 +81,7 @@ bool Node_Impl::DettachObject(IObject* pObject)
 		if (pObject == (*it))
 		{
 			m_vAttachedObjects.erase(it);
+			pObject->SetParent(NULL);
 			return true;
 		}
 	}
@@ -97,6 +103,7 @@ int Node_Impl::GetNumAttachedObjects()
 void Node_Impl::SetPosition(const Vector3& vPos)
 {
 	m_vPosition = vPos;
+	m_bNeedUpdateMatrix = true;
 }
 
 const Vector3& Node_Impl::GetPosition()
@@ -107,6 +114,7 @@ const Vector3& Node_Impl::GetPosition()
 void Node_Impl::SetRotation(const Quaternion& qRot)
 {
 	m_qRotation = qRot;
+	m_bNeedUpdateMatrix = true;
 }
 
 const Quaternion& Node_Impl::GetRotation()
@@ -117,6 +125,7 @@ const Quaternion& Node_Impl::GetRotation()
 void Node_Impl::SetScale(const Vector3& vScale)
 {
 	m_vScale = vScale;
+	m_bNeedUpdateMatrix = true;
 }
 
 const Vector3& Node_Impl::GetScale()
@@ -136,9 +145,42 @@ const Matrix4x4& Node_Impl::GetFinalMatrix()
 
 void Node_Impl::UpdateMatrix()
 {
-	// TODO: setup local matrix
-	// TODO: setup final matrix
-	// TODO: tell children setup their matrix
+	if (m_bNeedUpdateMatrix)
+	{
+		m_bNeedUpdateMatrix = false;
+
+		// setup local matrix
+		IMath::BuildRotateMatrix(m_matLocal, m_qRotation);
+		m_matLocal.Scale(m_vScale);
+		m_matLocal.SetTranslate(m_vPosition);
+
+		// setup final matrix
+		if (m_pParentNode != NULL)
+		{
+			m_matFinal = m_matLocal * m_pParentNode->GetFinalMatrix();
+		}
+		else
+		{
+			m_matFinal = m_matLocal;
+		}
+	}
+
+	// tell children setup their matrix
+	for (TV_NODE::iterator it = m_vChildNodes.begin(); it != m_vChildNodes.end(); ++it)
+	{
+		INode* pNode = (*it);
+		pNode->UpdateMatrix();
+	}
+}
+
+void Node_Impl::UpdateObjects(float dt)
+{
+	// TODO: 
+}
+
+void Node_Impl::RenderObjects()
+{
+	// TODO: 
 }
 
 void Node_Impl::FreeChildNodes()
@@ -155,4 +197,14 @@ void Node_Impl::FreeChildNodes()
 void Node_Impl::ClearAttachedObjects()
 {
 	m_vAttachedObjects.clear();
+}
+
+bool Node_Impl::IsObjectExist(IObject* pObject)
+{
+	for (TV_OBJECT::iterator it = m_vAttachedObjects.begin(); it != m_vAttachedObjects.end(); ++it)
+	{
+		if (pObject == (*it)) return true;
+	}
+
+	return false;
 }

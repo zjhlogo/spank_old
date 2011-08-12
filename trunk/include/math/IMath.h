@@ -43,6 +43,8 @@ public:
 
 	static void BuildRotateMatrix(Matrix3x3& matOut, const Vector3& vx, const Vector3& vy, const Vector3& vz);
 	static void BuildRotateMatrix(Matrix4x4& matOut, const Vector3& vx, const Vector3& vy, const Vector3& vz);
+	static void BuildRotateMatrix(Matrix3x3& matOut, const Quaternion& q);
+	static void BuildRotateMatrix(Matrix4x4& matOut, const Quaternion& q);
 
 	static void BuildOrthoMatrix(Matrix4x4& matOut, float left, float right, float bottom, float top, float near, float far);
 	static void BuildFrustumMatrix(Matrix4x4& matOut, float left, float right, float bottom, float top, float near, float far);

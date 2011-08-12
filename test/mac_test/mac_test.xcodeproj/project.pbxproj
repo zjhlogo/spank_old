@@ -17,6 +17,11 @@
 		CE894FE713EA372600A83D7D /* test_sprite.png in Resources */ = {isa = PBXBuildFile; fileRef = CE894FE213EA372600A83D7D /* test_sprite.png */; };
 		CE894FE813EA372600A83D7D /* test_sprite.xml in Resources */ = {isa = PBXBuildFile; fileRef = CE894FE313EA372600A83D7D /* test_sprite.xml */; };
 		CE89542A13EA939100A83D7D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE89542913EA939100A83D7D /* CoreGraphics.framework */; };
+		CE9173C313F520E1005B82E3 /* VertexAttribute.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE9173C213F520E1005B82E3 /* VertexAttribute.cpp */; };
+		CE9173C813F520F5005B82E3 /* Mutex_Mac_Impl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE9173C413F520F5005B82E3 /* Mutex_Mac_Impl.cpp */; };
+		CE9173C913F520F5005B82E3 /* RenderDevice_Mac_Impl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE9173C613F520F5005B82E3 /* RenderDevice_Mac_Impl.cpp */; };
+		CE9173CE13F5210E005B82E3 /* DebugUtil_Mac_Impl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE9173CA13F5210E005B82E3 /* DebugUtil_Mac_Impl.cpp */; };
+		CE9173CF13F5210E005B82E3 /* FileUtil_Mac_Impl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE9173CC13F5210E005B82E3 /* FileUtil_Mac_Impl.cpp */; };
 		CE9B293B13E9372C00AF7A03 /* GameApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE9B293913E9372C00AF7A03 /* GameApp.cpp */; };
 		CE9B2AD113E93EF300AF7A03 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CE9B2ACA13E93EF300AF7A03 /* main.m */; };
 		CED1C18113EF711C00C21EC9 /* tinystr.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CED1C17B13EF711C00C21EC9 /* tinystr.cpp */; };
@@ -55,8 +60,6 @@
 		CED1C22A13EF74FC00C21EC9 /* Shader_Impl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CED1C22613EF74FC00C21EC9 /* Shader_Impl.cpp */; };
 		CED1C22B13EF74FC00C21EC9 /* Sprite_Impl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CED1C22713EF74FC00C21EC9 /* Sprite_Impl.cpp */; };
 		CED5EF2A13F361E8006137BE /* ConfigUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CED5EF2913F361E8006137BE /* ConfigUtil.cpp */; };
-		CED5EF3213F36229006137BE /* DebugUtil_Impl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CED5EF2E13F36229006137BE /* DebugUtil_Impl.cpp */; };
-		CED5EF3313F36229006137BE /* FileUtil_Impl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CED5EF3013F36229006137BE /* FileUtil_Impl.cpp */; };
 		CED5EF3A13F36258006137BE /* Image.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CED5EF3613F36258006137BE /* Image.cpp */; };
 		CED5EF3B13F36258006137BE /* InputMgr.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CED5EF3713F36258006137BE /* InputMgr.cpp */; };
 		CED5EF3C13F36258006137BE /* StreamReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CED5EF3813F36258006137BE /* StreamReader.cpp */; };
@@ -64,8 +67,6 @@
 		CED5EF4A13F36299006137BE /* IMsgBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CED5EF4713F36299006137BE /* IMsgBase.cpp */; };
 		CED5EF4B13F36299006137BE /* MsgMgr.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CED5EF4813F36299006137BE /* MsgMgr.cpp */; };
 		CED5EF4C13F36299006137BE /* MsgTouchEvent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CED5EF4913F36299006137BE /* MsgTouchEvent.cpp */; };
-		CED5EF6413F3630B006137BE /* Mutex_Impl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CED5EF6013F3630B006137BE /* Mutex_Impl.cpp */; };
-		CED5EF6513F3630B006137BE /* RenderDevice_Impl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CED5EF6213F3630B006137BE /* RenderDevice_Impl.cpp */; };
 		CED5EFFD13F393F9006137BE /* ScreenUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CED5EFFC13F393F9006137BE /* ScreenUtil.cpp */; };
 		CEDB108413EBF35800CFA7E3 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = CEDB108313EBF35800CFA7E3 /* MainWindow.xib */; };
 		CEDB10A813EBF7AA00CFA7E3 /* OpenGLAppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = CEDB10A513EBF7AA00CFA7E3 /* OpenGLAppDelegate.mm */; };
@@ -80,7 +81,6 @@
 		CEDF5D8F13EC04B300A15B8D /* ShaderMgr_Impl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CEDF5D6E13EC04B300A15B8D /* ShaderMgr_Impl.cpp */; };
 		CEDF5D9113EC04B300A15B8D /* Texture_Impl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CEDF5D7213EC04B300A15B8D /* Texture_Impl.cpp */; };
 		CEDF5D9213EC04B300A15B8D /* TextureMgr_Impl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CEDF5D7413EC04B300A15B8D /* TextureMgr_Impl.cpp */; };
-		CEDF5D9513EC04B300A15B8D /* VertexAttribute_Impl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CEDF5D7913EC04B300A15B8D /* VertexAttribute_Impl.cpp */; };
 		CEED2BE913EFDE0A0093D333 /* default_shader.fs in Resources */ = {isa = PBXBuildFile; fileRef = CEED2BE613EFDE0A0093D333 /* default_shader.fs */; };
 		CEED2BEA13EFDE0A0093D333 /* default_shader.vs in Resources */ = {isa = PBXBuildFile; fileRef = CEED2BE713EFDE0A0093D333 /* default_shader.vs */; };
 		CEED2BEB13EFDE0A0093D333 /* default_shader.xml in Resources */ = {isa = PBXBuildFile; fileRef = CEED2BE813EFDE0A0093D333 /* default_shader.xml */; };
@@ -108,6 +108,16 @@
 		CE894FE213EA372600A83D7D /* test_sprite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = test_sprite.png; path = ../resources/test_sprite.png; sourceTree = SOURCE_ROOT; };
 		CE894FE313EA372600A83D7D /* test_sprite.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = test_sprite.xml; path = ../resources/test_sprite.xml; sourceTree = SOURCE_ROOT; };
 		CE89542913EA939100A83D7D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		CE9173C213F520E1005B82E3 /* VertexAttribute.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = VertexAttribute.cpp; path = ../../source/VertexAttribute.cpp; sourceTree = SOURCE_ROOT; };
+		CE9173C413F520F5005B82E3 /* Mutex_Mac_Impl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Mutex_Mac_Impl.cpp; path = ../../source/platforms/mac/Mutex_Mac_Impl.cpp; sourceTree = SOURCE_ROOT; };
+		CE9173C513F520F5005B82E3 /* Mutex_Mac_Impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Mutex_Mac_Impl.h; path = ../../source/platforms/mac/Mutex_Mac_Impl.h; sourceTree = SOURCE_ROOT; };
+		CE9173C613F520F5005B82E3 /* RenderDevice_Mac_Impl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RenderDevice_Mac_Impl.cpp; path = ../../source/platforms/mac/RenderDevice_Mac_Impl.cpp; sourceTree = SOURCE_ROOT; };
+		CE9173C713F520F5005B82E3 /* RenderDevice_Mac_Impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RenderDevice_Mac_Impl.h; path = ../../source/platforms/mac/RenderDevice_Mac_Impl.h; sourceTree = SOURCE_ROOT; };
+		CE9173CA13F5210E005B82E3 /* DebugUtil_Mac_Impl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DebugUtil_Mac_Impl.cpp; path = ../../source/platforms/mac/util/DebugUtil_Mac_Impl.cpp; sourceTree = SOURCE_ROOT; };
+		CE9173CB13F5210E005B82E3 /* DebugUtil_Mac_Impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DebugUtil_Mac_Impl.h; path = ../../source/platforms/mac/util/DebugUtil_Mac_Impl.h; sourceTree = SOURCE_ROOT; };
+		CE9173CC13F5210E005B82E3 /* FileUtil_Mac_Impl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FileUtil_Mac_Impl.cpp; path = ../../source/platforms/mac/util/FileUtil_Mac_Impl.cpp; sourceTree = SOURCE_ROOT; };
+		CE9173CD13F5210E005B82E3 /* FileUtil_Mac_Impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FileUtil_Mac_Impl.h; path = ../../source/platforms/mac/util/FileUtil_Mac_Impl.h; sourceTree = SOURCE_ROOT; };
+		CE9173D013F52126005B82E3 /* VertexAttribute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VertexAttribute.h; path = ../../include/VertexAttribute.h; sourceTree = SOURCE_ROOT; };
 		CE9B293913E9372C00AF7A03 /* GameApp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GameApp.cpp; path = ../source/GameApp.cpp; sourceTree = SOURCE_ROOT; };
 		CE9B293A13E9372C00AF7A03 /* GameApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameApp.h; path = ../source/GameApp.h; sourceTree = SOURCE_ROOT; };
 		CE9B2ACA13E93EF300AF7A03 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -168,10 +178,6 @@
 		CED1C22713EF74FC00C21EC9 /* Sprite_Impl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Sprite_Impl.cpp; path = ../../source/Sprite_Impl.cpp; sourceTree = SOURCE_ROOT; };
 		CED5EF2913F361E8006137BE /* ConfigUtil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ConfigUtil.cpp; sourceTree = "<group>"; };
 		CED5EF2B13F36213006137BE /* ConfigUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConfigUtil.h; path = ../../include/util/ConfigUtil.h; sourceTree = SOURCE_ROOT; };
-		CED5EF2E13F36229006137BE /* DebugUtil_Impl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DebugUtil_Impl.cpp; path = ../../source/platforms/mac/util/DebugUtil_Impl.cpp; sourceTree = SOURCE_ROOT; };
-		CED5EF2F13F36229006137BE /* DebugUtil_Impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DebugUtil_Impl.h; path = ../../source/platforms/mac/util/DebugUtil_Impl.h; sourceTree = SOURCE_ROOT; };
-		CED5EF3013F36229006137BE /* FileUtil_Impl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FileUtil_Impl.cpp; path = ../../source/platforms/mac/util/FileUtil_Impl.cpp; sourceTree = SOURCE_ROOT; };
-		CED5EF3113F36229006137BE /* FileUtil_Impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FileUtil_Impl.h; path = ../../source/platforms/mac/util/FileUtil_Impl.h; sourceTree = SOURCE_ROOT; };
 		CED5EF3613F36258006137BE /* Image.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Image.cpp; path = ../../source/Image.cpp; sourceTree = SOURCE_ROOT; };
 		CED5EF3713F36258006137BE /* InputMgr.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = InputMgr.cpp; path = ../../source/InputMgr.cpp; sourceTree = SOURCE_ROOT; };
 		CED5EF3813F36258006137BE /* StreamReader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StreamReader.cpp; path = ../../source/StreamReader.cpp; sourceTree = SOURCE_ROOT; };
@@ -186,10 +192,6 @@
 		CED5EF4D13F362B5006137BE /* IMsgBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IMsgBase.h; path = ../../include/msg/IMsgBase.h; sourceTree = SOURCE_ROOT; };
 		CED5EF4E13F362B5006137BE /* MsgMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MsgMgr.h; path = ../../include/msg/MsgMgr.h; sourceTree = SOURCE_ROOT; };
 		CED5EF4F13F362B5006137BE /* MsgTouchEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MsgTouchEvent.h; path = ../../include/msg/MsgTouchEvent.h; sourceTree = SOURCE_ROOT; };
-		CED5EF6013F3630B006137BE /* Mutex_Impl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Mutex_Impl.cpp; path = ../../source/platforms/mac/Mutex_Impl.cpp; sourceTree = SOURCE_ROOT; };
-		CED5EF6113F3630B006137BE /* Mutex_Impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Mutex_Impl.h; path = ../../source/platforms/mac/Mutex_Impl.h; sourceTree = SOURCE_ROOT; };
-		CED5EF6213F3630B006137BE /* RenderDevice_Impl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RenderDevice_Impl.cpp; path = ../../source/platforms/mac/RenderDevice_Impl.cpp; sourceTree = SOURCE_ROOT; };
-		CED5EF6313F3630B006137BE /* RenderDevice_Impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RenderDevice_Impl.h; path = ../../source/platforms/mac/RenderDevice_Impl.h; sourceTree = SOURCE_ROOT; };
 		CED5EFFC13F393F9006137BE /* ScreenUtil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ScreenUtil.cpp; sourceTree = "<group>"; };
 		CED5EFFE13F3940D006137BE /* ScreenUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ScreenUtil.h; path = ../../include/util/ScreenUtil.h; sourceTree = SOURCE_ROOT; };
 		CEDB108313EBF35800CFA7E3 /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
@@ -215,8 +217,6 @@
 		CEDF5D7313EC04B300A15B8D /* Texture_Impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Texture_Impl.h; path = ../../source/Texture_Impl.h; sourceTree = SOURCE_ROOT; };
 		CEDF5D7413EC04B300A15B8D /* TextureMgr_Impl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TextureMgr_Impl.cpp; path = ../../source/TextureMgr_Impl.cpp; sourceTree = SOURCE_ROOT; };
 		CEDF5D7513EC04B300A15B8D /* TextureMgr_Impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TextureMgr_Impl.h; path = ../../source/TextureMgr_Impl.h; sourceTree = SOURCE_ROOT; };
-		CEDF5D7913EC04B300A15B8D /* VertexAttribute_Impl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = VertexAttribute_Impl.cpp; path = ../../source/VertexAttribute_Impl.cpp; sourceTree = SOURCE_ROOT; };
-		CEDF5D7A13EC04B300A15B8D /* VertexAttribute_Impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VertexAttribute_Impl.h; path = ../../source/VertexAttribute_Impl.h; sourceTree = SOURCE_ROOT; };
 		CEED2BE613EFDE0A0093D333 /* default_shader.fs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = default_shader.fs; path = ../resources/default_shader.fs; sourceTree = SOURCE_ROOT; };
 		CEED2BE713EFDE0A0093D333 /* default_shader.vs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = default_shader.vs; path = ../resources/default_shader.vs; sourceTree = SOURCE_ROOT; };
 		CEED2BE813EFDE0A0093D333 /* default_shader.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = default_shader.xml; path = ../resources/default_shader.xml; sourceTree = SOURCE_ROOT; };
@@ -424,12 +424,12 @@
 				CE87F78913F0C02E0012B2CD /* Level2D_Impl.h */,
 				CEDF5D3613EC04B300A15B8D /* math */,
 				CED5EF4413F3627A006137BE /* msg */,
-				CED5EF6013F3630B006137BE /* Mutex_Impl.cpp */,
-				CED5EF6113F3630B006137BE /* Mutex_Impl.h */,
+				CE9173C413F520F5005B82E3 /* Mutex_Mac_Impl.cpp */,
+				CE9173C513F520F5005B82E3 /* Mutex_Mac_Impl.h */,
 				CEDF5D3D13EC04B300A15B8D /* Node_Impl.cpp */,
 				CEDF5D3E13EC04B300A15B8D /* Node_Impl.h */,
-				CED5EF6213F3630B006137BE /* RenderDevice_Impl.cpp */,
-				CED5EF6313F3630B006137BE /* RenderDevice_Impl.h */,
+				CE9173C613F520F5005B82E3 /* RenderDevice_Mac_Impl.cpp */,
+				CE9173C713F520F5005B82E3 /* RenderDevice_Mac_Impl.h */,
 				CED1C22513EF74FC00C21EC9 /* Renderer2D_Impl.cpp */,
 				CEDF5D6C13EC04B300A15B8D /* Renderer2D_Impl.h */,
 				CED1C22613EF74FC00C21EC9 /* Shader_Impl.cpp */,
@@ -447,8 +447,8 @@
 				CEDF5D7413EC04B300A15B8D /* TextureMgr_Impl.cpp */,
 				CEDF5D7513EC04B300A15B8D /* TextureMgr_Impl.h */,
 				CEDF5D7613EC04B300A15B8D /* util */,
-				CEDF5D7913EC04B300A15B8D /* VertexAttribute_Impl.cpp */,
-				CEDF5D7A13EC04B300A15B8D /* VertexAttribute_Impl.h */,
+				CE9173C213F520E1005B82E3 /* VertexAttribute.cpp */,
+				CE9173D013F52126005B82E3 /* VertexAttribute.h */,
 			);
 			name = libspank;
 			sourceTree = "<group>";
@@ -480,14 +480,14 @@
 		CEDF5D7613EC04B300A15B8D /* util */ = {
 			isa = PBXGroup;
 			children = (
+				CE9173CA13F5210E005B82E3 /* DebugUtil_Mac_Impl.cpp */,
+				CE9173CB13F5210E005B82E3 /* DebugUtil_Mac_Impl.h */,
+				CE9173CC13F5210E005B82E3 /* FileUtil_Mac_Impl.cpp */,
+				CE9173CD13F5210E005B82E3 /* FileUtil_Mac_Impl.h */,
 				CED5EFFC13F393F9006137BE /* ScreenUtil.cpp */,
 				CED5EFFE13F3940D006137BE /* ScreenUtil.h */,
 				CED5EF2913F361E8006137BE /* ConfigUtil.cpp */,
 				CED5EF2B13F36213006137BE /* ConfigUtil.h */,
-				CED5EF2E13F36229006137BE /* DebugUtil_Impl.cpp */,
-				CED5EF2F13F36229006137BE /* DebugUtil_Impl.h */,
-				CED5EF3013F36229006137BE /* FileUtil_Impl.cpp */,
-				CED5EF3113F36229006137BE /* FileUtil_Impl.h */,
 			);
 			name = util;
 			path = ../../source/util;
@@ -572,7 +572,6 @@
 				CEDF5D8F13EC04B300A15B8D /* ShaderMgr_Impl.cpp in Sources */,
 				CEDF5D9113EC04B300A15B8D /* Texture_Impl.cpp in Sources */,
 				CEDF5D9213EC04B300A15B8D /* TextureMgr_Impl.cpp in Sources */,
-				CEDF5D9513EC04B300A15B8D /* VertexAttribute_Impl.cpp in Sources */,
 				CED1C18113EF711C00C21EC9 /* tinystr.cpp in Sources */,
 				CED1C18213EF711C00C21EC9 /* tinyxml.cpp in Sources */,
 				CED1C18313EF711C00C21EC9 /* tinyxmlerror.cpp in Sources */,
@@ -612,8 +611,6 @@
 				CE87F77913F0BFD50012B2CD /* Vector2.cpp in Sources */,
 				CE87F78B13F0C02E0012B2CD /* Level2D_Impl.cpp in Sources */,
 				CED5EF2A13F361E8006137BE /* ConfigUtil.cpp in Sources */,
-				CED5EF3213F36229006137BE /* DebugUtil_Impl.cpp in Sources */,
-				CED5EF3313F36229006137BE /* FileUtil_Impl.cpp in Sources */,
 				CED5EF3A13F36258006137BE /* Image.cpp in Sources */,
 				CED5EF3B13F36258006137BE /* InputMgr.cpp in Sources */,
 				CED5EF3C13F36258006137BE /* StreamReader.cpp in Sources */,
@@ -621,9 +618,12 @@
 				CED5EF4A13F36299006137BE /* IMsgBase.cpp in Sources */,
 				CED5EF4B13F36299006137BE /* MsgMgr.cpp in Sources */,
 				CED5EF4C13F36299006137BE /* MsgTouchEvent.cpp in Sources */,
-				CED5EF6413F3630B006137BE /* Mutex_Impl.cpp in Sources */,
-				CED5EF6513F3630B006137BE /* RenderDevice_Impl.cpp in Sources */,
 				CED5EFFD13F393F9006137BE /* ScreenUtil.cpp in Sources */,
+				CE9173C313F520E1005B82E3 /* VertexAttribute.cpp in Sources */,
+				CE9173C813F520F5005B82E3 /* Mutex_Mac_Impl.cpp in Sources */,
+				CE9173C913F520F5005B82E3 /* RenderDevice_Mac_Impl.cpp in Sources */,
+				CE9173CE13F5210E005B82E3 /* DebugUtil_Mac_Impl.cpp in Sources */,
+				CE9173CF13F5210E005B82E3 /* FileUtil_Mac_Impl.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

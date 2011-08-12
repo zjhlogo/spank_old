@@ -5,29 +5,29 @@
  * 
  * \author zjhlogo (zjhlogo@gmail.com)
  */
-#include "Mutex_Impl.h"
+#include "Mutex_Win32_Impl.h"
 
 IMutex* IMutex::CreateMutexObject()
 {
-	return new Mutex_Impl();
+	return new Mutex_Win32_Impl();
 }
 
-Mutex_Impl::Mutex_Impl()
+Mutex_Win32_Impl::Mutex_Win32_Impl()
 {
 	InitializeCriticalSection(&m_CriticalSection);
 }
 
-Mutex_Impl::~Mutex_Impl()
+Mutex_Win32_Impl::~Mutex_Win32_Impl()
 {
 	DeleteCriticalSection(&m_CriticalSection);
 }
 
-void Mutex_Impl::Lock()
+void Mutex_Win32_Impl::Lock()
 {
 	EnterCriticalSection(&m_CriticalSection);
 }
 
-void Mutex_Impl::Unlock()
+void Mutex_Win32_Impl::Unlock()
 {
 	LeaveCriticalSection(&m_CriticalSection);
 }

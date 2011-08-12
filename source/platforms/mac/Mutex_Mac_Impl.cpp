@@ -1,34 +1,33 @@
 /*!
- * \file Mutex_Impl.cpp
+ * \file Mutex_Mac_Impl.cpp
  * \date 7-28-2011 17:46:47
  * 
  * 
  * \author zjhlogo (zjhlogo@gmail.com)
  */
-#include "Mutex_Impl.h"
-
+#include "Mutex_Mac_Impl.h"
 
 IMutex* IMutex::CreateMutexObject()
 {
-	return new Mutex_Impl();
+	return new Mutex_Mac_Impl();
 }
 
-Mutex_Impl::Mutex_Impl()
+Mutex_Mac_Impl::Mutex_Mac_Impl()
 {
 	pthread_mutex_init(&m_Mutex, NULL);
 }
 
-Mutex_Impl::~Mutex_Impl()
+Mutex_Mac_Impl::~Mutex_Mac_Impl()
 {
 	pthread_mutex_destroy(&m_Mutex);
 }
 
-void Mutex_Impl::Lock()
+void Mutex_Mac_Impl::Lock()
 {
 	pthread_mutex_lock(&m_Mutex);
 }
 
-void Mutex_Impl::Unlock()
+void Mutex_Mac_Impl::Unlock()
 {
 	pthread_mutex_unlock(&m_Mutex);
 }

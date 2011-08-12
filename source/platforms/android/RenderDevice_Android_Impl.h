@@ -1,20 +1,20 @@
 /*!
- * \file RenderDevice_Impl.h
- * \date 23-07-2011 10:32:31
+ * \file RenderDevice_Android_Impl.h
+ * \date 23-07-2011 12:43:30
  * 
  * 
  * \author zjhlogo (zjhlogo@gmail.com)
  */
-#ifndef __RENDERDEVICE_IMPL_H__
-#define __RENDERDEVICE_IMPL_H__
+#ifndef __RENDERDEVICE_ANDROID_IMPL_H__
+#define __RENDERDEVICE_ANDROID_IMPL_H__
 
 #include <IRenderDevice.h>
 
-class RenderDevice_Impl : public IRenderDevice
+class RenderDevice_Android_Impl : public IRenderDevice
 {
 public:
-	RenderDevice_Impl();
-	virtual ~RenderDevice_Impl();
+	RenderDevice_Android_Impl();
+	virtual ~RenderDevice_Android_Impl();
 
 	virtual bool Initialize();
 	virtual void Terminate();
@@ -28,6 +28,6 @@ public:
 private:
 	int m_nSurfaceWidth;
 	int m_nSurfaceHeight;
-	
+
 };
-#endif // __RENDERDEVICE_IMPL_H__
+#endif // __RENDERDEVICE_ANDROID_IMPL_H__

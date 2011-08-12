@@ -5,17 +5,17 @@
  * 
  * \author zjhlogo (zjhlogo@gmail.com)
  */
-#ifndef __MUTEX_IMPL_H__
-#define __MUTEX_IMPL_H__
+#ifndef __MUTEX_MAC_IMPL_H__
+#define __MUTEX_MAC_IMPL_H__
 
 #include <IMutex.h>
 #include <pthread.h>
 
-class Mutex_Impl : public IMutex
+class Mutex_Mac_Impl : public IMutex
 {
 public:
-	Mutex_Impl();
-	virtual ~Mutex_Impl();
+	Mutex_Mac_Impl();
+	virtual ~Mutex_Mac_Impl();
 	
 	virtual void Lock();
 	virtual void Unlock();
@@ -25,4 +25,4 @@ private:
 	
 };
 
-#endif // __MUTEX_IMPL_H__
+#endif // __MUTEX_MAC_IMPL_H__

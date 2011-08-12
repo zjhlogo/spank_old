@@ -1,17 +1,17 @@
 /*!
- * \file DebugUtil_Impl.h
+ * \file DebugUtil_Win32_Impl.h
  * \date 7-20-2011 18:06:53
  * 
  * 
  * \author zjhlogo (zjhlogo@gmail.com)
  */
-#ifndef __DEBUGUTIL_IMPL_H__
-#define __DEBUGUTIL_IMPL_H__
+#ifndef __DEBUGUTIL_WIN32_IMPL_H__
+#define __DEBUGUTIL_WIN32_IMPL_H__
 
 #include <util/IDebugUtil.h>
 #include <stdio.h>
 
-class DebugUtil_Impl : public IDebugUtil
+class DebugUtil_Win32_Impl : public IDebugUtil
 {
 public:
 	enum CONST_DEFINE
@@ -20,6 +20,9 @@ public:
 	};
 
 public:
+	DebugUtil_Win32_Impl();
+	virtual ~DebugUtil_Win32_Impl();
+
 	virtual bool Initialize();
 	virtual void Terminate();
 
@@ -32,4 +35,4 @@ private:
 
 };
 
-#endif // __DEBUGUTIL_IMPL_H__
+#endif // __DEBUGUTIL_WIN32_IMPL_H__

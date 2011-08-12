@@ -1,20 +1,20 @@
 /*!
- * \file RenderDevice_Impl.h
- * \date 23-07-2011 12:43:30
+ * \file RenderDevice_Mac_Impl.h
+ * \date 23-07-2011 10:32:31
  * 
  * 
  * \author zjhlogo (zjhlogo@gmail.com)
  */
-#ifndef __RENDERDEVICE_IMPL_H__
-#define __RENDERDEVICE_IMPL_H__
+#ifndef __RENDERDEVICE_MAC_IMPL_H__
+#define __RENDERDEVICE_MAC_IMPL_H__
 
 #include <IRenderDevice.h>
 
-class RenderDevice_Impl : public IRenderDevice
+class RenderDevice_Mac_Impl : public IRenderDevice
 {
 public:
-	RenderDevice_Impl();
-	virtual ~RenderDevice_Impl();
+	RenderDevice_Mac_Impl();
+	virtual ~RenderDevice_Mac_Impl();
 
 	virtual bool Initialize();
 	virtual void Terminate();
@@ -28,6 +28,6 @@ public:
 private:
 	int m_nSurfaceWidth;
 	int m_nSurfaceHeight;
-
+	
 };
-#endif // __RENDERDEVICE_IMPL_H__
+#endif // __RENDERDEVICE_MAC_IMPL_H__

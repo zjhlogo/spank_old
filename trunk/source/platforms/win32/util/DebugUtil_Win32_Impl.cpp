@@ -1,20 +1,30 @@
 /*!
- * \file DebugUtil_Impl.cpp
+ * \file DebugUtil_Win32_Impl.cpp
  * \date 7-20-2011 16:47:22
  * 
  * 
  * \author zjhlogo (zjhlogo@gmail.com)
  */
-#include "DebugUtil_Impl.h"
+#include "DebugUtil_Win32_Impl.h"
 #include <stdarg.h>
 
 IDebugUtil& IDebugUtil::GetInstance()
 {
-	static DebugUtil_Impl s_DebugUtil_Impl;
-	return s_DebugUtil_Impl;
+	static DebugUtil_Win32_Impl s_DebugUtil_Win32_Impl;
+	return s_DebugUtil_Win32_Impl;
 }
 
-bool DebugUtil_Impl::Initialize()
+DebugUtil_Win32_Impl::DebugUtil_Win32_Impl()
+{
+	// TODO: 
+}
+
+DebugUtil_Win32_Impl::~DebugUtil_Win32_Impl()
+{
+	// TODO: 
+}
+
+bool DebugUtil_Win32_Impl::Initialize()
 {
 	m_pLogFile = NULL;
 	fopen_s(&m_pLogFile, "log.txt", "w");
@@ -23,7 +33,7 @@ bool DebugUtil_Impl::Initialize()
 	return true;
 }
 
-void DebugUtil_Impl::Terminate()
+void DebugUtil_Win32_Impl::Terminate()
 {
 	if (m_pLogFile)
 	{
@@ -32,7 +42,7 @@ void DebugUtil_Impl::Terminate()
 	}
 }
 
-void DebugUtil_Impl::Debug(const char* format, ...)
+void DebugUtil_Win32_Impl::Debug(const char* format, ...)
 {
 	va_list marker;
 	va_start(marker, format);
@@ -44,7 +54,7 @@ void DebugUtil_Impl::Debug(const char* format, ...)
 	va_end(marker);
 }
 
-void DebugUtil_Impl::Info(const char* format, ...)
+void DebugUtil_Win32_Impl::Info(const char* format, ...)
 {
 	va_list marker;
 	va_start(marker, format);
@@ -56,7 +66,7 @@ void DebugUtil_Impl::Info(const char* format, ...)
 	va_end(marker);
 }
 
-void DebugUtil_Impl::Error(const char* format, ...)
+void DebugUtil_Win32_Impl::Error(const char* format, ...)
 {
 	va_list marker;
 	va_start(marker, format);

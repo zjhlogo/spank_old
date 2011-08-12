@@ -1,31 +1,31 @@
 /*!
- * \file FileUtil_Impl.cpp
+ * \file FileUtil_Android_Impl.cpp
  * \date 7-20-2011 10:59:23
  * 
  * 
  * \author zjhlogo (zjhlogo@gmail.com)
  */
-#include "FileUtil_Impl.h"
+#include "FileUtil_Android_Impl.h"
 #include <util/ConfigUtil.h>
 #include <util/IDebugUtil.h>
 
 IFileUtil& IFileUtil::GetInstance()
 {
-	static FileUtil_Impl s_FileUtil_Impl;
-	return s_FileUtil_Impl;
+	static FileUtil_Android_Impl s_FileUtil_Android_Impl;
+	return s_FileUtil_Android_Impl;
 }
 
-FileUtil_Impl::FileUtil_Impl()
+FileUtil_Android_Impl::FileUtil_Android_Impl()
 {
 	m_pMainFile = NULL;
 }
 
-FileUtil_Impl::~FileUtil_Impl()
+FileUtil_Android_Impl::~FileUtil_Android_Impl()
 {
 	// TODO: 
 }
 
-bool FileUtil_Impl::Initialize()
+bool FileUtil_Android_Impl::Initialize()
 {
 	const char* pszPackageFilePath = ConfigUtil::GetInstance().GetString("ANDROID_RESOURCE_PACKAGE");
 	if (!pszPackageFilePath || strlen(pszPackageFilePath) <= 0)
@@ -47,7 +47,7 @@ bool FileUtil_Impl::Initialize()
 	return true;
 }
 
-void FileUtil_Impl::Terminate()
+void FileUtil_Android_Impl::Terminate()
 {
 	if (m_pMainFile)
 	{
@@ -56,7 +56,7 @@ void FileUtil_Impl::Terminate()
 	}
 }
 
-StreamReader* FileUtil_Impl::LoadFile(const char* pszFileName)
+StreamReader* FileUtil_Android_Impl::LoadFile(const char* pszFileName)
 {
 	if (!pszFileName || strlen(pszFileName) <= 0) return NULL;
 

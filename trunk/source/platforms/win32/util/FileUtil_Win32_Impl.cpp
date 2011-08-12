@@ -1,11 +1,11 @@
 /*!
- * \file FileUtil_Impl.cpp
+ * \file FileUtil_Win32_Impl.cpp
  * \date 7-20-2011 10:59:23
  * 
  * 
  * \author zjhlogo (zjhlogo@gmail.com)
  */
-#include "FileUtil_Impl.h"
+#include "FileUtil_Win32_Impl.h"
 #include <util/IDebugUtil.h>
 #include <util/ConfigUtil.h>
 #include <stdio.h>
@@ -13,21 +13,21 @@
 
 IFileUtil& IFileUtil::GetInstance()
 {
-	static FileUtil_Impl s_FileUtil_Impl;
-	return s_FileUtil_Impl;
+	static FileUtil_Win32_Impl s_FileUtil_Win32_Impl;
+	return s_FileUtil_Win32_Impl;
 }
 
-FileUtil_Impl::FileUtil_Impl()
+FileUtil_Win32_Impl::FileUtil_Win32_Impl()
 {
 	// TODO: 
 }
 
-FileUtil_Impl::~FileUtil_Impl()
+FileUtil_Win32_Impl::~FileUtil_Win32_Impl()
 {
-	Terminate();
+	// TODO: 
 }
 
-bool FileUtil_Impl::Initialize()
+bool FileUtil_Win32_Impl::Initialize()
 {
 	m_strRootPath = ConfigUtil::GetInstance().GetString("RESOURCE_DIR", "");
 	if (m_strRootPath.empty())
@@ -40,12 +40,12 @@ bool FileUtil_Impl::Initialize()
 	return true;
 }
 
-void FileUtil_Impl::Terminate()
+void FileUtil_Win32_Impl::Terminate()
 {
 	// TODO: 
 }
 
-StreamReader* FileUtil_Impl::LoadFile(const char* pszFileName)
+StreamReader* FileUtil_Win32_Impl::LoadFile(const char* pszFileName)
 {
 	if (!pszFileName || strlen(pszFileName) <= 0) return NULL;
 

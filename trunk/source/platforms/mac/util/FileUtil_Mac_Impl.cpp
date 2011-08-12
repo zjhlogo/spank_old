@@ -1,31 +1,31 @@
 /*!
- * \file FileUtil_Impl.cpp
+ * \file FileUtil_Mac_Impl.cpp
  * \date 7-20-2011 10:59:23
  * 
  * 
  * \author zjhlogo (zjhlogo@gmail.com)
  */
-#include "FileUtil_Impl.h"
+#include "FileUtil_Mac_Impl.h"
 #include <util/ConfigUtil.h>
 #include <util/IDebugUtil.h>
 
 IFileUtil& IFileUtil::GetInstance()
 {
-	static FileUtil_Impl s_FileUtil_Impl;
-	return s_FileUtil_Impl;
+	static FileUtil_Mac_Impl s_FileUtil_Mac_Impl;
+	return s_FileUtil_Mac_Impl;
 }
 
-FileUtil_Impl::FileUtil_Impl()
+FileUtil_Mac_Impl::FileUtil_Mac_Impl()
 {
 	// TODO: 
 }
 
-FileUtil_Impl::~FileUtil_Impl()
+FileUtil_Mac_Impl::~FileUtil_Mac_Impl()
 {
-	Terminate();
+	// TODO: 
 }
 
-bool FileUtil_Impl::Initialize()
+bool FileUtil_Mac_Impl::Initialize()
 {
 	const char* pszResourceDir = ConfigUtil::GetInstance().GetString("RESOURCE_DIR");
 	if (!pszResourceDir || strlen(pszResourceDir) <= 0)
@@ -39,12 +39,12 @@ bool FileUtil_Impl::Initialize()
 	return true;
 }
 
-void FileUtil_Impl::Terminate()
+void FileUtil_Mac_Impl::Terminate()
 {
 	// TODO: 
 }
 
-StreamReader* FileUtil_Impl::LoadFile(const char* pszFileName)
+StreamReader* FileUtil_Mac_Impl::LoadFile(const char* pszFileName)
 {
 	if (!pszFileName || strlen(pszFileName) <= 0) return NULL;
 	

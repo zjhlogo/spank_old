@@ -1,11 +1,11 @@
 /*!
- * \file RenderDevice_Impl.cpp
+ * \file RenderDevice_Win32_Impl.cpp
  * \date 23-07-2011 10:33:14
  * 
  * 
  * \author zjhlogo (zjhlogo@gmail.com)
  */
-#include "RenderDevice_Impl.h"
+#include "RenderDevice_Win32_Impl.h"
 #include <util/ConfigUtil.h>
 #include <util/IDebugUtil.h>
 #include <util/ScreenUtil.h>
@@ -14,11 +14,11 @@
 
 IRenderDevice& IRenderDevice::GetInstance()
 {
-	static RenderDevice_Impl s_RenderDevice_Impl;
-	return s_RenderDevice_Impl;
+	static RenderDevice_Win32_Impl s_RenderDevice_Win32_Impl;
+	return s_RenderDevice_Win32_Impl;
 }
 
-RenderDevice_Impl::RenderDevice_Impl()
+RenderDevice_Win32_Impl::RenderDevice_Win32_Impl()
 {
 	m_EGLDisplay = NULL;
 	m_EGLSurface = NULL;
@@ -28,12 +28,12 @@ RenderDevice_Impl::RenderDevice_Impl()
 	m_nSurfaceHeight = 0;
 }
 
-RenderDevice_Impl::~RenderDevice_Impl()
+RenderDevice_Win32_Impl::~RenderDevice_Win32_Impl()
 {
 	// TODO:
 }
 
-bool RenderDevice_Impl::Initialize()
+bool RenderDevice_Win32_Impl::Initialize()
 {
 	m_nSurfaceWidth = ConfigUtil::GetInstance().GetInt("SURFACE_WIDTH");
 	m_nSurfaceHeight = ConfigUtil::GetInstance().GetInt("SURFACE_HEIGHT");
@@ -54,31 +54,31 @@ bool RenderDevice_Impl::Initialize()
 	return true;
 }
 
-void RenderDevice_Impl::Terminate()
+void RenderDevice_Win32_Impl::Terminate()
 {
 	TerminateEGL();
 	TerminateWindow();
 }
 
-void RenderDevice_Impl::BeginRender()
+void RenderDevice_Win32_Impl::BeginRender()
 {
 	glClearColor(0.8f, 0.8f, 0.8f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-void RenderDevice_Impl::EndRender()
+void RenderDevice_Win32_Impl::EndRender()
 {
 	eglSwapBuffers(m_EGLDisplay, m_EGLSurface);
 }
 
-bool RenderDevice_Impl::InitializeWindow()
+bool RenderDevice_Win32_Impl::InitializeWindow()
 {
 	HINSTANCE hInstance = GetModuleHandle(NULL);
 
 	WNDCLASS winClass;
 	memset(&winClass, 0, sizeof(winClass));
 	winClass.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
-	winClass.lpfnWndProc = (WNDPROC)RenderDevice_Impl::MainWndProc;
+	winClass.lpfnWndProc = (WNDPROC)RenderDevice_Win32_Impl::MainWndProc;
 	winClass.cbClsExtra = 0;
 	winClass.cbWndExtra = 0;
 	winClass.hInstance = hInstance;
@@ -119,7 +119,7 @@ bool RenderDevice_Impl::InitializeWindow()
 	return true;
 }
 
-void RenderDevice_Impl::TerminateWindow()
+void RenderDevice_Win32_Impl::TerminateWindow()
 {
 	if (m_hWindow)
 	{
@@ -129,7 +129,7 @@ void RenderDevice_Impl::TerminateWindow()
 	LOGD("window terminated");
 }
 
-LRESULT CALLBACK RenderDevice_Impl::MainWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK RenderDevice_Win32_Impl::MainWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	switch(uMsg)
 	{
@@ -175,7 +175,7 @@ LRESULT CALLBACK RenderDevice_Impl::MainWndProc(HWND hWnd, UINT uMsg, WPARAM wPa
 	return 0;
 }
 
-bool RenderDevice_Impl::InitializeEGL(HWND hWindow)
+bool RenderDevice_Win32_Impl::InitializeEGL(HWND hWindow)
 {
 	static const EGLint s_EGLAttributes[] =
 	{
@@ -216,7 +216,7 @@ bool RenderDevice_Impl::InitializeEGL(HWND hWindow)
 	return true;
 }
 
-void RenderDevice_Impl::TerminateEGL()
+void RenderDevice_Win32_Impl::TerminateEGL()
 {
 	if (m_EGLDisplay)
 	{
@@ -233,12 +233,12 @@ void RenderDevice_Impl::TerminateEGL()
 	LOGD("OpenGLES 2.0 terminated");
 }
 
-int RenderDevice_Impl::GetSurfaceWidth() const
+int RenderDevice_Win32_Impl::GetSurfaceWidth() const
 {
 	return m_nSurfaceWidth;
 }
 
-int RenderDevice_Impl::GetSurfaceHeight() const
+int RenderDevice_Win32_Impl::GetSurfaceHeight() const
 {
 	return m_nSurfaceHeight;
 }

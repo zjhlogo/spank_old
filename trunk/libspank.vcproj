@@ -157,19 +157,19 @@
 				>
 			</File>
 			<File
-				RelativePath=".\source\platforms\win32\util\DebugUtil_Impl.cpp"
+				RelativePath=".\source\platforms\win32\util\DebugUtil_Win32_Impl.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\source\platforms\win32\util\DebugUtil_Impl.h"
+				RelativePath=".\source\platforms\win32\util\DebugUtil_Win32_Impl.h"
 				>
 			</File>
 			<File
-				RelativePath=".\source\platforms\win32\util\FileUtil_Impl.cpp"
+				RelativePath=".\source\platforms\win32\util\FileUtil_Win32_Impl.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\source\platforms\win32\util\FileUtil_Impl.h"
+				RelativePath=".\source\platforms\win32\util\FileUtil_Win32_Impl.h"
 				>
 			</File>
 			<File
@@ -310,11 +310,11 @@
 			>
 		</File>
 		<File
-			RelativePath=".\source\platforms\win32\Mutex_Impl.cpp"
+			RelativePath=".\source\platforms\win32\Mutex_Win32_Impl.cpp"
 			>
 		</File>
 		<File
-			RelativePath=".\source\platforms\win32\Mutex_Impl.h"
+			RelativePath=".\source\platforms\win32\Mutex_Win32_Impl.h"
 			>
 		</File>
 		<File
@@ -326,11 +326,11 @@
 			>
 		</File>
 		<File
-			RelativePath=".\source\platforms\win32\RenderDevice_Impl.cpp"
+			RelativePath=".\source\platforms\win32\RenderDevice_Win32_Impl.cpp"
 			>
 		</File>
 		<File
-			RelativePath=".\source\platforms\win32\RenderDevice_Impl.h"
+			RelativePath=".\source\platforms\win32\RenderDevice_Win32_Impl.h"
 			>
 		</File>
 		<File

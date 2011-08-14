@@ -9,38 +9,10 @@
 #define __VERTEXATTRIBUTE_H__
 
 #include "IObject.h"
+#include "BaseTypeEx.h"
 
 class VertexAttribute : public IObject
 {
-public:
-	enum CONST_DEFINE
-	{
-		MAX_NAME_LENGTH = 32,
-		MAX_ATTRIBUTES = 16,
-		MAX_VERTEX_ATTRIBUTE = 8,
-	};
-
-	enum ATTRIBUTE_TYPE
-	{
-		AT_UNKNOWN = 0,
-		AT_BYTE,
-		AT_UNSIGNED_BYTE,
-		AT_SHORT,
-		AT_UNSIGNED_SHORT,
-		AT_FLOAT,
-		AT_FIXED,
-		AT_HALF_FLOAT_OES,
-		NUM_AT,
-	};
-
-	typedef struct ATTRIBUTE_ITEM_tag
-	{
-		uint nSize;
-		ATTRIBUTE_TYPE eItemType;
-		uint nOffset;
-		char szParamName[MAX_NAME_LENGTH];
-	} ATTRIBUTE_ITEM;
-
 public:
 	VertexAttribute(const ATTRIBUTE_ITEM* pAttrItems);
 	virtual ~VertexAttribute();
@@ -52,11 +24,11 @@ public:
 
 private:
 	bool CreateVertexAttribute(const ATTRIBUTE_ITEM* pAttrItems);
-	uint GetAttributeItemSize(uint nSize, ATTRIBUTE_TYPE eType);
+	uint GetAttributeItemSize(uint nSize, ATTRIBUTE_ITEM_TYPE eType);
 
 private:
 	int m_nNumItems;
-	ATTRIBUTE_ITEM m_AttributeItems[MAX_VERTEX_ATTRIBUTE+1];
+	ATTRIBUTE_ITEM m_AttributeItems[MAX_ATTRIBUTE_ITEMS+1];
 
 };
 #endif // __VERTEXATTRIBUTE_H__

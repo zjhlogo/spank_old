@@ -69,7 +69,7 @@ bool Shader_Impl::Commit(const void* pVerts)
 	int nNumAttrs = m_pVertexAttribute->GetNumAttributeItems();
 	for (int i = 0; i < nNumAttrs; ++i)
 	{
-		const VertexAttribute::ATTRIBUTE_ITEM* pAttrItem = m_pVertexAttribute->GetAttributeItem(i);
+		const ATTRIBUTE_ITEM* pAttrItem = m_pVertexAttribute->GetAttributeItem(i);
 		GLenum eType = GetGLType(pAttrItem->eItemType);
 		glVertexAttribPointer(i, pAttrItem->nSize, eType, GL_FALSE, m_pVertexAttribute->GetStride(), ((const uchar*)pVerts)+pAttrItem->nOffset);
 		glEnableVertexAttribArray(i);
@@ -183,9 +183,9 @@ GLuint Shader_Impl::LoadShader(const char* pszShaderSource, GLenum eType)
 	return glShader;
 }
 
-GLenum Shader_Impl::GetGLType(VertexAttribute::ATTRIBUTE_TYPE eType)
+GLenum Shader_Impl::GetGLType(ATTRIBUTE_ITEM_TYPE eType)
 {
-	static const GLenum s_GLType[VertexAttribute::NUM_AT] = 
+	static const GLenum s_GLType[NUM_AIT] = 
 	{
 		GL_FLOAT,			// AT_UNKNOWN,
 		GL_BYTE,			// AT_BYTE,
@@ -197,6 +197,6 @@ GLenum Shader_Impl::GetGLType(VertexAttribute::ATTRIBUTE_TYPE eType)
 		GL_HALF_FLOAT_OES,	// AT_HALF_FLOAT_OES,
 	};
 
-	if (eType < VertexAttribute::AT_UNKNOWN || eType >= VertexAttribute::NUM_AT) return GL_FLOAT;
+	if (eType < AIT_UNKNOWN || eType >= NUM_AIT) return GL_FLOAT;
 	return s_GLType[eType];
 }

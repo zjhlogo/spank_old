@@ -13,13 +13,6 @@
 class Renderer2D_Impl : public IRenderer2D
 {
 public:
-	typedef struct VERTEX_ATTRIBUTE_tag
-	{
-		float x, y, z;
-		float u, v;
-	} VERTEX_ATTRIBUTE;
-
-public:
 	Renderer2D_Impl();
 	virtual ~Renderer2D_Impl();
 

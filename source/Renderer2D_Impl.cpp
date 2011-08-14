@@ -6,6 +6,7 @@
  * \author zjhlogo (zjhlogo@gmail.com)
  */
 #include "Renderer2D_Impl.h"
+#include <BaseTypeEx.h>
 #include <IRenderDevice.h>
 #include <IShaderMgr.h>
 #include <util/IDebugUtil.h>
@@ -118,7 +119,7 @@ void Renderer2D_Impl::DrawTriangleStrip(const void* pVerts, uint nNumVerts, cons
 
 void Renderer2D_Impl::DrawRect(float x, float y, float width, float height, IShader* pShader)
 {
-	static VERTEX_ATTRIBUTE s_Verts[4] =
+	static VATTR_POS_UV s_Verts[4] =
 	{
 		{-0.5f, -0.5f, 0.0f, 0.0f, 0.0f},
 		{-0.5f, +0.5f, 0.0f, 0.0f, 1.0f},

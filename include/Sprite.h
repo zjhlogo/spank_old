@@ -9,17 +9,11 @@
 #define __SPRITE_H__
 
 #include "RenderableObject.h"
+#include "BaseTypeEx.h"
 #include "IShader.h"
 
 class Sprite : public RenderableObject
 {
-public:
-	typedef struct VERTEX_ATTRIBUTE_tag
-	{
-		float x, y, z;
-		float u, v;
-	} VERTEX_ATTRIBUTE;
-
 public:
 	Sprite(const char* pszSpriteFile);
 	virtual ~Sprite();
@@ -43,7 +37,7 @@ private:
 	int m_nPieceHeight;
 	int m_nOffsetX;
 	int m_nOffsetY;
-	VERTEX_ATTRIBUTE* m_pVerts;
+	VATTR_POS_UV* m_pVerts;
 
 	float m_fCurrTime;
 	int m_nCurrIndex;

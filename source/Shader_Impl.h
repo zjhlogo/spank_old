@@ -30,7 +30,7 @@ private:
 	bool CreateShader(StreamReader* pVertexShader, StreamReader* pFregmentShader, VertexAttribute* pVertexAttribute);
 	void FreeShader();
 	GLuint LoadShader(const char* pszShaderSource, GLenum eType);
-	GLenum GetGLType(VertexAttribute::ATTRIBUTE_TYPE eType);
+	GLenum GetGLType(ATTRIBUTE_ITEM_TYPE eType);
 
 private:
 	VertexAttribute* m_pVertexAttribute;

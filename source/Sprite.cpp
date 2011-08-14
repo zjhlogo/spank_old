@@ -124,7 +124,7 @@ void Sprite::CreateVertexs()
 {
 	SAFE_DELETE_ARRAY(m_pVerts);
 
-	m_pVerts = new VERTEX_ATTRIBUTE[m_nNumFrames*4];
+	m_pVerts = new VATTR_POS_UV[m_nNumFrames*4];
 
 	float fHalfWidth = m_nPieceWidth/2.0f;
 	float fHalfHeight = m_nPieceHeight/2.0f;

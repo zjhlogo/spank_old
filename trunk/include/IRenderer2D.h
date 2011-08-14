@@ -23,16 +23,16 @@ public:
 	virtual void SetProjectionMatrix(const Matrix4x4& mat) = 0;
 	virtual const Matrix4x4& GetProjectionMatrix() const = 0;
 
-	virtual void SetShader(IShader* pShader) = 0;
-	virtual IShader* GetShader() = 0;
+	virtual const Matrix4x4& GetFinalMatrix() = 0;
+	virtual const Matrix4x4& GetFinalMatrixTranspose() = 0;
 
 	virtual void BeginRender() = 0;
 	virtual void EndRender() = 0;
 
-	virtual void DrawTriangleList(const void* pVerts, uint nNumVerts, const ushort* pIndis, uint nNumIndis) = 0;
-	virtual void DrawTriangleStrip(const void* pVerts, uint nNumVerts, const ushort* pIndis, uint nNumIndis) = 0;
+	virtual void DrawTriangleList(const void* pVerts, uint nNumVerts, const ushort* pIndis, uint nNumIndis, IShader* pShader) = 0;
+	virtual void DrawTriangleStrip(const void* pVerts, uint nNumVerts, const ushort* pIndis, uint nNumIndis, IShader* pShader) = 0;
 
-	virtual void DrawRect(float x, float y, float width, float height) = 0;
+	virtual void DrawRect(float x, float y, float width, float height, IShader* pShader) = 0;
 
 	/*!
 	 * \brief the points order is showing below
@@ -48,7 +48,7 @@ public:
 	 * \param pVerts
 	 * \return 
 	 */
-	virtual void DrawRect(const void* pVerts) = 0;
+	virtual void DrawRect(const void* pVerts, IShader* pShader) = 0;
 
 };
 #endif // __IRENDERER2D_H__

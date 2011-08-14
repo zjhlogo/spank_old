@@ -20,7 +20,7 @@ public:
 	Shader_Impl(StreamReader* pVertexShader, StreamReader* pFregmentShader, VertexAttribute* pVertexAttribute);
 	virtual ~Shader_Impl();
 
-	virtual bool SetMatrix4x4(const char* pszParamName, const Matrix4x4* pMat);
+	virtual bool SetMatrix4x4(const char* pszParamName, const Matrix4x4& m);
 	virtual bool SetTexture(const char* pszParamName, ITexture* pTexture, uint nIndex = 0);
 	virtual const VertexAttribute* GetVertexAttribute() const;
 	virtual void Reset();

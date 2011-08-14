@@ -32,15 +32,15 @@ Quaternion::Quaternion(float x, float y, float z, float w)
 
 Quaternion::Quaternion(const Vector3& vDir, float fRadian)
 {
-	Vector3 vDirNormalized = vDir;
-	vDirNormalized.Normalize();
+	Vector3 vNorm = vDir;
+	vNorm.Normalize();
 
-	float fHalfRadian = fRadian / 2.0f;
-	float fSinTheta = sinf(fHalfRadian);
-	x = vDirNormalized.x*fSinTheta;
-	y = vDirNormalized.y*fSinTheta;
-	z = vDirNormalized.z*fSinTheta;
-	w = cosf(fHalfRadian);
+	float fhr = fRadian / 2.0f;
+	float sc = sinf(fhr);
+	x = vNorm.x*sc;
+	y = vNorm.y*sc;
+	z = vNorm.z*sc;
+	w = cosf(fhr);
 }
 
 Quaternion::~Quaternion()

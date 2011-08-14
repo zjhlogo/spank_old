@@ -9,7 +9,7 @@
 #define __GAMEAPP_H__
 
 #include <IGameApp.h>
-#include <ISprite.h>
+#include <Sprite.h>
 #include <msg/IMsgBase.h>
 
 class GameApp : public IGameApp
@@ -28,7 +28,7 @@ private:
 	bool OnTouchEvent(uint nMsgID, IMsgBase* pMsg);
 
 private:
-	ISprite* m_pSprite;
+	Sprite* m_pSprite;
 
 };
 #endif // __GAMEAPP_H__

@@ -6,6 +6,7 @@
  * \author zjhlogo (zjhlogo@gmail.com)
  */
 #include "Node_Impl.h"
+#include "RenderableObject.h"
 
 Node_Impl::Node_Impl()
 {
@@ -64,24 +65,24 @@ INode* Node_Impl::GetParentNode()
 	return m_pParentNode;
 }
 
-bool Node_Impl::AttachObject(IObject* pObject)
+bool Node_Impl::AttachObject(RenderableObject* pObject)
 {
 	// check pObject exist
 	if (IsObjectExist(pObject)) return false;
 
-	pObject->SetParent(this);
+	pObject->SetParentNode(this);
 	m_vAttachedObjects.push_back(pObject);
 	return true;
 }
 
-bool Node_Impl::DettachObject(IObject* pObject)
+bool Node_Impl::DettachObject(RenderableObject* pObject)
 {
-	for (TV_OBJECT::iterator it = m_vAttachedObjects.begin(); it != m_vAttachedObjects.end(); ++it)
+	for (TV_RENDERABLE_OBJECT::iterator it = m_vAttachedObjects.begin(); it != m_vAttachedObjects.end(); ++it)
 	{
 		if (pObject == (*it))
 		{
 			m_vAttachedObjects.erase(it);
-			pObject->SetParent(NULL);
+			pObject->SetParentNode(NULL);
 			return true;
 		}
 	}
@@ -89,7 +90,7 @@ bool Node_Impl::DettachObject(IObject* pObject)
 	return false;
 }
 
-IObject* Node_Impl::GetAttachedObject(int nIndex)
+RenderableObject* Node_Impl::GetAttachedObject(int nIndex)
 {
 	if (nIndex < 0 || nIndex >= (int)m_vAttachedObjects.size()) return NULL;
 	return m_vAttachedObjects[nIndex];
@@ -106,6 +107,14 @@ void Node_Impl::SetPosition(const Vector3& vPos)
 	m_bNeedUpdateMatrix = true;
 }
 
+void Node_Impl::SetPosition(float x, float y, float z)
+{
+	m_vPosition.x = x;
+	m_vPosition.y = y;
+	m_vPosition.z = z;
+	m_bNeedUpdateMatrix = true;
+}
+
 const Vector3& Node_Impl::GetPosition()
 {
 	return m_vPosition;
@@ -117,6 +126,12 @@ void Node_Impl::SetRotation(const Quaternion& qRot)
 	m_bNeedUpdateMatrix = true;
 }
 
+void Node_Impl::SetRotation(const Vector3& vNormal, float fRadian)
+{
+	m_qRotation = Quaternion(vNormal, fRadian);
+	m_bNeedUpdateMatrix = true;
+}
+
 const Quaternion& Node_Impl::GetRotation()
 {
 	return m_qRotation;
@@ -125,6 +140,14 @@ const Quaternion& Node_Impl::GetRotation()
 void Node_Impl::SetScale(const Vector3& vScale)
 {
 	m_vScale = vScale;
+	m_bNeedUpdateMatrix = true;
+}
+
+void Node_Impl::SetScale(float x, float y, float z)
+{
+	m_vScale.x = x;
+	m_vScale.y = y;
+	m_vScale.z = z;
 	m_bNeedUpdateMatrix = true;
 }
 
@@ -150,8 +173,13 @@ void Node_Impl::UpdateMatrix()
 		m_bNeedUpdateMatrix = false;
 
 		// setup local matrix
-		IMath::BuildRotateMatrix(m_matLocal, m_qRotation);
-		m_matLocal.Scale(m_vScale);
+		Matrix4x4 matScale;
+		IMath::BuildScaleMatrix(matScale, m_vScale);
+
+		Matrix4x4 matRot;
+		IMath::BuildRotateMatrix(matRot, m_qRotation);
+
+		m_matLocal = matRot * matScale;
 		m_matLocal.SetTranslate(m_vPosition);
 
 		// setup final matrix
@@ -175,12 +203,32 @@ void Node_Impl::UpdateMatrix()
 
 void Node_Impl::UpdateObjects(float dt)
 {
-	// TODO: 
+	for (TV_RENDERABLE_OBJECT::iterator it = m_vAttachedObjects.begin(); it != m_vAttachedObjects.end(); ++it)
+	{
+		RenderableObject* pObject = (*it);
+		pObject->Update(dt);
+	}
+
+	for (TV_NODE::iterator it = m_vChildNodes.begin(); it != m_vChildNodes.end(); ++it)
+	{
+		INode* pNode = (*it);
+		pNode->UpdateObjects(dt);
+	}
 }
 
 void Node_Impl::RenderObjects()
 {
-	// TODO: 
+	for (TV_RENDERABLE_OBJECT::iterator it = m_vAttachedObjects.begin(); it != m_vAttachedObjects.end(); ++it)
+	{
+		RenderableObject* pObject = (*it);
+		pObject->Render();
+	}
+
+	for (TV_NODE::iterator it = m_vChildNodes.begin(); it != m_vChildNodes.end(); ++it)
+	{
+		INode* pNode = (*it);
+		pNode->RenderObjects();
+	}
 }
 
 void Node_Impl::FreeChildNodes()
@@ -201,7 +249,7 @@ void Node_Impl::ClearAttachedObjects()
 
 bool Node_Impl::IsObjectExist(IObject* pObject)
 {
-	for (TV_OBJECT::iterator it = m_vAttachedObjects.begin(); it != m_vAttachedObjects.end(); ++it)
+	for (TV_RENDERABLE_OBJECT::iterator it = m_vAttachedObjects.begin(); it != m_vAttachedObjects.end(); ++it)
 	{
 		if (pObject == (*it)) return true;
 	}

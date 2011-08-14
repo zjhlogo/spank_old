@@ -30,7 +30,11 @@ public:
 	static void BuildIdentityMatrix(Matrix3x3& matOut);
 	static void BuildIdentityMatrix(Matrix4x4& matOut);
 
+	static void BuildTranslateMatrix(Matrix3x3& matOut, const Vector2& v);
 	static void BuildTranslateMatrix(Matrix4x4& matOut, const Vector3& v);
+
+	static void BuildScaleMatrix(Matrix3x3& matOut, const Vector3& v);
+	static void BuildScaleMatrix(Matrix4x4& matOut, const Vector3& v);
 
 	static void BuildRotateMatrixX(Matrix3x3& matOut, float fRadian);
 	static void BuildRotateMatrixX(Matrix4x4& matOut, float fRadian);
@@ -60,6 +64,10 @@ public:
 	static const Vector2 VEC2_ONE;
 	static const Vector3 VEC3_ONE;
 	static const Vector4 VEC4_ONE;
+
+	static const Vector3 VEC3_AXISX;
+	static const Vector3 VEC3_AXISY;
+	static const Vector3 VEC3_AXISZ;
 
 	static const Matrix2x2 MAT2X2_ZERO;
 	static const Matrix3x3 MAT3X3_ZERO;

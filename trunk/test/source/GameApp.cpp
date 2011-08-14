@@ -10,6 +10,7 @@
 #include <msg/MsgID.h>
 #include <msg/MsgMgr.h>
 #include <msg/MsgTouchEvent.h>
+#include <ICore.h>
 
 IGameApp& IGameApp::GetInstance()
 {
@@ -31,23 +32,27 @@ bool GameApp::Initialize()
 {
 	MsgMgr::GetInstance().SubscribeMessage(MI_TOUCH_EVENT, this, (MSG_CALLBACK)&GameApp::OnTouchEvent);
 
-	m_pSprite = ISprite::CreateSprite("test_sprite.xml");
+	m_pSprite = new Sprite("test_sprite.xml");
+	INode* pRootNode = ICore::GetInstance().GetRootNode();
+	pRootNode->AttachObject(m_pSprite);
+	pRootNode->SetPosition(200.0f, 100.0f, 0.0f);
+	pRootNode->SetRotation(IMath::VEC3_AXISZ, IMath::F_PI/4.0f);
+	pRootNode->SetScale(1.5f, 1.5f, 0.5f);
+
 	return true;
 }
 
 void GameApp::Terminate()
 {
-	SAFE_RELEASE(m_pSprite);
+	SAFE_DELETE(m_pSprite);
 }
 
 void GameApp::Update(float dt)
 {
-	m_pSprite->Update(dt);
 }
 
 void GameApp::Render()
 {
-	m_pSprite->Render();
 }
 
 bool GameApp::OnTouchEvent(uint nMsgID, IMsgBase* pMsg)

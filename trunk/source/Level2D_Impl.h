@@ -10,6 +10,7 @@
 
 #include <ILevel2D.h>
 #include <ITexture.h>
+
 class Level2D_Impl : public ILevel2D
 {
 public:

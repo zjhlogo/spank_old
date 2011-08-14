@@ -128,16 +128,34 @@ bool Matrix3x3::Invert()
 
 Vector3 Matrix3x3::GetAxisX()
 {
+	//
+	// [  x   N/E  N/E  N/E ]
+	// [  y   N/E  N/E  N/E ]
+	// [  z   N/E  N/E  N/E ]
+	// [ N/E  N/E  N/E  N/E ]
+	//
 	return Vector3(e[E11], e[E21], e[E31]);
 }
 
 Vector3 Matrix3x3::GetAxisY()
 {
+	//
+	// [ N/E   x   N/E  N/E ]
+	// [ N/E   y   N/E  N/E ]
+	// [ N/E   z   N/E  N/E ]
+	// [ N/E  N/E  N/E  N/E ]
+	//
 	return Vector3(e[E12], e[E22], e[E32]);
 }
 
 Vector3 Matrix3x3::GetAxisZ()
 {
+	//
+	// [ N/E  N/E   x   N/E ]
+	// [ N/E  N/E   y   N/E ]
+	// [ N/E  N/E   z   N/E ]
+	// [ N/E  N/E  N/E  N/E ]
+	//
 	return Vector3(e[E13], e[E23], e[E33]);
 }
 

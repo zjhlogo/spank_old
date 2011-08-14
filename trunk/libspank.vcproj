@@ -326,6 +326,14 @@
 			>
 		</File>
 		<File
+			RelativePath=".\source\RenderableObject.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\include\RenderableObject.h"
+			>
+		</File>
+		<File
 			RelativePath=".\source\platforms\win32\RenderDevice_Win32_Impl.cpp"
 			>
 		</File>
@@ -358,11 +366,11 @@
 			>
 		</File>
 		<File
-			RelativePath=".\source\Sprite_Impl.cpp"
+			RelativePath=".\source\Sprite.cpp"
 			>
 		</File>
 		<File
-			RelativePath=".\source\Sprite_Impl.h"
+			RelativePath=".\include\Sprite.h"
 			>
 		</File>
 		<File

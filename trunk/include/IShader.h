@@ -30,10 +30,10 @@ public:
 	 *     [ 8  9  10 11 ]
 	 *     [ 12 13 14 15 ]
 	 * \param pszParamName
-	 * \param pMat
+	 * \param m
 	 * \return 
 	 */
-	virtual bool SetMatrix4x4(const char* pszParamName, const Matrix4x4* pMat) = 0;
+	virtual bool SetMatrix4x4(const char* pszParamName, const Matrix4x4& m) = 0;
 
 	virtual bool SetTexture(const char* pszParamName, ITexture* pTexture, uint nIndex = 0) = 0;
 	virtual const VertexAttribute* GetVertexAttribute() const = 0;

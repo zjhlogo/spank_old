@@ -1,30 +1,18 @@
 /*!
- * \file Sprite_Impl.cpp
+ * \file Sprite.cpp
  * \date 30-07-2011 16:18:48
  * 
  * 
  * \author zjhlogo (zjhlogo@gmail.com)
  */
-#include "Sprite_Impl.h"
+#include <Sprite.h>
 #include <util/IFileUtil.h>
 #include <IShaderMgr.h>
 #include <ITextureMgr.h>
 #include <IRenderer2D.h>
 #include <tinyxml-2.6.2/tinyxml.h>
 
-ISprite* ISprite::CreateSprite(const char* pszSpriteFile)
-{
-	Sprite_Impl* pSprite = new Sprite_Impl(pszSpriteFile);
-	if (!pSprite || !pSprite->IsOK())
-	{
-		SAFE_DELETE(pSprite);
-		return NULL;
-	}
-
-	return pSprite;
-}
-
-Sprite_Impl::Sprite_Impl(const char* pszSpriteFile)
+Sprite::Sprite(const char* pszSpriteFile)
 {
 	m_pShader = NULL;
 	m_pTexture = NULL;
@@ -44,14 +32,14 @@ Sprite_Impl::Sprite_Impl(const char* pszSpriteFile)
 	m_bOK = LoadSpriteFromFile(pszSpriteFile);
 }
 
-Sprite_Impl::~Sprite_Impl()
+Sprite::~Sprite()
 {
 	SAFE_RELEASE(m_pShader);
 	SAFE_RELEASE(m_pTexture);
 	SAFE_DELETE_ARRAY(m_pVerts);
 }
 
-void Sprite_Impl::Update(float dt)
+void Sprite::Update(float dt)
 {
 	m_fCurrTime += dt;
 	if (m_fCurrTime > m_fFrameTime)
@@ -61,19 +49,25 @@ void Sprite_Impl::Update(float dt)
 	}
 }
 
-void Sprite_Impl::Render()
+void Sprite::Render()
 {
+	INode* pNode = GetParentNode();
+	if (!pNode) return;
+
 	m_pShader->SetTexture("u_texture", m_pTexture);
-	IRenderer2D::GetInstance().SetShader(m_pShader);
-	IRenderer2D::GetInstance().DrawRect(&m_pVerts[m_nCurrIndex*4]);
+
+	IRenderer2D::GetInstance().SetModelViewMatrix(GetFinalMatrix());
+	m_pShader->SetMatrix4x4("u_matModelViewProj", IRenderer2D::GetInstance().GetFinalMatrixTranspose());
+
+	IRenderer2D::GetInstance().DrawRect(&m_pVerts[m_nCurrIndex*4], m_pShader);
 }
 
-void Sprite_Impl::SetLoop(bool bLoop)
+void Sprite::SetLoop(bool bLoop)
 {
 	m_bLoop = bLoop;
 }
 
-bool Sprite_Impl::LoadSpriteFromFile(const char* pszSpriteFile)
+bool Sprite::LoadSpriteFromFile(const char* pszSpriteFile)
 {
 	StreamReader* pReader = IFileUtil::GetInstance().LoadFile(pszSpriteFile);
 	if (!pReader) return false;
@@ -126,7 +120,7 @@ bool Sprite_Impl::LoadSpriteFromFile(const char* pszSpriteFile)
 	return true;
 }
 
-void Sprite_Impl::CreateVertexs()
+void Sprite::CreateVertexs()
 {
 	SAFE_DELETE_ARRAY(m_pVerts);
 

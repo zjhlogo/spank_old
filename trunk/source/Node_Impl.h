@@ -15,7 +15,7 @@ class Node_Impl : public INode
 {
 public:
 	typedef std::vector<INode*> TV_NODE;
-	typedef std::vector<IObject*> TV_OBJECT;
+	typedef std::vector<RenderableObject*> TV_RENDERABLE_OBJECT;
 
 public:
 	Node_Impl();
@@ -27,18 +27,21 @@ public:
 	virtual int GetNumChildNodes();
 	virtual INode* GetParentNode();
 
-	virtual bool AttachObject(IObject* pObject);
-	virtual bool DettachObject(IObject* pObject);
-	virtual IObject* GetAttachedObject(int nIndex);
+	virtual bool AttachObject(RenderableObject* pObject);
+	virtual bool DettachObject(RenderableObject* pObject);
+	virtual RenderableObject* GetAttachedObject(int nIndex);
 	virtual int GetNumAttachedObjects();
 
 	virtual void SetPosition(const Vector3& vPos);
+	virtual void SetPosition(float x, float y, float z);
 	virtual const Vector3& GetPosition();
 
 	virtual void SetRotation(const Quaternion& qRot);
+	virtual void SetRotation(const Vector3& vNormal, float fRadian);
 	virtual const Quaternion& GetRotation();
 
 	virtual void SetScale(const Vector3& vScale);
+	virtual void SetScale(float x, float y, float z);
 	virtual const Vector3& GetScale();
 
 	virtual const Matrix4x4& GetLocalMatrix();
@@ -57,7 +60,7 @@ private:
 private:
 	INode* m_pParentNode;
 	TV_NODE m_vChildNodes;
-	TV_OBJECT m_vAttachedObjects;
+	TV_RENDERABLE_OBJECT m_vAttachedObjects;
 
 	Vector3 m_vPosition;
 	Quaternion m_qRotation;

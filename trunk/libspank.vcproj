@@ -180,6 +180,14 @@
 				RelativePath=".\include\util\ScreenUtil.h"
 				>
 			</File>
+			<File
+				RelativePath=".\source\util\StringUtil.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\util\StringUtil.h"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="math"

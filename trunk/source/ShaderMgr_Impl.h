@@ -26,8 +26,8 @@ public:
 	virtual IShader* CreateShader(const char* pszShaderFile);
 
 private:
-	IShader* InternalCreateShader(int nShaderID, const char* pszVertexShaderFile, const char* pszFregmentShaderFile, const VertexAttribute::ATTRIBUTE_ITEM* pAttrItems);
-	VertexAttribute* InternalCreateVertexAttribute(const VertexAttribute::ATTRIBUTE_ITEM* pAttrItems);
+	IShader* InternalCreateShader(int nShaderID, const char* pszVertexShaderFile, const char* pszFregmentShaderFile, const ATTRIBUTE_ITEM* pAttrItems);
+	VertexAttribute* InternalCreateVertexAttribute(const ATTRIBUTE_ITEM* pAttrItems);
 	IShader* FindShader(int nID);
 
 private:

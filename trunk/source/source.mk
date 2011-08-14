@@ -4,10 +4,11 @@ LIBSPANK_SOURCE_FILES := \
 		$(LIBSPANK_SOURCE)/InputMgr.cpp \
 		$(LIBSPANK_SOURCE)/Level2D_Impl.cpp \
 		$(LIBSPANK_SOURCE)/Node_Impl.cpp \
+		$(LIBSPANK_SOURCE)/RenderableObject.cpp \
 		$(LIBSPANK_SOURCE)/Renderer2D_Impl.cpp \
 		$(LIBSPANK_SOURCE)/Shader_Impl.cpp \
 		$(LIBSPANK_SOURCE)/ShaderMgr_Impl.cpp \
-		$(LIBSPANK_SOURCE)/Sprite_Impl.cpp \
+		$(LIBSPANK_SOURCE)/Sprite.cpp \
 		$(LIBSPANK_SOURCE)/StreamReader.cpp \
 		$(LIBSPANK_SOURCE)/StreamWriter.cpp \
 		$(LIBSPANK_SOURCE)/Texture_Impl.cpp \
@@ -32,3 +33,4 @@ LIBSPANK_SOURCE_FILES := \
 		$(LIBSPANK_SOURCE)/platforms/android/unzip/ioapi.cpp \
 		$(LIBSPANK_SOURCE)/util/ConfigUtil.cpp \
 		$(LIBSPANK_SOURCE)/util/ScreenUtil.cpp \
+		$(LIBSPANK_SOURCE)/util/StringUtil.cpp \

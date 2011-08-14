@@ -10,18 +10,15 @@
 
 #include "IMgr.h"
 #include "IShader.h"
+#include "BaseTypeEx.h"
 
 class IShaderMgr : public IMgr
 {
 public:
-	enum SHADER_IDS
-	{
-		DEFAULT_SHADER = 1,
-	};
-
-public:
 	static IShaderMgr& GetInstance();
 
 	virtual IShader* CreateShader(const char* pszShaderFile) = 0;
+	virtual IShader* CreateShader(int nShaderID = SSI_DEFAULT) = 0;
+
 };
 #endif // __ISHADERMGR_H__

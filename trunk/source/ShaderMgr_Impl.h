@@ -24,6 +24,7 @@ public:
 	virtual void Terminate();
 
 	virtual IShader* CreateShader(const char* pszShaderFile);
+	virtual IShader* CreateShader(int nShaderID = SSI_DEFAULT);
 
 private:
 	IShader* InternalCreateShader(int nShaderID, const char* pszVertexShaderFile, const char* pszFregmentShaderFile, const ATTRIBUTE_ITEM* pAttrItems);

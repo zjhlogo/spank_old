@@ -29,7 +29,7 @@ ShaderMgr_Impl::~ShaderMgr_Impl()
 
 bool ShaderMgr_Impl::Initialize()
 {
-	// TODO: 
+	CreateShader("default_shader.xml");
 	return true;
 }
 
@@ -103,6 +103,18 @@ IShader* ShaderMgr_Impl::CreateShader(const char* pszShaderFile)
 	attrItems[nAttrIndex].szParamName[0] = '\0';
 
 	return InternalCreateShader(nShaderID, pszVertexShader, pszFregmentShader, attrItems);
+}
+
+IShader* ShaderMgr_Impl::CreateShader(int nShaderID /* = SSI_DEFAULT */)
+{
+	IShader* pShader = FindShader(nShaderID);
+	if (pShader)
+	{
+		pShader->IncRef();
+		return pShader;
+	}
+
+	return NULL;
 }
 
 IShader* ShaderMgr_Impl::InternalCreateShader(int nShaderID, const char* pszVertexShaderFile, const char* pszFregmentShaderFile, const ATTRIBUTE_ITEM* pAttrItems)

@@ -8,6 +8,8 @@
 #ifndef __BASETYPEEX_H__
 #define __BASETYPEEX_H__
 
+#include "BaseType.h"
+
 struct VATTR_POS_UV
 {
 	float x, y, z;
@@ -36,6 +38,11 @@ struct ATTRIBUTE_ITEM
 	ATTRIBUTE_ITEM_TYPE eItemType;
 	uint nOffset;
 	char szParamName[MAX_ATTRIBUTE_NAME_LENGTH];
+};
+
+enum SYSTEM_SHADER_IDS
+{
+	SSI_DEFAULT = 1,
 };
 
 #endif // __BASETYPEEX_H__

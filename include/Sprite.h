@@ -1,17 +1,17 @@
 /*!
- * \file Sprite_Impl.h
+ * \file Sprite.h
  * \date 30-07-2011 16:18:41
  * 
  * 
  * \author zjhlogo (zjhlogo@gmail.com)
  */
-#ifndef __SPRITE_IMPL_H__
-#define __SPRITE_IMPL_H__
+#ifndef __SPRITE_H__
+#define __SPRITE_H__
 
-#include <ISprite.h>
-#include <IShader.h>
+#include "RenderableObject.h"
+#include "IShader.h"
 
-class Sprite_Impl : public ISprite
+class Sprite : public RenderableObject
 {
 public:
 	typedef struct VERTEX_ATTRIBUTE_tag
@@ -21,8 +21,8 @@ public:
 	} VERTEX_ATTRIBUTE;
 
 public:
-	Sprite_Impl(const char* pszSpriteFile);
-	virtual ~Sprite_Impl();
+	Sprite(const char* pszSpriteFile);
+	virtual ~Sprite();
 
 	virtual void Update(float dt);
 	virtual void Render();
@@ -50,4 +50,4 @@ private:
 	bool m_bLoop;
 
 };
-#endif // __SPRITE_IMPL_H__
+#endif // __SPRITE_H__

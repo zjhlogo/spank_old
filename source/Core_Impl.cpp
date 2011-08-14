@@ -115,16 +115,17 @@ void Core_Impl::Update(float dt)
 
 void Core_Impl::PostUpdate(float dt)
 {
-	m_pRootNode->UpdateMatrix();
+	// update objects
+	m_pRootNode->UpdateObjects(dt);
 
-	// TODO: enumlate updateable objects
-	// TODO: update objects
+	// update matrix
+	m_pRootNode->UpdateMatrix();
 }
 
 void Core_Impl::PreRender()
 {
-	// TODO: enumlate rendarable objects
-	// TODO: render system objects
+	// render system objects
+	m_pRootNode->RenderObjects();
 }
 
 void Core_Impl::Render()

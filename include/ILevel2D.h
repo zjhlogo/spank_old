@@ -8,10 +8,10 @@
 #ifndef __ILEVEL2D_H__
 #define __ILEVEL2D_H__
 
-#include "IRenderableObject.h"
+#include "RenderableObject.h"
 #include "math/Vector2.h"
 
-class ILevel2D : public IRenderableObject
+class ILevel2D : public RenderableObject
 {
 public:
 	virtual void SetCenterPosition(const Vector2& pos) = 0;

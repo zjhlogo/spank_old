@@ -9,7 +9,6 @@
 #define __RENDERER2D_IMPL_H__
 
 #include <IRenderer2D.h>
-#include <IShader.h>
 
 class Renderer2D_Impl : public IRenderer2D
 {
@@ -33,22 +32,27 @@ public:
 	virtual void SetProjectionMatrix(const Matrix4x4& mat);
 	virtual const Matrix4x4& GetProjectionMatrix() const;
 
-	virtual void SetShader(IShader* pShader);
-	virtual IShader* GetShader();
+	virtual const Matrix4x4& GetFinalMatrix();
+	virtual const Matrix4x4& GetFinalMatrixTranspose();
 
 	virtual void BeginRender();
 	virtual void EndRender();
 
-	virtual void DrawTriangleList(const void* pVerts, uint nNumVerts, const ushort* pIndis, uint nNumIndis);
-	virtual void DrawTriangleStrip(const void* pVerts, uint nNumVerts, const ushort* pIndis, uint nNumIndis);
+	virtual void DrawTriangleList(const void* pVerts, uint nNumVerts, const ushort* pIndis, uint nNumIndis, IShader* pShader);
+	virtual void DrawTriangleStrip(const void* pVerts, uint nNumVerts, const ushort* pIndis, uint nNumIndis, IShader* pShader);
 
-	virtual void DrawRect(float x, float y, float width, float height);
-	virtual void DrawRect(const void* pVerts);
+	virtual void DrawRect(float x, float y, float width, float height, IShader* pShader);
+	virtual void DrawRect(const void* pVerts, IShader* pShader);
 
 private:
-	IShader* m_pShader;
+	void UpdateFinalMatrix();
+
+private:
 	Matrix4x4 m_matModelView;
 	Matrix4x4 m_matProj;
+	Matrix4x4 m_matModelViewProj;
+	Matrix4x4 m_matModelViewProjTranspose;
+	bool m_bNeedUpdateFinalMatrix;
 
 };
 #endif // __RENDERER2D_IMPL_H__

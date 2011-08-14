@@ -25,14 +25,14 @@ Shader_Impl::~Shader_Impl()
 	FreeShader();
 }
 
-bool Shader_Impl::SetMatrix4x4(const char* pszParamName, const Matrix4x4* pMat)
+bool Shader_Impl::SetMatrix4x4(const char* pszParamName, const Matrix4x4& m)
 {
-	if (!pszParamName || !pMat) return false;
+	if (!pszParamName) return false;
 
 	int location = glGetUniformLocation(m_glProgramObject, pszParamName);
 	if (location == -1) return false;
 
-	glUniformMatrix4fv(location, 1, GL_FALSE, pMat->e);
+	glUniformMatrix4fv(location, 1, GL_FALSE, m.e);
 	return true;
 }
 

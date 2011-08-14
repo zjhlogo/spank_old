@@ -21,7 +21,7 @@ IRenderer2D& IRenderer2D::GetInstance()
 
 Renderer2D_Impl::Renderer2D_Impl()
 {
-	m_pShader = NULL;
+	m_bNeedUpdateFinalMatrix = true;
 }
 
 Renderer2D_Impl::~Renderer2D_Impl()
@@ -31,8 +31,7 @@ Renderer2D_Impl::~Renderer2D_Impl()
 
 bool Renderer2D_Impl::Initialize()
 {
-	IMath::BuildIdentityMatrix(m_matModelView);
-	IMath::BuildIdentityMatrix(m_matProj);
+	m_matModelView = IMath::MAT4X4_IDENTITY;
 
 	float fSurfaceWidth = (float)IRenderDevice::GetInstance().GetSurfaceWidth();
 	float fSurfaceHeight = (float)IRenderDevice::GetInstance().GetSurfaceHeight();
@@ -47,6 +46,8 @@ bool Renderer2D_Impl::Initialize()
 		m_matProj *= matRot;
 	}
 
+	UpdateFinalMatrix();
+
 	return true;
 }
 
@@ -58,6 +59,7 @@ void Renderer2D_Impl::Terminate()
 void Renderer2D_Impl::SetModelViewMatrix(const Matrix4x4& mat)
 {
 	m_matModelView = mat;
+	m_bNeedUpdateFinalMatrix = true;
 }
 
 const Matrix4x4& Renderer2D_Impl::GetModelViewMatrix() const
@@ -68,6 +70,7 @@ const Matrix4x4& Renderer2D_Impl::GetModelViewMatrix() const
 void Renderer2D_Impl::SetProjectionMatrix(const Matrix4x4& mat)
 {
 	m_matProj = mat;
+	m_bNeedUpdateFinalMatrix = true;
 }
 
 const Matrix4x4& Renderer2D_Impl::GetProjectionMatrix() const
@@ -75,14 +78,16 @@ const Matrix4x4& Renderer2D_Impl::GetProjectionMatrix() const
 	return m_matProj;
 }
 
-void Renderer2D_Impl::SetShader(IShader* pShader)
+const Matrix4x4& Renderer2D_Impl::GetFinalMatrix()
 {
-	m_pShader = pShader;
+	if (m_bNeedUpdateFinalMatrix) UpdateFinalMatrix();
+	return m_matModelViewProj;
 }
 
-IShader* Renderer2D_Impl::GetShader()
+const Matrix4x4& Renderer2D_Impl::GetFinalMatrixTranspose()
 {
-	return m_pShader;
+	if (m_bNeedUpdateFinalMatrix) UpdateFinalMatrix();
+	return m_matModelViewProjTranspose;
 }
 
 void Renderer2D_Impl::BeginRender()
@@ -95,31 +100,23 @@ void Renderer2D_Impl::EndRender()
 	// TODO: 
 }
 
-void Renderer2D_Impl::DrawTriangleList(const void* pVerts, uint nNumVerts, const ushort* pIndis, uint nNumIndis)
+void Renderer2D_Impl::DrawTriangleList(const void* pVerts, uint nNumVerts, const ushort* pIndis, uint nNumIndis, IShader* pShader)
 {
-	if (!m_pShader) return;
+	if (!pShader) return;
 
-	Matrix4x4 matModelViewProj = m_matProj*m_matModelView;
-	matModelViewProj.Transport();
-	m_pShader->SetMatrix4x4("u_matModelViewProj", &matModelViewProj);
-
-	m_pShader->Commit(pVerts);
+	pShader->Commit(pVerts);
 	glDrawElements(GL_TRIANGLES, nNumIndis, GL_UNSIGNED_SHORT, pIndis);
 }
 
-void Renderer2D_Impl::DrawTriangleStrip(const void* pVerts, uint nNumVerts, const ushort* pIndis, uint nNumIndis)
+void Renderer2D_Impl::DrawTriangleStrip(const void* pVerts, uint nNumVerts, const ushort* pIndis, uint nNumIndis, IShader* pShader)
 {
-	if (!m_pShader) return;
+	if (!pShader) return;
 
-	Matrix4x4 matModelViewProj = m_matProj*m_matModelView;
-	matModelViewProj.Transport();
-	m_pShader->SetMatrix4x4("u_matModelViewProj", &matModelViewProj);
-
-	m_pShader->Commit(pVerts);
+	pShader->Commit(pVerts);
 	glDrawElements(GL_TRIANGLE_STRIP, nNumIndis, GL_UNSIGNED_SHORT, pIndis);
 }
 
-void Renderer2D_Impl::DrawRect(float x, float y, float width, float height)
+void Renderer2D_Impl::DrawRect(float x, float y, float width, float height, IShader* pShader)
 {
 	static VERTEX_ATTRIBUTE s_Verts[4] =
 	{
@@ -130,8 +127,6 @@ void Renderer2D_Impl::DrawRect(float x, float y, float width, float height)
 	};
 
 	static const ushort s_Indis[6] = {0, 1, 2, 1, 3, 2};
-
-	if (!m_pShader) return;
 
 	float halfWidth = width/2.0f;
 	float halfHeight = height/2.0f;
@@ -145,14 +140,20 @@ void Renderer2D_Impl::DrawRect(float x, float y, float width, float height)
 	s_Verts[3].x = x + halfWidth;
 	s_Verts[3].y = y + halfHeight;
 
-	DrawTriangleList(s_Verts, 4, s_Indis, 6);
+	DrawTriangleList(s_Verts, 4, s_Indis, 6, pShader);
 }
 
-void Renderer2D_Impl::DrawRect(const void* pVerts)
+void Renderer2D_Impl::DrawRect(const void* pVerts, IShader* pShader)
 {
 	static const ushort s_Indis[6] = {0, 1, 2, 1, 3, 2};
 
-	if (!m_pShader) return;
+	DrawTriangleList(pVerts, 4, s_Indis, 6, pShader);
+}
 
-	DrawTriangleList(pVerts, 4, s_Indis, 6);
+void Renderer2D_Impl::UpdateFinalMatrix()
+{
+	m_matModelViewProj = m_matProj * m_matModelView;
+	m_matModelViewProjTranspose = m_matModelViewProj;
+	m_matModelViewProjTranspose.Transport();
+	m_bNeedUpdateFinalMatrix = false;
 }

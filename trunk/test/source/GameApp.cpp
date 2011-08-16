@@ -32,27 +32,32 @@ bool GameApp::Initialize()
 {
 	MsgMgr::GetInstance().SubscribeMessage(MI_TOUCH_EVENT, this, (MSG_CALLBACK)&GameApp::OnTouchEvent);
 
+	m_Level2D = ILevel2D::CreateLevel2D("test.xml");
 	m_pSprite = new Sprite("test_sprite.xml");
 	INode* pRootNode = ICore::GetInstance().GetRootNode();
-	pRootNode->AttachObject(m_pSprite);
-	pRootNode->SetPosition(200.0f, 100.0f, 0.0f);
-	pRootNode->SetRotation(IMath::VEC3_AXISZ, IMath::F_PI/4.0f);
-	pRootNode->SetScale(1.5f, 1.5f, 0.5f);
-
+	pRootNode->AttachObject(m_Level2D);
+	pRootNode->SetPosition(0.0f,0.0f,0.0f);
+	INode* Level2DNode = pRootNode->CreateChildNode();
+	Level2DNode->AttachObject(m_pSprite);
 	return true;
 }
 
 void GameApp::Terminate()
 {
 	SAFE_DELETE(m_pSprite);
+	SAFE_RELEASE(m_Level2D);
 }
 
 void GameApp::Update(float dt)
 {
+	//m_pSprite->Update(dt);
+	//m_Level2D->Update(dt);
 }
 
 void GameApp::Render()
 {
+	//m_Level2D->Render();
+	//m_pSprite->Render();
 }
 
 bool GameApp::OnTouchEvent(uint nMsgID, IMsgBase* pMsg)

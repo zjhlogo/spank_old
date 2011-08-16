@@ -85,64 +85,36 @@ void Level2D_Impl::Update(float dt)
 		||((m_nCenterPositionY - m_nPrvCenterPositionY) > nYBoundary)
 		||(m_nCenterPositionY - m_nPrvCenterPositionY < -nYBoundary))
 	{
-		int TranslateX = 0;
-		int TranslateY = 0;
-		m_TexturePosition.x = (m_CenterPosition.x / m_nTileWidth) * m_nTileWidth;
-		m_TexturePosition.y = (m_CenterPosition.y/ m_nTildHeight) * m_nTildHeight;
+		float TranslateX = 0.0f;
+		float TranslateY = 0.0f;
+		m_TexturePosition.x = (m_nCenterPositionX/ m_nTileWidth) * m_nTileWidth;
+		m_TexturePosition.y = (m_nCenterPositionY/ m_nTildHeight) * m_nTildHeight;
 		
-		TranslateX = m_nCenterPositionX - (int)m_TexturePosition.x;
-		TranslateY = m_nCenterPositionY - (int)m_TexturePosition.y;
-
-		m_nCurrenSurfaceOffX = TranslateX;
-		m_nCurrenSurfaceOffY = TranslateY;
+		TranslateX = m_CenterPosition.x - m_TexturePosition.x;
+		TranslateY = m_CenterPosition.y - m_TexturePosition.y;
 		InitVerts();
 		IMath::BuildIdentityMatrix(m_ModleMatrix);
 		Matrix4x4 TranlateMatrix;
 		IMath::BuildIdentityMatrix(TranlateMatrix);
 		TranlateMatrix.Translate(-TranslateX,-TranslateY, 0);
-		m_ModleMatrix *= TranlateMatrix;	
+		m_ModleMatrix *= TranlateMatrix;
+		m_nPrvCenterPositionX = m_TexturePosition.x;
+		m_nPrvCenterPositionY = m_TexturePosition.y;
 	}
 	else
 	{
 		//Translate
-		int TranslateX = 0;
-		int TranslateY = 0;
-		TranslateX =  m_nCenterPositionX - m_nPrvCenterPositionX;
-		TranslateY =  m_nCenterPositionY - m_nPrvCenterPositionY;
-		m_nCurrenSurfaceOffX += TranslateX;
-		m_nCurrenSurfaceOffY += TranslateY;
-
-		//if((m_nCurrenSurfaceOffX> nXBoundary) 
-		//	|| (m_nCurrenSurfaceOffX < -nXBoundary)
-		//	|| (m_nCurrenSurfaceOffY >nYBoundary)
-		//	|| (m_nCurrenSurfaceOffY < -nYBoundary))
-		//{
-		//	m_TexturePosition.x = float(m_nCenterPositionX / m_nTileWidth) * m_nTileWidth;
-		//	m_TexturePosition.y = float(m_nCenterPositionY / m_nTildHeight) * m_nTildHeight;
-		//	TranslateX = m_nCenterPositionX - (int)m_TexturePosition.x;
-		//	TranslateY = m_nCenterPositionY - (int)m_TexturePosition.y;
-
-		//	m_nCurrenSurfaceOffX= TranslateX;
-		//	m_nCurrenSurfaceOffY = TranslateY;
-
-		//	InitVerts();
-		//	IMath::BuildIdentityMatrix(m_ModleMatrix);
-		//	Matrix4x4 TranlateMatrix;
-		//	IMath::BuildIdentityMatrix(TranlateMatrix);
-		//	TranlateMatrix.Translate(-TranslateX, -TranslateY, 0);
-		//	m_ModleMatrix *= TranlateMatrix;
-		//}
-		//else
-		//{
-			Matrix4x4 TranlateMatrix;
-			IMath::BuildIdentityMatrix(TranlateMatrix);
-			TranlateMatrix.Translate(-TranslateX, -TranslateY, 0);
-			m_ModleMatrix *= TranlateMatrix;
-			
-		//}
+		float TranslateX = 0;
+		float TranslateY = 0;
+		TranslateX =  m_CenterPosition.x - m_nPrvCenterPositionX;
+		TranslateY =  m_CenterPosition.y - m_nPrvCenterPositionY;
+		Matrix4x4 TranlateMatrix;
+		IMath::BuildIdentityMatrix(TranlateMatrix);
+		TranlateMatrix.Translate(-TranslateX, -TranslateY, 0);
+		m_ModleMatrix *= TranlateMatrix;
+	
 	}
-	m_nPrvCenterPositionX = m_nCenterPositionX;
-	m_nPrvCenterPositionY = m_nCenterPositionY;
+	
 	
 }
 
@@ -156,6 +128,7 @@ void Level2D_Impl::Render()
 
 	int nXTileSize =(m_nHalfSceneWidth / m_nTileWidth) * 2 + m_nHalfBuffersize * 2;	
 	int nYTileSize = (m_nHalfSceneHeight / m_nTildHeight) * 2+m_nHalfBuffersize * 2;
+	// Will Modify This codes
 	for(int y = 0; y < nYTileSize; y++)
 	{	
 		for (int x =0; x <nXTileSize; x++)
@@ -164,7 +137,7 @@ void Level2D_Impl::Render()
 			IRenderer2D::GetInstance().DrawRect(&m_pVerts[index * 4], m_pShader);
 		}
 	}
-	
+	IMath::BuildIdentityMatrix(m_ModleMatrix);
 }
 
 void Level2D_Impl::SetCenterPosition(const Vector2& pos)
@@ -304,6 +277,61 @@ void Level2D_Impl::InitVerts()
 		fYstartCoord -= m_nTildHeight;
 	}
 }
+void Level2D_Impl::UpdateVerts()
+{
+	int nXTileSize =(m_nHalfSceneWidth / m_nTileWidth) * 2 + m_nHalfBuffersize * 2;	
+	int nYTileSize = (m_nHalfSceneHeight / m_nTildHeight) * 2 + m_nHalfBuffersize * 2;
+	//Init Start Coordinate
+	float fXstartCoord = -float(nXTileSize / 2) * m_nTileWidth;
+	float fYstartCoord =  float(nYTileSize / 2) * m_nTildHeight;
+	//TextTrue off 
+	float fTextTrueXOff = (float)m_nTileWidth / m_pTexture->GetWidth();
+	float fTextTrueYOff = (float)m_nTildHeight/ m_pTexture->GetHeight();
+
+	Vector2 TextTrueCoordinate;
+	//Will Modify this Code, Don't use it
+	for(int v1=0; v1 < nYTileSize; v1++)
+	{
+		for ( int v2=0; v2 < nXTileSize; v2++ )
+		{
+			int noff = v1 * nXTileSize *4 +	v2 * 4;
+			Vector2 TextTrueCoordinate;
+			TextTrueCoordinate.x = fXstartCoord + m_TexturePosition.x;
+			TextTrueCoordinate.y = fYstartCoord + m_TexturePosition.y;
+			C2TextTureCoordinate(TextTrueCoordinate);
+			m_pVerts[noff].x = fXstartCoord;
+			m_pVerts[noff].y = fYstartCoord - m_nTildHeight;
+			m_pVerts[noff].z = 0.0f;
+			m_pVerts[noff].u = TextTrueCoordinate.x;
+			m_pVerts[noff].v = TextTrueCoordinate.y - fTextTrueYOff;
+
+			m_pVerts[noff +1].x = fXstartCoord;
+			m_pVerts[noff +1].y = fYstartCoord;
+			m_pVerts[noff +1].z = 0.0f;
+			m_pVerts[noff +1].u = TextTrueCoordinate.x;
+			m_pVerts[noff +1].v = TextTrueCoordinate.y;
+
+			m_pVerts[noff +2].x = fXstartCoord + m_nTileWidth;
+			m_pVerts[noff +2].y = fYstartCoord - m_nTildHeight;
+			m_pVerts[noff +2].z = 0.0f;
+			m_pVerts[noff +2].u = TextTrueCoordinate.x + fTextTrueXOff;
+			m_pVerts[noff +2].v = TextTrueCoordinate.y - fTextTrueYOff; 
+
+			m_pVerts[noff +3].x = fXstartCoord + m_nTileWidth;
+			m_pVerts[noff +3].y = fYstartCoord;
+			m_pVerts[noff +3].z = 0.0f;
+			m_pVerts[noff +3].u = TextTrueCoordinate.x + fTextTrueXOff;
+			m_pVerts[noff +3].v = TextTrueCoordinate.y;
+
+			//Add  a off distance to iXstarCoord
+			fXstartCoord += m_nTileWidth;
+
+		}
+		//go to next Row, add a off distance to iYstarCoord
+		fXstartCoord = - (float)(nXTileSize / 2) * m_nTileWidth;
+		fYstartCoord -= m_nTildHeight;
+	}
+}
 
 Vector2& Level2D_Impl::C2TextTureCoordinate(Vector2& MapPosition)
 {
@@ -316,10 +344,11 @@ Vector2& Level2D_Impl::C2TextTureCoordinate(Vector2& MapPosition)
 	
 	int nTextTrueXWidth = m_pTexture->GetWidth();
 	int  nTextTrueXHeight =m_pTexture->GetHeight();
+	int nTextTureXsize = nTextTrueXWidth / m_nTileWidth;
 	
 	index--;
-	indexX = (index%2) * m_nTildHeight;
-	indexY = ((index/2) * m_nTileWidth); 
+	indexX = (index%nTextTureXsize) * m_nTildHeight;
+	indexY = ((index/nTextTureXsize) * m_nTileWidth); 
 
 	MapPosition.x=(float)indexX / nTextTrueXWidth;
 	MapPosition.y = 1.0f -(float)indexY/ nTextTrueXHeight;

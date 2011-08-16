@@ -54,7 +54,7 @@ void GameApp::Update(float dt)
 {
 	static Vector2 s_posCenter(0.0f, 0.0f);
 
-	s_posCenter.x += (dt*100.0f);
+	s_posCenter.x += (dt*50.0f);
 	m_pLevel2D->SetCenterPosition(s_posCenter);
 }
 

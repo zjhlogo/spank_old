@@ -18,7 +18,7 @@ public:
 		FILE_NAME_LENGTH = 64,
 	};
 
-	/*! 1st, comes the file header */
+	/*! first, comes the file header */
 	typedef struct FILE_HEADER_tag
 	{
 		uint nMagicNumber;				/*!< always = MAGIC_NUMBER */
@@ -33,14 +33,14 @@ public:
 		char szTextureFile[FILE_NAME_LENGTH];	/*!< tile texture file */
 	} FILE_HEADER;
 
-	/*! 2nd, comes the nNumTiles of TILE_INFO */
+	/*! second, comes the FILE_HEADER::nNumTiles of TILE_INFO */
 	typedef struct TILE_INFO_tag
 	{
 		float u, v;						/*!< tile u, v */
 		float du, dv;					/*!< tile width, height scaled into (0 ~ 1) */
 	} TILE_INFO;
 
-	/*! 3rd, comes the nMapRow*nMapCol of index of tiles (uint)
+	/*! third, comes the FILE_HEADER::nMapRow*FILE_HEADER::nMapCol of index (uint)
 	 *
 	 * uint tileIndex[nMapRow*nMapCol];
 	 */

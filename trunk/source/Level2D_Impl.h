@@ -31,6 +31,7 @@ private:
 	bool LoadLevel2DFromFile(const char* pszLevel2DFile);
 	inline  Vector2& C2TextTureCoordinate(Vector2& MapPosition );
 	void InitVerts();
+	void UpdateVerts();
 	
 private:
 	Vector2 m_CenterPosition;		//当前在地图的位置

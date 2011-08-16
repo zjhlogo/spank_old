@@ -44,10 +44,13 @@ public:
 	virtual void SetScale(float x, float y, float z);
 	virtual const Vector3& GetScale();
 
+	virtual void RunAction(IActionBase* pAction);
+
 	virtual const Matrix4x4& GetLocalMatrix();
 	virtual const Matrix4x4& GetFinalMatrix();
 
-	virtual void UpdateMatrix();
+	virtual void UpdateMatrix(float dt);
+	virtual void UpdateAction(float dt);
 	virtual void UpdateObjects(float dt);
 	virtual void RenderObjects();
 
@@ -57,6 +60,8 @@ private:
 
 	bool IsObjectExist(IObject* pObject);
 
+	bool OnActionUpdate(IMsgBase* pMsg);
+
 private:
 	INode* m_pParentNode;
 	TV_NODE m_vChildNodes;
@@ -65,6 +70,8 @@ private:
 	Vector3 m_vPosition;
 	Quaternion m_qRotation;
 	Vector3 m_vScale;
+
+	IActionBase* m_pAction;
 
 	Matrix4x4 m_matLocal;
 	Matrix4x4 m_matFinal;

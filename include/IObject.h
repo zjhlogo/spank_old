@@ -13,18 +13,18 @@
 class IObject : public IMsgHandler
 {
 public:
-	IObject():m_bOK(false), m_nRef(1), m_pParent(NULL) {};
-	virtual ~IObject(){};
+	IObject();
+	virtual ~IObject();
 
-	bool IsOK() const {return m_bOK;};
-	void Release() {if (DecRef() <= 0) delete this;};
+	bool IsOK() const;
+	void Release();
 
-	IObject* GetParent() const {return m_pParent;};
-	void SetParent(IObject* pParent) {m_pParent = pParent;};
+	IObject* GetParent() const;
+	void SetParent(IObject* pParent);
 
-	int IncRef() {return ++m_nRef;};
-	int DecRef() {return --m_nRef;};
-	int GetRef() const {return m_nRef;};
+	int IncRef();
+	int DecRef();
+	int GetRef() const;
 
 protected:
 	bool m_bOK;

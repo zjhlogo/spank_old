@@ -269,6 +269,30 @@
 				>
 			</File>
 			<File
+				RelativePath=".\source\msg\IMsgHandler.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\msg\IMsgHandler.h"
+				>
+			</File>
+			<File
+				RelativePath=".\source\msg\MsgActionUpdate.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\msg\MsgActionUpdate.h"
+				>
+			</File>
+			<File
+				RelativePath=".\source\msg\MsgCommon.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\msg\MsgCommon.h"
+				>
+			</File>
+			<File
 				RelativePath=".\source\msg\MsgMgr.cpp"
 				>
 			</File>
@@ -277,11 +301,31 @@
 				>
 			</File>
 			<File
-				RelativePath=".\source\msg\MsgTouchEvent.cpp"
+				RelativePath=".\source\msg\MsgTouch.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\include\msg\MsgTouchEvent.h"
+				RelativePath=".\include\msg\MsgTouch.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="action"
+			>
+			<File
+				RelativePath=".\source\action\ActionMoveTo.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\action\ActionMoveTo.h"
+				>
+			</File>
+			<File
+				RelativePath=".\source\action\IActionBase.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\action\IActionBase.h"
 				>
 			</File>
 		</Filter>
@@ -307,6 +351,14 @@
 		</File>
 		<File
 			RelativePath=".\include\InputMgr.h"
+			>
+		</File>
+		<File
+			RelativePath=".\source\IObject.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\include\IObject.h"
 			>
 		</File>
 		<File

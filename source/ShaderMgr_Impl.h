@@ -9,6 +9,7 @@
 #define __SHADERMGR_IMPL_H__
 
 #include <IShaderMgr.h>
+#include <msg/IMsgBase.h>
 #include <map>
 
 class ShaderMgr_Impl : public IShaderMgr
@@ -30,6 +31,7 @@ private:
 	IShader* InternalCreateShader(int nShaderID, const char* pszVertexShaderFile, const char* pszFregmentShaderFile, const ATTRIBUTE_ITEM* pAttrItems);
 	VertexAttribute* InternalCreateVertexAttribute(const ATTRIBUTE_ITEM* pAttrItems);
 	IShader* FindShader(int nID);
+	bool OnShaderDestroied(IMsgBase* pMsg);
 
 private:
 	TM_SHADER m_mapShader;

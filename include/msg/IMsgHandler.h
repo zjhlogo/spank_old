@@ -10,15 +10,38 @@
 
 #include "BaseType.h"
 #include "IMsgBase.h"
+#include <map>
+
+class IMsgHandler;
+typedef bool (IMsgHandler::*MSG_CALLBACK)(IMsgBase* pMsg);
 
 class IMsgHandler
 {
 public:
-	IMsgHandler() {};
-	virtual ~IMsgHandler() {};
-	// TODO: 
-};
+	typedef struct CONNECTION_INFO_tag
+	{
+		uint nMsgID;
+		IMsgHandler* pHandler;
+		MSG_CALLBACK pCallback;
+	} CONNECTION_INFO;
 
-typedef bool (IMsgHandler::*MSG_CALLBACK)(uint nMsgID, IMsgBase* pMsg);
+	typedef std::map<uint, CONNECTION_INFO> TM_CONNECTION_INFO;
+
+public:
+	IMsgHandler();
+	virtual ~IMsgHandler();
+
+	bool CallEvent(IMsgBase& msgBase);
+
+	bool ConnectEvent(uint nMsgID, IMsgHandler* pHandler, MSG_CALLBACK pCallback);
+	bool DisconnectEvent(uint nMsgID);
+
+private:
+	CONNECTION_INFO* FindConnectionInfo(uint nMsgID);
+
+private:
+	TM_CONNECTION_INFO m_ConnectionMap;
+
+};
 
 #endif // __IMSGHANDLER_H__

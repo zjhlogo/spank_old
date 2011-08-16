@@ -11,27 +11,22 @@
 #include <ILevel2D.h>
 #include <ITexture.h>
 #include <IShader.h>
-#include <IShaderMgr.h>
+#include <BaseTypeEx.h>
+
 class Level2D_Impl : public ILevel2D
 {
-public:
-	typedef struct VERTEX_ATTRIBUTE_tag
-	{
-		float x, y, z;
-		float u, v;
-	} VERTEX_ATTRIBUTE;
 public:
 	Level2D_Impl(const char* pszLevel2DFile);
 	virtual ~Level2D_Impl();
 
 	virtual void Update(float dt);
 	virtual void Render();
-	void Terminate();
+
 	virtual void SetCenterPosition(const Vector2& pos);
 	virtual const Vector2& GetCenterPosition() const;
 
-public:
 	static ILevel2D* CreateLevel2D(const char* pszLevel2DFile);
+
 private:
 	bool LoadLevel2DFromFile(const char* pszLevel2DFile);
 	inline  Vector2& C2TextTureCoordinate(Vector2& MapPosition );
@@ -63,7 +58,7 @@ private:
 	ITexture* m_pTexture;
 	int m_nHalfBuffersize;
 	Matrix4x4 m_ModleMatrix;
-	VERTEX_ATTRIBUTE* m_pVerts;		
+	VATTR_POS_UV* m_pVerts;		
 
 };
 #endif // __LEVEL2D_IMPL_H__

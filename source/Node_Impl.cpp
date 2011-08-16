@@ -6,7 +6,9 @@
  * \author zjhlogo (zjhlogo@gmail.com)
  */
 #include "Node_Impl.h"
-#include "RenderableObject.h"
+#include <RenderableObject.h>
+#include <msg/MsgID.h>
+#include <msg/MsgActionUpdate.h>
 
 Node_Impl::Node_Impl()
 {
@@ -14,6 +16,8 @@ Node_Impl::Node_Impl()
 	m_vPosition = IMath::VEC3_ZERO;
 	m_qRotation = IMath::ROT_ZERO;
 	m_vScale = IMath::VEC3_ONE;
+
+	m_pAction = NULL;
 
 	m_matLocal = IMath::MAT4X4_IDENTITY;
 	m_matFinal = IMath::MAT4X4_IDENTITY;
@@ -156,6 +160,23 @@ const Vector3& Node_Impl::GetScale()
 	return m_vScale;
 }
 
+void Node_Impl::RunAction(IActionBase* pAction)
+{
+	if (m_pAction)
+	{
+		m_pAction->DisconnectEvent(MI_ACTION_UPDATE);
+		SAFE_RELEASE(m_pAction);
+	}
+
+	m_pAction = pAction;
+
+	if (m_pAction)
+	{
+		m_pAction->ConnectEvent(MI_ACTION_UPDATE, this, (MSG_CALLBACK)&Node_Impl::OnActionUpdate);
+		m_pAction->Start();
+	}
+}
+
 const Matrix4x4& Node_Impl::GetLocalMatrix()
 {
 	return m_matLocal;
@@ -166,7 +187,7 @@ const Matrix4x4& Node_Impl::GetFinalMatrix()
 	return m_matFinal;
 }
 
-void Node_Impl::UpdateMatrix()
+void Node_Impl::UpdateMatrix(float dt)
 {
 	if (m_bNeedUpdateMatrix)
 	{
@@ -197,7 +218,22 @@ void Node_Impl::UpdateMatrix()
 	for (TV_NODE::iterator it = m_vChildNodes.begin(); it != m_vChildNodes.end(); ++it)
 	{
 		INode* pNode = (*it);
-		pNode->UpdateMatrix();
+		pNode->UpdateMatrix(dt);
+	}
+}
+
+void Node_Impl::UpdateAction(float dt)
+{
+	if (m_pAction)
+	{
+		m_pAction->Update(dt);
+	}
+
+	// tell children update action
+	for (TV_NODE::iterator it = m_vChildNodes.begin(); it != m_vChildNodes.end(); ++it)
+	{
+		INode* pNode = (*it);
+		pNode->UpdateAction(dt);
 	}
 }
 
@@ -255,4 +291,36 @@ bool Node_Impl::IsObjectExist(IObject* pObject)
 	}
 
 	return false;
+}
+
+bool Node_Impl::OnActionUpdate(IMsgBase* pMsg)
+{
+	MsgActionUpdate* pMsgActionUpdate = (MsgActionUpdate*)pMsg;
+	switch (pMsgActionUpdate->GetUpdateType())
+	{
+	case AUT_SCALE:
+		{
+			SetScale(pMsgActionUpdate->GetScale());
+		}
+		break;
+	case AUT_POSITION:
+		{
+			SetPosition(pMsgActionUpdate->GetPosition());
+		}
+		break;
+	case AUT_ROTATION:
+		{
+			SetRotation(pMsgActionUpdate->GetRotation());
+		}
+		break;
+	//case AUT_START:
+	//case AUT_PAUSE:
+	case AUT_STOPED:
+		{
+			SAFE_RELEASE(m_pAction);
+		}
+		break;
+	}
+
+	return true;
 }

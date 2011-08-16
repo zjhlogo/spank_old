@@ -10,6 +10,7 @@
 
 #include "math/IMath.h"
 #include "IObject.h"
+#include "action/IActionBase.h"
 
 class RenderableObject;
 class INode : public IObject
@@ -38,10 +39,13 @@ public:
 	virtual void SetScale(float x, float y, float z) = 0;
 	virtual const Vector3& GetScale() = 0;
 
+	virtual void RunAction(IActionBase* pAction) = 0;
+
 	virtual const Matrix4x4& GetLocalMatrix() = 0;
 	virtual const Matrix4x4& GetFinalMatrix() = 0;
 
-	virtual void UpdateMatrix() = 0;
+	virtual void UpdateMatrix(float dt) = 0;
+	virtual void UpdateAction(float dt) = 0;
 	virtual void UpdateObjects(float dt) = 0;
 	virtual void RenderObjects() = 0;
 

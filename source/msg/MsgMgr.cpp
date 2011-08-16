@@ -118,7 +118,7 @@ bool MsgMgr::DispatchOneMessage(MESSAGE_INFO& msgInfo)
 		IMsgHandler* pHandler = subscribeInfo.pHandler;
 		MSG_CALLBACK pCallback = subscribeInfo.pCallback;
 
-		bResult = (pHandler->*pCallback)(msgInfo.nMsgID, msgInfo.pMsg);
+		bResult = (pHandler->*pCallback)(msgInfo.pMsg);
 
 		if (!bResult) ++nFailedCount;
 	}

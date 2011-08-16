@@ -16,6 +16,6 @@ class ILevel2D : public RenderableObject
 public:
 	virtual void SetCenterPosition(const Vector2& pos) = 0;
 	virtual const Vector2& GetCenterPosition() const = 0;
-
+	static ILevel2D* CreateLevel2D(const char* pszLevel2DFile);
 };
 #endif // __ILEVEL2D_H__

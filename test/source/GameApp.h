@@ -11,6 +11,7 @@
 #include <IGameApp.h>
 #include <Sprite.h>
 #include <msg/IMsgBase.h>
+#include <ILevel2D.h>
 
 class GameApp : public IGameApp
 {
@@ -26,7 +27,7 @@ public:
 
 private:
 	bool OnTouchEvent(uint nMsgID, IMsgBase* pMsg);
-
+	ILevel2D* m_Level2D;
 private:
 	Sprite* m_pSprite;
 

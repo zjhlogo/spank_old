@@ -7,6 +7,8 @@
  */
 #include "TextureMgr_Impl.h"
 #include "Texture_Impl.h"
+#include <msg/MsgID.h>
+#include <msg/MsgCommon.h>
 
 ITextureMgr& ITextureMgr::GetInstance()
 {
@@ -36,12 +38,50 @@ void TextureMgr_Impl::Terminate()
 
 ITexture* TextureMgr_Impl::CreateTexture(const char* pszFileName, ITexture::SAMPLE_TYPE eSample /* = ITexture::SAMPLE_POINT */)
 {
-	Texture_Impl* pTexture = new Texture_Impl(pszFileName, eSample);
-	if (!pTexture || !pTexture->IsOK())
+	ITexture* pTexture = FindTexture(pszFileName);
+	if (pTexture)
 	{
-		SAFE_DELETE(pTexture);
+		pTexture->IncRef();
+		return pTexture;
+	}
+
+	Texture_Impl* pTexture_Impl = new Texture_Impl(pszFileName, eSample);
+	if (!pTexture_Impl || !pTexture_Impl->IsOK())
+	{
+		SAFE_DELETE(pTexture_Impl);
 		return NULL;
 	}
 
-	return pTexture;
+	// connect the destroy event
+	pTexture_Impl->ConnectEvent(MI_TEXTURE_DESTROIED, this, (MSG_CALLBACK)&TextureMgr_Impl::OnTextureDestroied);
+	// cache the texture
+	m_TextureMap.insert(std::make_pair(pszFileName, pTexture_Impl));
+
+	return pTexture_Impl;
+}
+
+ITexture* TextureMgr_Impl::FindTexture(const char* pszFileName)
+{
+	TM_TEXTURE::iterator itfound = m_TextureMap.find(pszFileName);
+	if (itfound == m_TextureMap.end()) return NULL;
+
+	return itfound->second;
+}
+
+bool TextureMgr_Impl::OnTextureDestroied(IMsgBase* pMsg)
+{
+	MsgCommon* pMsgCommon = (MsgCommon*)pMsg;
+	ITexture* pTexture = (ITexture*)pMsgCommon->GetObject();
+	if (!pTexture) return false;
+
+	for (TM_TEXTURE::iterator it = m_TextureMap.begin(); it != m_TextureMap.end(); ++it)
+	{
+		if (it->second == pTexture)
+		{
+			m_TextureMap.erase(it);
+			return true;
+		}
+	}
+
+	return false;
 }

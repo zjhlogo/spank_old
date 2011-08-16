@@ -7,6 +7,8 @@
  */
 #include "Texture_Impl.h"
 #include <util/IFileUtil.h>
+#include <msg/MsgCommon.h>
+#include <msg/MsgID.h>
 #include <GLES2/gl2.h>
 
 Texture_Impl::Texture_Impl(const char* pszFileName, SAMPLE_TYPE eSample)
@@ -20,6 +22,9 @@ Texture_Impl::Texture_Impl(const char* pszFileName, SAMPLE_TYPE eSample)
 
 Texture_Impl::~Texture_Impl()
 {
+	MsgCommon msgCommon(MI_TEXTURE_DESTROIED);
+	msgCommon.SetObject(this);
+	CallEvent(msgCommon);
 	FreeGLTexture();
 }
 

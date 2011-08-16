@@ -62,7 +62,7 @@ bool Core_Impl::Initialize()
 
 bool Core_Impl::PostInitialize()
 {
-	m_pRootNode->UpdateMatrix();
+	m_pRootNode->UpdateMatrix(0.0f);
 	return true;
 }
 
@@ -115,11 +115,14 @@ void Core_Impl::Update(float dt)
 
 void Core_Impl::PostUpdate(float dt)
 {
+	// update actions
+	m_pRootNode->UpdateAction(dt);
+
 	// update objects
 	m_pRootNode->UpdateObjects(dt);
 
 	// update matrix
-	m_pRootNode->UpdateMatrix();
+	m_pRootNode->UpdateMatrix(dt);
 }
 
 void Core_Impl::PreRender()

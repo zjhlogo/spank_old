@@ -9,6 +9,8 @@
 #include "Shader_Impl.h"
 #include <util/IFileUtil.h>
 #include <util/StringUtil.h>
+#include <msg/MsgID.h>
+#include <msg/MsgCommon.h>
 #include <tinyxml-2.6.2/tinyxml.h>
 
 IShaderMgr& IShaderMgr::GetInstance()
@@ -153,6 +155,8 @@ IShader* ShaderMgr_Impl::InternalCreateShader(int nShaderID, const char* pszVert
 		return NULL;
 	}
 
+	// connect the destroy event
+	pShader->ConnectEvent(MI_SHADER_DESTROIED, this, (MSG_CALLBACK)&ShaderMgr_Impl::OnShaderDestroied);
 	// cache the shader
 	m_mapShader.insert(std::make_pair(nShaderID, pShader));
 
@@ -177,4 +181,22 @@ IShader* ShaderMgr_Impl::FindShader(int nID)
 	if (itfound == m_mapShader.end()) return NULL;
 
 	return itfound->second;
+}
+
+bool ShaderMgr_Impl::OnShaderDestroied(IMsgBase* pMsg)
+{
+	MsgCommon* pMsgCommon = (MsgCommon*)pMsg;
+	IShader* pShader = (IShader*)pMsgCommon->GetObject();
+	if (!pShader) return false;
+
+	for (TM_SHADER::iterator it = m_mapShader.begin(); it != m_mapShader.end(); ++it)
+	{
+		if (it->second == pShader)
+		{
+			m_mapShader.erase(it);
+			return true;
+		}
+	}
+
+	return false;
 }

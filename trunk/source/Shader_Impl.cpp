@@ -8,6 +8,8 @@
 #include "Shader_Impl.h"
 #include "Texture_Impl.h"
 #include <util/IDebugUtil.h>
+#include <msg/MsgCommon.h>
+#include <msg/MsgID.h>
 #include <IShaderMgr.h>
 
 Shader_Impl::Shader_Impl(StreamReader* pVertexShader, StreamReader* pFregmentShader, VertexAttribute* pVertexAttribute)
@@ -22,6 +24,9 @@ Shader_Impl::Shader_Impl(StreamReader* pVertexShader, StreamReader* pFregmentSha
 
 Shader_Impl::~Shader_Impl()
 {
+	MsgCommon msgCommon(MI_SHADER_DESTROIED);
+	msgCommon.SetObject(this);
+	CallEvent(msgCommon);
 	FreeShader();
 }
 

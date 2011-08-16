@@ -26,10 +26,11 @@ public:
 	virtual void Render();
 
 private:
-	bool OnTouchEvent(uint nMsgID, IMsgBase* pMsg);
-	ILevel2D* m_Level2D;
+	bool OnMsgTouch(IMsgBase* pMsg);
+
 private:
 	Sprite* m_pSprite;
+	ILevel2D* m_pLevel2D;
 
 };
 #endif // __GAMEAPP_H__

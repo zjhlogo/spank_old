@@ -43,7 +43,7 @@ const Matrix4x4 IMath::MAT4X4_IDENTITY(1.0f, 0.0f, 0.0f, 0.0f,
                                        0.0f, 0.0f, 1.0f, 0.0f,
                                        0.0f, 0.0f, 0.0f, 1.0f);
 
-const Quaternion IMath::ROT_ZERO(0.0f, 0.0f, 0.0f, 0.0f);
+const Quaternion IMath::ROT_ZERO(0.0f, 0.0f, 0.0f, 1.0f);
 
 float IMath::ToRadian(float fDegree)
 {

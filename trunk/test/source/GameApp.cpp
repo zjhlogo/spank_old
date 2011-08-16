@@ -9,7 +9,8 @@
 #include <util/IDebugUtil.h>
 #include <msg/MsgID.h>
 #include <msg/MsgMgr.h>
-#include <msg/MsgTouchEvent.h>
+#include <msg/MsgTouch.h>
+#include <action/ActionMoveTo.h>
 #include <ICore.h>
 
 IGameApp& IGameApp::GetInstance()
@@ -30,51 +31,53 @@ GameApp::~GameApp()
 
 bool GameApp::Initialize()
 {
-	MsgMgr::GetInstance().SubscribeMessage(MI_TOUCH_EVENT, this, (MSG_CALLBACK)&GameApp::OnTouchEvent);
+	MsgMgr::GetInstance().SubscribeMessage(MI_TOUCH, this, (MSG_CALLBACK)&GameApp::OnMsgTouch);
 
-	m_Level2D = ILevel2D::CreateLevel2D("test.xml");
-	m_pSprite = new Sprite("test_sprite.xml");
+	m_pLevel2D = ILevel2D::CreateLevel2D("test.xml");
 	INode* pRootNode = ICore::GetInstance().GetRootNode();
-	pRootNode->AttachObject(m_Level2D);
-	pRootNode->SetPosition(0.0f,0.0f,0.0f);
+	pRootNode->AttachObject(m_pLevel2D);
+
 	INode* Level2DNode = pRootNode->CreateChildNode();
+	m_pSprite = new Sprite("test_sprite.xml");
 	Level2DNode->AttachObject(m_pSprite);
+
 	return true;
 }
 
 void GameApp::Terminate()
 {
 	SAFE_DELETE(m_pSprite);
-	SAFE_RELEASE(m_Level2D);
+	SAFE_RELEASE(m_pLevel2D);
 }
 
 void GameApp::Update(float dt)
 {
-	//m_pSprite->Update(dt);
-	//m_Level2D->Update(dt);
+	static Vector2 s_posCenter(0.0f, 0.0f);
+
+	s_posCenter.x += (dt*100.0f);
+	m_pLevel2D->SetCenterPosition(s_posCenter);
 }
 
 void GameApp::Render()
 {
-	//m_Level2D->Render();
-	//m_pSprite->Render();
+	// TODO: 
 }
 
-bool GameApp::OnTouchEvent(uint nMsgID, IMsgBase* pMsg)
+bool GameApp::OnMsgTouch(IMsgBase* pMsg)
 {
-	MsgTouchEvent* pTouchEvent = (MsgTouchEvent*)pMsg;
+	MsgTouch* pMsgTouch = (MsgTouch*)pMsg;
 
-	if (pTouchEvent->IsTouchBegin())
+	if (pMsgTouch->IsTouchBegin())
 	{
-		LOGD("touch begin: (%.02f, %.02f)", pTouchEvent->GetPosition().x, pTouchEvent->GetPosition().y);
+		LOGD("touch begin: (%.02f, %.02f)", pMsgTouch->GetPosition().x, pMsgTouch->GetPosition().y);
 	}
-	else if (pTouchEvent->IsTouchMove())
+	else if (pMsgTouch->IsTouchMove())
 	{
-		LOGD("touch move: (%.02f, %.02f)", pTouchEvent->GetPosition().x, pTouchEvent->GetPosition().y);
+		LOGD("touch move: (%.02f, %.02f)", pMsgTouch->GetPosition().x, pMsgTouch->GetPosition().y);
 	}
-	else if (pTouchEvent->IsTouchEnd())
+	else if (pMsgTouch->IsTouchEnd())
 	{
-		LOGD("touch end: (%.02f, %.02f)", pTouchEvent->GetPosition().x, pTouchEvent->GetPosition().y);
+		LOGD("touch end: (%.02f, %.02f)", pMsgTouch->GetPosition().x, pMsgTouch->GetPosition().y);
 	}
 
 	return true;

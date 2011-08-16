@@ -8,7 +8,7 @@
 #include <InputMgr.h>
 #include <util/IDebugUtil.h>
 #include <msg/MsgMgr.h>
-#include <msg/MsgTouchEvent.h>
+#include <msg/MsgTouch.h>
 
 InputMgr& InputMgr::GetInstance()
 {
@@ -43,7 +43,7 @@ void InputMgr::OnTouchStart(int nIndex, float x, float y)
 	m_bTouchDown[nIndex] = true;
 
 	// send message to notify input event
-	MsgTouchEvent* pMsgTouchEvent = new MsgTouchEvent(MsgTouchEvent::TET_BEGIN, 0, x, y);
+	MsgTouch* pMsgTouchEvent = new MsgTouch(MsgTouch::TT_BEGIN, 0, x, y);
 	MsgMgr::GetInstance().SendMessage(pMsgTouchEvent);
 }
 
@@ -53,7 +53,7 @@ void InputMgr::OnTouchMove(int nIndex, float x, float y)
 	if (!m_bTouchDown[nIndex]) return;
 
 	// send message to notify input event
-	MsgTouchEvent* pMsgTouchEvent = new MsgTouchEvent(MsgTouchEvent::TET_MOVE, 0, x, y);
+	MsgTouch* pMsgTouchEvent = new MsgTouch(MsgTouch::TT_MOVE, 0, x, y);
 	MsgMgr::GetInstance().SendMessage(pMsgTouchEvent);
 }
 
@@ -62,6 +62,6 @@ void InputMgr::OnTouchEnd(int nIndex, float x, float y)
 	if (nIndex < 0 || nIndex >= MAX_TOUCH_SUPPORT) return;
 	m_bTouchDown[nIndex] = false;
 	// send message to notify input event
-	MsgTouchEvent* pMsgTouchEvent = new MsgTouchEvent(MsgTouchEvent::TET_END, 0, x, y);
+	MsgTouch* pMsgTouchEvent = new MsgTouch(MsgTouch::TT_END, 0, x, y);
 	MsgMgr::GetInstance().SendMessage(pMsgTouchEvent);
 }

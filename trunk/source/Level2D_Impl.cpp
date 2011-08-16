@@ -8,11 +8,12 @@
 #include "Level2D_Impl.h"
 #include <math/IMath.h>
 #include <util/IFileUtil.h>
+#include <util/ScreenUtil.h>
 #include <ITextureMgr.h>
+#include <IShaderMgr.h>
 #include <IRenderer2D.h>
 #include <tinyxml-2.6.2/tinyxml.h>
-#include <Math/IMath.h>
-#include <util/ScreenUtil.h>
+
 Level2D_Impl::Level2D_Impl(const char* pszLevel2DFile)
 {
 
@@ -57,13 +58,7 @@ Level2D_Impl::~Level2D_Impl()
 	SAFE_DELETE_ARRAY(m_pVerts);
 	SAFE_DELETE(m_pShader);
 }
-void Level2D_Impl::Terminate()
-{
-	SAFE_DELETE_ARRAY(m_pVerts);
-	SAFE_DELETE_ARRAY(m_pGidAry);
-	SAFE_DELETE(m_pTexture);
-	SAFE_DELETE(m_pShader);
-}
+
 ILevel2D* ILevel2D::CreateLevel2D(const char* pszLevel2DFile)
 {
 	Level2D_Impl* pLevel2D =  new Level2D_Impl(pszLevel2DFile);
@@ -74,6 +69,7 @@ ILevel2D* ILevel2D::CreateLevel2D(const char* pszLevel2DFile)
 	}
 	return pLevel2D;
 }
+
 void Level2D_Impl::Update(float dt)
 {
 	// TODO:
@@ -116,34 +112,34 @@ void Level2D_Impl::Update(float dt)
 		m_nCurrenSurfaceOffX += TranslateX;
 		m_nCurrenSurfaceOffY += TranslateY;
 
-		if((m_nCurrenSurfaceOffX> nXBoundary) 
-			|| (m_nCurrenSurfaceOffX < -nXBoundary)
-			|| (m_nCurrenSurfaceOffY >nYBoundary)
-			|| (m_nCurrenSurfaceOffY < -nYBoundary))
-		{
-			m_TexturePosition.x = float(m_nCenterPositionX / m_nTileWidth) * m_nTileWidth;
-			m_TexturePosition.y = float(m_nCenterPositionY / m_nTildHeight) * m_nTildHeight;
-			TranslateX = m_nCenterPositionX - (int)m_TexturePosition.x;
-			TranslateY = m_nCenterPositionY - (int)m_TexturePosition.y;
+		//if((m_nCurrenSurfaceOffX> nXBoundary) 
+		//	|| (m_nCurrenSurfaceOffX < -nXBoundary)
+		//	|| (m_nCurrenSurfaceOffY >nYBoundary)
+		//	|| (m_nCurrenSurfaceOffY < -nYBoundary))
+		//{
+		//	m_TexturePosition.x = float(m_nCenterPositionX / m_nTileWidth) * m_nTileWidth;
+		//	m_TexturePosition.y = float(m_nCenterPositionY / m_nTildHeight) * m_nTildHeight;
+		//	TranslateX = m_nCenterPositionX - (int)m_TexturePosition.x;
+		//	TranslateY = m_nCenterPositionY - (int)m_TexturePosition.y;
 
-			m_nCurrenSurfaceOffX= TranslateX;
-			m_nCurrenSurfaceOffY = TranslateY;
+		//	m_nCurrenSurfaceOffX= TranslateX;
+		//	m_nCurrenSurfaceOffY = TranslateY;
 
-			InitVerts();
-			IMath::BuildIdentityMatrix(m_ModleMatrix);
-			Matrix4x4 TranlateMatrix;
-			IMath::BuildIdentityMatrix(TranlateMatrix);
-			TranlateMatrix.Translate(-TranslateX, -TranslateY, 0);
-			m_ModleMatrix *= TranlateMatrix;
-		}
-		else
-		{
+		//	InitVerts();
+		//	IMath::BuildIdentityMatrix(m_ModleMatrix);
+		//	Matrix4x4 TranlateMatrix;
+		//	IMath::BuildIdentityMatrix(TranlateMatrix);
+		//	TranlateMatrix.Translate(-TranslateX, -TranslateY, 0);
+		//	m_ModleMatrix *= TranlateMatrix;
+		//}
+		//else
+		//{
 			Matrix4x4 TranlateMatrix;
 			IMath::BuildIdentityMatrix(TranlateMatrix);
 			TranlateMatrix.Translate(-TranslateX, -TranslateY, 0);
 			m_ModleMatrix *= TranlateMatrix;
 			
-		}
+		//}
 	}
 	m_nPrvCenterPositionX = m_nCenterPositionX;
 	m_nPrvCenterPositionY = m_nCenterPositionY;
@@ -152,9 +148,9 @@ void Level2D_Impl::Update(float dt)
 
 void Level2D_Impl::Render()
 {
-	// TODO: set matrix
 	m_pShader->SetTexture("u_texture",m_pTexture);
 
+	// set matrix
 	IRenderer2D::GetInstance().SetModelViewMatrix(m_ModleMatrix);
 	m_pShader->SetMatrix4x4("u_matModelViewProj", IRenderer2D::GetInstance().GetFinalMatrixTranspose());
 
@@ -248,12 +244,11 @@ bool Level2D_Impl::LoadLevel2DFromFile(const char* pszLevel2DFile)
 	SAFE_DELETE_ARRAY(m_pVerts);
 	int nXTileSize =(m_nHalfSceneWidth / m_nTileWidth) * 2 + m_nHalfBuffersize * 2;	
 	int nYTileSize = (m_nHalfSceneHeight / m_nTildHeight) * 2+m_nHalfBuffersize * 2;
-	m_pVerts = new VERTEX_ATTRIBUTE[nXTileSize * nYTileSize * 4 ];
-	memset(m_pVerts,0,nYTileSize * nXTileSize * 4 *sizeof(VERTEX_ATTRIBUTE));
+	m_pVerts = new VATTR_POS_UV[nXTileSize * nYTileSize * 4 ];
 	InitVerts();
 	return true;
-
 }
+
 void Level2D_Impl::InitVerts()
 {
 	int nXTileSize =(m_nHalfSceneWidth / m_nTileWidth) * 2 + m_nHalfBuffersize * 2;	

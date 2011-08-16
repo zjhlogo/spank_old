@@ -74,7 +74,7 @@ public:
 	 * it is invoke by system before IGameApp update, it means all handlers
 	 * who subscribe this message will receive the message event before IGameApp
 	 * update. do not invoke this method manually, except you know what you are
-	 * doning.
+	 * doing.
 	 */
 	void DispatchMessage();
 

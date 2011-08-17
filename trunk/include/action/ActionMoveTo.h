@@ -19,6 +19,11 @@ public:
 	virtual void Reset();
 	virtual void Update(float dt);
 
+	virtual IActionBase* Clone();
+	virtual IActionBase* CloneInverse();
+
+	virtual float GetTimeLength() const;
+
 private:
 	Vector3 m_vPosStart;
 	Vector3 m_vPosEnd;

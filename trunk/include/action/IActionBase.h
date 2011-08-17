@@ -42,6 +42,11 @@ public:
 	virtual void Reset() = 0;
 	virtual void Update(float dt) = 0;
 
+	virtual IActionBase* Clone() = 0;
+	virtual IActionBase* CloneInverse() = 0;
+
+	virtual float GetTimeLength() const = 0;
+
 private:
 	bool SetRunning(bool running);
 	void NotifyActionUpdate(ACTION_UPDATE_TYPE eType);

@@ -31,10 +31,11 @@ public:
 	IMsgHandler();
 	virtual ~IMsgHandler();
 
-	bool CallEvent(IMsgBase& msgBase);
-
 	bool ConnectEvent(uint nMsgID, IMsgHandler* pHandler, MSG_CALLBACK pCallback);
 	bool DisconnectEvent(uint nMsgID);
+
+protected:
+	bool CallEvent(IMsgBase& msgBase);
 
 private:
 	CONNECTION_INFO* FindConnectionInfo(uint nMsgID);

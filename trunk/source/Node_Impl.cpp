@@ -26,6 +26,7 @@ Node_Impl::Node_Impl()
 
 Node_Impl::~Node_Impl()
 {
+	SAFE_RELEASE(m_pAction);
 	FreeChildNodes();
 	ClearAttachedObjects();
 }
@@ -162,11 +163,7 @@ const Vector3& Node_Impl::GetScale()
 
 void Node_Impl::RunAction(IActionBase* pAction)
 {
-	if (m_pAction)
-	{
-		m_pAction->DisconnectEvent(MI_ACTION_UPDATE);
-		SAFE_RELEASE(m_pAction);
-	}
+	SAFE_RELEASE(m_pAction);
 
 	m_pAction = pAction;
 
@@ -320,6 +317,9 @@ bool Node_Impl::OnActionUpdate(IMsgBase* pMsg)
 			SAFE_RELEASE(m_pAction);
 		}
 		break;
+	// case AUT_SUBACTION_START:
+	// case AUT_SUBACTION_PAUSE:
+	// case AUT_SUBACTION_STOPED:
 	}
 
 	return true;

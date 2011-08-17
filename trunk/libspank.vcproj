@@ -313,11 +313,83 @@
 			Name="action"
 			>
 			<File
+				RelativePath=".\source\action\ActionCompose.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\action\ActionCompose.h"
+				>
+			</File>
+			<File
+				RelativePath=".\source\action\ActionDelay.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\action\ActionDelay.h"
+				>
+			</File>
+			<File
+				RelativePath=".\source\action\ActionLoop.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\action\ActionLoop.h"
+				>
+			</File>
+			<File
+				RelativePath=".\source\action\ActionMoveBy.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\action\ActionMoveBy.h"
+				>
+			</File>
+			<File
 				RelativePath=".\source\action\ActionMoveTo.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\include\action\ActionMoveTo.h"
+				>
+			</File>
+			<File
+				RelativePath=".\source\action\ActionRotateBy.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\action\ActionRotateBy.h"
+				>
+			</File>
+			<File
+				RelativePath=".\source\action\ActionRotateTo.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\action\ActionRotateTo.h"
+				>
+			</File>
+			<File
+				RelativePath=".\source\action\ActionScaleBy.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\action\ActionScaleBy.h"
+				>
+			</File>
+			<File
+				RelativePath=".\source\action\ActionScaleTo.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\action\ActionScaleTo.h"
+				>
+			</File>
+			<File
+				RelativePath=".\source\action\ActionSequeue.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\action\ActionSequeue.h"
 				>
 			</File>
 			<File

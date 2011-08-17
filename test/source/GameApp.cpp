@@ -11,6 +11,8 @@
 #include <msg/MsgMgr.h>
 #include <msg/MsgTouch.h>
 #include <action/ActionMoveTo.h>
+#include <action/ActionSequeue.h>
+#include <action/ActionLoop.h>
 #include <ICore.h>
 
 IGameApp& IGameApp::GetInstance()
@@ -33,13 +35,21 @@ bool GameApp::Initialize()
 {
 	MsgMgr::GetInstance().SubscribeMessage(MI_TOUCH, this, (MSG_CALLBACK)&GameApp::OnMsgTouch);
 
-	m_pLevel2D = ILevel2D::CreateLevel2D("test.xml");
+	m_pLevel = ILevel2D::CreateLevel2D("test.xml");
 	INode* pRootNode = ICore::GetInstance().GetRootNode();
-	pRootNode->AttachObject(m_pLevel2D);
+	pRootNode->AttachObject(m_pLevel);
 
-	INode* Level2DNode = pRootNode->CreateChildNode();
+	INode* pSpriteNode = pRootNode->CreateChildNode();
 	m_pSprite = new Sprite("test_sprite.xml");
-	Level2DNode->AttachObject(m_pSprite);
+	pSpriteNode->AttachObject(m_pSprite);
+
+	ActionSequeue* pActionSequeue = new ActionSequeue();
+	IActionBase* pActMoveTo = new ActionMoveTo(IMath::VEC3_ZERO, Vector3(200.0f, 0.0f, 0.0f), 2.0f);
+	pActionSequeue->AddAction(pActMoveTo);
+	pActionSequeue->AddAction(pActMoveTo->CloneInverse());
+	ActionLoop * pActionLoop = new ActionLoop(pActionSequeue, 1);
+
+	pSpriteNode->RunAction(pActionLoop);
 
 	return true;
 }
@@ -47,15 +57,15 @@ bool GameApp::Initialize()
 void GameApp::Terminate()
 {
 	SAFE_DELETE(m_pSprite);
-	SAFE_RELEASE(m_pLevel2D);
+	SAFE_RELEASE(m_pLevel);
 }
 
 void GameApp::Update(float dt)
 {
-	static Vector2 s_posCenter(0.0f, 0.0f);
+	//static Vector2 s_posCenter(0.0f, 0.0f);
 
-	s_posCenter.x += (dt*50.0f);
-	m_pLevel2D->SetCenterPosition(s_posCenter);
+	//s_posCenter.x += (dt*50.0f);
+	//m_pLevel2D->SetCenterPosition(s_posCenter);
 }
 
 void GameApp::Render()

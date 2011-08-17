@@ -30,7 +30,7 @@ private:
 
 private:
 	Sprite* m_pSprite;
-	ILevel2D* m_pLevel2D;
+	ILevel2D* m_pLevel;
 
 };
 #endif // __GAMEAPP_H__

@@ -56,7 +56,7 @@ public:
 public:
 	static const float F_PI;
 	static const float FLOAT_MIN;
-//	static const float FLOAT_MAX;
+	static const float FLOAT_MAX;
 
 	static const Vector2 VEC2_ZERO;
 	static const Vector3 VEC3_ZERO;

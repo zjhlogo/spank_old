@@ -2,6 +2,7 @@ LIBSPANK_SOURCE_FILES := \
 		$(LIBSPANK_SOURCE)/Core_Impl.cpp \
 		$(LIBSPANK_SOURCE)/Image.cpp \
 		$(LIBSPANK_SOURCE)/InputMgr.cpp \
+		$(LIBSPANK_SOURCE)/IObject.cpp \
 		$(LIBSPANK_SOURCE)/Level2D_Impl.cpp \
 		$(LIBSPANK_SOURCE)/Node_Impl.cpp \
 		$(LIBSPANK_SOURCE)/RenderableObject.cpp \
@@ -14,6 +15,17 @@ LIBSPANK_SOURCE_FILES := \
 		$(LIBSPANK_SOURCE)/Texture_Impl.cpp \
 		$(LIBSPANK_SOURCE)/TextureMgr_Impl.cpp \
 		$(LIBSPANK_SOURCE)/VertexAttribute.cpp \
+		$(LIBSPANK_SOURCE)/action/ActionCompose.cpp \
+		$(LIBSPANK_SOURCE)/action/ActionDelay.cpp \
+		$(LIBSPANK_SOURCE)/action/ActionLoop.cpp \
+		$(LIBSPANK_SOURCE)/action/ActionMoveBy.cpp \
+		$(LIBSPANK_SOURCE)/action/ActionMoveTo.cpp \
+		$(LIBSPANK_SOURCE)/action/ActionRotateBy.cpp \
+		$(LIBSPANK_SOURCE)/action/ActionRotateTo.cpp \
+		$(LIBSPANK_SOURCE)/action/ActionScaleBy.cpp \
+		$(LIBSPANK_SOURCE)/action/ActionScaleTo.cpp \
+		$(LIBSPANK_SOURCE)/action/ActionSequeue.cpp \
+		$(LIBSPANK_SOURCE)/action/IActionBase.cpp \
 		$(LIBSPANK_SOURCE)/math/IMath.cpp \
 		$(LIBSPANK_SOURCE)/math/Matrix2x2.cpp \
 		$(LIBSPANK_SOURCE)/math/Matrix3x3.cpp \
@@ -23,8 +35,11 @@ LIBSPANK_SOURCE_FILES := \
 		$(LIBSPANK_SOURCE)/math/Vector3.cpp \
 		$(LIBSPANK_SOURCE)/math/Vector4.cpp \
 		$(LIBSPANK_SOURCE)/msg/IMsgBase.cpp \
+		$(LIBSPANK_SOURCE)/msg/IMsgHandler.cpp \
+		$(LIBSPANK_SOURCE)/msg/MsgActionUpdate.cpp \
+		$(LIBSPANK_SOURCE)/msg/MsgCommon.cpp \
 		$(LIBSPANK_SOURCE)/msg/MsgMgr.cpp \
-		$(LIBSPANK_SOURCE)/msg/MsgTouchEvent.cpp \
+		$(LIBSPANK_SOURCE)/msg/MsgTouch.cpp \
 		$(LIBSPANK_SOURCE)/platforms/android/Mutex_Android_Impl.cpp \
 		$(LIBSPANK_SOURCE)/platforms/android/RenderDevice_Android_Impl.cpp \
 		$(LIBSPANK_SOURCE)/platforms/android/util/DebugUtil_Android_Impl.cpp \

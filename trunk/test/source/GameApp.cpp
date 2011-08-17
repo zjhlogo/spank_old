@@ -44,10 +44,15 @@ bool GameApp::Initialize()
 	pSpriteNode->AttachObject(m_pSprite);
 
 	ActionSequeue* pActionSequeue = new ActionSequeue();
-	IActionBase* pActMoveTo = new ActionMoveTo(IMath::VEC3_ZERO, Vector3(200.0f, 0.0f, 0.0f), 2.0f);
-	pActionSequeue->AddAction(pActMoveTo);
-	pActionSequeue->AddAction(pActMoveTo->CloneInverse());
-	ActionLoop * pActionLoop = new ActionLoop(pActionSequeue, 1);
+	IActionBase* pActMoveTo1 = new ActionMoveTo(Vector3(0.0f, 0.0f, 0.0f), Vector3(200.0f, 0.0f, 0.0f), 2.0f);
+	IActionBase* pActMoveTo2 = new ActionMoveTo(Vector3(200.0f, 0.0f, 0.0f), Vector3(200.0f, 200.0f, 0.0f), 2.0f);
+	IActionBase* pActMoveTo3 = new ActionMoveTo(Vector3(200.0f, 200.0f, 0.0f), Vector3(0.0f, 200.0f, 0.0f), 2.0f);
+	IActionBase* pActMoveTo4 = new ActionMoveTo(Vector3(0.0f, 200.0f, 0.0f), Vector3(0.0f, 0.0f, 0.0f), 2.0f);
+	pActionSequeue->AddAction(pActMoveTo1);
+	pActionSequeue->AddAction(pActMoveTo2);
+	pActionSequeue->AddAction(pActMoveTo3);
+	pActionSequeue->AddAction(pActMoveTo4);
+	ActionLoop * pActionLoop = new ActionLoop(pActionSequeue);
 
 	pSpriteNode->RunAction(pActionLoop);
 
@@ -62,10 +67,8 @@ void GameApp::Terminate()
 
 void GameApp::Update(float dt)
 {
-	//static Vector2 s_posCenter(0.0f, 0.0f);
-
-	//s_posCenter.x += (dt*50.0f);
-	//m_pLevel2D->SetCenterPosition(s_posCenter);
+	const Vector3& pos = m_pSprite->GetParentNode()->GetPosition();
+	m_pLevel->SetCenterPosition(Vector2(-pos.x, -pos.y));
 }
 
 void GameApp::Render()

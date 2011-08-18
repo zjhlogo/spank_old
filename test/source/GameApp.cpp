@@ -35,7 +35,7 @@ bool GameApp::Initialize()
 {
 	MsgMgr::GetInstance().SubscribeMessage(MI_TOUCH, this, (MSG_CALLBACK)&GameApp::OnMsgTouch);
 
-	m_pLevel = ILevel2D::CreateLevel2D("test.xml");
+	m_pLevel = ILevel2D::CreateLevel2D("OUT.L2D");
 	INode* pRootNode = ICore::GetInstance().GetRootNode();
 	pRootNode->AttachObject(m_pLevel);
 

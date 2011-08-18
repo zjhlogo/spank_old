@@ -140,7 +140,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="libtinyxml.lib"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;$(ProjectDir)..\..\bin&quot;"
+				AdditionalLibraryDirectories="&quot;$(ProjectDir)..\..\build\libtinyxml\Debug&quot;"
 				GenerateDebugInformation="true"
 				SubSystem="1"
 				OptimizeReferences="2"

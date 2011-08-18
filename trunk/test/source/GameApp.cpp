@@ -67,8 +67,12 @@ void GameApp::Terminate()
 
 void GameApp::Update(float dt)
 {
-	const Vector3& pos = m_pSprite->GetParentNode()->GetPosition();
-	m_pLevel->SetCenterPosition(Vector2(-pos.x, -pos.y));
+	//const Vector3& pos = m_pSprite->GetParentNode()->GetPosition();
+	static Vector2 positon(0,0);
+	positon.x -= 40*dt;
+	positon.y -= 40*dt;
+
+	m_pLevel->SetCenterPosition(positon);
 }
 
 void GameApp::Render()

@@ -28,7 +28,7 @@ public:
 
 private:
 	bool LoadLevel2DFromFile(const char* pszLevel2DFile);
-	bool C2TextTureCoordinate(Vector2& MapPosition, uint& index);
+	void C2TextTureCoordinate(Vector2 MapPosition,int& nXindex, int& nYindex);
 	void InitVerts();
 	void UpdateVerts();
 	
@@ -42,6 +42,7 @@ private:
 	
 	IShader* m_pShader;				
 	ITexture* m_pTexture;			//The Map used TextTure
+	ushort* m_pIndis;
 	Matrix4x4 m_ModelMatrix;
 	VATTR_POS_UV* m_pVerts;		
 	

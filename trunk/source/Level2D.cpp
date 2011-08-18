@@ -24,6 +24,7 @@ Level2D::Level2D(const char* pszLevel2DFile)
 	m_nHalfSceneWidth = ScreenUtil::GetInstance().GetScreenWidth()/2;
 	m_nHalfBuffersize = 3;
 	m_pTexture = NULL;
+	m_pIndis = NULL;
 	m_pVerts = NULL;
 	m_pShader = NULL;
 	m_pGidAry = NULL;
@@ -72,17 +73,10 @@ void Level2D::Render()
 
 	m_pShader->SetMatrix4x4("u_matModelViewProj", IRenderer2D::GetInstance().GetFinalMatrixTranspose());
 
-	int nXTileSize =(m_nHalfSceneWidth / m_FILEHEADER.nTileWidth) * 2 + m_nHalfBuffersize * 2;	
-	int nYTileSize = (m_nHalfSceneHeight / m_FILEHEADER.nTileHeight) * 2+m_nHalfBuffersize * 2;
-	for(int y = 0; y < nYTileSize; y++)
-	{	
-		for (int x =0; x <nXTileSize; x++)
-		{
-			int index = y*nXTileSize +x;
-			if(m_pMapFlag[index])
-				IRenderer2D::GetInstance().DrawRect(&m_pVerts[index * 4], m_pShader);
-		}
-	}
+	uint nXTileSize =(m_nHalfSceneWidth / m_FILEHEADER.nTileWidth) * 2 + m_nHalfBuffersize * 2;	
+	uint nYTileSize = (m_nHalfSceneHeight / m_FILEHEADER.nTileHeight) * 2+m_nHalfBuffersize * 2;
+	uint unRectSize = nXTileSize * nYTileSize;
+	IRenderer2D::GetInstance().DrawTriangleList(m_pVerts,unRectSize * 4,m_pIndis,unRectSize*6,m_pShader);
 	IMath::BuildIdentityMatrix(m_ModelMatrix);
 }
 
@@ -122,29 +116,22 @@ bool Level2D::LoadLevel2DFromFile(const char* pszLevel2DFile)
 	int nYTileSize = (m_nHalfSceneHeight / m_FILEHEADER.nTileHeight) * 2+m_nHalfBuffersize * 2;
 	SAFE_DELETE_ARRAY(m_pVerts);
 	m_pVerts = new VATTR_POS_UV[nXTileSize * nYTileSize * 4 ];
+	SAFE_DELETE_ARRAY(m_pIndis);
+	m_pIndis = new ushort[nXTileSize * nYTileSize * 6];
 	SAFE_DELETE_ARRAY(m_pMapFlag);
 	m_pMapFlag = new bool[nXTileSize *nYTileSize];
 	//First InitVerts,the function only be used once;
 	InitVerts();
 	return true;
 }
-bool Level2D::C2TextTureCoordinate(Vector2& MapPosition,uint& index )
+void Level2D::C2TextTureCoordinate(Vector2 MapPosition,int& nXindex, int& nYindex)
 {
-	//Calculation in map coordinates
 	MapPosition.x = m_FILEHEADER.nMapCol * m_FILEHEADER.nTileWidth / 2 + MapPosition.x;
-	MapPosition.y = m_FILEHEADER.nMapRow * m_FILEHEADER.nTileHeight/ 2 - MapPosition.y;   
-	uint indexX = (uint)MapPosition.x / m_FILEHEADER.nTileWidth;
-	uint indexY = (uint)MapPosition.y / m_FILEHEADER.nTileHeight;
-	if(indexX >= m_FILEHEADER.nMapCol || indexY >= m_FILEHEADER.nMapRow)
-		return false;
-	//Get Index in the mGidAry, the Array to show the TextTure in the map position
-	index = m_pGidAry[indexY * m_FILEHEADER.nMapCol + indexX];
-	if(index >= m_FILEHEADER.nNumTiles)
-		return false;
-	//Get the TextTure coordinate
-	MapPosition.x = m_TILEINFO[index].u;
-	MapPosition.y = m_TILEINFO[index].v;
-	return true;
+	MapPosition.y = m_FILEHEADER.nMapRow * m_FILEHEADER.nTileHeight/ 2 - MapPosition.y;  
+	
+	nXindex = (int)MapPosition.x/ (int)m_FILEHEADER.nTileWidth;
+	nYindex = (int)MapPosition.y / (int)m_FILEHEADER.nTileHeight;
+	
 }
 
 void Level2D::InitVerts()
@@ -155,47 +142,92 @@ void Level2D::InitVerts()
 	float fXstartCoord = -float(nXTileSize / 2) * m_FILEHEADER.nTileWidth;
 	float fYstartCoord =  float(nYTileSize / 2) * m_FILEHEADER.nTileHeight;
 	//TextTrue off 
+	int nXindex = 0;
+	int nYindex = 0;
 	Vector2 TextTrueCoordinate;
+	TextTrueCoordinate.x = fXstartCoord + m_PrvCenterPosition.x;
+	TextTrueCoordinate.y = fYstartCoord + m_PrvCenterPosition.y;
+	C2TextTureCoordinate(TextTrueCoordinate, nXindex, nYindex);
 
 	for(int v1=0; v1 < nYTileSize; v1++)
 	{
 		for ( int v2=0; v2 < nXTileSize; v2++ )
 		{
+			//Set the Indis Array;
+			//	static const ushort s_Indis[6] = {0, 1, 2, 1, 3, 2};
+			int startIndis = v1 * nXTileSize * 6 + v2* 6;
 			//Set screen triangular element
-			int noff = v1 * nXTileSize *4 +	v2 * 4;
-			Vector2 TextTrueCoordinate;
-			uint index = 0;
-			TextTrueCoordinate.x = fXstartCoord + m_PrvCenterPosition.x;
-			TextTrueCoordinate.y = fYstartCoord + m_PrvCenterPosition.y;
-			m_pMapFlag[v1 * nXTileSize +v2]= C2TextTureCoordinate(TextTrueCoordinate, index);
-			m_pVerts[noff].x = fXstartCoord;
-			m_pVerts[noff].y = fYstartCoord - m_FILEHEADER.nTileHeight;
-			m_pVerts[noff].z = 0.0f;
-			m_pVerts[noff].u =m_TILEINFO[index].u;
-			m_pVerts[noff].v =m_TILEINFO[index].v;
+			uint noff = v1 * nXTileSize *4 +	v2 * 4;
+			m_pIndis[startIndis] = noff;
+			m_pIndis[startIndis + 1] = noff + 1;
+			m_pIndis[startIndis + 2] = noff + 2;
+			m_pIndis[startIndis + 3] = noff + 1;
+			m_pIndis[startIndis + 4] = noff + 3;
+			m_pIndis[startIndis + 5] = noff + 2;
+			
+			if(nXindex < (int)m_FILEHEADER.nMapCol
+				&&nXindex >= 0
+				&&nYindex < (int)m_FILEHEADER.nMapRow
+				&&nYindex >= 0)
+			{
+				uint MapIndex = m_pGidAry[nYindex* m_FILEHEADER.nMapCol + nXindex];
+				m_pVerts[noff].x = fXstartCoord;
+				m_pVerts[noff].y = fYstartCoord - m_FILEHEADER.nTileHeight;
+				m_pVerts[noff].z = 0.0f;
+				m_pVerts[noff].u =m_TILEINFO[MapIndex].u;
+				m_pVerts[noff].v =m_TILEINFO[MapIndex].v;
 
-			m_pVerts[noff +1].x = fXstartCoord;
-			m_pVerts[noff +1].y = fYstartCoord;
-			m_pVerts[noff +1].z = 0.0f;
-			m_pVerts[noff +1].u = m_TILEINFO[index].u;
-			m_pVerts[noff +1].v = m_TILEINFO[index].v + m_TILEINFO[index].dv;
+				m_pVerts[noff +1].x = fXstartCoord;
+				m_pVerts[noff +1].y = fYstartCoord;
+				m_pVerts[noff +1].z = 0.0f;
+				m_pVerts[noff +1].u = m_TILEINFO[MapIndex].u;
+				m_pVerts[noff +1].v = m_TILEINFO[MapIndex].v + m_TILEINFO[MapIndex].dv;
 
-			m_pVerts[noff +2].x = fXstartCoord + m_FILEHEADER.nTileWidth;
-			m_pVerts[noff +2].y = fYstartCoord - m_FILEHEADER.nTileHeight;
-			m_pVerts[noff +2].z = 0.0f;
-			m_pVerts[noff +2].u = TextTrueCoordinate.x + m_TILEINFO[index].du ;
-			m_pVerts[noff +2].v = TextTrueCoordinate.y ; 
+				m_pVerts[noff +2].x = fXstartCoord + m_FILEHEADER.nTileWidth;
+				m_pVerts[noff +2].y = fYstartCoord - m_FILEHEADER.nTileHeight;
+				m_pVerts[noff +2].z = 0.0f;
+				m_pVerts[noff +2].u = m_TILEINFO[MapIndex].u + m_TILEINFO[MapIndex].du ;
+				m_pVerts[noff +2].v = m_TILEINFO[MapIndex].v ; 
 
-			m_pVerts[noff +3].x = fXstartCoord + m_FILEHEADER.nTileWidth;
-			m_pVerts[noff +3].y = fYstartCoord;
-			m_pVerts[noff +3].z = 0.0f;
-			m_pVerts[noff +3].u = TextTrueCoordinate.x + m_TILEINFO[index].du;
-			m_pVerts[noff +3].v = TextTrueCoordinate.y + m_TILEINFO[index].dv;
+				m_pVerts[noff +3].x = fXstartCoord + m_FILEHEADER.nTileWidth;
+				m_pVerts[noff +3].y = fYstartCoord;
+				m_pVerts[noff +3].z = 0.0f;
+				m_pVerts[noff +3].u = m_TILEINFO[MapIndex].u + m_TILEINFO[MapIndex].du;
+				m_pVerts[noff +3].v = m_TILEINFO[MapIndex].v + m_TILEINFO[MapIndex].dv;
+			}
+			else
+			{
+				m_pVerts[noff].x = fXstartCoord;
+				m_pVerts[noff].y = fYstartCoord - m_FILEHEADER.nTileHeight;
+				m_pVerts[noff].z = 0.0f;
+				m_pVerts[noff].u =m_TILEINFO[m_FILEHEADER.nDefaultTile].u;
+				m_pVerts[noff].v =m_TILEINFO[m_FILEHEADER.nDefaultTile].v;
 
+				m_pVerts[noff +1].x = fXstartCoord;
+				m_pVerts[noff +1].y = fYstartCoord;
+				m_pVerts[noff +1].z = 0.0f;
+				m_pVerts[noff +1].u = m_TILEINFO[m_FILEHEADER.nDefaultTile].u;
+				m_pVerts[noff +1].v = m_TILEINFO[m_FILEHEADER.nDefaultTile].v + m_TILEINFO[m_FILEHEADER.nDefaultTile].dv;
+
+				m_pVerts[noff +2].x = fXstartCoord + m_FILEHEADER.nTileWidth;
+				m_pVerts[noff +2].y = fYstartCoord - m_FILEHEADER.nTileHeight;
+				m_pVerts[noff +2].z = 0.0f;
+				m_pVerts[noff +2].u = m_TILEINFO[m_FILEHEADER.nDefaultTile].u + m_TILEINFO[m_FILEHEADER.nDefaultTile].du ;
+				m_pVerts[noff +2].v = m_TILEINFO[m_FILEHEADER.nDefaultTile].v ; 
+
+				m_pVerts[noff +3].x = fXstartCoord + m_FILEHEADER.nTileWidth;
+				m_pVerts[noff +3].y = fYstartCoord;
+				m_pVerts[noff +3].z = 0.0f;
+				m_pVerts[noff +3].u = m_TILEINFO[m_FILEHEADER.nDefaultTile].u + m_TILEINFO[m_FILEHEADER.nDefaultTile].du;
+				m_pVerts[noff +3].v = m_TILEINFO[m_FILEHEADER.nDefaultTile].v + m_TILEINFO[m_FILEHEADER.nDefaultTile].dv;
+			}
 			//Add  a off distance to iXstarCoord
 			fXstartCoord += m_FILEHEADER.nTileWidth;
+			nXindex++;
 		}
 		//go to next Row, add a off distance to fYstarCoord
+		nXindex -= nXTileSize;
+		nYindex++;
 		fXstartCoord = - (float)(nXTileSize / 2) * m_FILEHEADER.nTileWidth;
 		fYstartCoord -= m_FILEHEADER.nTileHeight;
 	}
@@ -208,37 +240,62 @@ void Level2D::UpdateVerts()
 	float fXstartCoord = -float(nXTileSize / 2) * m_FILEHEADER.nTileWidth;
 	float fYstartCoord =  float(nYTileSize / 2) * m_FILEHEADER.nTileHeight;
 	//TextTrue off 
+	int nXindex = 0;
+	int nYindex = 0;
 	Vector2 TextTrueCoordinate;
+	TextTrueCoordinate.x = fXstartCoord + m_PrvCenterPosition.x;
+	TextTrueCoordinate.y = fYstartCoord + m_PrvCenterPosition.y;
+	C2TextTureCoordinate(TextTrueCoordinate, nXindex, nYindex);
 
 	for(int v1=0; v1 < nYTileSize; v1++)
 	{
 		for ( int v2=0; v2 < nXTileSize; v2++ )
 		{
+			//
 			//Post IniteVerts,Only need to update the texture coordinates
 			int noff = v1 * nXTileSize *4 +	v2 * 4;
-			Vector2 TextTrueCoordinate;
-			uint index = 0;
-			TextTrueCoordinate.x = fXstartCoord + m_PrvCenterPosition.x;
-			TextTrueCoordinate.y = fYstartCoord + m_PrvCenterPosition.y;
-			m_pMapFlag[v1 * nXTileSize +v2]= C2TextTureCoordinate(TextTrueCoordinate, index);
-
-			m_pVerts[noff].u =m_TILEINFO[index].u;
-			m_pVerts[noff].v =m_TILEINFO[index].v;
-
-			m_pVerts[noff +1].u = m_TILEINFO[index].u;
-			m_pVerts[noff +1].v = m_TILEINFO[index].v + m_TILEINFO[index].dv;
 			
-			m_pVerts[noff +2].u = TextTrueCoordinate.x + m_TILEINFO[index].du ;
-			m_pVerts[noff +2].v = TextTrueCoordinate.y ; 
-			
-			m_pVerts[noff +3].u = TextTrueCoordinate.x + m_TILEINFO[index].du;
-			m_pVerts[noff +3].v = TextTrueCoordinate.y + m_TILEINFO[index].dv;
+			if(nXindex < (int)m_FILEHEADER.nMapCol
+				&&nXindex >= 0
+				&&nYindex < (int)m_FILEHEADER.nMapRow
+				&&nYindex >= 0)
+			{
+				uint MapIndex = m_pGidAry[nYindex* m_FILEHEADER.nMapCol + nXindex];
+				m_pVerts[noff].u =m_TILEINFO[MapIndex].u;
+				m_pVerts[noff].v =m_TILEINFO[MapIndex].v;
 
+				m_pVerts[noff +1].u = m_TILEINFO[MapIndex].u;
+				m_pVerts[noff +1].v = m_TILEINFO[MapIndex].v + m_TILEINFO[MapIndex].dv;
+				
+				m_pVerts[noff +2].u = m_TILEINFO[MapIndex].u + m_TILEINFO[MapIndex].du ;
+				m_pVerts[noff +2].v = m_TILEINFO[MapIndex].v ; 
+				
+				m_pVerts[noff +3].u = m_TILEINFO[MapIndex].u + m_TILEINFO[MapIndex].du;
+				m_pVerts[noff +3].v = m_TILEINFO[MapIndex].v + m_TILEINFO[MapIndex].dv;
+			}
+			else
+			{
+				
+				
+				m_pVerts[noff].u =m_TILEINFO[m_FILEHEADER.nDefaultTile].u;
+				m_pVerts[noff].v =m_TILEINFO[m_FILEHEADER.nDefaultTile].v;
+
+				m_pVerts[noff +1].u = m_TILEINFO[m_FILEHEADER.nDefaultTile].u;
+				m_pVerts[noff +1].v = m_TILEINFO[m_FILEHEADER.nDefaultTile].v + m_TILEINFO[m_FILEHEADER.nDefaultTile].dv;
+
+				m_pVerts[noff +2].u = m_TILEINFO[m_FILEHEADER.nDefaultTile].u + m_TILEINFO[m_FILEHEADER.nDefaultTile].du ;
+				m_pVerts[noff +2].v = m_TILEINFO[m_FILEHEADER.nDefaultTile].v ; 
+
+				m_pVerts[noff +3].u = m_TILEINFO[m_FILEHEADER.nDefaultTile].u + m_TILEINFO[m_FILEHEADER.nDefaultTile].du;
+				m_pVerts[noff +3].v = m_TILEINFO[m_FILEHEADER.nDefaultTile].v + m_TILEINFO[m_FILEHEADER.nDefaultTile].dv;
+			}
 			//Add  a off distance to fXstarCoord
 			fXstartCoord += m_FILEHEADER.nTileWidth;
-
+			nXindex++;
 		}
 		//go to next Row, add a off distance to fYstarCoord
+		nXindex-= nXTileSize;
+		nYindex++;
 		fXstartCoord = - (float)(nXTileSize / 2) * m_FILEHEADER.nTileWidth;
 		fYstartCoord -= m_FILEHEADER.nTileHeight;
 	}

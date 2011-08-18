@@ -26,7 +26,7 @@ public:
 
 		uint nMapRow;					/*!< row of tile on the map */
 		uint nMapCol;					/*!< col of tile on the map */
-
+		uint nDefaultTile;				/*!< Set the default texture tile to render*/
 		uint nNumTiles;					/*!< number of tiles on the texture */
 		uint nTileWidth;				/*!< tile width on the texture */
 		uint nTileHeight;				/*!< tile height on the texture */

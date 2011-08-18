@@ -40,6 +40,7 @@ bool FileUtil_Android_Impl::Initialize()
 		LOGE("open resource package file failed: %s", pszPackageFilePath);
 		return false;
 	}
+	LOGD("open resource package file ok: %s", pszPackageFilePath);
 
 	m_strRootPath = ConfigUtil::GetInstance().GetString("RESOURCE_DIR", "assets/");
 	LOGD("resource directory: %s", m_strRootPath.c_str());

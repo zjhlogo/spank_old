@@ -6,3 +6,13 @@
  * \author zjhlogo (zjhlogo@gmail.com)
  */
 #include <particle/IParticleSystem.h>
+
+IParticleSystem::IParticleSystem()
+{
+	// TODO: 
+}
+
+IParticleSystem::~IParticleSystem()
+{
+	// TODO: 
+}

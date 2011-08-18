@@ -25,7 +25,7 @@ public:
 	virtual bool Initialize();
 	virtual void Terminate();
 
-	virtual ITexture* CreateTexture(const char* pszFileName, ITexture::SAMPLE_TYPE eSample = ITexture::SAMPLE_POINT);
+	virtual ITexture* CreateTexture(const char* pszFileName, TEXTURE_SAMPLE_TYPE eSample = TST_POINT);
 
 private:
 	ITexture* FindTexture(const char* pszFileName);

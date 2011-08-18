@@ -14,19 +14,30 @@
 class IEmmiter : public IObject
 {
 public:
+	typedef struct PARTICLE_CACHE_ITEM_tag
+	{
+		bool bAllocated;
+		IParticle* pParticle;
+	} PARTICLE_CACHE_ITEM;
+
+public:
 	IEmmiter();
 	virtual ~IEmmiter();
 
 	void SetEmmitRate(float rate);
 	float GetEmmitRate() const;
 
+	int PopNumEmmit();
+
 	void Update(float dt);
 
 	virtual IParticle* CreateParticle() = 0;
-	virtual void RecycleParticle() = 0;
+	virtual void RecycleParticle(IParticle* pParticle) = 0;
 
 private:
-	float m_fEmmitRate;
+	float m_fEmmitRate;		// how many particle per second
+	float m_fTotalEmmit;
+	int m_nNumEmmit;
 
 };
 #endif // __IEMMITER_H__

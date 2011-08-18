@@ -17,6 +17,7 @@ public:
 	IParticle();
 	virtual ~IParticle();
 
+	virtual void Reset() = 0;
 	virtual void Update(float dt) = 0;
 
 	bool IsAlive() const;

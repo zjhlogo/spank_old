@@ -39,6 +39,11 @@ public:
 	virtual const VertexAttribute* GetVertexAttribute() const = 0;
 	virtual void Reset() = 0;
 	virtual bool Commit(const void* pVerts) = 0;
+
+protected:
+	IShader() {};
+	virtual ~IShader() {};
+
 };
 
 #endif // __ISHADER_H__

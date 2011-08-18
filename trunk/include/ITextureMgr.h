@@ -16,7 +16,7 @@ class ITextureMgr : public IMgr
 public:
 	static ITextureMgr& GetInstance();
 
-	virtual ITexture* CreateTexture(const char* pszFileName, ITexture::SAMPLE_TYPE eSample = ITexture::SAMPLE_POINT) = 0;
+	virtual ITexture* CreateTexture(const char* pszFileName, TEXTURE_SAMPLE_TYPE eSample = TST_POINT) = 0;
 };
 
 #endif // __ITEXTUREMGR_H__

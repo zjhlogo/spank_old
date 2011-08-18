@@ -9,10 +9,14 @@
 #define __IPARTICLESYSTEM_H__
 
 #include "../IRenderableObject.h"
+#include "IEmmiter.h"
+#include "IParticle.h"
 
 class IParticleSystem : public IRenderableObject
 {
 public:
+	IParticleSystem();
+	virtual ~IParticleSystem();
 
 };
 #endif // __IPARTICLESYSTEM_H__

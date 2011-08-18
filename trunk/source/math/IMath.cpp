@@ -7,6 +7,7 @@
  */
 #include <math/IMath.h>
 #include <math.h>
+#include <stdlib.h>
 
 const float IMath::F_PI = 3.141592f;
 const float IMath::FLOAT_MIN = 0.000001f;
@@ -54,6 +55,16 @@ float IMath::ToRadian(float fDegree)
 float IMath::ToDegree(float fRadian)
 {
 	return fRadian / F_PI * 180.0f;
+}
+
+float IMath::Random()
+{
+	return ((float)(rand()%RAND_MAX) / RAND_MAX);
+}
+
+float IMath::Random(float min, float max)
+{
+	return min + (Random()*(max-min));
 }
 
 void IMath::BuildZeroMatrix(Matrix2x2& matOut)

@@ -12,7 +12,7 @@
 #include <ITexture.h>
 #include <IShader.h>
 #include <BaseTypeEx.h>
-
+#include <fileformat/fmtl2d.h>
 class Level2D_Impl : public ILevel2D
 {
 public:
@@ -28,38 +28,28 @@ public:
 	static ILevel2D* CreateLevel2D(const char* pszLevel2DFile);
 
 private:
+
 	bool LoadLevel2DFromFile(const char* pszLevel2DFile);
-	inline  Vector2& C2TextTureCoordinate(Vector2& MapPosition );
+	bool C2TextTureCoordinate(Vector2& MapPosition, uint& index);
 	void InitVerts();
 	void UpdateVerts();
 	
 private:
-	Vector2 m_CenterPosition;		//当前在地图的位置
-	int m_nCenterPositionX;
-	int m_nCenterPositionY;
+	Vector2 m_CenterPosition;		//Current Map Coordinate
+	Vector2 m_PrvCenterPosition;	//previous Map Coordinate
 	
-	int m_nPrvCenterPositionX;
-	int m_nPrvCenterPositionY;
-
-	int m_nCurrenSurfaceOffX;
-	int m_nCurrenSurfaceOffY;
-	Vector2 m_TexturePosition;		//纹理坐标
-	
-	int* m_pGidAry;					//存放地图纹理索引
-	int m_nLayerWidth;				//地图的宽度
-	int m_nLayerHeight;				//地图的高度
-
-	int m_nTileWidth;				//每个Tile的宽度
-	int m_nTildHeight;				//每块Tile的高度
-		
 	int m_nHalfSceneWidth;
 	int m_nHalfSceneHeight;
-
-	IShader* m_pShader;			
-	ITexture* m_pTexture;
-	int m_nHalfBuffersize;
-	Matrix4x4 m_ModleMatrix;
+	int m_nHalfBuffersize;			//In the Construct function set the HalfBuffersize
+	
+	IShader* m_pShader;				
+	ITexture* m_pTexture;			//The Map used TextTure
+	Matrix4x4 m_ModelMatrix;
 	VATTR_POS_UV* m_pVerts;		
-
+	
+	FmtL2D::FILE_HEADER m_FILEHEADER;
+	FmtL2D::TILE_INFO* m_TILEINFO;
+	uint* m_pGidAry;
+	bool* m_pMapFlag;
 };
 #endif // __LEVEL2D_IMPL_H__

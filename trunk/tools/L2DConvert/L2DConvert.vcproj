@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)..\..\include&quot;"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)..\..\include&quot;;&quot;$(ProjectDir)..\..\vendor\tinyxml-2.6.2&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -61,8 +61,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalDependencies="libtinyxml.lib"
 				OutputFile="$(OutDir)\$(ProjectName)_D.exe"
 				LinkIncremental="2"
+				AdditionalLibraryDirectories="&quot;$(ProjectDir)..\..\bin&quot;"
 				GenerateDebugInformation="true"
 				SubSystem="1"
 				TargetMachine="1"
@@ -87,7 +89,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="echo copy &quot;$(TargetPath)&quot; &quot;$(ProjectDir)..\..\bin\&quot;&#x0D;&#x0A;copy &quot;$(TargetPath)&quot; &quot;$(ProjectDir)..\..\bin\&quot;"
+				CommandLine="echo copy &quot;$(TargetPath)&quot; &quot;$(ProjectDir)..\..\bin\&quot;&#x0D;&#x0A;copy &quot;$(TargetPath)&quot; &quot;$(ProjectDir)..\..\bin\&quot;&#x0D;&#x0A;"
 			/>
 		</Configuration>
 		<Configuration
@@ -117,7 +119,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)..\..\include&quot;"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)..\..\include&quot;;&quot;$(ProjectDir)..\..\vendor\tinyxml-2.6.2&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -136,7 +138,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalDependencies="libtinyxml.lib"
 				LinkIncremental="1"
+				AdditionalLibraryDirectories="&quot;$(ProjectDir)..\..\bin&quot;"
 				GenerateDebugInformation="true"
 				SubSystem="1"
 				OptimizeReferences="2"
@@ -163,7 +167,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="echo copy &quot;$(TargetPath)&quot; &quot;$(ProjectDir)..\..\bin\&quot;&#x0D;&#x0A;copy &quot;$(TargetPath)&quot; &quot;$(ProjectDir)..\..\bin\&quot;"
+				CommandLine="echo copy &quot;$(TargetPath)&quot; &quot;$(ProjectDir)..\..\bin\&quot;&#x0D;&#x0A;copy &quot;$(TargetPath)&quot; &quot;$(ProjectDir)..\..\bin\&quot;&#x0D;&#x0A;"
 			/>
 		</Configuration>
 	</Configurations>

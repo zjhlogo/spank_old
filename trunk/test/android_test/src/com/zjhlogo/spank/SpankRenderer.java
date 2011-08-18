@@ -9,10 +9,7 @@ class SpankRenderer implements GLSurfaceView.Renderer
 {
 	public void onSurfaceChanged(GL10 gl, int width, int height)
 	{
-		if (!SpankLibrary.initialize(width, height))
-		{
-			// TODO: logout
-		}
+		SpankLibrary.initialize(width, height);
 	}
 
 	public void onSurfaceCreated(GL10 gl, EGLConfig config)

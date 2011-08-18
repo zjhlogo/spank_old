@@ -9,6 +9,7 @@
 #include <ICore.h>
 #include <util/ConfigUtil.h>
 #include <util/ScreenUtil.h>
+#include <util/IDebugUtil.h>
 #include <InputMgr.h>
 #include <IRenderDevice.h>
 #include <time.h>
@@ -39,8 +40,14 @@ JNIEXPORT jboolean JNICALL Java_com_zjhlogo_spank_SpankLibrary_initialize(JNIEnv
 {
 	ConfigUtil::GetInstance().AddInt("SURFACE_WIDTH", width);
 	ConfigUtil::GetInstance().AddInt("SURFACE_HEIGHT", height);
-	if (!ICore::GetInstance().Initialize()) return JNI_FALSE;
 
+	if (!ICore::GetInstance().Initialize())
+	{
+		LOGD("initialize failed with surface size %dx%d", width, height);
+		return JNI_FALSE;
+	}
+
+	LOGD("initialize ok, surface size %dx%d", width, height);
 	g_nCurrTime = GetCurrTime();
 	g_nPrevTime = g_nCurrTime;
 	return JNI_TRUE;
@@ -48,7 +55,12 @@ JNIEXPORT jboolean JNICALL Java_com_zjhlogo_spank_SpankLibrary_initialize(JNIEnv
 
 JNIEXPORT void JNICALL Java_com_zjhlogo_spank_SpankLibrary_terminate(JNIEnv* env, jclass cls)
 {
+	LOGD("spank terminated");
 	ICore::GetInstance().Terminate();
+
+	// force exist the program
+	int* pNull = NULL;
+	*pNull = 8888;
 }
 
 JNIEXPORT void JNICALL Java_com_zjhlogo_spank_SpankLibrary_step(JNIEnv* env, jclass cls)

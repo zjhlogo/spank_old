@@ -6,7 +6,7 @@
  * \author zjhlogo (zjhlogo@gmail.com)
  */
 #include "Node_Impl.h"
-#include <RenderableObject.h>
+#include <IRenderableObject.h>
 #include <msg/MsgID.h>
 #include <msg/MsgActionUpdate.h>
 
@@ -70,7 +70,7 @@ INode* Node_Impl::GetParentNode()
 	return m_pParentNode;
 }
 
-bool Node_Impl::AttachObject(RenderableObject* pObject)
+bool Node_Impl::AttachObject(IRenderableObject* pObject)
 {
 	// check pObject exist
 	if (IsObjectExist(pObject)) return false;
@@ -80,7 +80,7 @@ bool Node_Impl::AttachObject(RenderableObject* pObject)
 	return true;
 }
 
-bool Node_Impl::DettachObject(RenderableObject* pObject)
+bool Node_Impl::DettachObject(IRenderableObject* pObject)
 {
 	for (TV_RENDERABLE_OBJECT::iterator it = m_vAttachedObjects.begin(); it != m_vAttachedObjects.end(); ++it)
 	{
@@ -95,7 +95,7 @@ bool Node_Impl::DettachObject(RenderableObject* pObject)
 	return false;
 }
 
-RenderableObject* Node_Impl::GetAttachedObject(int nIndex)
+IRenderableObject* Node_Impl::GetAttachedObject(int nIndex)
 {
 	if (nIndex < 0 || nIndex >= (int)m_vAttachedObjects.size()) return NULL;
 	return m_vAttachedObjects[nIndex];
@@ -238,7 +238,7 @@ void Node_Impl::UpdateObjects(float dt)
 {
 	for (TV_RENDERABLE_OBJECT::iterator it = m_vAttachedObjects.begin(); it != m_vAttachedObjects.end(); ++it)
 	{
-		RenderableObject* pObject = (*it);
+		IRenderableObject* pObject = (*it);
 		pObject->Update(dt);
 	}
 
@@ -253,7 +253,7 @@ void Node_Impl::RenderObjects()
 {
 	for (TV_RENDERABLE_OBJECT::iterator it = m_vAttachedObjects.begin(); it != m_vAttachedObjects.end(); ++it)
 	{
-		RenderableObject* pObject = (*it);
+		IRenderableObject* pObject = (*it);
 		pObject->Render();
 	}
 

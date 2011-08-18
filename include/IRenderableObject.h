@@ -1,21 +1,21 @@
 /*!
- * \file RenderableObject.h
+ * \file IRenderableObject.h
  * \date 30-07-2011 16:06:57
  * 
  * 
  * \author zjhlogo (zjhlogo@gmail.com)
  */
-#ifndef __RENDERABLEOBJECT_H__
-#define __RENDERABLEOBJECT_H__
+#ifndef __IRENDERABLEOBJECT_H__
+#define __IRENDERABLEOBJECT_H__
 
 #include "IObject.h"
 #include "INode.h"
 
-class RenderableObject : public IObject
+class IRenderableObject : public IObject
 {
 public:
-	RenderableObject();
-	virtual ~RenderableObject();
+	IRenderableObject();
+	virtual ~IRenderableObject();
 
 	void SetParentNode(INode* pNode);
 	INode* GetParentNode() const;
@@ -29,4 +29,4 @@ private:
 	INode* m_pParentNode;
 
 };
-#endif // __RENDERABLEOBJECT_H__
+#endif // __IRENDERABLEOBJECT_H__

@@ -9,9 +9,9 @@
 #define __GAMEAPP_H__
 
 #include <IGameApp.h>
-#include <Sprite.h>
 #include <msg/IMsgBase.h>
-#include <ILevel2D.h>
+#include <Sprite.h>
+#include <Level2D.h>
 
 class GameApp : public IGameApp
 {
@@ -30,7 +30,7 @@ private:
 
 private:
 	Sprite* m_pSprite;
-	ILevel2D* m_pLevel;
+	Level2D* m_pLevel;
 
 };
 #endif // __GAMEAPP_H__

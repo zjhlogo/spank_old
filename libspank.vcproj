@@ -401,6 +401,58 @@
 				>
 			</File>
 		</Filter>
+		<Filter
+			Name="particle"
+			>
+			<File
+				RelativePath=".\source\particle\IEmmiter.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\particle\IEmmiter.h"
+				>
+			</File>
+			<File
+				RelativePath=".\source\particle\IParticle.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\particle\IParticle.h"
+				>
+			</File>
+			<File
+				RelativePath=".\source\particle\IParticleSystem.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\particle\IParticleSystem.h"
+				>
+			</File>
+			<File
+				RelativePath=".\source\particle\SnowEmmiter.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\particle\SnowEmmiter.h"
+				>
+			</File>
+			<File
+				RelativePath=".\source\particle\SnowParticle.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\particle\SnowParticle.h"
+				>
+			</File>
+			<File
+				RelativePath=".\source\particle\SnowParticleSystem.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\particle\SnowParticleSystem.h"
+				>
+			</File>
+		</Filter>
 		<File
 			RelativePath=".\source\Core_Impl.cpp"
 			>
@@ -434,11 +486,19 @@
 			>
 		</File>
 		<File
-			RelativePath=".\source\Level2D_Impl.cpp"
+			RelativePath=".\source\IRenderableObject.cpp"
 			>
 		</File>
 		<File
-			RelativePath=".\source\Level2D_Impl.h"
+			RelativePath=".\include\IRenderableObject.h"
+			>
+		</File>
+		<File
+			RelativePath=".\source\Level2D.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\include\Level2D.h"
 			>
 		</File>
 		<File
@@ -455,14 +515,6 @@
 		</File>
 		<File
 			RelativePath=".\source\Node_Impl.h"
-			>
-		</File>
-		<File
-			RelativePath=".\source\RenderableObject.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\include\RenderableObject.h"
 			>
 		</File>
 		<File

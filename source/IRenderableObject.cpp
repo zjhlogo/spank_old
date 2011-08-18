@@ -1,33 +1,33 @@
 /*!
- * \file RenderableObject.cpp
+ * \file IRenderableObject.cpp
  * \date 14-08-2011 10:44:56
  * 
  * 
  * \author zjhlogo (zjhlogo@gmail.com)
  */
-#include <RenderableObject.h>
+#include <IRenderableObject.h>
 
-RenderableObject::RenderableObject()
+IRenderableObject::IRenderableObject()
 {
 	m_pParentNode = NULL;
 }
 
-RenderableObject::~RenderableObject()
+IRenderableObject::~IRenderableObject()
 {
 	// TODO: 
 }
 
-void RenderableObject::SetParentNode(INode* pNode)
+void IRenderableObject::SetParentNode(INode* pNode)
 {
 	m_pParentNode = pNode;
 }
 
-INode* RenderableObject::GetParentNode() const
+INode* IRenderableObject::GetParentNode() const
 {
 	return m_pParentNode;
 }
 
-const Matrix4x4& RenderableObject::GetFinalMatrix()
+const Matrix4x4& IRenderableObject::GetFinalMatrix()
 {
 	if (!m_pParentNode) return IMath::MAT4X4_IDENTITY;
 	return m_pParentNode->GetFinalMatrix();

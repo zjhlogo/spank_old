@@ -22,6 +22,9 @@ public:
 	static float ToRadian(float fDegree);
 	static float ToDegree(float fRadian);
 	
+	static float Random();
+	static float Random(float min, float max);
+
 	static void BuildZeroMatrix(Matrix2x2& matOut);
 	static void BuildZeroMatrix(Matrix3x3& matOut);
 	static void BuildZeroMatrix(Matrix4x4& matOut);

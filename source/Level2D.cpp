@@ -35,9 +35,9 @@ Level2D::Level2D(const char* pszLevel2DFile)
 Level2D::~Level2D()
 {
 	// TODO: 
-	SAFE_DELETE(m_pTexture);
+	SAFE_RELEASE(m_pTexture);
 	SAFE_DELETE_ARRAY(m_pVerts);
-	SAFE_DELETE(m_pShader);
+	SAFE_RELEASE(m_pShader);
 	SAFE_DELETE_ARRAY(m_pGidAry);
 	SAFE_DELETE_ARRAY(m_TILEINFO);
 }

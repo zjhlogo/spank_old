@@ -56,6 +56,8 @@ bool GameApp::Initialize()
 
 	pSpriteNode->RunAction(pActionLoop);
 
+	m_pSnow = new SnowParticleSystem();
+
 	return true;
 }
 
@@ -63,6 +65,7 @@ void GameApp::Terminate()
 {
 	SAFE_DELETE(m_pSprite);
 	SAFE_RELEASE(m_pLevel);
+	SAFE_DELETE(m_pSnow);
 }
 
 void GameApp::Update(float dt)
@@ -73,11 +76,14 @@ void GameApp::Update(float dt)
 	positon.y -= 40*dt;
 
 	m_pLevel->SetCenterPosition(positon);
+
+	m_pSnow->Update(dt);
 }
 
 void GameApp::Render()
 {
 	// TODO: 
+	m_pSnow->Render();
 }
 
 bool GameApp::OnMsgTouch(IMsgBase* pMsg)

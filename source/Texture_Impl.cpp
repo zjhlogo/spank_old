@@ -11,7 +11,7 @@
 #include <msg/MsgID.h>
 #include <GLES2/gl2.h>
 
-Texture_Impl::Texture_Impl(const char* pszFileName, SAMPLE_TYPE eSample)
+Texture_Impl::Texture_Impl(const char* pszFileName, TEXTURE_SAMPLE_TYPE eSample)
 {
 	m_nTextureWidth = 0;
 	m_nTextureHeight = 0;
@@ -43,7 +43,7 @@ GLuint Texture_Impl::GetGLTextureID() const
 	return m_nGLTextureID;
 }
 
-bool Texture_Impl::LoadTextureFromFile(const char* pszFileName, SAMPLE_TYPE eSample)
+bool Texture_Impl::LoadTextureFromFile(const char* pszFileName, TEXTURE_SAMPLE_TYPE eSample)
 {
 	Image* pImage = new Image(pszFileName);
 	if (!pImage || !pImage->IsOK())
@@ -61,7 +61,7 @@ bool Texture_Impl::LoadTextureFromFile(const char* pszFileName, SAMPLE_TYPE eSam
 	return bOK;
 }
 
-bool Texture_Impl::CreateGLTexture(Image* pImage, SAMPLE_TYPE eSample)
+bool Texture_Impl::CreateGLTexture(Image* pImage, TEXTURE_SAMPLE_TYPE eSample)
 {
 	FreeGLTexture();
 
@@ -74,7 +74,7 @@ bool Texture_Impl::CreateGLTexture(Image* pImage, SAMPLE_TYPE eSample)
 	glBindTexture(GL_TEXTURE_2D, m_nGLTextureID);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, m_nTextureWidth, m_nTextureHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, pImage->GetPixelData());
 
-	if (eSample == SAMPLE_POINT)
+	if (eSample == TST_POINT)
 	{
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);

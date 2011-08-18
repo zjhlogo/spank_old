@@ -36,7 +36,7 @@ void TextureMgr_Impl::Terminate()
 	// TODO: 
 }
 
-ITexture* TextureMgr_Impl::CreateTexture(const char* pszFileName, ITexture::SAMPLE_TYPE eSample /* = ITexture::SAMPLE_POINT */)
+ITexture* TextureMgr_Impl::CreateTexture(const char* pszFileName, TEXTURE_SAMPLE_TYPE eSample /* = TST_POINT */)
 {
 	ITexture* pTexture = FindTexture(pszFileName);
 	if (pTexture)

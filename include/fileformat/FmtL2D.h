@@ -7,7 +7,7 @@
  */
 #ifndef __FMTL2D_H__
 #define __FMTL2D_H__
-
+#include "../include/BaseType.h"
 class FmtL2D
 {
 public:

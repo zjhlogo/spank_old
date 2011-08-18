@@ -5,18 +5,16 @@
  * 
  * \author zjhlogo (zjhlogo@gmail.com)
  */
-#include "Level2D_Impl.h"
+#include <Level2D.h>
 #include <math/IMath.h>
 #include <util/IFileUtil.h>
 #include <util/ScreenUtil.h>
 #include <ITextureMgr.h>
 #include <IShaderMgr.h>
 #include <IRenderer2D.h>
-#include <tinyxml-2.6.2/tinyxml.h>
 
-Level2D_Impl::Level2D_Impl(const char* pszLevel2DFile)
+Level2D::Level2D(const char* pszLevel2DFile)
 {
-	
 	m_CenterPosition.x = 0;
 	m_CenterPosition.y = 0;
 	m_PrvCenterPosition = m_CenterPosition;
@@ -33,7 +31,7 @@ Level2D_Impl::Level2D_Impl(const char* pszLevel2DFile)
 	m_bOK = LoadLevel2DFromFile(pszLevel2DFile);
 }
 
-Level2D_Impl::~Level2D_Impl()
+Level2D::~Level2D()
 {
 	// TODO: 
 	SAFE_DELETE(m_pTexture);
@@ -43,18 +41,7 @@ Level2D_Impl::~Level2D_Impl()
 	SAFE_DELETE_ARRAY(m_TILEINFO);
 }
 
-ILevel2D* ILevel2D::CreateLevel2D(const char* pszLevel2DFile)
-{
-	Level2D_Impl* pLevel2D =  new Level2D_Impl(pszLevel2DFile);
-	if (!pLevel2D || !pLevel2D->IsOK())
-	{
-		SAFE_DELETE(pLevel2D);
-		return NULL;
-	}
-	return pLevel2D;
-}
-
-void Level2D_Impl::Update(float dt)
+void Level2D::Update(float dt)
 {
 	//Calculation of boundary values
 	int nXBoundary = (m_nHalfBuffersize + (m_nHalfSceneWidth/m_FILEHEADER.nTileWidth)) * m_FILEHEADER.nTileWidth - m_nHalfSceneWidth;
@@ -74,7 +61,7 @@ void Level2D_Impl::Update(float dt)
 	}
 }
 
-void Level2D_Impl::Render()
+void Level2D::Render()
 {
 	m_pShader->SetTexture("u_texture",m_pTexture);
 
@@ -99,20 +86,20 @@ void Level2D_Impl::Render()
 	IMath::BuildIdentityMatrix(m_ModelMatrix);
 }
 
-void Level2D_Impl::SetCenterPosition(const Vector2& pos)
+void Level2D::SetCenterPosition(const Vector2& pos)
 {
 	// TODO:
 	m_CenterPosition = pos;
 	
 }
 
-const Vector2& Level2D_Impl::GetCenterPosition() const
+const Vector2& Level2D::GetCenterPosition() const
 {
 	// TODO: 
 	return m_CenterPosition;
 }
 
-bool Level2D_Impl::LoadLevel2DFromFile(const char* pszLevel2DFile)
+bool Level2D::LoadLevel2DFromFile(const char* pszLevel2DFile)
 {
 	//parse the L2D file
 	StreamReader* pReader = IFileUtil::GetInstance().LoadFile(pszLevel2DFile);
@@ -141,7 +128,7 @@ bool Level2D_Impl::LoadLevel2DFromFile(const char* pszLevel2DFile)
 	InitVerts();
 	return true;
 }
-bool Level2D_Impl::C2TextTureCoordinate(Vector2& MapPosition,uint& index )
+bool Level2D::C2TextTureCoordinate(Vector2& MapPosition,uint& index )
 {
 	//Calculation in map coordinates
 	MapPosition.x = m_FILEHEADER.nMapCol * m_FILEHEADER.nTileWidth / 2 + MapPosition.x;
@@ -159,7 +146,8 @@ bool Level2D_Impl::C2TextTureCoordinate(Vector2& MapPosition,uint& index )
 	MapPosition.y = m_TILEINFO[index].v;
 	return true;
 }
-void Level2D_Impl::InitVerts()
+
+void Level2D::InitVerts()
 {
 	int nXTileSize =(m_nHalfSceneWidth / m_FILEHEADER.nTileWidth) * 2 + m_nHalfBuffersize * 2;	
 	int nYTileSize = (m_nHalfSceneHeight / m_FILEHEADER.nTileHeight) * 2 + m_nHalfBuffersize * 2;
@@ -212,7 +200,7 @@ void Level2D_Impl::InitVerts()
 		fYstartCoord -= m_FILEHEADER.nTileHeight;
 	}
 }
-void Level2D_Impl::UpdateVerts()
+void Level2D::UpdateVerts()
 {
 	int nXTileSize =(m_nHalfSceneWidth / m_FILEHEADER.nTileWidth) * 2 + m_nHalfBuffersize * 2;	
 	int nYTileSize = (m_nHalfSceneHeight / m_FILEHEADER.nTileHeight) * 2 + m_nHalfBuffersize * 2;

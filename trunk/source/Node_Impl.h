@@ -15,7 +15,7 @@ class Node_Impl : public INode
 {
 public:
 	typedef std::vector<INode*> TV_NODE;
-	typedef std::vector<RenderableObject*> TV_RENDERABLE_OBJECT;
+	typedef std::vector<IRenderableObject*> TV_RENDERABLE_OBJECT;
 
 public:
 	Node_Impl();
@@ -27,9 +27,9 @@ public:
 	virtual int GetNumChildNodes();
 	virtual INode* GetParentNode();
 
-	virtual bool AttachObject(RenderableObject* pObject);
-	virtual bool DettachObject(RenderableObject* pObject);
-	virtual RenderableObject* GetAttachedObject(int nIndex);
+	virtual bool AttachObject(IRenderableObject* pObject);
+	virtual bool DettachObject(IRenderableObject* pObject);
+	virtual IRenderableObject* GetAttachedObject(int nIndex);
 	virtual int GetNumAttachedObjects();
 
 	virtual void SetPosition(const Vector3& vPos);

@@ -12,7 +12,7 @@
 #include "IObject.h"
 #include "action/IActionBase.h"
 
-class RenderableObject;
+class IRenderableObject;
 class INode : public IObject
 {
 public:
@@ -22,9 +22,9 @@ public:
 	virtual int GetNumChildNodes() = 0;
 	virtual INode* GetParentNode() = 0;
 
-	virtual bool AttachObject(RenderableObject* pObject) = 0;
-	virtual bool DettachObject(RenderableObject* pObject) = 0;
-	virtual RenderableObject* GetAttachedObject(int nIndex) = 0;
+	virtual bool AttachObject(IRenderableObject* pObject) = 0;
+	virtual bool DettachObject(IRenderableObject* pObject) = 0;
+	virtual IRenderableObject* GetAttachedObject(int nIndex) = 0;
 	virtual int GetNumAttachedObjects() = 0;
 
 	virtual void SetPosition(const Vector3& vPos) = 0;

@@ -8,11 +8,11 @@
 #ifndef __SPRITE_H__
 #define __SPRITE_H__
 
-#include "RenderableObject.h"
+#include "IRenderableObject.h"
 #include "BaseTypeEx.h"
 #include "IShader.h"
 
-class Sprite : public RenderableObject
+class Sprite : public IRenderableObject
 {
 public:
 	Sprite(const char* pszSpriteFile);

@@ -8,16 +8,17 @@
 #ifndef __LEVEL2D_IMPL_H__
 #define __LEVEL2D_IMPL_H__
 
-#include <ILevel2D.h>
+#include <IRenderableObject.h>
 #include <ITexture.h>
 #include <IShader.h>
 #include <BaseTypeEx.h>
-#include <fileformat/fmtl2d.h>
-class Level2D_Impl : public ILevel2D
+#include <fileformat/FmtL2D.h>
+
+class Level2D : public IRenderableObject
 {
 public:
-	Level2D_Impl(const char* pszLevel2DFile);
-	virtual ~Level2D_Impl();
+	Level2D(const char* pszLevel2DFile);
+	virtual ~Level2D();
 
 	virtual void Update(float dt);
 	virtual void Render();
@@ -25,10 +26,7 @@ public:
 	virtual void SetCenterPosition(const Vector2& pos);
 	virtual const Vector2& GetCenterPosition() const;
 
-	static ILevel2D* CreateLevel2D(const char* pszLevel2DFile);
-
 private:
-
 	bool LoadLevel2DFromFile(const char* pszLevel2DFile);
 	bool C2TextTureCoordinate(Vector2& MapPosition, uint& index);
 	void InitVerts();

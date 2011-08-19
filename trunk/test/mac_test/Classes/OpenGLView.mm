@@ -61,11 +61,8 @@
 
 - (void)render:(CADisplayLink*)displayLink {
 	ICore::GetInstance().Update(1.0f/60.0f);
-	
-	ICore::GetInstance().PreRender();
 	ICore::GetInstance().Render();
-	ICore::GetInstance().PostRender();
-	
+
     [_context presentRenderbuffer:GL_RENDERBUFFER];
 }
 

@@ -12,7 +12,7 @@
 class ActionRoateTo:public IActionBase
 {
 public:
-	ActionRoateTo(const Vector3& rkAxis, const float& fStartAngle, const float& fEndAngle, float time);
+	ActionRoateTo(const Vector3& vAxis, const float& fStartAngle, const float& fEndAngle, float time);
 	virtual ~ActionRoateTo();
 public:
 	virtual void Reset(void);
@@ -26,7 +26,7 @@ private:
 	Quaternion m_qRotStart;
 	Quaternion m_qRotEnd;
 
-	Vector3 m_rkAxis;
+	Vector3 m_vAxis;
 	float m_fStartAngle;
 	float m_fEndAngle;
 

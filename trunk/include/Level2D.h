@@ -17,38 +17,43 @@
 class Level2D : public IRenderableObject
 {
 public:
+	enum CONST_DEFINE
+	{
+		HALFBUFFER_SIZE = 3,
+		VERTEX_CACHE_SIZE = 4,
+		INDEX_CACHE_SIZE = 6,	
+	};
+
+public:
 	Level2D(const char* pszLevel2DFile);
 	virtual ~Level2D();
-
-	virtual void Update(float dt);
+	
 	virtual void Render();
-
+	virtual void Update(float dt);
 	virtual void SetCenterPosition(const Vector2& pos);
 	virtual const Vector2& GetCenterPosition() const;
 
 private:
-	bool LoadLevel2DFromFile(const char* pszLevel2DFile);
-	void C2TextTureCoordinate(Vector2 MapPosition,int& nXindex, int& nYindex);
 	void InitVerts();
 	void UpdateVerts();
-	
+	bool LoadLevel2DFromFile(const char* pszLevel2DFile);
+	void GetMapCoordinateIndex(Vector2& MapPosition, int& nXindex, int& nYindex);
+
 private:
-	Vector2 m_CenterPosition;		//Current Map Coordinate
-	Vector2 m_PrvCenterPosition;	//previous Map Coordinate
-	
+	Vector2 m_CenterPosition;		
+	int m_nPrvCenterPositionX;
+	int m_nPrvCenterPositionY;
 	int m_nHalfSceneWidth;
 	int m_nHalfSceneHeight;
-	int m_nHalfBuffersize;			//In the Construct function set the HalfBuffersize
-	
+	int m_nSurfaceColTileNum;
+	int m_nSurfaceRowTileNum;
 	IShader* m_pShader;				
-	ITexture* m_pTexture;			//The Map used TextTure
+	ITexture* m_pTexture;
 	ushort* m_pIndis;
-	Matrix4x4 m_ModelMatrix;
-	VATTR_POS_UV* m_pVerts;		
-	
-	FmtL2D::FILE_HEADER m_FILEHEADER;
-	FmtL2D::TILE_INFO* m_TILEINFO;
+	VATTR_POS_UV* m_pVerts;	
+	FmtL2D::FILE_HEADER m_FileHeader;
+	FmtL2D::TILE_INFO* m_pTileInfo;
 	uint* m_pGidAry;
-	bool* m_pMapFlag;
+	
 };
 #endif // __LEVEL2D_IMPL_H__

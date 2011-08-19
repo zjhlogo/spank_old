@@ -12,7 +12,7 @@ ActionRoateTo::ActionRoateTo(const Vector3& rkAxis, const float& fStartAngle, co
 	m_qRotStart = Quaternion(rkAxis, fStartAngle);
 	m_qRotEnd = Quaternion(rkAxis, fEndAngle);
 
-	m_rkAxis = rkAxis;
+	m_vAxis = rkAxis;
 	m_fStartAngle = fStartAngle;
 	m_fEndAngle = fEndAngle;
 	m_fTime = time;
@@ -44,20 +44,20 @@ void ActionRoateTo::Update(float dt)
 		return;
 	}
 	float alpha = m_fCurrTime / m_fTime;
-	SetRotation(m_rkAxis,m_fStartAngle * (1.0f -alpha) + m_fEndAngle * alpha);
+	SetRotation(m_vAxis,m_fStartAngle * (1.0f -alpha) + m_fEndAngle * alpha);
 }
 IActionBase* ActionRoateTo::Clone(void)
 {
 	//TODO:
 	
-	return new ActionRoateTo(m_rkAxis, m_fStartAngle, m_fEndAngle, m_fTime);
+	return new ActionRoateTo(m_vAxis, m_fStartAngle, m_fEndAngle, m_fTime);
 }
 
 IActionBase* ActionRoateTo::CloneInverse(void)
 {
 	//TODO;
 	
-	return new ActionRoateTo(m_rkAxis, m_fEndAngle, m_fStartAngle, m_fTime);
+	return new ActionRoateTo(m_vAxis, m_fEndAngle, m_fStartAngle, m_fTime);
 }
 
 float ActionRoateTo::GetTimeLength(void) const

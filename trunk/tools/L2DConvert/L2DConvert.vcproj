@@ -64,7 +64,7 @@
 				AdditionalDependencies="libtinyxml.lib"
 				OutputFile="$(OutDir)\$(ProjectName)_D.exe"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;$(ProjectDir)..\..\bin&quot;"
+				AdditionalLibraryDirectories="&quot;$(ProjectDir)..\..\build\libtinyxml\Debug&quot;"
 				GenerateDebugInformation="true"
 				SubSystem="1"
 				TargetMachine="1"
@@ -174,6 +174,14 @@
 	<References>
 	</References>
 	<Files>
+		<File
+			RelativePath=".\L2DConvert.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\L2DConvert.h"
+			>
+		</File>
 		<File
 			RelativePath=".\main.cpp"
 			>

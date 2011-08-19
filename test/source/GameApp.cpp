@@ -46,23 +46,19 @@ bool GameApp::Initialize()
 	pSpriteNode->AttachObject(m_pSprite);
 
 	ActionSequeue* pActionSequeue = new ActionSequeue();
-	//IActionBase* pActMoveTo1 = new ActionMoveTo(Vector3(0.0f, 0.0f, 0.0f), Vector3(200.0f, 0.0f, 0.0f), 2.0f);
-	//IActionBase* pActMoveTo2 = new ActionMoveTo(Vector3(200.0f, 0.0f, 0.0f), Vector3(200.0f, 200.0f, 0.0f), 2.0f);
-	//IActionBase* pActMoveTo3 = new ActionMoveTo(Vector3(200.0f, 200.0f, 0.0f), Vector3(0.0f, 200.0f, 0.0f), 2.0f);
-	//IActionBase* pActMoveTo4 = new ActionMoveTo(Vector3(0.0f, 200.0f, 0.0f), Vector3(0.0f, 0.0f, 0.0f), 2.0f);
-	IActionBase* pActMoveTo1 = new ActionScaleTo(Vector3(1.0f, 1.0f, 1.0f), Vector3(0.8f, 0.8f, 0.8f), 10.0f);
-	IActionBase* pActMoveTo2 = new ActionScaleTo(Vector3(0.8f, 0.8f, 0.8f), Vector3(0.6f, 0.6f, 0.6f), 10.0f);
-	IActionBase* pActMoveTo3 = new ActionScaleTo(Vector3(0.6f, 0.6f, 0.6f), Vector3(0.4f, 0.4f, 0.4f), 10.0f);
-	IActionBase* pActMoveTo4 = new ActionScaleTo(Vector3(0.4f, 0.4f, 0.4f), Vector3(0.6f, 0.6f, 0.6f), 10.0f);
-	IActionBase* pActMoveTo5 = new ActionScaleTo(Vector3(0.6f, 0.6f, 0.6f), Vector3(0.8f, 0.8f, 0.8f), 10.0f);
-	IActionBase* pActMoveTo6 = new ActionScaleTo(Vector3(0.8f, 0.8f, 0.8f), Vector3(1.0f, 1.0f, 1.0f), 10.0f);
+	IActionBase* pActScaleTo1 = new ActionScaleTo(Vector3(1.0f, 1.0f, 1.0f), Vector3(0.8f, 0.8f, 0.8f), 10.0f);
+	IActionBase* pActScaleTo2 = new ActionScaleTo(Vector3(0.8f, 0.8f, 0.8f), Vector3(0.6f, 0.6f, 0.6f), 10.0f);
+	IActionBase* pActScaleTo3 = new ActionScaleTo(Vector3(0.6f, 0.6f, 0.6f), Vector3(0.4f, 0.4f, 0.4f), 10.0f);
+	IActionBase* pActScaleTo4 = new ActionScaleTo(Vector3(0.4f, 0.4f, 0.4f), Vector3(0.6f, 0.6f, 0.6f), 10.0f);
+	IActionBase* pActScaleTo5 = new ActionScaleTo(Vector3(0.6f, 0.6f, 0.6f), Vector3(0.8f, 0.8f, 0.8f), 10.0f);
+	IActionBase* pActScaleTo6 = new ActionScaleTo(Vector3(0.8f, 0.8f, 0.8f), Vector3(3.0f, 3.0f, 3.0f), 10.0f);
 
-	pActionSequeue->AddAction(pActMoveTo1);
-	pActionSequeue->AddAction(pActMoveTo2);
-	pActionSequeue->AddAction(pActMoveTo3);
-	pActionSequeue->AddAction(pActMoveTo4);
-	pActionSequeue->AddAction(pActMoveTo5);
-	pActionSequeue->AddAction(pActMoveTo6);
+	pActionSequeue->AddAction(pActScaleTo1);
+	pActionSequeue->AddAction(pActScaleTo2);
+	pActionSequeue->AddAction(pActScaleTo3);
+	pActionSequeue->AddAction(pActScaleTo4);
+	pActionSequeue->AddAction(pActScaleTo5);
+	pActionSequeue->AddAction(pActScaleTo6);
 	ActionLoop * pActionLoop = new ActionLoop(pActionSequeue);
 
 	pSpriteNode->RunAction(pActionLoop);

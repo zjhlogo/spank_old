@@ -453,6 +453,42 @@
 				>
 			</File>
 		</Filter>
+		<Filter
+			Name="ui"
+			>
+			<File
+				RelativePath=".\source\ui\BitmapFont_Impl.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\source\ui\BitmapFont_Impl.h"
+				>
+			</File>
+			<File
+				RelativePath=".\source\ui\FontMgr_Impl.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\source\ui\FontMgr_Impl.h"
+				>
+			</File>
+			<File
+				RelativePath=".\source\ui\RendererUI_Impl.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\source\ui\RendererUI_Impl.h"
+				>
+			</File>
+			<File
+				RelativePath=".\source\ui\UIString.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\ui\UIString.h"
+				>
+			</File>
+		</Filter>
 		<File
 			RelativePath=".\source\Core_Impl.cpp"
 			>

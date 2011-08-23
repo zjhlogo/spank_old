@@ -15,6 +15,8 @@
 #include <ITextureMgr.h>
 #include <IShaderMgr.h>
 #include <IRenderer2D.h>
+#include <ui/IRendererUI.h>
+#include <ui/IFontMgr.h>
 #include <InputMgr.h>
 #include <IGameApp.h>
 #include "Node_Impl.h"
@@ -52,6 +54,8 @@ bool Core_Impl::Initialize()
 	if (!ITextureMgr::GetInstance().Initialize()) return false;
 	if (!IShaderMgr::GetInstance().Initialize()) return false;
 	if (!IRenderer2D::GetInstance().Initialize()) return false;
+	if (!IRendererUI::GetInstance().Initialize()) return false;
+	if (!IFontMgr::GetInstance().Initialize()) return false;
 	if (!InputMgr::GetInstance().Initialize()) return false;
 	if (!PreInitialize()) return false;
 	if (!IGameApp::GetInstance().Initialize()) return false;
@@ -76,6 +80,8 @@ void Core_Impl::Terminate()
 	IGameApp::GetInstance().Terminate();
 	PreTerminate();
 	InputMgr::GetInstance().Terminate();
+	IFontMgr::GetInstance().Terminate();
+	IRendererUI::GetInstance().Terminate();
 	IRenderer2D::GetInstance().Terminate();
 	IShaderMgr::GetInstance().Terminate();
 	ITextureMgr::GetInstance().Terminate();

@@ -1,5 +1,5 @@
 /*!
- * \file Level2D_Impl.cpp
+ * \file Level2D.cpp
  * \date 08-08-2011 22:49:03
  * 
  * 
@@ -15,8 +15,7 @@
 
 Level2D::Level2D(const char* pszLevel2DFile)
 {
-	m_CenterPosition.x = 0.0f;
-	m_CenterPosition.y = 0.0f;
+	m_vCenterPosition = IMath::VEC2_ZERO;
 	m_nPrvCenterPositionX = 0;
 	m_nPrvCenterPositionY = 0;
 
@@ -36,7 +35,6 @@ Level2D::Level2D(const char* pszLevel2DFile)
 
 Level2D::~Level2D()
 {
-	// TODO: 
 	SAFE_RELEASE(m_pTexture);
 	SAFE_RELEASE(m_pShader);
 	SAFE_DELETE_ARRAY(m_pVerts);
@@ -44,31 +42,19 @@ Level2D::~Level2D()
 	SAFE_DELETE_ARRAY(m_pTileInfo);
 	SAFE_DELETE_ARRAY(m_pIndis);
 }
-void Level2D::SetCenterPosition(const Vector2& pos)
-{
-	// TODO:
-	m_CenterPosition = pos;
-
-}
-
-const Vector2& Level2D::GetCenterPosition() const
-{
-	// TODO: 
-	return m_CenterPosition;
-}
 
 void Level2D::Update(float dt)
 {
-	int nXBoundary = (HALFBUFFER_SIZE + m_nHalfSceneWidth / m_FileHeader.nTileWidth) * m_FileHeader.nTileWidth - m_nHalfSceneWidth;
-	int nYBoundary = (HALFBUFFER_SIZE + m_nHalfSceneHeight / m_FileHeader.nTileHeight) * m_FileHeader.nTileHeight - m_nHalfSceneHeight;
+	int nXBoundary = (TILE_BORDER_SIZE + m_nHalfSceneWidth / m_FileHeader.nTileWidth) * m_FileHeader.nTileWidth - m_nHalfSceneWidth;
+	int nYBoundary = (TILE_BORDER_SIZE + m_nHalfSceneHeight / m_FileHeader.nTileHeight) * m_FileHeader.nTileHeight - m_nHalfSceneHeight;
 	
-	if((m_CenterPosition.x - m_nPrvCenterPositionX > nXBoundary)
-		||(m_CenterPosition.x - m_nPrvCenterPositionX < -nXBoundary)
-		||(m_CenterPosition.y - m_nPrvCenterPositionY > nYBoundary)
-		||(m_CenterPosition.y - m_nPrvCenterPositionY < -nYBoundary))
+	if((m_vCenterPosition.x - m_nPrvCenterPositionX > nXBoundary)
+		|| (m_vCenterPosition.x - m_nPrvCenterPositionX < -nXBoundary)
+		|| (m_vCenterPosition.y - m_nPrvCenterPositionY > nYBoundary)
+		|| (m_vCenterPosition.y - m_nPrvCenterPositionY < -nYBoundary))
 	{
-		m_nPrvCenterPositionX =  int(m_CenterPosition.x / (int)m_FileHeader.nTileWidth) * (int)m_FileHeader.nTileWidth;
-		m_nPrvCenterPositionY =  int(m_CenterPosition.y / (int)m_FileHeader.nTileHeight) * (int)m_FileHeader.nTileHeight;
+		m_nPrvCenterPositionX =  int(m_vCenterPosition.x / (int)m_FileHeader.nTileWidth) * (int)m_FileHeader.nTileWidth;
+		m_nPrvCenterPositionY =  int(m_vCenterPosition.y / (int)m_FileHeader.nTileHeight) * (int)m_FileHeader.nTileHeight;
 		
 		UpdateVerts();
 	}
@@ -79,8 +65,8 @@ void Level2D::Render()
 	m_pShader->SetTexture("u_texture",m_pTexture);
 
 	Vector2 vecTranslate;
-	vecTranslate.x = m_CenterPosition.x - m_nPrvCenterPositionX;
-	vecTranslate.y = m_CenterPosition.y - m_nPrvCenterPositionY;
+	vecTranslate.x = m_vCenterPosition.x - m_nPrvCenterPositionX;
+	vecTranslate.y = m_vCenterPosition.y - m_nPrvCenterPositionY;
 	Matrix4x4 matModelMatrix;
 	IMath::BuildIdentityMatrix(matModelMatrix);
 	matModelMatrix.Translate(-vecTranslate.x, -vecTranslate.y, 0);
@@ -90,60 +76,68 @@ void Level2D::Render()
 	IRenderer2D::GetInstance().DrawTriangleList(m_pVerts, unRectSize * VERTEX_CACHE_SIZE, m_pIndis, unRectSize * INDEX_CACHE_SIZE, m_pShader);
 }
 
+void Level2D::SetCenterPosition(const Vector2& pos)
+{
+	m_vCenterPosition = pos;
+}
+
+const Vector2& Level2D::GetCenterPosition() const
+{
+	return m_vCenterPosition;
+}
+
 bool Level2D::LoadLevel2DFromFile(const char* pszLevel2DFile)
 {
 	StreamReader* pReader = IFileUtil::GetInstance().LoadFile(pszLevel2DFile);
 	if (!pReader) return false;
-	pReader->Reset();
+
 	pReader->Read(&m_FileHeader, sizeof(m_FileHeader));
+	// TODO: check file valid
+
 	m_pTileInfo = new FmtL2D::TILE_INFO[m_FileHeader.nNumTiles];
 	pReader->Read(m_pTileInfo, sizeof(FmtL2D::TILE_INFO) * m_FileHeader.nNumTiles);
+
 	m_pGidAry = new uint[m_FileHeader.nMapCol * m_FileHeader.nMapRow];
 	pReader->Read(m_pGidAry, sizeof(uint) * m_FileHeader.nMapCol * m_FileHeader.nMapRow);
-	
-	m_pShader = IShaderMgr::GetInstance().CreateShader(SSI_DEFAULT);
-	if(!m_pShader) 
-		return false;
-	m_pTexture = ITextureMgr::GetInstance().CreateTexture(m_FileHeader.szTextureFile);
-	if(NULL == m_pTexture) 
-		return false;
-	
-	m_nSurfaceColTileNum = (m_nHalfSceneWidth / m_FileHeader.nTileWidth) * 2 + HALFBUFFER_SIZE * 2;	
-	m_nSurfaceRowTileNum = (m_nHalfSceneHeight / m_FileHeader.nTileHeight) * 2 + HALFBUFFER_SIZE * 2;
-	
-	SAFE_DELETE_ARRAY(m_pVerts);
-	m_pVerts = new VATTR_POS_UV[m_nSurfaceColTileNum * m_nSurfaceRowTileNum * VERTEX_CACHE_SIZE ];
-	SAFE_DELETE_ARRAY(m_pIndis);
-	m_pIndis = new ushort[m_nSurfaceColTileNum * m_nSurfaceRowTileNum * INDEX_CACHE_SIZE];
 
+	m_pShader = IShaderMgr::GetInstance().CreateShader(SSI_DEFAULT);
+	if(!m_pShader) return false;
+
+	m_pTexture = ITextureMgr::GetInstance().CreateTexture(m_FileHeader.szTextureFile);
+	if(NULL == m_pTexture) return false;
+	
+	m_nSurfaceColTileNum = (m_nHalfSceneWidth / m_FileHeader.nTileWidth) * 2 + TILE_BORDER_SIZE * 2;
+	m_nSurfaceRowTileNum = (m_nHalfSceneHeight / m_FileHeader.nTileHeight) * 2 + TILE_BORDER_SIZE * 2;
+	
 	InitVerts();
 	return true;
 }
+
 void Level2D::GetMapCoordinateIndex(Vector2& MapPosition, int& nXindex, int& nYindex)
 {
-	
 	MapPosition.x = m_FileHeader.nMapCol * m_FileHeader.nTileWidth  / 2.0f + MapPosition.x;
-	MapPosition.y = m_FileHeader.nMapRow * m_FileHeader.nTileHeight / 2.0f - MapPosition.y;  
+	MapPosition.y = m_FileHeader.nMapRow * m_FileHeader.nTileHeight / 2.0f - MapPosition.y;
 	nXindex = (int)MapPosition.x / (int)m_FileHeader.nTileWidth;
 	nYindex = (int)MapPosition.y / (int)m_FileHeader.nTileHeight;
-	
 }
 
 void Level2D::InitVerts()
 {
+	m_pVerts = new VATTR_POS_UV[m_nSurfaceColTileNum * m_nSurfaceRowTileNum * VERTEX_CACHE_SIZE];
+	m_pIndis = new ushort[m_nSurfaceColTileNum * m_nSurfaceRowTileNum * INDEX_CACHE_SIZE];
+
 	float fXstartCoord = -float(m_nSurfaceColTileNum / 2.0f) * m_FileHeader.nTileWidth;
 	float fYstartCoord =  float(m_nSurfaceRowTileNum / 2.0f) * m_FileHeader.nTileHeight;
 
 	int nTileInMapColIndex = 0;
 	int nTileInMapRowIndex = 0;
-	Vector2 TextTrueCoordinate;
-	TextTrueCoordinate.x = fXstartCoord + m_nPrvCenterPositionX;
-	TextTrueCoordinate.y = fYstartCoord + m_nPrvCenterPositionY;
+
+	Vector2 TextTrueCoordinate(fXstartCoord + m_nPrvCenterPositionX, fYstartCoord + m_nPrvCenterPositionY);
 	GetMapCoordinateIndex(TextTrueCoordinate, nTileInMapColIndex, nTileInMapRowIndex);
 
-	for(int v1 = 0; v1 < m_nSurfaceRowTileNum; ++v1)
+	for (int v1 = 0; v1 < m_nSurfaceRowTileNum; ++v1)
 	{
-		for ( int v2 = 0; v2 < m_nSurfaceColTileNum; ++v2)
+		for (int v2 = 0; v2 < m_nSurfaceColTileNum; ++v2)
 		{
 			uint unIndisOffNumber = v1 * m_nSurfaceColTileNum * INDEX_CACHE_SIZE + v2 * INDEX_CACHE_SIZE;
 			uint nVertsOffNumber = v1 * m_nSurfaceColTileNum * VERTEX_CACHE_SIZE + v2 * VERTEX_CACHE_SIZE;
@@ -157,7 +151,7 @@ void Level2D::InitVerts()
 
 			uint unTileIndexNumber = 0;
 
-			if(nTileInMapColIndex < (int)m_FileHeader.nMapCol
+			if (nTileInMapColIndex < (int)m_FileHeader.nMapCol
 				&&nTileInMapColIndex >= 0
 				&&nTileInMapRowIndex < (int)m_FileHeader.nMapRow
 				&&nTileInMapRowIndex >= 0)
@@ -184,7 +178,7 @@ void Level2D::InitVerts()
 			m_pVerts[nVertsOffNumber + 2].x = fXstartCoord + m_FileHeader.nTileWidth;
 			m_pVerts[nVertsOffNumber + 2].y = fYstartCoord - m_FileHeader.nTileHeight;
 			m_pVerts[nVertsOffNumber + 2].z = 0.0f;
-			m_pVerts[nVertsOffNumber + 2].u = m_pTileInfo[unTileIndexNumber].u + m_pTileInfo[unTileIndexNumber].du ;
+			m_pVerts[nVertsOffNumber + 2].u = m_pTileInfo[unTileIndexNumber].u + m_pTileInfo[unTileIndexNumber].du;
 			m_pVerts[nVertsOffNumber + 2].v = m_pTileInfo[unTileIndexNumber].v; 
 
 			m_pVerts[nVertsOffNumber + 3].x = fXstartCoord + m_FileHeader.nTileWidth;
@@ -216,9 +210,9 @@ void Level2D::UpdateVerts()
 	TextTrueCoordinate.y = fYstartCoord + m_nPrvCenterPositionY;
 	GetMapCoordinateIndex(TextTrueCoordinate, nTileInMapColIndex, nTileInMapRowIndex);
 
-	for(int v1 = 0; v1 < m_nSurfaceRowTileNum; ++v1)
+	for (int v1 = 0; v1 < m_nSurfaceRowTileNum; ++v1)
 	{
-		for ( int v2 = 0; v2 < m_nSurfaceColTileNum; ++v2)
+		for (int v2 = 0; v2 < m_nSurfaceColTileNum; ++v2)
 		{
 			uint unVertsOffNumber = v1 * m_nSurfaceColTileNum * VERTEX_CACHE_SIZE + v2 * VERTEX_CACHE_SIZE;
 			uint unTileIndexNumber = 0;

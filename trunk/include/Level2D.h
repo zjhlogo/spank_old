@@ -1,12 +1,12 @@
 /*!
- * \file Level2D_Impl.h
+ * \file Level2D.h
  * \date 08-08-2011 22:47:31
  * 
  * 
  * \author zjhlogo (zjhlogo@gmail.com)
  */
-#ifndef __LEVEL2D_IMPL_H__
-#define __LEVEL2D_IMPL_H__
+#ifndef __LEVEL2D_H__
+#define __LEVEL2D_H__
 
 #include <IRenderableObject.h>
 #include <ITexture.h>
@@ -19,7 +19,7 @@ class Level2D : public IRenderableObject
 public:
 	enum CONST_DEFINE
 	{
-		HALFBUFFER_SIZE = 3,
+		TILE_BORDER_SIZE = 3,
 		VERTEX_CACHE_SIZE = 4,
 		INDEX_CACHE_SIZE = 6,	
 	};
@@ -30,6 +30,7 @@ public:
 	
 	virtual void Render();
 	virtual void Update(float dt);
+
 	virtual void SetCenterPosition(const Vector2& pos);
 	virtual const Vector2& GetCenterPosition() const;
 
@@ -40,20 +41,25 @@ private:
 	void GetMapCoordinateIndex(Vector2& MapPosition, int& nXindex, int& nYindex);
 
 private:
-	Vector2 m_CenterPosition;		
+	Vector2 m_vCenterPosition;		
 	int m_nPrvCenterPositionX;
 	int m_nPrvCenterPositionY;
+
 	int m_nHalfSceneWidth;
 	int m_nHalfSceneHeight;
+
 	int m_nSurfaceColTileNum;
 	int m_nSurfaceRowTileNum;
+
 	IShader* m_pShader;				
 	ITexture* m_pTexture;
+
 	ushort* m_pIndis;
 	VATTR_POS_UV* m_pVerts;	
+
 	FmtL2D::FILE_HEADER m_FileHeader;
 	FmtL2D::TILE_INFO* m_pTileInfo;
 	uint* m_pGidAry;
 	
 };
-#endif // __LEVEL2D_IMPL_H__
+#endif // __LEVEL2D_H__

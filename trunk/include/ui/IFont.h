@@ -17,10 +17,10 @@ public:
 	typedef struct CHAR_INFO_tag
 	{
 		int nID;
-		int width, height;
+		float width, height;
 		float u, v, du, dv;
 		ITexture* pTexture;
-		int offsetx, offsety, advance;
+		float offsetx, offsety, advance;
 		int nRef;
 	} CHAR_INFO;
 

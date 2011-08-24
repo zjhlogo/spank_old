@@ -15,6 +15,8 @@
 #include <action/ActionScaleTo.h>
 #include <action/ActionSequeue.h>
 #include <action/ActionLoop.h>
+#include <ui/IRendererUI.h>
+#include <ui/IFontMgr.h>
 #include <ICore.h>
 
 IGameApp& IGameApp::GetInstance()
@@ -25,7 +27,11 @@ IGameApp& IGameApp::GetInstance()
 
 GameApp::GameApp()
 {
-	// TODO: 
+	m_pSprite = NULL;
+	m_pLevel = NULL;
+	m_pSnow = NULL;
+	m_pString = NULL;
+	m_pFont = NULL;
 }
 
 GameApp::~GameApp()
@@ -37,58 +43,66 @@ bool GameApp::Initialize()
 {
 	MsgMgr::GetInstance().SubscribeMessage(MI_TOUCH, this, (MSG_CALLBACK)&GameApp::OnMsgTouch);
 
-	m_pLevel = new Level2D("level.l2d");
-	INode* pRootNode = ICore::GetInstance().GetRootNode();
-	pRootNode->AttachObject(m_pLevel);
+	//m_pLevel = new Level2D("level.l2d");
+	//INode* pRootNode = ICore::GetInstance().GetRootNode();
+	//pRootNode->AttachObject(m_pLevel);
 
-	INode* pSpriteNode = pRootNode->CreateChildNode();
-	m_pSprite = new Sprite("test_sprite.xml");
-	pSpriteNode->AttachObject(m_pSprite);
+	//INode* pSpriteNode = pRootNode->CreateChildNode();
+	//m_pSprite = new Sprite("test_sprite.xml");
+	//pSpriteNode->AttachObject(m_pSprite);
 
-	ActionSequeue* pActionSequeue = new ActionSequeue();
-	IActionBase* pActScaleTo1 = new ActionScaleTo(Vector3(1.0f, 1.0f, 1.0f), Vector3(0.8f, 0.8f, 0.8f), 10.0f);
-	IActionBase* pActScaleTo2 = new ActionScaleTo(Vector3(0.8f, 0.8f, 0.8f), Vector3(0.6f, 0.6f, 0.6f), 10.0f);
-	IActionBase* pActScaleTo3 = new ActionScaleTo(Vector3(0.6f, 0.6f, 0.6f), Vector3(0.4f, 0.4f, 0.4f), 10.0f);
-	IActionBase* pActScaleTo4 = new ActionScaleTo(Vector3(0.4f, 0.4f, 0.4f), Vector3(0.6f, 0.6f, 0.6f), 10.0f);
-	IActionBase* pActScaleTo5 = new ActionScaleTo(Vector3(0.6f, 0.6f, 0.6f), Vector3(0.8f, 0.8f, 0.8f), 10.0f);
-	IActionBase* pActScaleTo6 = new ActionScaleTo(Vector3(0.8f, 0.8f, 0.8f), Vector3(3.0f, 3.0f, 3.0f), 10.0f);
+	//ActionSequeue* pActionSequeue = new ActionSequeue();
+	//IActionBase* pActScaleTo1 = new ActionScaleTo(Vector3(1.0f, 1.0f, 1.0f), Vector3(0.8f, 0.8f, 0.8f), 10.0f);
+	//IActionBase* pActScaleTo2 = new ActionScaleTo(Vector3(0.8f, 0.8f, 0.8f), Vector3(0.6f, 0.6f, 0.6f), 10.0f);
+	//IActionBase* pActScaleTo3 = new ActionScaleTo(Vector3(0.6f, 0.6f, 0.6f), Vector3(0.4f, 0.4f, 0.4f), 10.0f);
+	//IActionBase* pActScaleTo4 = new ActionScaleTo(Vector3(0.4f, 0.4f, 0.4f), Vector3(0.6f, 0.6f, 0.6f), 10.0f);
+	//IActionBase* pActScaleTo5 = new ActionScaleTo(Vector3(0.6f, 0.6f, 0.6f), Vector3(0.8f, 0.8f, 0.8f), 10.0f);
+	//IActionBase* pActScaleTo6 = new ActionScaleTo(Vector3(0.8f, 0.8f, 0.8f), Vector3(3.0f, 3.0f, 3.0f), 10.0f);
 
-	pActionSequeue->AddAction(pActScaleTo1);
-	pActionSequeue->AddAction(pActScaleTo2);
-	pActionSequeue->AddAction(pActScaleTo3);
-	pActionSequeue->AddAction(pActScaleTo4);
-	pActionSequeue->AddAction(pActScaleTo5);
-	pActionSequeue->AddAction(pActScaleTo6);
-	ActionLoop * pActionLoop = new ActionLoop(pActionSequeue);
+	//pActionSequeue->AddAction(pActScaleTo1);
+	//pActionSequeue->AddAction(pActScaleTo2);
+	//pActionSequeue->AddAction(pActScaleTo3);
+	//pActionSequeue->AddAction(pActScaleTo4);
+	//pActionSequeue->AddAction(pActScaleTo5);
+	//pActionSequeue->AddAction(pActScaleTo6);
+	//ActionLoop * pActionLoop = new ActionLoop(pActionSequeue);
 
-	pSpriteNode->RunAction(pActionLoop);
-	
-	m_pSnow = new SnowParticleSystem();
+	//pSpriteNode->RunAction(pActionLoop);
+	//
+	//m_pSnow = new SnowParticleSystem();
+
+	m_pFont = IFontMgr::GetInstance().CreateFont("12px_Tahoma.fnt");
+	m_pString = new UIString(m_pFont);
+	m_pString->SetText("//ActionLoop * pAction = new ActionLoop(pActSeq);");
 
 	return true;
 }
 
 void GameApp::Terminate()
 {
-	SAFE_DELETE(m_pSprite);
-	SAFE_RELEASE(m_pLevel);
-	SAFE_DELETE(m_pSnow);
+	//SAFE_DELETE(m_pSprite);
+	//SAFE_RELEASE(m_pLevel);
+	//SAFE_DELETE(m_pSnow);
 }
 
 void GameApp::Update(float dt)
 {
-	//const Vector3& pos = m_pSprite->GetParentNode()->GetPosition();
-	static Vector2 positon(0,0);
-	positon.x -= 40*dt;
-	positon.y -= 40*dt;
-	m_pLevel->SetCenterPosition(positon);
-	m_pSnow->Update(dt);
+	////const Vector3& pos = m_pSprite->GetParentNode()->GetPosition();
+	//static Vector2 positon(0,0);
+	//positon.x -= 40*dt;
+	//positon.y -= 40*dt;
+	//m_pLevel->SetCenterPosition(positon);
+	//m_pSnow->Update(dt);
 }
 
 void GameApp::Render()
 {
-	// TODO: 
-	m_pSnow->Render();
+	//// TODO: 
+	//m_pSnow->Render();
+
+	IRendererUI::GetInstance().BeginRender();
+	m_pString->Render();
+	IRendererUI::GetInstance().EndRender();
 }
 
 bool GameApp::OnMsgTouch(IMsgBase* pMsg)

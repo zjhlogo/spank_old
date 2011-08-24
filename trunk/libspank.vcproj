@@ -488,6 +488,14 @@
 				RelativePath=".\include\ui\UIString.h"
 				>
 			</File>
+			<File
+				RelativePath=".\source\ui\VertexCache.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\source\ui\VertexCache.h"
+				>
+			</File>
 		</Filter>
 		<File
 			RelativePath=".\source\Core_Impl.cpp"

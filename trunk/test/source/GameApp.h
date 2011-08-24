@@ -13,6 +13,7 @@
 #include <Sprite.h>
 #include <Level2D.h>
 #include <particle/SnowParticleSystem.h>
+#include <ui/UIString.h>
 
 class GameApp : public IGameApp
 {
@@ -33,6 +34,9 @@ private:
 	Sprite* m_pSprite;
 	Level2D* m_pLevel;
 	SnowParticleSystem* m_pSnow;
+
+	UIString* m_pString;
+	IFont* m_pFont;
 
 };
 #endif // __GAMEAPP_H__

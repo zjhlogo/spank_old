@@ -1,0 +1,150 @@
+/*!
+ * \file VertexCache.cpp
+ * \date 8-24-2011 9:35:49
+ * 
+ * 
+ * \author zjhlogo (zjhlogo@gmail.com)
+ */
+#include "VertexCache.h"
+#include <IRenderer2D.h>
+
+VertexCache::VertexCache(uint nVertsCacheSize, uint nIndisCacheSize)
+{
+	m_nVertsCacheSize = 0;
+	m_nIndisCacheSize = 0;
+
+	m_nMaxVertsCount = 0;
+	m_nMaxIndisCount = 0;
+
+	m_nCurrVertsCount = 0;
+	m_nCurrIndisCount = 0;
+
+	m_nStrideSize = 0;
+
+	m_pVertsCache = NULL;
+	m_pIndisCache = NULL;
+
+	m_pTexture = NULL;
+	m_pShader = NULL;
+
+	m_bOK = CreateCache(nVertsCacheSize, nIndisCacheSize);
+}
+
+VertexCache::~VertexCache()
+{
+	FreeCache();
+}
+
+void VertexCache::SetTexture(ITexture* pTexture)
+{
+	m_pTexture = pTexture;
+}
+
+ITexture* VertexCache::GetTexture() const
+{
+	return m_pTexture;
+}
+
+void VertexCache::SetShader(IShader* pShader)
+{
+	if (m_pShader == pShader) return;
+
+	m_pShader = pShader;
+
+	m_nStrideSize = 0;
+	m_nMaxVertsCount = 0;
+
+	m_nCurrVertsCount = 0;
+	m_nCurrIndisCount = 0;
+
+	if (m_pShader)
+	{
+		m_nStrideSize = m_pShader->GetVertexAttribute()->GetStride();
+		m_nMaxVertsCount = m_nVertsCacheSize / m_nStrideSize;
+	}
+}
+
+IShader* VertexCache::GetShader() const
+{
+	return m_pShader;
+}
+
+bool VertexCache::AddVerts(const void* pVerts, uint nVerts, const ushort* pIndis, uint nIndis)
+{
+	if (m_nCurrVertsCount + nVerts > m_nMaxVertsCount) return false;
+	if (m_nCurrIndisCount + nIndis > m_nMaxIndisCount) return false;
+
+	uchar* pVertsCache = m_pVertsCache + m_nCurrVertsCount*m_nStrideSize;
+	memcpy(pVertsCache, pVerts, nVerts*m_nStrideSize);
+
+	for (uint i = 0; i < nIndis; ++i)
+	{
+		m_pIndisCache[m_nCurrIndisCount+i] = m_nCurrVertsCount+pIndis[i];
+	}
+
+	m_nCurrVertsCount += nVerts;
+	m_nCurrIndisCount += nIndis;
+
+	return true;
+}
+
+void VertexCache::Flush()
+{
+	if (m_pShader && m_nCurrVertsCount > 0 && m_nCurrIndisCount > 0)
+	{
+		if (m_pTexture) m_pShader->SetTexture("u_texture", m_pTexture);
+		m_pShader->SetMatrix4x4("u_matModelViewProj", IRenderer2D::GetInstance().GetFinalMatrixTranspose());
+		IRenderer2D::GetInstance().DrawTriangleList(m_pVertsCache, m_nCurrVertsCount, m_pIndisCache, m_nCurrIndisCount, m_pShader);
+	}
+
+	m_nCurrVertsCount = 0;
+	m_nCurrIndisCount = 0;
+}
+
+bool VertexCache::Compare(ITexture* pTexture, IShader* pShader)
+{
+	return (m_pTexture == pTexture && m_pShader == pShader);
+}
+
+uint VertexCache::GetVertsCount()
+{
+	return m_nCurrVertsCount;
+}
+
+uint VertexCache::GetIndisCount()
+{
+	return m_nCurrIndisCount;
+}
+
+bool VertexCache::CreateCache(uint nVertsCacheSize, uint nIndisCacheSize)
+{
+	FreeCache();
+
+	m_nVertsCacheSize = nVertsCacheSize;
+	m_nIndisCacheSize = nIndisCacheSize;
+
+	m_pVertsCache = new uchar[m_nVertsCacheSize];
+	if (!m_pVertsCache) return false;
+
+	m_pIndisCache = new ushort[m_nIndisCacheSize];
+	if (!m_pIndisCache) return false;
+
+	m_nMaxIndisCount = m_nIndisCacheSize;
+
+	return true;
+}
+
+void VertexCache::FreeCache()
+{
+	m_nVertsCacheSize = 0;
+	m_nIndisCacheSize = 0;
+
+	m_nMaxVertsCount = 0;
+	m_nMaxIndisCount = 0;
+
+	m_nCurrVertsCount = 0;
+	m_nCurrIndisCount = 0;
+
+	SAFE_DELETE_ARRAY(m_pVertsCache);
+	SAFE_DELETE_ARRAY(m_pIndisCache);
+}

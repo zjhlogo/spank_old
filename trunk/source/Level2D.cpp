@@ -64,14 +64,12 @@ void Level2D::Render()
 {
 	m_pShader->SetTexture("u_texture",m_pTexture);
 
-	Vector2 vecTranslate;
-	vecTranslate.x = m_vCenterPosition.x - m_nPrvCenterPositionX;
-	vecTranslate.y = m_vCenterPosition.y - m_nPrvCenterPositionY;
-	Matrix4x4 matModelMatrix;
-	IMath::BuildIdentityMatrix(matModelMatrix);
-	matModelMatrix.Translate(-vecTranslate.x, -vecTranslate.y, 0);
-	IRenderer2D::GetInstance().SetModelViewMatrix(matModelMatrix);
+	Vector2 vecTranslate(m_vCenterPosition.x - m_nPrvCenterPositionX, m_vCenterPosition.y - m_nPrvCenterPositionY);
+	Matrix4x4 matModelView;
+	IMath::BuildTranslateMatrix(matModelView, -vecTranslate.x, -vecTranslate.y, 0.0f);
+	IRenderer2D::GetInstance().SetModelViewMatrix(matModelView);
 	m_pShader->SetMatrix4x4("u_matModelViewProj", IRenderer2D::GetInstance().GetFinalMatrixTranspose());
+
 	uint unRectSize = m_nSurfaceRowTileNum * m_nSurfaceColTileNum;
 	IRenderer2D::GetInstance().DrawTriangleList(m_pVerts, unRectSize * VERTEX_CACHE_SIZE, m_pIndis, unRectSize * INDEX_CACHE_SIZE, m_pShader);
 }

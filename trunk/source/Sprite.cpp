@@ -23,7 +23,7 @@ Sprite::Sprite(const char* pszSpriteFile)
 	m_nPieceHeight = 0;
 	m_nOffsetX = 0;
 	m_nOffsetY = 0;
-	m_pVerts = NULL;
+	m_pQuadVerts = NULL;
 
 	m_fCurrTime = 0.0f;
 	m_nCurrIndex = 0;
@@ -36,7 +36,7 @@ Sprite::~Sprite()
 {
 	SAFE_RELEASE(m_pShader);
 	SAFE_RELEASE(m_pTexture);
-	SAFE_DELETE_ARRAY(m_pVerts);
+	SAFE_DELETE_ARRAY(m_pQuadVerts);
 }
 
 void Sprite::Update(float dt)
@@ -59,7 +59,7 @@ void Sprite::Render()
 	IRenderer2D::GetInstance().SetModelViewMatrix(GetFinalMatrix());
 	m_pShader->SetMatrix4x4("u_matModelViewProj", IRenderer2D::GetInstance().GetFinalMatrixTranspose());
 
-	IRenderer2D::GetInstance().DrawRect(&m_pVerts[m_nCurrIndex*4], m_pShader);
+	IRenderer2D::GetInstance().DrawRect(m_pQuadVerts[m_nCurrIndex], m_pShader);
 }
 
 void Sprite::SetLoop(bool bLoop)
@@ -122,9 +122,9 @@ bool Sprite::LoadSpriteFromFile(const char* pszSpriteFile)
 
 void Sprite::CreateVertexs()
 {
-	SAFE_DELETE_ARRAY(m_pVerts);
+	SAFE_DELETE_ARRAY(m_pQuadVerts);
 
-	m_pVerts = new VATTR_POS_UV[m_nNumFrames*4];
+	m_pQuadVerts = new QUAD_VERT_POS_UV[m_nNumFrames];
 
 	float fHalfWidth = m_nPieceWidth/2.0f;
 	float fHalfHeight = m_nPieceHeight/2.0f;
@@ -150,28 +150,28 @@ void Sprite::CreateVertexs()
 			nCurrOffsetX += m_nPieceWidth;
 		}
 
-		m_pVerts[i*4+0].x = -fHalfWidth;
-		m_pVerts[i*4+0].y = -fHalfHeight;
-		m_pVerts[i*4+0].z = 0.0f;
-		m_pVerts[i*4+0].u = nCurrOffsetX / fTextureWidth;
-		m_pVerts[i*4+0].v = (nTextureHeight - nCurrOffsetY - m_nPieceHeight) / fTextureHeight;
+		m_pQuadVerts[i].verts[0].x = -fHalfWidth;
+		m_pQuadVerts[i].verts[0].y = -fHalfHeight;
+		m_pQuadVerts[i].verts[0].z = 0.0f;
+		m_pQuadVerts[i].verts[0].u = nCurrOffsetX / fTextureWidth;
+		m_pQuadVerts[i].verts[0].v = (nTextureHeight - nCurrOffsetY - m_nPieceHeight) / fTextureHeight;
 
-		m_pVerts[i*4+1].x = -fHalfWidth;
-		m_pVerts[i*4+1].y = fHalfHeight;
-		m_pVerts[i*4+1].z = 0.0f;
-		m_pVerts[i*4+1].u = nCurrOffsetX / fTextureWidth;
-		m_pVerts[i*4+1].v = (nTextureHeight - nCurrOffsetY) / fTextureHeight;
+		m_pQuadVerts[i].verts[1].x = -fHalfWidth;
+		m_pQuadVerts[i].verts[1].y = fHalfHeight;
+		m_pQuadVerts[i].verts[1].z = 0.0f;
+		m_pQuadVerts[i].verts[1].u = nCurrOffsetX / fTextureWidth;
+		m_pQuadVerts[i].verts[1].v = (nTextureHeight - nCurrOffsetY) / fTextureHeight;
 
-		m_pVerts[i*4+2].x = fHalfWidth;
-		m_pVerts[i*4+2].y = -fHalfHeight;
-		m_pVerts[i*4+2].z = 0.0f;
-		m_pVerts[i*4+2].u = (nCurrOffsetX+m_nPieceWidth) / fTextureWidth;
-		m_pVerts[i*4+2].v = (nTextureHeight - nCurrOffsetY - m_nPieceHeight) / fTextureHeight;
+		m_pQuadVerts[i].verts[2].x = fHalfWidth;
+		m_pQuadVerts[i].verts[2].y = -fHalfHeight;
+		m_pQuadVerts[i].verts[2].z = 0.0f;
+		m_pQuadVerts[i].verts[2].u = (nCurrOffsetX+m_nPieceWidth) / fTextureWidth;
+		m_pQuadVerts[i].verts[2].v = (nTextureHeight - nCurrOffsetY - m_nPieceHeight) / fTextureHeight;
 
-		m_pVerts[i*4+3].x = fHalfWidth;
-		m_pVerts[i*4+3].y = fHalfHeight;
-		m_pVerts[i*4+3].z = 0.0f;
-		m_pVerts[i*4+3].u = (nCurrOffsetX+m_nPieceWidth) / fTextureWidth;
-		m_pVerts[i*4+3].v = (nTextureHeight - nCurrOffsetY) / fTextureHeight;
+		m_pQuadVerts[i].verts[3].x = fHalfWidth;
+		m_pQuadVerts[i].verts[3].y = fHalfHeight;
+		m_pQuadVerts[i].verts[3].z = 0.0f;
+		m_pQuadVerts[i].verts[3].u = (nCurrOffsetX+m_nPieceWidth) / fTextureWidth;
+		m_pQuadVerts[i].verts[3].v = (nTextureHeight - nCurrOffsetY) / fTextureHeight;
 	}
 }

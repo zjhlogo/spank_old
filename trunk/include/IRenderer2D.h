@@ -45,10 +45,10 @@ public:
 	 *
 	 * two triangles: t1(v0, v1, v2) and t1(v1, v3, v2)
 	 *
-	 * \param pVerts
+	 * \param quadVerts
 	 * \return 
 	 */
-	virtual void DrawRect(const void* pVerts, IShader* pShader) = 0;
+	virtual void DrawRect(const QUAD_VERT_POS_UV& quadVerts, IShader* pShader) = 0;
 
 };
 #endif // __IRENDERER2D_H__

@@ -131,7 +131,7 @@ bool Image::CreateImage(const char* pszImageFile)
 	{
 		for(uint col = 0; col < (4 * m_nImageWidth); col += 4)
 		{
-			m_pPixelData[nCurrPos++] = pRowPointers[row][col];        // red
+			m_pPixelData[nCurrPos++] = pRowPointers[row][col + 0];    // red
 			m_pPixelData[nCurrPos++] = pRowPointers[row][col + 1];    // green
 			m_pPixelData[nCurrPos++] = pRowPointers[row][col + 2];    // blue
 			m_pPixelData[nCurrPos++] = pRowPointers[row][col + 3];    // alpha

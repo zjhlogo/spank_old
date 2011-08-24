@@ -8,16 +8,25 @@
 #include <ui/UIString.h>
 #include <util/StringUtil.h>
 #include <ui/IRendererUI.h>
+#include <ui/IFontMgr.h>
 
-UIString::UIString(IFont* pFont)
+UIString::UIString(IFont* pFont, const char* pszText)
 {
 	m_pFont = pFont;
 	m_vPosition = IMath::VEC2_ZERO;
+	SetText(pszText);
+}
+
+UIString::UIString(const char* pszText)
+{
+	m_pFont = IFontMgr::GetInstance().GetDefaultFont();
+	m_vPosition = IMath::VEC2_ZERO;
+	SetText(pszText);
 }
 
 UIString::~UIString()
 {
-	// TODO: 
+	// do not release m_pFont
 }
 
 void UIString::Update(float dt)

@@ -481,11 +481,43 @@
 				>
 			</File>
 			<File
+				RelativePath=".\source\ui\UIScreen.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\ui\UIScreen.h"
+				>
+			</File>
+			<File
 				RelativePath=".\source\ui\UIString.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\include\ui\UIString.h"
+				>
+			</File>
+			<File
+				RelativePath=".\source\ui\UISystem_Impl.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\source\ui\UISystem_Impl.h"
+				>
+			</File>
+			<File
+				RelativePath=".\source\ui\UITextView.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\ui\UITextView.h"
+				>
+			</File>
+			<File
+				RelativePath=".\source\ui\UIWindow.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\ui\UIWindow.h"
 				>
 			</File>
 			<File

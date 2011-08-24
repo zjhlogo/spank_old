@@ -142,28 +142,55 @@ void IMath::BuildIdentityMatrix(Matrix4x4& matOut)
 void IMath::BuildTranslateMatrix(Matrix3x3& matOut, const Vector2& v)
 {
 	//
-	// [ 0  0  x ]
-	// [ 0  0  y ]
+	// [ 1  0  x ]
+	// [ 0  1  y ]
 	// [ 0  0  1 ]
 	//
-	matOut.e[Matrix4x4::E11] = 0.0f; matOut.e[Matrix4x4::E12] = 0.0f; matOut.e[Matrix4x4::E13] = v.x;
-	matOut.e[Matrix4x4::E21] = 0.0f; matOut.e[Matrix4x4::E22] = 0.0f; matOut.e[Matrix4x4::E23] = v.y;
+	matOut.e[Matrix4x4::E11] = 1.0f; matOut.e[Matrix4x4::E12] = 0.0f; matOut.e[Matrix4x4::E13] = v.x;
+	matOut.e[Matrix4x4::E21] = 0.0f; matOut.e[Matrix4x4::E22] = 1.0f; matOut.e[Matrix4x4::E23] = v.y;
+	matOut.e[Matrix4x4::E31] = 0.0f; matOut.e[Matrix4x4::E32] = 0.0f; matOut.e[Matrix4x4::E33] = 1.0f;
+}
+
+void IMath::BuildTranslateMatrix(Matrix3x3& matOut, float x, float y)
+{
+	//
+	// [ 1  0  x ]
+	// [ 0  1  y ]
+	// [ 0  0  1 ]
+	//
+	matOut.e[Matrix4x4::E11] = 1.0f; matOut.e[Matrix4x4::E12] = 0.0f; matOut.e[Matrix4x4::E13] = x;
+	matOut.e[Matrix4x4::E21] = 0.0f; matOut.e[Matrix4x4::E22] = 1.0f; matOut.e[Matrix4x4::E23] = y;
 	matOut.e[Matrix4x4::E31] = 0.0f; matOut.e[Matrix4x4::E32] = 0.0f; matOut.e[Matrix4x4::E33] = 1.0f;
 }
 
 void IMath::BuildTranslateMatrix(Matrix4x4& matOut, const Vector3& v)
 {
 	//
-	// [ 0  0  0  x ]
-	// [ 0  0  0  y ]
-	// [ 0  0  0  z ]
+	// [ 1  0  0  x ]
+	// [ 0  1  0  y ]
+	// [ 0  0  1  z ]
 	// [ 0  0  0  1 ]
 	//
-	matOut.e[Matrix4x4::E11] = 0.0f; matOut.e[Matrix4x4::E12] = 0.0f; matOut.e[Matrix4x4::E13] = 0.0f; matOut.e[Matrix4x4::E14] = v.x;
-	matOut.e[Matrix4x4::E21] = 0.0f; matOut.e[Matrix4x4::E22] = 0.0f; matOut.e[Matrix4x4::E23] = 0.0f; matOut.e[Matrix4x4::E24] = v.y;
-	matOut.e[Matrix4x4::E31] = 0.0f; matOut.e[Matrix4x4::E32] = 0.0f; matOut.e[Matrix4x4::E33] = 0.0f; matOut.e[Matrix4x4::E34] = v.z;
+	matOut.e[Matrix4x4::E11] = 1.0f; matOut.e[Matrix4x4::E12] = 0.0f; matOut.e[Matrix4x4::E13] = 0.0f; matOut.e[Matrix4x4::E14] = v.x;
+	matOut.e[Matrix4x4::E21] = 0.0f; matOut.e[Matrix4x4::E22] = 1.0f; matOut.e[Matrix4x4::E23] = 0.0f; matOut.e[Matrix4x4::E24] = v.y;
+	matOut.e[Matrix4x4::E31] = 0.0f; matOut.e[Matrix4x4::E32] = 0.0f; matOut.e[Matrix4x4::E33] = 1.0f; matOut.e[Matrix4x4::E34] = v.z;
 	matOut.e[Matrix4x4::E41] = 0.0f; matOut.e[Matrix4x4::E42] = 0.0f; matOut.e[Matrix4x4::E43] = 0.0f; matOut.e[Matrix4x4::E44] = 1.0f;
 }
+
+void IMath::BuildTranslateMatrix(Matrix4x4& matOut, float x, float y, float z)
+{
+	//
+	// [ 1  0  0  x ]
+	// [ 0  1  0  y ]
+	// [ 0  0  1  z ]
+	// [ 0  0  0  1 ]
+	//
+	matOut.e[Matrix4x4::E11] = 1.0f; matOut.e[Matrix4x4::E12] = 0.0f; matOut.e[Matrix4x4::E13] = 0.0f; matOut.e[Matrix4x4::E14] = x;
+	matOut.e[Matrix4x4::E21] = 0.0f; matOut.e[Matrix4x4::E22] = 1.0f; matOut.e[Matrix4x4::E23] = 0.0f; matOut.e[Matrix4x4::E24] = y;
+	matOut.e[Matrix4x4::E31] = 0.0f; matOut.e[Matrix4x4::E32] = 0.0f; matOut.e[Matrix4x4::E33] = 1.0f; matOut.e[Matrix4x4::E34] = z;
+	matOut.e[Matrix4x4::E41] = 0.0f; matOut.e[Matrix4x4::E42] = 0.0f; matOut.e[Matrix4x4::E43] = 0.0f; matOut.e[Matrix4x4::E44] = 1.0f;
+}
+
 
 void IMath::BuildScaleMatrix(Matrix3x3& matOut, const Vector3& v)
 {
@@ -177,6 +204,18 @@ void IMath::BuildScaleMatrix(Matrix3x3& matOut, const Vector3& v)
 	matOut.e[Matrix4x4::E31] = 0.0f; matOut.e[Matrix4x4::E32] = 0.0f; matOut.e[Matrix4x4::E33] = v.z;
 }
 
+void IMath::BuildScaleMatrix(Matrix3x3& matOut, float x, float y, float z)
+{
+	//
+	// [ x  0  0 ]
+	// [ 0  y  0 ]
+	// [ 0  0  z ]
+	//
+	matOut.e[Matrix4x4::E11] = x;    matOut.e[Matrix4x4::E12] = 0.0f; matOut.e[Matrix4x4::E13] = 0.0f;
+	matOut.e[Matrix4x4::E21] = 0.0f; matOut.e[Matrix4x4::E22] = y;    matOut.e[Matrix4x4::E23] = 0.0f;
+	matOut.e[Matrix4x4::E31] = 0.0f; matOut.e[Matrix4x4::E32] = 0.0f; matOut.e[Matrix4x4::E33] = z;
+}
+
 void IMath::BuildScaleMatrix(Matrix4x4& matOut, const Vector3& v)
 {
 	//
@@ -188,6 +227,20 @@ void IMath::BuildScaleMatrix(Matrix4x4& matOut, const Vector3& v)
 	matOut.e[Matrix4x4::E11] = v.x;  matOut.e[Matrix4x4::E12] = 0.0f; matOut.e[Matrix4x4::E13] = 0.0f; matOut.e[Matrix4x4::E14] = 0.0f;
 	matOut.e[Matrix4x4::E21] = 0.0f; matOut.e[Matrix4x4::E22] = v.y;  matOut.e[Matrix4x4::E23] = 0.0f; matOut.e[Matrix4x4::E24] = 0.0f;
 	matOut.e[Matrix4x4::E31] = 0.0f; matOut.e[Matrix4x4::E32] = 0.0f; matOut.e[Matrix4x4::E33] = v.z;  matOut.e[Matrix4x4::E34] = 0.0f;
+	matOut.e[Matrix4x4::E41] = 0.0f; matOut.e[Matrix4x4::E42] = 0.0f; matOut.e[Matrix4x4::E43] = 0.0f; matOut.e[Matrix4x4::E44] = 1.0f;
+}
+
+void IMath::BuildScaleMatrix(Matrix4x4& matOut, float x, float y, float z)
+{
+	//
+	// [ x  0  0  0 ]
+	// [ 0  y  0  0 ]
+	// [ 0  0  z  0 ]
+	// [ 0  0  0  1 ]
+	//
+	matOut.e[Matrix4x4::E11] = x;    matOut.e[Matrix4x4::E12] = 0.0f; matOut.e[Matrix4x4::E13] = 0.0f; matOut.e[Matrix4x4::E14] = 0.0f;
+	matOut.e[Matrix4x4::E21] = 0.0f; matOut.e[Matrix4x4::E22] = y;    matOut.e[Matrix4x4::E23] = 0.0f; matOut.e[Matrix4x4::E24] = 0.0f;
+	matOut.e[Matrix4x4::E31] = 0.0f; matOut.e[Matrix4x4::E32] = 0.0f; matOut.e[Matrix4x4::E33] = z;    matOut.e[Matrix4x4::E34] = 0.0f;
 	matOut.e[Matrix4x4::E41] = 0.0f; matOut.e[Matrix4x4::E42] = 0.0f; matOut.e[Matrix4x4::E43] = 0.0f; matOut.e[Matrix4x4::E44] = 1.0f;
 }
 

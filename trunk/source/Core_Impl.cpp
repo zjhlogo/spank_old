@@ -11,13 +11,14 @@
 #include <util/IFileUtil.h>
 #include <msg/MsgMgr.h>
 #include <util/ScreenUtil.h>
+#include <InputMgr.h>
 #include <IRenderDevice.h>
 #include <ITextureMgr.h>
 #include <IShaderMgr.h>
 #include <IRenderer2D.h>
 #include <ui/IRendererUI.h>
 #include <ui/IFontMgr.h>
-#include <InputMgr.h>
+#include <ui/IUISystem.h>
 #include <IGameApp.h>
 #include "Node_Impl.h"
 
@@ -50,13 +51,14 @@ bool Core_Impl::Initialize()
 	if (!IFileUtil::GetInstance().Initialize()) return false;
 	if (!MsgMgr::GetInstance().Initialize()) return false;
 	if (!ScreenUtil::GetInstance().Initialize()) return false;
+	if (!InputMgr::GetInstance().Initialize()) return false;
 	if (!IRenderDevice::GetInstance().Initialize()) return false;
 	if (!ITextureMgr::GetInstance().Initialize()) return false;
 	if (!IShaderMgr::GetInstance().Initialize()) return false;
 	if (!IRenderer2D::GetInstance().Initialize()) return false;
 	if (!IRendererUI::GetInstance().Initialize()) return false;
 	if (!IFontMgr::GetInstance().Initialize()) return false;
-	if (!InputMgr::GetInstance().Initialize()) return false;
+	if (!IUISystem::GetInstance().Initialize()) return false;
 	if (!PreInitialize()) return false;
 	if (!IGameApp::GetInstance().Initialize()) return false;
 
@@ -79,13 +81,14 @@ void Core_Impl::Terminate()
 {
 	IGameApp::GetInstance().Terminate();
 	PreTerminate();
-	InputMgr::GetInstance().Terminate();
+	IUISystem::GetInstance().Terminate();
 	IFontMgr::GetInstance().Terminate();
 	IRendererUI::GetInstance().Terminate();
 	IRenderer2D::GetInstance().Terminate();
 	IShaderMgr::GetInstance().Terminate();
 	ITextureMgr::GetInstance().Terminate();
 	IRenderDevice::GetInstance().Terminate();
+	InputMgr::GetInstance().Terminate();
 	ScreenUtil::GetInstance().Terminate();
 	MsgMgr::GetInstance().Terminate();
 	IFileUtil::GetInstance().Terminate();
@@ -115,6 +118,7 @@ void Core_Impl::Update(float dt)
 	PreUpdate(dt);
 
 	IGameApp::GetInstance().Update(dt);
+	IUISystem::GetInstance().Update(dt);
 
 	PostUpdate(dt);
 }
@@ -145,6 +149,8 @@ void Core_Impl::Render()
 	IRenderer2D::GetInstance().BeginRender();
 	IGameApp::GetInstance().Render();
 	IRenderer2D::GetInstance().EndRender();
+
+	IUISystem::GetInstance().Render();
 
 	PostRender();
 	IRenderDevice::GetInstance().EndRender();

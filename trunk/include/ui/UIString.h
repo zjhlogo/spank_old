@@ -20,7 +20,8 @@ public:
 	typedef std::vector<const IFont::CHAR_INFO*> TV_CHAR_INFO;
 
 public:
-	UIString(IFont* pFont);
+	UIString(IFont* pFont, const char* pszText);
+	UIString(const char* pszText);
 	virtual ~UIString();
 
 	virtual void Update(float dt);

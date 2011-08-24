@@ -17,6 +17,7 @@ public:
 	static IFontMgr& GetInstance();
 
 	virtual IFont* CreateFont(const char* pszFontFile) = 0;
+	virtual IFont* GetDefaultFont() = 0;
 
 };
 #endif // __IFONTMGR_H__

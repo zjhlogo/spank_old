@@ -86,8 +86,7 @@ bool Shader_Impl::Commit(const void* pVerts)
 
 bool Shader_Impl::CreateShader(StreamReader* pVertexShader, StreamReader* pFregmentShader, VertexAttribute* pVertexAttribute)
 {
-	m_pVertexAttribute = pVertexAttribute;
-	if (!m_pVertexAttribute) return false;
+	if (!pVertexAttribute) return false;
 
 	m_glVertexShader = LoadShader((const char*)pVertexShader->GetBuffer(), GL_VERTEX_SHADER);
 	if (m_glVertexShader == 0)
@@ -132,6 +131,7 @@ bool Shader_Impl::CreateShader(StreamReader* pVertexShader, StreamReader* pFregm
 		return false;
 	}
 
+	m_pVertexAttribute = pVertexAttribute;
 	return true;
 }
 

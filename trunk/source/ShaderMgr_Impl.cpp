@@ -8,6 +8,7 @@
 #include "ShaderMgr_Impl.h"
 #include "Shader_Impl.h"
 #include <util/IFileUtil.h>
+#include <util/IDebugUtil.h>
 #include <util/StringUtil.h>
 #include <msg/MsgID.h>
 #include <msg/MsgCommon.h>
@@ -142,6 +143,8 @@ IShader* ShaderMgr_Impl::InternalCreateShader(int nShaderID, const char* pszVert
 		SAFE_RELEASE(pVertAttrib);
 		SAFE_RELEASE(pVertexShader);
 		SAFE_RELEASE(pFregmentShader);
+
+		LOGE("create vertex attribute failed");
 		return NULL;
 	}
 
@@ -152,6 +155,8 @@ IShader* ShaderMgr_Impl::InternalCreateShader(int nShaderID, const char* pszVert
 		SAFE_RELEASE(pVertAttrib);
 		SAFE_RELEASE(pVertexShader);
 		SAFE_RELEASE(pFregmentShader);
+
+		LOGE("create shader failed");
 		return NULL;
 	}
 

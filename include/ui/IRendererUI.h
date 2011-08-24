@@ -17,6 +17,8 @@ public:
 	static IRendererUI& GetInstance();
 
 	virtual void SetTexture(ITexture* pTexture) = 0;
+	virtual void DrawTriangleList(const void* pVerts, uint nVerts, const ushort* pIndis, uint nIndis) = 0;
+	virtual void DrawRect(const void* pVerts) = 0;
 	virtual void DrawRect(float x, float y, float width, float height) = 0;
 
 	virtual void BeginRender() = 0;

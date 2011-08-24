@@ -136,6 +136,7 @@ bool BitmapFont_Impl::CreateCharsInfo(TiXmlElement* pElmChars)
 	int nCount = 0;
 	if (!pElmChars->Attribute("count", &nCount)) return false;
 
+	int temp = 0;
 	TiXmlElement* pElmChar = pElmChars->FirstChildElement("char");
 
 	for (int i = 0; i < nCount && pElmChar != NULL; ++i, pElmChar = pElmChar->NextSiblingElement("char"))
@@ -149,11 +150,20 @@ bool BitmapFont_Impl::CreateCharsInfo(TiXmlElement* pElmChars)
 		int posY = 0;
 		if (!pElmChar->Attribute("y", &posY)) return false;
 
-		if (!pElmChar->Attribute("width", &CharInfo.width)) return false;
-		if (!pElmChar->Attribute("height", &CharInfo.height)) return false;
-		if (!pElmChar->Attribute("xoffset", &CharInfo.offsetx)) return false;
-		if (!pElmChar->Attribute("yoffset", &CharInfo.offsety)) return false;
-		if (!pElmChar->Attribute("xadvance", &CharInfo.advance)) return false;
+		if (!pElmChar->Attribute("width", &temp)) return false;
+		CharInfo.width = (float)temp;
+
+		if (!pElmChar->Attribute("height", &temp)) return false;
+		CharInfo.height = (float)temp;
+
+		if (!pElmChar->Attribute("xoffset", &temp)) return false;
+		CharInfo.offsetx = (float)temp;
+
+		if (!pElmChar->Attribute("yoffset", &temp)) return false;
+		CharInfo.offsety = -(float)temp;	// invert the y-axis for opengl
+
+		if (!pElmChar->Attribute("xadvance", &temp)) return false;
+		CharInfo.advance = (float)temp;
 
 		int nPage = 0;
 		if (!pElmChar->Attribute("page", &nPage)) return false;
@@ -162,10 +172,13 @@ bool BitmapFont_Impl::CreateCharsInfo(TiXmlElement* pElmChars)
 		CharInfo.pTexture = m_vTextures[nPage];
 		CharInfo.nRef = 0;
 
-		CharInfo.u = (posX+0.5f)/CharInfo.pTexture->GetWidth();
-		CharInfo.v = (posY+0.5f)/CharInfo.pTexture->GetHeight();
-		CharInfo.du = (CharInfo.width+0.5f)/CharInfo.pTexture->GetWidth();
-		CharInfo.dv = (CharInfo.height+0.5f)/CharInfo.pTexture->GetHeight();
+		float fTextureWidth = (float)CharInfo.pTexture->GetWidth();
+		float fTextureHeight = (float)CharInfo.pTexture->GetHeight();
+
+		CharInfo.u = (posX+0.5f)/fTextureWidth;
+		CharInfo.v = (fTextureHeight-posY-CharInfo.height+0.5f)/fTextureHeight;		// invert the y-axis for opengl
+		CharInfo.du = (CharInfo.width+0.5f)/fTextureWidth;
+		CharInfo.dv = (CharInfo.height+0.5f)/fTextureHeight;
 
 		m_mapCharInfo.insert(std::make_pair(CharInfo.nID, CharInfo));
 	}

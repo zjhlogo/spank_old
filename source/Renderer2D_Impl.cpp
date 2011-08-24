@@ -144,11 +144,11 @@ void Renderer2D_Impl::DrawRect(float x, float y, float width, float height, ISha
 	DrawTriangleList(s_Verts, 4, s_Indis, 6, pShader);
 }
 
-void Renderer2D_Impl::DrawRect(const void* pVerts, IShader* pShader)
+void Renderer2D_Impl::DrawRect(const QUAD_VERT_POS_UV& quadVerts, IShader* pShader)
 {
 	static const ushort s_Indis[6] = {0, 1, 2, 1, 3, 2};
 
-	DrawTriangleList(pVerts, 4, s_Indis, 6, pShader);
+	DrawTriangleList(&quadVerts.verts[0], 4, s_Indis, 6, pShader);
 }
 
 void Renderer2D_Impl::UpdateFinalMatrix()

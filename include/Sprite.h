@@ -37,7 +37,7 @@ private:
 	int m_nPieceHeight;
 	int m_nOffsetX;
 	int m_nOffsetY;
-	VATTR_POS_UV* m_pVerts;
+	QUAD_VERT_POS_UV* m_pQuadVerts;
 
 	float m_fCurrTime;
 	int m_nCurrIndex;

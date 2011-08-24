@@ -10,11 +10,22 @@
 
 #include "BaseType.h"
 
+enum BASETYPEEX_CONST_DEFINE
+{
+	MAX_ATTRIBUTE_NAME_LENGTH = 32,
+	MAX_ATTRIBUTE_ITEMS = 8,
+};
+
 typedef struct VATTR_POS_UV_tag
 {
 	float x, y, z;
 	float u, v;
 } VATTR_POS_UV;
+
+typedef struct QUAD_VERT_POS_UV_tag
+{
+	VATTR_POS_UV verts[4];
+} QUAD_VERT_POS_UV;
 
 enum ATTRIBUTE_ITEM_TYPE
 {
@@ -28,9 +39,6 @@ enum ATTRIBUTE_ITEM_TYPE
 	AIT_HALF_FLOAT_OES,
 	NUM_AIT,
 };
-
-#define MAX_ATTRIBUTE_NAME_LENGTH (32)
-#define MAX_ATTRIBUTE_ITEMS (8)
 
 typedef struct ATTRIBUTE_ITEM_tag
 {

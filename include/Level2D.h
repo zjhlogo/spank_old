@@ -28,8 +28,8 @@ public:
 	Level2D(const char* pszLevel2DFile);
 	virtual ~Level2D();
 	
-	virtual void Render();
 	virtual void Update(float dt);
+	virtual void Render();
 
 	virtual void SetCenterPosition(const Vector2& pos);
 	virtual const Vector2& GetCenterPosition() const;

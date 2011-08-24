@@ -17,6 +17,8 @@
 #include <action/ActionLoop.h>
 #include <ui/IRendererUI.h>
 #include <ui/IFontMgr.h>
+#include <ui/IUISystem.h>
+#include <ui/UITextView.h>
 #include <ICore.h>
 
 IGameApp& IGameApp::GetInstance()
@@ -41,7 +43,7 @@ GameApp::~GameApp()
 
 bool GameApp::Initialize()
 {
-	MsgMgr::GetInstance().SubscribeMessage(MI_TOUCH, this, (MSG_CALLBACK)&GameApp::OnMsgTouch);
+	MsgMgr::GetInstance().SubscribeMessage(MI_TOUCH, this, CAST_MSG_CALLBACK(&GameApp::OnMsgTouch));
 
 	//m_pLevel = new Level2D("level.l2d");
 	//INode* pRootNode = ICore::GetInstance().GetRootNode();
@@ -71,9 +73,9 @@ bool GameApp::Initialize()
 	//
 	//m_pSnow = new SnowParticleSystem();
 
-	m_pFont = IFontMgr::GetInstance().CreateFont("12px_Tahoma.fnt");
-	m_pString = new UIString(m_pFont);
-	m_pString->SetText("//ActionLoop * pAction = new ActionLoop(pActSeq);");
+	//m_pString = new UIString("0123456789 | /*-+. | ABCDEFG | abcedfg");
+	UIScreen* pScreen = IUISystem::GetInstance().GetCurrentScreen();
+	UITextView* pTextView = new UITextView(pScreen, "0123456789 | /*-+. | ABCDEFG | abcedfg");
 
 	return true;
 }
@@ -100,9 +102,9 @@ void GameApp::Render()
 	//// TODO: 
 	//m_pSnow->Render();
 
-	IRendererUI::GetInstance().BeginRender();
-	m_pString->Render();
-	IRendererUI::GetInstance().EndRender();
+	//IRendererUI::GetInstance().BeginRender();
+	//m_pString->Render();
+	//IRendererUI::GetInstance().EndRender();
 }
 
 bool GameApp::OnMsgTouch(IMsgBase* pMsg)

@@ -18,7 +18,7 @@ IFontMgr& IFontMgr::GetInstance()
 
 FontMgr_Impl::FontMgr_Impl()
 {
-	// TODO: 
+	m_pDefaultFont = NULL;
 }
 
 FontMgr_Impl::~FontMgr_Impl()
@@ -28,13 +28,15 @@ FontMgr_Impl::~FontMgr_Impl()
 
 bool FontMgr_Impl::Initialize()
 {
-	// TODO: 
+	m_pDefaultFont = CreateFont("12px_Tahoma.fnt");
+	if (!m_pDefaultFont) return false;
+
 	return true;
 }
 
 void FontMgr_Impl::Terminate()
 {
-	// TODO: 
+	SAFE_RELEASE(m_pDefaultFont);
 }
 
 IFont* FontMgr_Impl::CreateFont(const char* pszFontFile)
@@ -54,11 +56,16 @@ IFont* FontMgr_Impl::CreateFont(const char* pszFontFile)
 	}
 
 	// connect the destroy event
-	pFont_Impl->ConnectEvent(MI_FONT_DESTROIED, this, (MSG_CALLBACK)&FontMgr_Impl::OnFontDestroied);
+	pFont_Impl->ConnectEvent(MI_FONT_DESTROIED, this, CAST_MSG_CALLBACK(&FontMgr_Impl::OnFontDestroied));
 	// cache the texture
 	m_mapFont.insert(std::make_pair(pszFontFile, pFont_Impl));
 
 	return pFont_Impl;
+}
+
+IFont* FontMgr_Impl::GetDefaultFont()
+{
+	return m_pDefaultFont;
 }
 
 IFont* FontMgr_Impl::FindFont(const char* pszFontFile)

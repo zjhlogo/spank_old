@@ -26,6 +26,7 @@ public:
 	virtual void Terminate();
 
 	virtual IFont* CreateFont(const char* pszFontFile);
+	virtual IFont* GetDefaultFont();
 
 private:
 	IFont* FindFont(const char* pszFontFile);
@@ -33,6 +34,7 @@ private:
 
 private:
 	TM_FONT m_mapFont;
+	IFont* m_pDefaultFont;
 
 };
 #endif // __FONTMGR_IMPL_H__

@@ -15,6 +15,8 @@
 class IMsgHandler;
 typedef bool (IMsgHandler::*MSG_CALLBACK)(IMsgBase* pMsg);
 
+#define CAST_MSG_CALLBACK(x) reinterpret_cast<MSG_CALLBACK>(x)
+
 class IMsgHandler
 {
 public:

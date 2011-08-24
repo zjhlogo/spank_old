@@ -35,7 +35,7 @@ public:
 	virtual void DrawTriangleStrip(const void* pVerts, uint nNumVerts, const ushort* pIndis, uint nNumIndis, IShader* pShader);
 
 	virtual void DrawRect(float x, float y, float width, float height, IShader* pShader);
-	virtual void DrawRect(const void* pVerts, IShader* pShader);
+	virtual void DrawRect(const QUAD_VERT_POS_UV& quadVerts, IShader* pShader);
 
 private:
 	void UpdateFinalMatrix();

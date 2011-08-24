@@ -27,7 +27,7 @@ typedef unsigned int				uint;
 //typedef NULL						NULL;
 
 #ifndef NULL
-#define NULL (0)
+#define NULL						(0)
 #endif
 
 #define SAFE_DELETE(x) if (x) {delete (x); (x) = NULL;}

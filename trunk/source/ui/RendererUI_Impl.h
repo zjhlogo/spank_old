@@ -36,8 +36,7 @@ public:
 
 	virtual void SetTexture(ITexture* pTexture);
 	virtual void DrawTriangleList(const void* pVerts, uint nVerts, const ushort* pIndis, uint nIndis);
-	virtual void DrawRect(const void* pVerts);
-	virtual void DrawRect(float x, float y, float width, float height);
+	virtual void DrawRect(const QUAD_VERT_POS_UV& quadVerts);
 
 	virtual void BeginRender();
 	virtual void EndRender();

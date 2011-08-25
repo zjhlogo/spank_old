@@ -7,6 +7,7 @@
  */
 #include "UISystem_Impl.h"
 #include <ui/IRendererUI.h>
+#include <util/ScreenUtil.h>
 
 IUISystem& IUISystem::GetInstance()
 {
@@ -45,11 +46,8 @@ void UISystem_Impl::Update(float dt)
 
 void UISystem_Impl::Render()
 {
-	IRendererUI::GetInstance().BeginRender();
-
-	m_pCurrScreen->Render();
-
-	IRendererUI::GetInstance().EndRender();
+	RenderParam param(IMath::VEC2_ZERO, ScreenUtil::GetInstance().GetScreenSize());
+	m_pCurrScreen->Render(param);
 }
 
 UIScreen* UISystem_Impl::GetCurrentScreen()
@@ -61,4 +59,9 @@ bool UISystem_Impl::AddScreen(UIScreen* pScreen)
 {
 	// TODO: 
 	return false;
+}
+
+bool UISystem_Impl::ProcessTouchEvent(const Vector2& pos, UI_TOUCH_EVENT_TYPE eType)
+{
+	return m_pCurrScreen->ProcessTouchEvent(pos, eType);
 }

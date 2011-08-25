@@ -10,6 +10,7 @@
 
 #include <util/IDebugUtil.h>
 #include <stdio.h>
+#include <windows.h>
 
 class DebugUtil_Win32_Impl : public IDebugUtil
 {
@@ -31,7 +32,11 @@ public:
 	virtual void Error(const char* format, ...);
 
 private:
+	void OutputLog(const char* pszTag, const char* pszLog);
+
+private:
 	FILE* m_pLogFile;
+	HANDLE m_hConsole;
 
 };
 

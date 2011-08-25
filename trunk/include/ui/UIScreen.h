@@ -17,7 +17,7 @@ public:
 	virtual ~UIScreen();
 
 	virtual void Update(float dt);
-	virtual void Render();
+	virtual void Render(const RenderParam& param);
 
 private:
 	// TODO: 

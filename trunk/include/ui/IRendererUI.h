@@ -10,6 +10,7 @@
 
 #include "../IMgr.h"
 #include "../ITexture.h"
+#include "../BaseTypeEx.h"
 
 class IRendererUI : public IMgr
 {
@@ -18,8 +19,7 @@ public:
 
 	virtual void SetTexture(ITexture* pTexture) = 0;
 	virtual void DrawTriangleList(const void* pVerts, uint nVerts, const ushort* pIndis, uint nIndis) = 0;
-	virtual void DrawRect(const void* pVerts) = 0;
-	virtual void DrawRect(float x, float y, float width, float height) = 0;
+	virtual void DrawRect(const QUAD_VERT_POS_UV& quadVerts) = 0;
 
 	virtual void BeginRender() = 0;
 	virtual void EndRender() = 0;

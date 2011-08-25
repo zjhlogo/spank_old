@@ -20,7 +20,7 @@ public:
 	void SetText(const char* pszText);
 
 	virtual void Update(float dt);
-	virtual void Render();
+	virtual void Render(const RenderParam& param);
 
 private:
 	UIString* m_pString;

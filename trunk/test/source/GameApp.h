@@ -10,13 +10,14 @@
 
 #include <IGameApp.h>
 #include <msg/IMsgBase.h>
-#include <Sprite.h>
-#include <Level2D.h>
-#include <particle/SnowParticleSystem.h>
-#include <ui/UIString.h>
+#include "TestCase.h"
+#include <vector>
 
 class GameApp : public IGameApp
 {
+public:
+	typedef std::vector<TestCase*> TV_TEST_CASE;
+
 public:
 	GameApp();
 	virtual ~GameApp();
@@ -31,12 +32,14 @@ private:
 	bool OnMsgTouch(IMsgBase* pMsg);
 
 private:
-	Sprite* m_pSprite;
-	Level2D* m_pLevel;
-	SnowParticleSystem* m_pSnow;
+	TV_TEST_CASE m_vTestCase;
 
-	UIString* m_pString;
-	IFont* m_pFont;
+	//Sprite* m_pSprite;
+	//Level2D* m_pLevel;
+	//SnowParticleSystem* m_pSnow;
+
+	//UIString* m_pString;
+	//IFont* m_pFont;
 
 };
 #endif // __GAMEAPP_H__

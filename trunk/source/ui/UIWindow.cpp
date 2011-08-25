@@ -6,9 +6,13 @@
  * \author zjhlogo (zjhlogo@gmail.com)
  */
 #include <ui/UIWindow.h>
+#include <math/IMath.h>
 
 UIWindow::UIWindow(UIWindow* pParent)
 {
+	m_vPosition = IMath::VEC2_ZERO;
+	m_vSize = Vector2(100.0f, 100.0f);
+
 	m_pParent = pParent;
 	if (m_pParent)
 	{
@@ -29,6 +33,60 @@ UIWindow::~UIWindow()
 UIWindow* UIWindow::GetParentWindow()
 {
 	return m_pParent;
+}
+
+const Vector2& UIWindow::GetPosition() const
+{
+	return m_vPosition;
+}
+
+void UIWindow::SetPosition(const Vector2& pos)
+{
+	m_vPosition = pos;
+}
+
+const Vector2& UIWindow::GetSize() const
+{
+	return m_vSize;
+}
+
+void UIWindow::SetSize(const Vector2& size)
+{
+	m_vSize = size;
+}
+
+bool UIWindow::ProcessTouchEvent(const Vector2& pos, UI_TOUCH_EVENT_TYPE eType)
+{
+	UIWindow* pWindow = FindChildUnderPoint(pos);
+	if (pWindow)
+	{
+		Vector2 localPos = pos - pWindow->GetPosition();
+		return pWindow->ProcessTouchEvent(localPos, eType);
+	}
+
+	bool bProcessed = false;
+
+	switch (eType)
+	{
+	case UTET_BEGIN:
+		{
+			bProcessed = OnTouchBegin(pos);
+		}
+		break;
+	case UTET_MOVE:
+		{
+			bProcessed = OnTouchMove(pos);
+		}
+		break;
+	case UTET_END:
+		{
+			if (OnTouchEnd(pos)) bProcessed = true;
+			if (OnClicked(pos)) bProcessed = true;
+		}
+		break;
+	}
+
+	return bProcessed;
 }
 
 void UIWindow::AddChild(UIWindow* pWindow)
@@ -59,11 +117,60 @@ void UIWindow::UpdateChildrenWindow(float dt)
 	}
 }
 
-void UIWindow::RenderChildrenWindow()
+void UIWindow::RenderChildrenWindow(const RenderParam& param)
 {
+	RenderParam childParam = param;
+	childParam.m_vBasePos += m_vPosition;
+	childParam.m_vBaseSize = m_vSize;
+
 	for (TV_WINDOW::iterator it = m_vChildren.begin(); it != m_vChildren.end(); ++it)
 	{
 		UIWindow* pWindow = (*it);
-		pWindow->Render();
+		pWindow->Render(childParam);
 	}
+}
+
+bool UIWindow::OnClicked(const Vector2& pos)
+{
+	// TODO: 
+	return true;
+}
+
+bool UIWindow::OnTouchBegin(const Vector2& pos)
+{
+	// TODO: 
+	return true;
+}
+
+bool UIWindow::OnTouchMove(const Vector2& pos)
+{
+	// TODO: 
+	return true;
+}
+
+bool UIWindow::OnTouchEnd(const Vector2& pos)
+{
+	// TODO: 
+	return true;
+}
+
+UIWindow* UIWindow::FindChildUnderPoint(const Vector2& pos)
+{
+	for (TV_WINDOW::reverse_iterator it = m_vChildren.rbegin(); it != m_vChildren.rend(); ++it)
+	{
+		UIWindow* pWindow = (*it);
+		if (PointInRect(pos, pWindow->GetPosition(), pWindow->GetSize())) return pWindow;
+	}
+
+	return NULL;
+}
+
+bool UIWindow::PointInRect(const Vector2& point, const Vector2& rectPos, const Vector2& rectSize)
+{
+	if (point.x < rectPos.x
+		|| point.x > rectPos.x + rectSize.x
+		|| point.y < rectPos.y
+		|| point.y > rectPos.y + rectSize.y) return false;
+
+	return true;
 }

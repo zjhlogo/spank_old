@@ -49,7 +49,7 @@ bool RenderDevice_Win32_Impl::Initialize()
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	glEnable(GL_CULL_FACE);
-	glCullFace(GL_FRONT);
+ 	glCullFace(GL_FRONT);
 
 	return true;
 }
@@ -62,7 +62,7 @@ void RenderDevice_Win32_Impl::Terminate()
 
 void RenderDevice_Win32_Impl::BeginRender()
 {
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	glClearColor(0.8f, 0.8f, 0.8f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 

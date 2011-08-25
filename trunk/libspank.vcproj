@@ -481,6 +481,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\source\ui\RenderParam.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\ui\RenderParam.h"
+				>
+			</File>
+			<File
 				RelativePath=".\source\ui\UIScreen.cpp"
 				>
 			</File>

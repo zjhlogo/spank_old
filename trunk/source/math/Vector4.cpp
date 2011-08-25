@@ -54,6 +54,15 @@ bool Vector4::Normalize()
 	return true;
 }
 
+Vector4& Vector4::operator=(const Vector4& v)
+{
+	x = v.x;
+	y = v.y;
+	z = v.z;
+	w = v.w;
+	return (*this);
+}
+
 Vector4 Vector4::operator-() const
 {
 	return Vector4(x-1, y-1, z-1, w-1);

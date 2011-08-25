@@ -25,6 +25,8 @@ public:
 	virtual UIScreen* GetCurrentScreen();
 	virtual bool AddScreen(UIScreen* pScreen);
 
+	virtual bool ProcessTouchEvent(const Vector2& pos, UI_TOUCH_EVENT_TYPE eType);
+
 private:
 	UIScreen* m_pDefaultScreen;
 	UIScreen* m_pCurrScreen;

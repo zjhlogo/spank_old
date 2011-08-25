@@ -93,7 +93,7 @@ const Matrix4x4& Renderer2D_Impl::GetFinalMatrixTranspose()
 
 void Renderer2D_Impl::BeginRender()
 {
-	// TODO: 
+	SetModelViewMatrix(IMath::MAT4X4_IDENTITY);
 }
 
 void Renderer2D_Impl::EndRender()

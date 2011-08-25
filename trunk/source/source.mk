@@ -52,6 +52,17 @@ LIBSPANK_SOURCE_FILES := \
 		$(LIBSPANK_SOURCE)/platforms/android/util/FileUtil_Android_Impl.cpp \
 		$(LIBSPANK_SOURCE)/platforms/android/unzip/unzip.cpp \
 		$(LIBSPANK_SOURCE)/platforms/android/unzip/ioapi.cpp \
+		$(LIBSPANK_SOURCE)/ui/BitmapFont_Impl.cpp \
+		$(LIBSPANK_SOURCE)/ui/FontMgr_Impl.cpp \
+		$(LIBSPANK_SOURCE)/ui/RendererUI_Impl.cpp \
+		$(LIBSPANK_SOURCE)/ui/RenderParam.cpp \
+		$(LIBSPANK_SOURCE)/ui/UIScreen.cpp \
+		$(LIBSPANK_SOURCE)/ui/UIString.cpp \
+		$(LIBSPANK_SOURCE)/ui/UISystem_Impl.cpp \
+		$(LIBSPANK_SOURCE)/ui/UITextView.cpp \
+		$(LIBSPANK_SOURCE)/ui/UIWindow.cpp \
+		$(LIBSPANK_SOURCE)/ui/UpdateParam.cpp \
+		$(LIBSPANK_SOURCE)/ui/VertexCache.cpp \
 		$(LIBSPANK_SOURCE)/util/ConfigUtil.cpp \
 		$(LIBSPANK_SOURCE)/util/ScreenUtil.cpp \
 		$(LIBSPANK_SOURCE)/util/StringUtil.cpp \

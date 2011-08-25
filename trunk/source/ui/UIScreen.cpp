@@ -23,7 +23,7 @@ void UIScreen::Update(float dt)
 	UpdateChildrenWindow(dt);
 }
 
-void UIScreen::Render()
+void UIScreen::Render(const RenderParam& param)
 {
-	RenderChildrenWindow();
+	RenderChildrenWindow(param);
 }

@@ -101,6 +101,15 @@ void Renderer2D_Impl::EndRender()
 	// TODO: 
 }
 
+void Renderer2D_Impl::DrawPoints( const void* pVerts, uint nNumVerts, IShader* pShader )
+{
+	// TODO:
+	if(!pShader) return;
+
+	pShader->Commit(pVerts);
+	glDrawArrays(GL_POINTS, 0, nNumVerts);
+}
+
 void Renderer2D_Impl::DrawTriangleList(const void* pVerts, uint nNumVerts, const ushort* pIndis, uint nNumIndis, IShader* pShader)
 {
 	if (!pShader) return;

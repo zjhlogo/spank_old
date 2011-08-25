@@ -65,5 +65,5 @@ Matrix4x4 operator-(const Matrix4x4& m1, const Matrix4x4& m2);
 Matrix4x4 operator*(const Matrix4x4& m1, const Matrix4x4& m2);
 
 Vector4 operator*(const Matrix4x4& m, const Vector4& v);
-
+Vector4 operator*(const Vector4& v, const Matrix4x4& m);
 #endif // __MATRIX4X4_H__

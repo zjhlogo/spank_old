@@ -1,5 +1,5 @@
 /*!
- * \file ActionCompose.h
+ * \file ActionRotateto.h
  * \date 8-19-2011 14:30:24
  * 
  * 
@@ -9,11 +9,11 @@
 #define __ACTIONROTATETO_H_
 #include "IActionBase.h"
 
-class ActionRoateTo:public IActionBase
+class ActionRotateTo:public IActionBase
 {
 public:
-	ActionRoateTo(const Vector3& vAxis, const float& fStartAngle, const float& fEndAngle, float time);
-	virtual ~ActionRoateTo();
+	ActionRotateTo(const Vector3& vAxis, const float& fStartAngle, const float& fEndAngle, float time);
+	virtual ~ActionRotateTo();
 public:
 	virtual void Reset(void);
 	virtual void Update(float dt);

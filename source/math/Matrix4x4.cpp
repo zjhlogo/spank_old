@@ -447,3 +447,14 @@ Vector4 operator*(const Matrix4x4& m, const Vector4& v)
 
 	return result;
 }
+Vector4 operator*(const Vector4& v, const Matrix4x4& m)
+{
+	Vector4 result;
+
+	result.x = v.x * m.e[Matrix4x4::E11] + v.y * m.e[Matrix4x4::E21] + v.z * m.e[Matrix4x4::E31] + v.w * m.e[Matrix4x4::E41];
+	result.y = v.x * m.e[Matrix4x4::E12] + v.y * m.e[Matrix4x4::E22] + v.z * m.e[Matrix4x4::E32] + v.w * m.e[Matrix4x4::E42];
+	result.z = v.x * m.e[Matrix4x4::E13] + v.y * m.e[Matrix4x4::E23] + v.z * m.e[Matrix4x4::E33] + v.w * m.e[Matrix4x4::E43];
+	result.w = v.x * m.e[Matrix4x4::E14] + v.y * m.e[Matrix4x4::E24] + v.z * m.e[Matrix4x4::E34] + v.w * m.e[Matrix4x4::E44];
+	return result;
+}
+

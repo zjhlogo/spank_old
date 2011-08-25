@@ -1,5 +1,5 @@
 /*!
- * \file ActionCompose.h
+ * \file ActionScaleTo.h
  * \date 8-19-2011 16:38:43
  * 
  * 

@@ -15,14 +15,15 @@ class ActionMoveTo : public IActionBase
 public:
 	ActionMoveTo(const Vector3& posStart, const Vector3& posEnd, float time);
 	virtual ~ActionMoveTo();
+public:
 
-	virtual void Reset();
+	virtual void Reset(void);
 	virtual void Update(float dt);
 
-	virtual IActionBase* Clone();
-	virtual IActionBase* CloneInverse();
+	virtual IActionBase* Clone(void);
+	virtual IActionBase* CloneInverse(void);
 
-	virtual float GetTimeLength() const;
+	virtual float GetTimeLength(void) const;
 
 private:
 	Vector3 m_vPosStart;

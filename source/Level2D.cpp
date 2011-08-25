@@ -12,7 +12,6 @@
 #include <ITextureMgr.h>
 #include <IShaderMgr.h>
 #include <IRenderer2D.h>
-
 Level2D::Level2D(const char* pszLevel2DFile)
 {
 	m_vCenterPosition = IMath::VEC2_ZERO;
@@ -80,6 +79,7 @@ void Level2D::Render()
 
 	uint unRectSize = m_nSurfaceRowTileNum * m_nSurfaceColTileNum;
 	IRenderer2D::GetInstance().DrawTriangleList(m_pVerts, unRectSize * VERTEX_CACHE_SIZE, m_pIndis, unRectSize * INDEX_CACHE_SIZE, m_pShader);
+
 }
 
 bool Level2D::LoadLevel2DFromFile(const char* pszLevel2DFile)

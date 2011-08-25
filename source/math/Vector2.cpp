@@ -48,6 +48,14 @@ bool Vector2::Normalize()
 	return true;
 }
 
+Vector2& Vector2::operator=(const Vector2& v)
+{
+	x = v.x;
+	y = v.y;
+
+	return (*this);
+}
+
 Vector2 Vector2::operator-() const
 {
 	return Vector2(-x, -y);

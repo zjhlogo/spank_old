@@ -72,6 +72,15 @@ float Quaternion::GetRadian() const
 	return (2.0f * acosf(w));
 }
 
+Quaternion& Quaternion::operator=(const Quaternion& q)
+{
+	x = q.x;
+	y = q.y;
+	z = q.z;
+	w = q.w;
+	return (*this);
+}
+
 Quaternion& Quaternion::operator*=(const Quaternion& q)
 {
 	float prd_0 = (z - y) * (q.y - q.z);

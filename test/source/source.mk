@@ -1,2 +1,3 @@
 LIBGAME_SOURCE_FILES := \
 		$(LIBGAME_SOURCE)/GameApp.cpp \
+		$(LIBGAME_SOURCE)/TestCase.cpp \

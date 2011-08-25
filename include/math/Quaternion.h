@@ -23,6 +23,7 @@ public:
 	bool Normalize();
 	float GetRadian() const;
 
+	Quaternion& operator=(const Quaternion& q);
 	Quaternion& operator*=(const Quaternion& q);
 	Quaternion operator-() const;
 

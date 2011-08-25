@@ -19,6 +19,7 @@ public:
 	float Length() const;
 	bool Normalize();
 
+	Vector2& operator=(const Vector2& v);
 	Vector2 operator-() const;
 	Vector2& operator+=(const Vector2& v);
 	Vector2& operator-=(const Vector2& v);

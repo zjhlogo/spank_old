@@ -146,11 +146,15 @@ void Core_Impl::Render()
 	IRenderDevice::GetInstance().BeginRender();
 	PreRender();
 
+	// render scene
 	IRenderer2D::GetInstance().BeginRender();
 	IGameApp::GetInstance().Render();
 	IRenderer2D::GetInstance().EndRender();
 
+	// render ui
+	IRendererUI::GetInstance().BeginRender();
 	IUISystem::GetInstance().Render();
+	IRendererUI::GetInstance().EndRender();
 
 	PostRender();
 	IRenderDevice::GetInstance().EndRender();

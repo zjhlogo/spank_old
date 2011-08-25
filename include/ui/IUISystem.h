@@ -22,5 +22,7 @@ public:
 	virtual UIScreen* GetCurrentScreen() = 0;
 	virtual bool AddScreen(UIScreen* pScreen) = 0;
 
+	virtual bool ProcessTouchEvent(const Vector2& pos, UI_TOUCH_EVENT_TYPE eType) = 0;
+
 };
 #endif // __IUISYSTEM_H__

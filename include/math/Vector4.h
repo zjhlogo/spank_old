@@ -20,8 +20,8 @@ public:
 	float Length() const;
 	bool Normalize();
 
+	Vector4& operator=(const Vector4& v);
 	Vector4 operator-() const;
-
 	Vector4& operator+=(const Vector4& v);
 	Vector4& operator-=(const Vector4& v);
 	Vector4& operator*=(float s);

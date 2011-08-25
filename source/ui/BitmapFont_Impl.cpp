@@ -160,7 +160,7 @@ bool BitmapFont_Impl::CreateCharsInfo(TiXmlElement* pElmChars)
 		CharInfo.offsetx = (float)temp;
 
 		if (!pElmChar->Attribute("yoffset", &temp)) return false;
-		CharInfo.offsety = -(float)temp;	// invert the y-axis for opengl
+		CharInfo.offsety = (float)temp;
 
 		if (!pElmChar->Attribute("xadvance", &temp)) return false;
 		CharInfo.advance = (float)temp;
@@ -175,8 +175,8 @@ bool BitmapFont_Impl::CreateCharsInfo(TiXmlElement* pElmChars)
 		float fTextureWidth = (float)CharInfo.pTexture->GetWidth();
 		float fTextureHeight = (float)CharInfo.pTexture->GetHeight();
 
-		CharInfo.u = (posX+0.5f)/fTextureWidth;
-		CharInfo.v = (fTextureHeight-posY-CharInfo.height+0.5f)/fTextureHeight;		// invert the y-axis for opengl
+		CharInfo.u = (posX-0.5f)/fTextureWidth;
+		CharInfo.v = (fTextureHeight-posY-CharInfo.height-0.5f)/fTextureHeight;		// invert the y-axis for opengl
 		CharInfo.du = (CharInfo.width+0.5f)/fTextureWidth;
 		CharInfo.dv = (CharInfo.height+0.5f)/fTextureHeight;
 

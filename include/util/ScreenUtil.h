@@ -9,7 +9,7 @@
 #define __SCREENUTIL_H__
 
 #include "../IMgr.h"
-#include "../math/Vector2.h"
+#include "../math/IMath.h"
 
 /*! \brief screen coordinate system utility class
  *
@@ -64,7 +64,13 @@ public:
 	 */
 	int GetScreenHeight() const;
 
-	
+	/*!
+	 * \brief get the screen size (after rotation)
+	 * \return the screen size, x = width, y = height
+	 */
+	const Vector2& GetScreenSize() const;
+	const Vector2& GetHalfScreenSize() const;
+
 	/*!
 	 * \brief get the screen rotation
 	 * \return the screen rotation \see SCREEN_ROTATION
@@ -107,6 +113,8 @@ public:
 private:
 	int m_nScreenWidth;						/*!< screen width */
 	int m_nScreenHeight;					/*!< screen height */
+	Vector2 m_vScreenSize;					/*!< screen size in vector version */
+	Vector2 m_vHalfScreenSize;				/*!< half screen size in vector version */
 	SCREEN_ROTATION m_eScreenRotation;		/*!< screen rotation */
 
 };

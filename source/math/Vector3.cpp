@@ -51,6 +51,14 @@ bool Vector3::Normalize()
 	return true;
 }
 
+Vector3& Vector3::operator=(const Vector3& v)
+{
+	x = v.x;
+	y = v.y;
+	z = v.z;
+	return (*this);
+}
+
 Vector3 Vector3::operator-() const
 {
 	return Vector3(-x, -y, -z);

@@ -28,7 +28,8 @@ void UITextView::Update(float dt)
 	// TODO: 
 }
 
-void UITextView::Render()
+void UITextView::Render(const RenderParam& param)
 {
-	m_pString->Render();
+	Vector2 pos = param.m_vBasePos + GetPosition();
+	m_pString->Render(pos);
 }

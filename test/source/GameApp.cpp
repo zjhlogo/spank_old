@@ -29,11 +29,11 @@ IGameApp& IGameApp::GetInstance()
 
 GameApp::GameApp()
 {
-	m_pSprite = NULL;
-	m_pLevel = NULL;
-	m_pSnow = NULL;
-	m_pString = NULL;
-	m_pFont = NULL;
+	//m_pSprite = NULL;
+	//m_pLevel = NULL;
+	//m_pSnow = NULL;
+	//m_pString = NULL;
+	//m_pFont = NULL;
 }
 
 GameApp::~GameApp()
@@ -44,6 +44,8 @@ GameApp::~GameApp()
 bool GameApp::Initialize()
 {
 	MsgMgr::GetInstance().SubscribeMessage(MI_TOUCH, this, CAST_MSG_CALLBACK(&GameApp::OnMsgTouch));
+
+	// TODO: add test case
 
 	//m_pLevel = new Level2D("level.l2d");
 	//INode* pRootNode = ICore::GetInstance().GetRootNode();
@@ -73,15 +75,16 @@ bool GameApp::Initialize()
 	//
 	//m_pSnow = new SnowParticleSystem();
 
-	//m_pString = new UIString("0123456789 | /*-+. | ABCDEFG | abcedfg");
 	UIScreen* pScreen = IUISystem::GetInstance().GetCurrentScreen();
 	UITextView* pTextView = new UITextView(pScreen, "0123456789 | /*-+. | ABCDEFG | abcedfg");
-
+	pTextView->SetPosition(Vector2(100.0f, 100.0f));
 	return true;
 }
 
 void GameApp::Terminate()
 {
+	// TODO: free test case
+
 	//SAFE_DELETE(m_pSprite);
 	//SAFE_RELEASE(m_pLevel);
 	//SAFE_DELETE(m_pSnow);

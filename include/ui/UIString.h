@@ -8,12 +8,11 @@
 #ifndef __UISTRING_H__
 #define __UISTRING_H__
 
-#include "../IRenderableObject.h"
 #include "IFont.h"
-#include <string>
+#include "../math/IMath.h"
 #include <vector>
 
-class UIString : public IRenderableObject
+class UIString : public IObject
 {
 public:
 	typedef std::vector<ushort> TV_UNICODE_CHAR;
@@ -24,25 +23,19 @@ public:
 	UIString(const char* pszText);
 	virtual ~UIString();
 
-	virtual void Update(float dt);
-	virtual void Render();
+	void Update(float dt);
+	void Render(const Vector2& pos);
 
 	bool SetText(const char* pszText);
-	const char* GetText();
-
-	void SetPosition(const Vector2& pos);
-	const Vector2& GetPosition() const;
 
 private:
-	bool CreateCharVerts();
+	bool CreateCharVerts(const char* pszText);
 	void ClearCharVerts();
 
 private:
 	IFont* m_pFont;
-	std::string m_strText;
 	TV_UNICODE_CHAR m_UnicodeChars;
 	int m_nCharCount;
-	Vector2 m_vPosition;
 
 	TV_CHAR_INFO m_vCharInfo;
 

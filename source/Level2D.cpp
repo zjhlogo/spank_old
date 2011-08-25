@@ -45,6 +45,14 @@ Level2D::~Level2D()
 
 void Level2D::Update(float dt)
 {
+	INode* pNode = GetParentNode();
+	if (pNode)
+	{
+		const Vector3& pos = pNode->GetPosition();
+		m_vCenterPosition.x = pos.x;
+		m_vCenterPosition.y = pos.y;
+	}
+
 	int nXBoundary = (TILE_BORDER_SIZE + m_nHalfSceneWidth / m_FileHeader.nTileWidth) * m_FileHeader.nTileWidth - m_nHalfSceneWidth;
 	int nYBoundary = (TILE_BORDER_SIZE + m_nHalfSceneHeight / m_FileHeader.nTileHeight) * m_FileHeader.nTileHeight - m_nHalfSceneHeight;
 	
@@ -74,16 +82,6 @@ void Level2D::Render()
 	IRenderer2D::GetInstance().DrawTriangleList(m_pVerts, unRectSize * VERTEX_CACHE_SIZE, m_pIndis, unRectSize * INDEX_CACHE_SIZE, m_pShader);
 }
 
-void Level2D::SetCenterPosition(const Vector2& pos)
-{
-	m_vCenterPosition = pos;
-}
-
-const Vector2& Level2D::GetCenterPosition() const
-{
-	return m_vCenterPosition;
-}
-
 bool Level2D::LoadLevel2DFromFile(const char* pszLevel2DFile)
 {
 	StreamReader* pReader = IFileUtil::GetInstance().LoadFile(pszLevel2DFile);
@@ -97,13 +95,14 @@ bool Level2D::LoadLevel2DFromFile(const char* pszLevel2DFile)
 
 	m_pGidAry = new uint[m_FileHeader.nMapCol * m_FileHeader.nMapRow];
 	pReader->Read(m_pGidAry, sizeof(uint) * m_FileHeader.nMapCol * m_FileHeader.nMapRow);
+	SAFE_RELEASE(pReader);
 
 	m_pShader = IShaderMgr::GetInstance().CreateShader(SSI_DEFAULT);
 	if(!m_pShader) return false;
 
 	m_pTexture = ITextureMgr::GetInstance().CreateTexture(m_FileHeader.szTextureFile);
 	if(NULL == m_pTexture) return false;
-	
+
 	m_nSurfaceColTileNum = (m_nHalfSceneWidth / m_FileHeader.nTileWidth) * 2 + TILE_BORDER_SIZE * 2;
 	m_nSurfaceRowTileNum = (m_nHalfSceneHeight / m_FileHeader.nTileHeight) * 2 + TILE_BORDER_SIZE * 2;
 	

@@ -12,6 +12,8 @@ ScreenUtil::ScreenUtil()
 {
 	m_nScreenWidth = 0;
 	m_nScreenHeight = 0;
+	m_vScreenSize = IMath::VEC2_ZERO;
+	m_vHalfScreenSize = IMath::VEC2_ZERO;
 	m_eScreenRotation = SR_NONE;
 }
 
@@ -42,6 +44,10 @@ bool ScreenUtil::Initialize()
 		break;
 	}
 
+	m_vScreenSize.x = (float) m_nScreenWidth;
+	m_vScreenSize.y = (float) m_nScreenHeight;
+	m_vHalfScreenSize = m_vScreenSize * 0.5f;
+
 	return true;
 }
 
@@ -58,6 +64,16 @@ int ScreenUtil::GetScreenWidth() const
 int ScreenUtil::GetScreenHeight() const
 {
 	return m_nScreenHeight;
+}
+
+const Vector2& ScreenUtil::GetScreenSize() const
+{
+	return m_vScreenSize;
+}
+
+const Vector2& ScreenUtil::GetHalfScreenSize() const
+{
+	return m_vHalfScreenSize;
 }
 
 ScreenUtil::SCREEN_ROTATION ScreenUtil::GetScreenRotation() const

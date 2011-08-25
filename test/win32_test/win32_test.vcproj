@@ -181,6 +181,14 @@
 			RelativePath="..\source\GameApp.h"
 			>
 		</File>
+		<File
+			RelativePath="..\source\TestCase.cpp"
+			>
+		</File>
+		<File
+			RelativePath="..\source\TestCase.h"
+			>
+		</File>
 	</Files>
 	<Globals>
 	</Globals>

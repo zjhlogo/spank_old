@@ -104,6 +104,8 @@ bool UISystem_Impl::ReleaseUIScreen(UIScreen* pUIScreen)
 
 bool UISystem_Impl::ProcessTouchEvent(const Vector2& pos, UI_TOUCH_EVENT_TYPE eType)
 {
+	if (!m_pCurrScreen) return false;
+
 	return m_pCurrScreen->ProcessTouchEvent(pos, eType);
 }
 

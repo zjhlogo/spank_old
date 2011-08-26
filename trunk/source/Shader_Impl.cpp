@@ -41,6 +41,17 @@ bool Shader_Impl::SetMatrix4x4(const char* pszParamName, const Matrix4x4& m)
 	return true;
 }
 
+bool Shader_Impl::SetVector4(const char* pszParamName, const Vector4& v)
+{
+	if (!pszParamName) return false;
+
+	int location = glGetUniformLocation(m_glProgramObject, pszParamName);
+	if (location == -1) return false;
+
+	glUniform4f(location, v.x, v.y, v.z, v.w);
+	return true;
+}
+
 bool Shader_Impl::SetTexture(const char* pszParamName, ITexture* pTexture, uint nIndex /* = 0 */)
 {
 	if (!pszParamName || !pTexture) return false;

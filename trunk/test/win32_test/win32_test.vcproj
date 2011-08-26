@@ -189,6 +189,14 @@
 			RelativePath="..\source\TestCase.h"
 			>
 		</File>
+		<File
+			RelativePath="..\source\UITestCase.cpp"
+			>
+		</File>
+		<File
+			RelativePath="..\source\UITestCase.h"
+			>
+		</File>
 	</Files>
 	<Globals>
 	</Globals>

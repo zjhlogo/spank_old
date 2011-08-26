@@ -30,7 +30,7 @@ public:
 	virtual void EndRender() = 0;
 
 	virtual void DrawPoints(const void* pVerts, uint nNumVerts, IShader* pShader) = 0;
-
+	virtual void DrawLineList(const void* pVerts, uint nNumVerts, const ushort* pIndis, uint nNumIndis, IShader* pShader) = 0;
 	virtual void DrawTriangleList(const void* pVerts, uint nNumVerts, const ushort* pIndis, uint nNumIndis, IShader* pShader) = 0;
 	virtual void DrawTriangleStrip(const void* pVerts, uint nNumVerts, const ushort* pIndis, uint nNumIndis, IShader* pShader) = 0;
 

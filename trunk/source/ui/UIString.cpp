@@ -42,37 +42,37 @@ void UIString::Render(const Vector2& pos)
 	{
 		const IFont::CHAR_INFO* pCharInfo = (*it);
 
-		QUAD_VERT_POS_UV quadVerts;
+		QUAD_VERT_POS_UV quad;
 
 		float fCharPosX = fBasePosX + pCharInfo->offsetx;
 		float fCharPosY = fBasePosY + pCharInfo->offsety;
 
-		quadVerts.verts[0].x = fCharPosX;
-		quadVerts.verts[0].y = fCharPosY + pCharInfo->height;
-		quadVerts.verts[0].z = 0.0f;
-		quadVerts.verts[0].u = pCharInfo->u;
-		quadVerts.verts[0].v = pCharInfo->v;
+		quad.verts[0].x = fCharPosX;
+		quad.verts[0].y = fCharPosY + pCharInfo->height;
+		quad.verts[0].z = 0.0f;
+		quad.verts[0].u = pCharInfo->u;
+		quad.verts[0].v = pCharInfo->v;
 
-		quadVerts.verts[1].x = fCharPosX;
-		quadVerts.verts[1].y = fCharPosY;
-		quadVerts.verts[1].z = 0.0f;
-		quadVerts.verts[1].u = pCharInfo->u;
-		quadVerts.verts[1].v = pCharInfo->v+pCharInfo->dv;
+		quad.verts[1].x = fCharPosX;
+		quad.verts[1].y = fCharPosY;
+		quad.verts[1].z = 0.0f;
+		quad.verts[1].u = pCharInfo->u;
+		quad.verts[1].v = pCharInfo->v+pCharInfo->dv;
 
-		quadVerts.verts[2].x = fCharPosX + pCharInfo->width;
-		quadVerts.verts[2].y = fCharPosY + pCharInfo->height;
-		quadVerts.verts[2].z = 0.0f;
-		quadVerts.verts[2].u = pCharInfo->u+pCharInfo->du;
-		quadVerts.verts[2].v = pCharInfo->v;
+		quad.verts[2].x = fCharPosX + pCharInfo->width;
+		quad.verts[2].y = fCharPosY + pCharInfo->height;
+		quad.verts[2].z = 0.0f;
+		quad.verts[2].u = pCharInfo->u+pCharInfo->du;
+		quad.verts[2].v = pCharInfo->v;
 
-		quadVerts.verts[3].x = fCharPosX + pCharInfo->width;
-		quadVerts.verts[3].y = fCharPosY;
-		quadVerts.verts[3].z = 0.0f;
-		quadVerts.verts[3].u = pCharInfo->u+pCharInfo->du;
-		quadVerts.verts[3].v = pCharInfo->v+pCharInfo->dv;
+		quad.verts[3].x = fCharPosX + pCharInfo->width;
+		quad.verts[3].y = fCharPosY;
+		quad.verts[3].z = 0.0f;
+		quad.verts[3].u = pCharInfo->u+pCharInfo->du;
+		quad.verts[3].v = pCharInfo->v+pCharInfo->dv;
 
 		IRendererUI::GetInstance().SetTexture(pCharInfo->pTexture);
-		IRendererUI::GetInstance().DrawRect(quadVerts);
+		IRendererUI::GetInstance().DrawTriangleRect(quad);
 
 		fBasePosX += pCharInfo->advance;
 	}

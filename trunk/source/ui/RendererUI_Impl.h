@@ -17,14 +17,11 @@ class RendererUI_Impl : public IRendererUI
 public:
 	enum CONST_DEFINE
 	{
-		VERTS_PER_QUAD = 4,
-		INDIS_PER_QUAD = 6,
+		NUM_POS_RGB_CACHE = 1,
+		NUM_POS_RGB_PRIMETIVE_PER_CACHE = 128,
 
-		NUM_CACHES = 5,
-		NUM_QUAD_PER_CACHE = 128,
-		VERTEX_ATTRIBUTE_SIZE = 20,
-		VERTS_CACHE_SIZE = NUM_QUAD_PER_CACHE*VERTS_PER_QUAD*VERTEX_ATTRIBUTE_SIZE,
-		INDIS_CACHE_SIZE = NUM_QUAD_PER_CACHE*INDIS_PER_QUAD,
+		NUM_POS_UV_CACHE = 5,
+		NUM_POS_UV_PRIMETIVE_PER_CACHE = 128,
 	};
 
 public:
@@ -35,18 +32,33 @@ public:
 	virtual void Terminate();
 
 	virtual void SetTexture(ITexture* pTexture);
-	virtual void DrawTriangleList(const void* pVerts, uint nVerts, const ushort* pIndis, uint nIndis);
-	virtual void DrawRect(const QUAD_VERT_POS_UV& quadVerts);
+
+	virtual void DrawLineList(const VATTR_POS_RGB* pVerts, uint nVerts, const ushort* pIndis, uint nIndis);
+	virtual void DrawLineRect(const QUAD_VERT_POS_RGB& quad);
+	virtual void DrawLineRect(const Vector2& pos, const Vector2& size);
+	virtual void DrawLineRect(float x, float y, float width, float height);
+	virtual void SetColor(float r, float g, float b, float a);
+
+	virtual void DrawTriangleList(const VATTR_POS_UV* pVerts, uint nVerts, const ushort* pIndis, uint nIndis);
+	virtual void DrawTriangleRect(const QUAD_VERT_POS_UV& quad);
 
 	virtual void BeginRender();
 	virtual void EndRender();
 
 private:
-	VertexCache* m_pVertexCaches[NUM_CACHES];
+	bool AddPrimetive(VertexCache** pCache, int nNumCache, IShader* pShader, const void* pVerts, uint nVerts, const ushort* pIndis, uint nIndis);
+	bool OnLineCacheFlushed(IMsgBase* pMsg);
+	bool OnTriangleCacheFlushed(IMsgBase* pMsg);
+
+private:
+	VertexCache* m_pCaches_POS_RGB[NUM_POS_RGB_CACHE];
+	IShader* m_pShader_POS_RGB;
+
+	VertexCache* m_pCaches_POS_UV[NUM_POS_UV_CACHE];
+	IShader* m_pShader_POS_UV;
 
 	ITexture* m_pTexture;
-	IShader* m_pShader;
-
+	Vector4 m_vColor;
 	bool m_bRenderBegan;
 
 };

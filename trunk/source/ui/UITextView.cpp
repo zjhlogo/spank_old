@@ -6,6 +6,8 @@
  * \author zjhlogo (zjhlogo@gmail.com)
  */
 #include <ui/UITextView.h>
+#include <ui/IRendererUI.h>
+#include <util/IDebugUtil.h>
 
 UITextView::UITextView(UIWindow* pParent, const char* pszText)
 :UIWindow(pParent)
@@ -31,5 +33,14 @@ void UITextView::Update(float dt)
 void UITextView::Render(const RenderParam& param)
 {
 	Vector2 pos = param.m_vBasePos + GetPosition();
-	m_pString->Render(pos);
+	const Vector2& size = GetSize();
+
+	IRendererUI::GetInstance().DrawLineRect(pos, size);
+ 	m_pString->Render(pos);
+}
+
+bool UITextView::OnClicked(const Vector2& pos)
+{
+	LOGD("UITextView::OnClicked");
+	return true;
 }

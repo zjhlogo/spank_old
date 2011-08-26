@@ -17,7 +17,6 @@ IUISystem& IUISystem::GetInstance()
 
 UISystem_Impl::UISystem_Impl()
 {
-	m_pDefaultScreen = NULL;
 	m_pCurrScreen = NULL;
 }
 
@@ -28,24 +27,32 @@ UISystem_Impl::~UISystem_Impl()
 
 bool UISystem_Impl::Initialize()
 {
-	m_pDefaultScreen = new UIScreen();
-	m_pCurrScreen = m_pDefaultScreen;
+	m_pCurrScreen = CreateUIScreen();
 	return true;
 }
 
 void UISystem_Impl::Terminate()
 {
-	SAFE_RELEASE(m_pDefaultScreen);
+	for (TV_UISCREEN::iterator it = m_vUIScreen.begin(); it != m_vUIScreen.end(); ++it)
+	{
+		UIScreen* pScreen = (*it);
+		SAFE_DELETE(pScreen);
+	}
+	m_vUIScreen.clear();
 	m_pCurrScreen = NULL;
 }
 
 void UISystem_Impl::Update(float dt)
 {
+	if (!m_pCurrScreen) return;
+
 	m_pCurrScreen->Update(dt);
 }
 
 void UISystem_Impl::Render()
 {
+	if (!m_pCurrScreen) return;
+
 	RenderParam param(IMath::VEC2_ZERO, ScreenUtil::GetInstance().GetScreenSize());
 	m_pCurrScreen->Render(param);
 }
@@ -55,13 +62,58 @@ UIScreen* UISystem_Impl::GetCurrentScreen()
 	return m_pCurrScreen;
 }
 
-bool UISystem_Impl::AddScreen(UIScreen* pScreen)
+bool UISystem_Impl::SetCurrentScreen(UIScreen* pUIScreen)
 {
-	// TODO: 
+	if (!FindUIScreen(pUIScreen)) return false;
+
+	m_pCurrScreen = pUIScreen;
+	return true;
+}
+
+UIScreen* UISystem_Impl::CreateUIScreen()
+{
+	UIScreen* pScreen = new UIScreen();
+	if (!pScreen || !pScreen->IsOK())
+	{
+		SAFE_DELETE(pScreen);
+		return NULL;
+	}
+
+	pScreen->SetPosition(IMath::VEC2_ZERO);
+	pScreen->SetSize(ScreenUtil::GetInstance().GetScreenSize());
+
+	return pScreen;
+}
+
+bool UISystem_Impl::ReleaseUIScreen(UIScreen* pUIScreen)
+{
+	for (TV_UISCREEN::iterator it = m_vUIScreen.begin(); it != m_vUIScreen.end(); ++it)
+	{
+		UIScreen* pScreen = (*it);
+		if (pScreen == pUIScreen)
+		{
+			SAFE_DELETE(pScreen);
+			m_vUIScreen.erase(it);
+			if (m_pCurrScreen == pUIScreen) m_pCurrScreen = NULL;
+			return true;
+		}
+	}
+
 	return false;
 }
 
 bool UISystem_Impl::ProcessTouchEvent(const Vector2& pos, UI_TOUCH_EVENT_TYPE eType)
 {
 	return m_pCurrScreen->ProcessTouchEvent(pos, eType);
+}
+
+bool UISystem_Impl::FindUIScreen(UIScreen* pUIScreen)
+{
+	for (TV_UISCREEN::iterator it = m_vUIScreen.begin(); it != m_vUIScreen.end(); ++it)
+	{
+		UIScreen* pScreen = (*it);
+		if (pScreen == pUIScreen) return true;
+	}
+
+	return false;
 }

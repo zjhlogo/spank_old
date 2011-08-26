@@ -75,9 +75,9 @@ bool GameApp::Initialize()
 	//
 	//m_pSnow = new SnowParticleSystem();
 
-	UIScreen* pScreen = IUISystem::GetInstance().GetCurrentScreen();
-	UITextView* pTextView = new UITextView(pScreen, "0123456789 | /*-+. | ABCDEFG | abcedfg");
-	pTextView->SetPosition(Vector2(100.0f, 100.0f));
+// 	UIScreen* pScreen = IUISystem::GetInstance().GetCurrentScreen();
+// 	UITextView* pTextView = new UITextView(pScreen, "0123456789 | /*-+. | ABCDEFG | abcedfg");
+// 	pTextView->SetPosition(Vector2(100.0f, 100.0f));
 	return true;
 }
 
@@ -117,15 +117,30 @@ bool GameApp::OnMsgTouch(IMsgBase* pMsg)
 	if (pMsgTouch->IsTouchBegin())
 	{
 		LOGD("touch begin: (%.02f, %.02f)", pMsgTouch->GetPosition().x, pMsgTouch->GetPosition().y);
+		IUISystem::GetInstance().ProcessTouchEvent(pMsgTouch->GetPosition(), UTET_BEGIN);
 	}
 	else if (pMsgTouch->IsTouchMove())
 	{
 		LOGD("touch move: (%.02f, %.02f)", pMsgTouch->GetPosition().x, pMsgTouch->GetPosition().y);
+		IUISystem::GetInstance().ProcessTouchEvent(pMsgTouch->GetPosition(), UTET_MOVE);
 	}
 	else if (pMsgTouch->IsTouchEnd())
 	{
 		LOGD("touch end: (%.02f, %.02f)", pMsgTouch->GetPosition().x, pMsgTouch->GetPosition().y);
+		IUISystem::GetInstance().ProcessTouchEvent(pMsgTouch->GetPosition(), UTET_END);
 	}
 
+	return true;
+}
+
+bool GameApp::AddTestCase(TestCase* pTestCase)
+{
+	if (!pTestCase)
+	{
+		SAFE_RELEASE(pTestCase);
+		return false;
+	}
+
+	m_vTestCase.push_back(pTestCase);
 	return true;
 }

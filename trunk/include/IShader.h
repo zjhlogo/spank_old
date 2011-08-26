@@ -34,8 +34,9 @@ public:
 	 * \return 
 	 */
 	virtual bool SetMatrix4x4(const char* pszParamName, const Matrix4x4& m) = 0;
-
+	virtual bool SetVector4(const char* pszParamName, const Vector4& v) = 0;
 	virtual bool SetTexture(const char* pszParamName, ITexture* pTexture, uint nIndex = 0) = 0;
+
 	virtual const VertexAttribute* GetVertexAttribute() const = 0;
 	virtual void Reset() = 0;
 	virtual bool Commit(const void* pVerts) = 0;

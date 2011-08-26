@@ -9,9 +9,13 @@
 #define __UISYSTEM_IMPL_H__
 
 #include <ui/IUISystem.h>
+#include <vector>
 
 class UISystem_Impl : public IUISystem
 {
+public:
+	typedef std::vector<UIScreen*> TV_UISCREEN;
+
 public:
 	UISystem_Impl();
 	virtual ~UISystem_Impl();
@@ -23,12 +27,18 @@ public:
 	virtual void Render();
 
 	virtual UIScreen* GetCurrentScreen();
-	virtual bool AddScreen(UIScreen* pScreen);
+	virtual bool SetCurrentScreen(UIScreen* pUIScreen);
+
+	virtual UIScreen* CreateUIScreen();
+	virtual bool ReleaseUIScreen(UIScreen* pUIScreen);
 
 	virtual bool ProcessTouchEvent(const Vector2& pos, UI_TOUCH_EVENT_TYPE eType);
 
 private:
-	UIScreen* m_pDefaultScreen;
+	bool FindUIScreen(UIScreen* pUIScreen);
+
+private:
+	TV_UISCREEN m_vUIScreen;
 	UIScreen* m_pCurrScreen;
 
 };

@@ -30,6 +30,7 @@ public:
 
 private:
 	bool OnMsgTouch(IMsgBase* pMsg);
+	bool AddTestCase(TestCase* pTestCase);
 
 private:
 	TV_TEST_CASE m_vTestCase;
@@ -37,9 +38,5 @@ private:
 	//Sprite* m_pSprite;
 	//Level2D* m_pLevel;
 	//SnowParticleSystem* m_pSnow;
-
-	//UIString* m_pString;
-	//IFont* m_pFont;
-
 };
 #endif // __GAMEAPP_H__

@@ -27,6 +27,17 @@ typedef struct QUAD_VERT_POS_UV_tag
 	VATTR_POS_UV verts[4];
 } QUAD_VERT_POS_UV;
 
+typedef struct VATTR_POS_RGB_tag
+{
+	float x, y, z;
+	float r, g, b;
+} VATTR_POS_RGB;
+
+typedef struct QUAD_VERT_POS_RGB_tag
+{
+	VATTR_POS_RGB verts[4];
+} QUAD_VERT_POS_RGB;
+
 enum ATTRIBUTE_ITEM_TYPE
 {
 	AIT_UNKNOWN = 0,

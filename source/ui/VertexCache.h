@@ -27,10 +27,11 @@ public:
 	bool AddVerts(const void* pVerts, uint nVerts, const ushort* pIndis, uint nIndis);
 	void Flush();
 
-	bool Compare(ITexture* pTexture, IShader* pShader);
+	const void* GetVerts() const;
+	uint GetNumVerts() const;
 
-	uint GetVertsCount();
-	uint GetIndisCount();
+	uint GetNumIndis() const;
+	const ushort* GetIndis() const;
 
 private:
 	bool CreateCache(uint nVertsCacheSize, uint nIndisCacheSize);

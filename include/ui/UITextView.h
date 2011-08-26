@@ -22,6 +22,8 @@ public:
 	virtual void Update(float dt);
 	virtual void Render(const RenderParam& param);
 
+	virtual bool OnClicked(const Vector2& pos);
+
 private:
 	UIString* m_pString;
 

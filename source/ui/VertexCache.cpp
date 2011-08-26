@@ -7,6 +7,8 @@
  */
 #include "VertexCache.h"
 #include <IRenderer2D.h>
+#include <msg/MsgCommon.h>
+#include <msg/MsgID.h>
 
 VertexCache::VertexCache(uint nVertsCacheSize, uint nIndisCacheSize)
 {
@@ -92,26 +94,31 @@ void VertexCache::Flush()
 {
 	if (m_pShader && m_nCurrVertsCount > 0 && m_nCurrIndisCount > 0)
 	{
-		if (m_pTexture) m_pShader->SetTexture("u_texture", m_pTexture);
-		m_pShader->SetMatrix4x4("u_matModelViewProj", IRenderer2D::GetInstance().GetFinalMatrixTranspose());
-		IRenderer2D::GetInstance().DrawTriangleList(m_pVertsCache, m_nCurrVertsCount, m_pIndisCache, m_nCurrIndisCount, m_pShader);
+		MsgCommon msgFlush(MI_RENDERER_UI_FLUSH);
+		msgFlush.SetObject(this);
+		CallEvent(msgFlush);
 	}
 
 	m_nCurrVertsCount = 0;
 	m_nCurrIndisCount = 0;
 }
 
-bool VertexCache::Compare(ITexture* pTexture, IShader* pShader)
+const void* VertexCache::GetVerts() const
 {
-	return (m_pTexture == pTexture && m_pShader == pShader);
+	return m_pVertsCache;
 }
 
-uint VertexCache::GetVertsCount()
+uint VertexCache::GetNumVerts() const
 {
 	return m_nCurrVertsCount;
 }
 
-uint VertexCache::GetIndisCount()
+const ushort* VertexCache::GetIndis() const
+{
+	return m_pIndisCache;
+}
+
+uint VertexCache::GetNumIndis() const
 {
 	return m_nCurrIndisCount;
 }

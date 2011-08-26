@@ -20,7 +20,10 @@ public:
 	virtual void Render() = 0;
 
 	virtual UIScreen* GetCurrentScreen() = 0;
-	virtual bool AddScreen(UIScreen* pScreen) = 0;
+	virtual bool SetCurrentScreen(UIScreen* pUIScreen) = 0;
+
+	virtual UIScreen* CreateUIScreen() = 0;
+	virtual bool ReleaseUIScreen(UIScreen* pUIScreen) = 0;
 
 	virtual bool ProcessTouchEvent(const Vector2& pos, UI_TOUCH_EVENT_TYPE eType) = 0;
 

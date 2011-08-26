@@ -6,6 +6,7 @@
  * \author zjhlogo (zjhlogo@gmail.com)
  */
 #include <msg/MsgCommon.h>
+#include <msg/MsgID.h>
 
 MsgCommon::MsgCommon(uint nMsgID)
 :IMsgBase(nMsgID)

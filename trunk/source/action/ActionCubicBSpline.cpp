@@ -97,7 +97,12 @@ IActionBase* ActionCubicBSpline::Clone()
 IActionBase* ActionCubicBSpline::CloneInverse()
 {
 	//TODO:
-	return NULL;
+	ActionCubicBSpline* pActionCubicBSpline = new ActionCubicBSpline(*this);
+	pActionCubicBSpline->Clear();
+	pActionCubicBSpline->m_vPoints.reserve(this->m_vPoints.size());
+	pActionCubicBSpline->m_vPoints.assign(this->m_vPoints.rbegin(), this->m_vPoints.rend());
+	pActionCubicBSpline->RecaleControlPoint();
+	return pActionCubicBSpline;
 }
 
 float ActionCubicBSpline::GetTimeLength() const

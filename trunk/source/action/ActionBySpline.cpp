@@ -45,13 +45,6 @@ ActionBySpline::~ActionBySpline(void)
 	//TODO:
 	SAFE_DELETE_ARRAY(pVerts);
 }
-ActionBySpline::ActionBySpline(const ActionBySpline &ActBySpline)
-{
-	m_matCoeffs = ActBySpline.m_matCoeffs;
-	m_vPoints = ActBySpline.m_vPoints;
-	m_fTime = ActBySpline.m_fTime;
-	Reset();
-}
 void ActionBySpline::AddPoint(const Vector3& Point)
 {
 	m_vPoints.push_back(Point);
@@ -224,17 +217,17 @@ void ActionBySpline::Update(float dt)
 IActionBase* ActionBySpline::Clone(void)
 {
 	ActionBySpline* pActionBySpline = new ActionBySpline(*this);
-	pActionBySpline->recalcTangents();
+	pActionBySpline->Reset();
 	return pActionBySpline;
 }
 
 IActionBase* ActionBySpline::CloneInverse(void)
 {
 	ActionBySpline* pActionBySpline = new ActionBySpline(*this);
-	pActionBySpline->m_vPoints.clear();
+	pActionBySpline->Clear();
 	pActionBySpline->m_vPoints.reserve(this->m_vPoints.size());
 	pActionBySpline->m_vPoints.assign(this->m_vPoints.rbegin(), this->m_vPoints.rend());
-	pActionBySpline->recalcTangents();
+	pActionBySpline->Reset();
 	return pActionBySpline;
 }
 

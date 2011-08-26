@@ -20,7 +20,6 @@ class ActionBySpline :public IActionBase
 {
 public:
 	ActionBySpline(float time);
-	ActionBySpline(const ActionBySpline& ActBySpline);
 	virtual ~ActionBySpline();
 
 	/** Adds a control point to the end of the spline. */

@@ -1,150 +1,155 @@
-#include <util/IFileUtil.h>
-#include <iostream>
-#include <fstream>
-#include <sstream>
-#include <Windows.h>
+/*!
+ * \file L2DConvert.cpp
+ * \date 27-08-2011 10:59:03
+ * 
+ * 
+ * \author 
+ */
 #include "L2DConvert.h"
-using namespace std;
+#include <string>
+#include <iostream>
+
 L2DConvert::L2DConvert()
 {
-	//TODO:
-	m_pGidAry = NULL;
+	m_nTextureHeight = 0;
+	m_nTextureWidth = 0;
+	m_pGridArray = NULL;
 	m_pTileInfo = NULL;
-	m_unTextureHeight = 0;
-	m_unTextureWidth = 0;
 }
 
-L2DConvert::~L2DConvert(void)
+L2DConvert::~L2DConvert()
 {
-	//TODO:
-	SAFE_DELETE_ARRAY(m_pGidAry);
+	SAFE_DELETE_ARRAY(m_pGridArray);
 	SAFE_DELETE_ARRAY(m_pTileInfo);
 }
+
 L2DConvert& L2DConvert::GetInstance()
 {
 	static L2DConvert ObjL2D;
 	return ObjL2D;
 }
 
-bool L2DConvert::ParseXmlFile(char* pszFileName)
+bool L2DConvert::ParseXmlFile(const char* pszFileName)
 {
-	//TODO:
-	
 	TiXmlDocument doc(pszFileName);
 	doc.LoadFile();
-	if(doc.Error()) 
-		return false;
-	TiXmlElement* pElemTild = doc.RootElement();
+	if(doc.Error()) return false;
 
-	int unTempValue = 0;
+	TiXmlElement* pElemTile = doc.RootElement();
+	int nTempValue = 0;
 
-	pElemTild->Attribute("width", &unTempValue);
-	if(unTempValue <= 0 )return false;
-	m_FileHeader.nMapCol = unTempValue;
-	unTempValue = 0;
-	pElemTild->Attribute("height", &unTempValue);
-	if(unTempValue<= 0) return false;
-	m_FileHeader.nMapRow = unTempValue;
-	unTempValue = 0;
-	pElemTild->Attribute("tilewidth", &unTempValue);
-	if (unTempValue <= 0) return false;
-	m_FileHeader.nTileWidth = unTempValue;
-	unTempValue = 0;
-	pElemTild->Attribute("tileheight", &unTempValue);
-	if(unTempValue <= 0)return false;
-	m_FileHeader.nTileHeight = unTempValue;
-	unTempValue = 0;
-	
-	TiXmlElement* LayerSet = pElemTild->FirstChildElement();
+	pElemTile->Attribute("width", &nTempValue);
+	if(nTempValue <= 0 ) return false;
+	m_FileHeader.nMapCol = nTempValue;
+
+	nTempValue = 0;
+	pElemTile->Attribute("height", &nTempValue);
+	if(nTempValue<= 0) return false;
+	m_FileHeader.nMapRow = nTempValue;
+
+	nTempValue = 0;
+	pElemTile->Attribute("tilewidth", &nTempValue);
+	if (nTempValue <= 0) return false;
+	m_FileHeader.nTileWidth = nTempValue;
+
+	nTempValue = 0;
+	pElemTile->Attribute("tileheight", &nTempValue);
+	if(nTempValue <= 0)return false;
+	m_FileHeader.nTileHeight = nTempValue;
+
+	TiXmlElement* LayerSet = pElemTile->FirstChildElement();
 	LayerSet = LayerSet->FirstChildElement();
 	if(!LayerSet) return false;
 	
-	LayerSet->Attribute("width", &unTempValue);
-	if(unTempValue <= 0) return false;
-	m_unTextureWidth = unTempValue;
-	unTempValue = 0;
-	LayerSet->Attribute("height", &unTempValue);
-	m_unTextureHeight = unTempValue;
-	unTempValue = 0;
+	nTempValue = 0;
+	LayerSet->Attribute("width", &nTempValue);
+	if(nTempValue <= 0) return false;
+	m_nTextureWidth = nTempValue;
 
+	nTempValue = 0;
+	LayerSet->Attribute("height", &nTempValue);
+	m_nTextureHeight = nTempValue;
+
+	nTempValue = 0;
 	const char* pszTexture = NULL;
 	pszTexture = LayerSet->Attribute("source");
 	if(NULL == pszTexture) return false;
-	string PathFileName(pszTexture);
-	int Position = PathFileName.find_last_of('/');
-	Position++;
-	string FileName;
-	FileName.assign(&PathFileName[Position], PathFileName.size() - Position);
-	strcpy(m_FileHeader.szTextureFile,FileName.c_str());
-	pszTexture = NULL;
+	std::string strPathFileName(pszTexture);
 
-	TiXmlElement* layer = pElemTild->FirstChildElement("layer");
-	TiXmlElement* layerData = layer->FirstChildElement("data");
-	if(!layerData) return false;
-	TiXmlElement* Data = layerData->FirstChildElement();
-	if(!Data) return false;
-	m_pGidAry = new uint[m_FileHeader.nMapCol * m_FileHeader.nMapRow];
-	int index = 0;
-	while (Data)
+	int nPosition = strPathFileName.find_last_of('/')+1;
+
+	std::string strFileName;
+	strFileName.assign(&strPathFileName[nPosition], strPathFileName.size() - nPosition);
+	strncpy_s(m_FileHeader.szTextureFile, strFileName.c_str(), FmtL2D::FILE_NAME_LENGTH);
+	m_FileHeader.szTextureFile[FmtL2D::FILE_NAME_LENGTH - 1] = '\0';
+
+	TiXmlElement* pElmLayer = pElemTile->FirstChildElement("layer");
+	TiXmlElement* pElmLayerData = pElmLayer->FirstChildElement("data");
+	if(!pElmLayerData) return false;
+
+	TiXmlElement* pElmData = pElmLayerData->FirstChildElement();
+	if(!pElmData) return false;
+
+	m_pGridArray = new uint[m_FileHeader.nMapCol * m_FileHeader.nMapRow];
+	int nIndex = 0;
+	while (pElmData)
 	{
-		Data->Attribute("gid", &unTempValue);
-		unTempValue--;
-		m_pGidAry[index] = unTempValue;	
-		index++;
-		Data = Data->NextSiblingElement();
+		nTempValue = 0;
+		pElmData->Attribute("gid", &nTempValue);
+		m_pGridArray[nIndex++] = nTempValue - 1;	
+
+		pElmData = pElmData->NextSiblingElement();
 	}
+
 	return true;
 }
 
-void L2DConvert::ConverToL2D(uint unDefaultTile)
+void L2DConvert::ConverToL2D(uint nDefaultTile)
 {
-	//TODO:
 	m_FileHeader.nMagicNumber = FmtL2D::MAGIC_NUMBER;
 	m_FileHeader.nVersionNumber = FmtL2D::VERSION_NUMBER;
-	m_FileHeader.nDefaultTile = unDefaultTile;
+	m_FileHeader.nDefaultTile = nDefaultTile;
 	
-	uint unTextureColTileNum = m_unTextureWidth / m_FileHeader.nTileWidth;
-	uint unTextureRowTileNum = m_unTextureHeight / m_FileHeader.nTileHeight;
+	uint unTextureColTileNum = m_nTextureWidth / m_FileHeader.nTileWidth;
+	uint unTextureRowTileNum = m_nTextureHeight / m_FileHeader.nTileHeight;
 	m_FileHeader.nNumTiles = unTextureColTileNum * unTextureRowTileNum;
 
-	float fTextureDu = (float)m_FileHeader.nTileWidth / m_unTextureWidth; 
-	float fTextureDv = (float)m_FileHeader.nTileHeight / m_unTextureHeight;
-	m_pTileInfo = new FmtL2D::TILE_INFO[unTextureColTileNum * unTextureRowTileNum];
+	float fTextureDu = (float)m_FileHeader.nTileWidth / m_nTextureWidth; 
+	float fTextureDv = (float)m_FileHeader.nTileHeight / m_nTextureHeight;
+	m_pTileInfo = new FmtL2D::TILE_INFO[m_FileHeader.nNumTiles];
 
 	for (uint y = 0; y < unTextureRowTileNum; ++y)
 	{
-		for (uint x = 0;x<unTextureColTileNum; ++x)
+		for (uint x = 0; x < unTextureColTileNum; ++x)
 		{
-			m_pTileInfo[y *unTextureColTileNum + x ].u = float(x * m_FileHeader.nTileWidth) / m_unTextureWidth;
-			m_pTileInfo[y *unTextureColTileNum + x ].v =  1.0f - float(y*m_FileHeader.nTileHeight + m_FileHeader.nTileHeight) / m_unTextureHeight;
-			m_pTileInfo[y *unTextureColTileNum + x ].du = fTextureDu;
-			m_pTileInfo[y *unTextureColTileNum + x ].dv = fTextureDv;
+			m_pTileInfo[y*unTextureColTileNum+x].u = float(x * m_FileHeader.nTileWidth) / m_nTextureWidth;
+			m_pTileInfo[y*unTextureColTileNum+x].v =  1.0f - float(y*m_FileHeader.nTileHeight + m_FileHeader.nTileHeight) / m_nTextureHeight;
+			m_pTileInfo[y*unTextureColTileNum+x].du = fTextureDu;
+			m_pTileInfo[y*unTextureColTileNum+x].dv = fTextureDv;
 		}
 	}
-	
 }
-bool L2DConvert::CreateL2DFile(char *pszXMlFileName, uint unDefaultTile, char *pszL2DFileName)
-{
-	if(NULL == pszL2DFileName)
-		return false;
-	if(!ParseXmlFile(pszXMlFileName))
-		return false;
-	ConverToL2D(unDefaultTile);
 
-	ofstream binary_file;
-	binary_file.open(pszL2DFileName,ios::out|ios::binary);
-	if(!binary_file)
+bool L2DConvert::CreateL2DFile(const char* pszXMlFileName, uint nDefaultTile, const char* pszL2DFileName)
+{
+	if(NULL == pszL2DFileName) return false;
+	if(!ParseXmlFile(pszXMlFileName)) return false;
+	ConverToL2D(nDefaultTile);
+
+	FILE* pFile = NULL;
+	fopen_s(&pFile, pszL2DFileName, "wb");
+
+	if (!pFile)
 	{
-		cout<<"Create L2D file failed"<<endl;
+		std::cout << "Create L2D file failed" << std::endl;
 		return false;
 	}
-	else
-	{
-		cout<<"Create L2D file success"<<endl;
-	}
-	binary_file.write((char*)&m_FileHeader,sizeof(FmtL2D::FILE_HEADER_tag));
-	binary_file.write((char*)m_pTileInfo, sizeof(FmtL2D::TILE_INFO_tag) * (m_unTextureHeight / m_FileHeader.nTileHeight) * (m_unTextureWidth / m_FileHeader.nTileWidth ));
-	binary_file.write((char*)m_pGidAry,sizeof(uint) * m_FileHeader.nMapCol * m_FileHeader.nMapRow);
-	binary_file.close();
+
+	fwrite(&m_FileHeader, sizeof(m_FileHeader), 1, pFile);
+	fwrite(m_pTileInfo, sizeof(FmtL2D::TILE_INFO), m_FileHeader.nNumTiles, pFile);
+	fwrite(m_pGridArray, sizeof(uint), m_FileHeader.nMapCol * m_FileHeader.nMapRow, pFile);
+	fclose(pFile);
+
+	std::cout << "Create L2D file success" << std::endl;
 	return true;
 }

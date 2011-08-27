@@ -8,7 +8,6 @@
 #include <action/ActionBySpline.h>
 #include <math.h>
 
-
 ActionBySpline::ActionBySpline(float time)
 {	
 	m_fTime = time;
@@ -34,17 +33,16 @@ ActionBySpline::ActionBySpline(float time)
 	m_matCoeffs.e[Matrix4x4::E42] = 0.0f;
 	m_matCoeffs.e[Matrix4x4::E43] = 0.0f;
 	m_matCoeffs.e[Matrix4x4::E44] = 0.0f;
-	pVerts = new VATTR_POS_UV [10000];
-	m_pShader = IShaderMgr::GetInstance().CreateShader(SSI_DEFAULT);
+
 	m_bClosed = false;
 	Reset();
 }
 
-ActionBySpline::~ActionBySpline(void)
+ActionBySpline::~ActionBySpline()
 {
-	//TODO:
-	SAFE_DELETE_ARRAY(pVerts);
+	// TODO: 
 }
+
 void ActionBySpline::AddPoint(const Vector3& Point)
 {
 	m_vPoints.push_back(Point);
@@ -54,40 +52,33 @@ const Vector3& ActionBySpline::GetPoint(uint index)
 {
 	return m_vPoints[index];
 }
-uint ActionBySpline::GetNumberPoints(void) const
+
+uint ActionBySpline::GetNumberPoints() const
 {
-	//TODO:
 	return m_vPoints.size();
 }
 
 void ActionBySpline::Clear()
 {
-	//TODO:
 	m_vPoints.clear();
 	m_vTangents.clear();
 }
 
 void ActionBySpline::UpdatePoint(uint index, const Vector3 &value)
 {
-	//TODO:
 	m_vPoints[index] = value;
-	recalcTangents();
+	RecalcTangents();
 }
 
-Vector3 ActionBySpline::interpolate(uint fromIndex, float t) const
+Vector3 ActionBySpline::Interpolate(uint fromIndex, float t) const
 {
-	//TODO:
-	if((fromIndex + 1) == m_vPoints.size())
-		return m_vPoints[fromIndex];
+	if((fromIndex + 1) == m_vPoints.size()) return m_vPoints[fromIndex];
 
-	if(0.0f == t)
-		return m_vPoints[fromIndex];
-	if(1.0f == t)
-		return m_vPoints[fromIndex + 1];
-	
-	float t2, t3;
-	t2 = t * t;
-	t3 = t2 * t;
+	if(t <= 0.0f) return m_vPoints[fromIndex];
+	if(t >= 1.0f) return m_vPoints[fromIndex + 1];
+
+	float t2 = t * t;
+	float t3 = t2 * t;
 	Vector4 powers(t3, t2, t, 1);
 	// Algorithm is ret = powers * mCoeffs * Matrix4(point1, point2, tangent1, tangent2)
 	//
@@ -95,6 +86,7 @@ Vector3 ActionBySpline::interpolate(uint fromIndex, float t) const
 	const Vector3& point2 = m_vPoints[fromIndex + 1];
 	const Vector3& tan1 = m_vTangents[fromIndex];
 	const Vector3& tan2 = m_vTangents[fromIndex + 1];
+
 	Matrix4x4 pt;
 	pt.e[Matrix4x4::E11] = point1.x;
 	pt.e[Matrix4x4::E12] = point1.y;
@@ -119,10 +111,9 @@ Vector3 ActionBySpline::interpolate(uint fromIndex, float t) const
 	Vector4 ret = powers * m_matCoeffs * pt;
 
 	return Vector3(ret.x, ret.y, ret.z);
-	
 }
 
-void ActionBySpline::recalcTangents(void)
+void ActionBySpline::RecalcTangents(void)
 {
 	// Catmull-Rom approach
 	// tangent[i] = 0.5 * (point[i+1] - point[i-1])
@@ -178,12 +169,11 @@ void ActionBySpline::recalcTangents(void)
 void ActionBySpline::Reset()
 {
 	m_fCurrenTime = 0.0f;
-	recalcTangents();
+	RecalcTangents();
 }
 
 void ActionBySpline::Update(float dt)
 {
-	
 	if(! IsRunning()) return;
 
 	m_fCurrenTime +=dt;
@@ -195,12 +185,13 @@ void ActionBySpline::Update(float dt)
 		Stop();
 		return;
 	}
+
 	float alpha = m_fCurrenTime / m_fTime;
 	float fSeg = alpha * (m_vPoints.size() - 1);
 	uint segIdx = (uint) fSeg;
 	alpha = fSeg - segIdx;
 
-	Vector3 Position = interpolate(segIdx,alpha);
+	Vector3 Position = Interpolate(segIdx,alpha);
 	Vector3 prvPosition = GetPosition();
 
 	Vector3 direction = Position - prvPosition;
@@ -209,29 +200,30 @@ void ActionBySpline::Update(float dt)
 		SetPosition(Position);
 		return;
 	}
+
 	SetPosition(Position);
 	float fradian = atanf(direction.y/direction.x);
-	SetRotation(Vector3(0.0f, 0.0f,1.0f), fradian);
+	SetRotation(Vector3(0.0f, 0.0f, 1.0f), fradian);
 }
 
-IActionBase* ActionBySpline::Clone(void)
+IActionBase* ActionBySpline::Clone()
 {
 	ActionBySpline* pActionBySpline = new ActionBySpline(*this);
 	pActionBySpline->Reset();
 	return pActionBySpline;
 }
 
-IActionBase* ActionBySpline::CloneInverse(void)
+IActionBase* ActionBySpline::CloneInverse()
 {
 	ActionBySpline* pActionBySpline = new ActionBySpline(*this);
 	pActionBySpline->Clear();
-	pActionBySpline->m_vPoints.reserve(this->m_vPoints.size());
-	pActionBySpline->m_vPoints.assign(this->m_vPoints.rbegin(), this->m_vPoints.rend());
+	pActionBySpline->m_vPoints.reserve(m_vPoints.size());
+	pActionBySpline->m_vPoints.assign(m_vPoints.rbegin(), m_vPoints.rend());
 	pActionBySpline->Reset();
 	return pActionBySpline;
 }
 
-float ActionBySpline::GetTimeLength(void) const
+float ActionBySpline::GetTimeLength() const
 {
 	return m_fTime;
 }

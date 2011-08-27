@@ -9,7 +9,6 @@
 
 ActionMoveBy::ActionMoveBy(const Vector3 &posStart, const Vector3 &posOff, float time)
 {
-	//TODO:
 	m_vPostart = posStart;
 	m_vPosoff = posOff;
 	m_fTime = time;
@@ -21,15 +20,13 @@ ActionMoveBy::~ActionMoveBy()
 	//TODO:
 }
 
-void ActionMoveBy::Reset(void)
+void ActionMoveBy::Reset()
 {
-	//TODO:
 	m_fCurrTime = 0.0f;
 }
 
 void ActionMoveBy::Update(float dt)
 {
-	//TODO:
 	if(! IsRunning()) return;
 	m_fCurrTime += dt;
 	//action end
@@ -39,25 +36,23 @@ void ActionMoveBy::Update(float dt)
 		Stop();
 		return;
 	}
+
 	float alpha = m_fCurrTime / m_fTime;
 	SetPosition(m_vPostart + alpha * m_vPosoff);
 
 }
 
-IActionBase* ActionMoveBy::Clone(void)
+IActionBase* ActionMoveBy::Clone()
 {
-	//TODO:
 	return new ActionMoveBy(m_vPostart, m_vPosoff, m_fTime);
 }
 
 IActionBase* ActionMoveBy::CloneInverse(void)
 {
-	//TODO:
 	return new ActionMoveBy(m_vPostart + m_vPosoff, Vector3(-m_vPosoff.x, -m_vPosoff.y, -m_vPosoff.z), m_fTime);
 }
 
 float ActionMoveBy::GetTimeLength() const
 {
-	//TODO:
 	return m_fTime;
 }

@@ -5,39 +5,52 @@
  *	
  * \author:	wbaoqing(wbaoqing@gmail.com)
  */
-#ifndef __ACTIONCUBICBSPLINE_H_
-#define __ACTIONCUBICBSPLINE_H_
+#ifndef __ACTIONCUBICBSPLINE_H__
+#define __ACTIONCUBICBSPLINE_H__
+
 #include "IActionBase.h"
 #include <vector>
-using namespace std;
-class ActionCubicBSpline: public IActionBase
+
+class ActionCubicBSpline : public IActionBase
 {
+public:
+	typedef std::vector<Vector3> TV_VECTOR3;
+
 public:
 	ActionCubicBSpline(float ftime);
 	virtual ~ActionCubicBSpline();
-public:
+
 	/** Adds a control point to the end of the spline. */
 	void AddPoint(const Vector3& Point);
+
 	/** Gets the detail of one of the control points of the spline. */
 	const Vector3& GetPoint(uint index);
+
 	/** Gets the number of control points in the spline. */
-	uint GetNumberPoints(void) const;
+	uint GetNumberPoints() const;
+
 	/** Clears all the points in the spline. */
-	void Clear(void);
+	void Clear();
+
 	/** Updates a single point in the spline.*/
 	void UpdatePoint(uint index, const Vector3& value);
-	virtual void Reset(void);
+
+	virtual void Reset();
 	virtual void Update(float dt);
-	virtual IActionBase* Clone(void);
-	virtual IActionBase* CloneInverse(void);
-	virtual float GetTimeLength(void) const;
+	virtual IActionBase* Clone();
+	virtual IActionBase* CloneInverse();
+	virtual float GetTimeLength() const;
+
 private:
 	Vector3 Interpolate(uint fromIndex, float t) const;
 	void RecaleControlPoint();
+
 private:
 	float m_fTime;
 	float m_fCurrenTime;
-	vector<Vector3> m_vPoints;
-	vector<Vector3> m_vConPoints;
+
+	TV_VECTOR3 m_vPoints;
+	TV_VECTOR3 m_vConPoints;
+
 };
-#endif//__ACTIONCUBICBSPLINE_H_
+#endif // __ACTIONCUBICBSPLINE_H__

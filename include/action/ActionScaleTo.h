@@ -14,15 +14,16 @@ class ActionScaleTo : public IActionBase
 {
 public:
 	ActionScaleTo(const Vector3& ScaleStart, const Vector3& ScaleEnd, float time);
-	~ActionScaleTo();
-public:
-	virtual void Reset(void);
+	virtual ~ActionScaleTo();
+
+	virtual void Reset();
 	virtual void Update(float dt);
 
-	virtual IActionBase* Clone(void);
-	virtual IActionBase* CloneInverse(void);
+	virtual IActionBase* Clone();
+	virtual IActionBase* CloneInverse();
 
-	virtual float GetTimeLength(void) const;
+	virtual float GetTimeLength() const;
+
 private:
 	Vector3 m_vScaleStart;
 	Vector3 m_vScaleEnd;
@@ -30,4 +31,5 @@ private:
 	float m_fTime;
 	float m_fCurrTime;
 };
-#endif//__ACTIONSCALETO_H_
+
+#endif // __ACTIONSCALETO_H__

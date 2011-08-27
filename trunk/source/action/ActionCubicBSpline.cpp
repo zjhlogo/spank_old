@@ -9,11 +9,14 @@
 #include <util/IDebugUtil.h>
 #include <math.h>
 #include <math/IMath.h>
+
 ActionCubicBSpline::ActionCubicBSpline(float ftime)
 {
-	//TODO:
 	m_fTime = ftime;
+
+	Reset();
 }
+
 ActionCubicBSpline::~ActionCubicBSpline()
 {
 	//TODO:
@@ -43,7 +46,9 @@ void ActionCubicBSpline::Clear()
 void ActionCubicBSpline::UpdatePoint(uint index, const Vector3 &value)
 {
 	if(index > 0&& index < m_vConPoints.size())
+	{
 		m_vPoints[index] = value;
+	}
 }
 
 void ActionCubicBSpline::Reset()
@@ -55,6 +60,7 @@ void ActionCubicBSpline::Reset()
 void ActionCubicBSpline::Update(float dt)
 {
 	if(!IsRunning()) return;
+
 	m_fCurrenTime += dt;
 	if( m_fCurrenTime > m_fTime)
 	{
@@ -62,6 +68,7 @@ void ActionCubicBSpline::Update(float dt)
 		Stop();
 		return;
 	}
+
 	if( m_vPoints.size() == 2)
 	{
 		float alpha = m_fCurrenTime / m_fTime;
@@ -69,6 +76,7 @@ void ActionCubicBSpline::Update(float dt)
 		SetPosition(Point);
 		return;
 	}
+
 	float alpha = m_fCurrenTime / m_fTime;
 	float fSeg = alpha * (m_vPoints.size() - 3);
 	uint segIdx = (uint) fSeg;
@@ -85,22 +93,21 @@ void ActionCubicBSpline::Update(float dt)
 	SetPosition(Position);
 	float Radian = atan2f(direct.y, direct.x);
 	SetRotation(Vector3(0.0f, 0.0f, 1.0f), Radian);
-
 }
+
 IActionBase* ActionCubicBSpline::Clone()
 {
-	//TODO:
 	ActionCubicBSpline * pNewActionCubicBSpline =  new ActionCubicBSpline(*this);
 	pNewActionCubicBSpline->Reset();
 	return pNewActionCubicBSpline;
 }
+
 IActionBase* ActionCubicBSpline::CloneInverse()
 {
-	//TODO:
 	ActionCubicBSpline* pActionCubicBSpline = new ActionCubicBSpline(*this);
 	pActionCubicBSpline->Clear();
-	pActionCubicBSpline->m_vPoints.reserve(this->m_vPoints.size());
-	pActionCubicBSpline->m_vPoints.assign(this->m_vPoints.rbegin(), this->m_vPoints.rend());
+	pActionCubicBSpline->m_vPoints.reserve(m_vPoints.size());
+	pActionCubicBSpline->m_vPoints.assign(m_vPoints.rbegin(), m_vPoints.rend());
 	pActionCubicBSpline->RecaleControlPoint();
 	return pActionCubicBSpline;
 }
@@ -112,16 +119,11 @@ float ActionCubicBSpline::GetTimeLength() const
 
 Vector3 ActionCubicBSpline::Interpolate(uint fromIndex, float t) const
 {
-	//TODO:
-
-	float ft0, ft1, ft2,ft3;
-	ft3 = t;
-
-	ft0 = 1.0f - ft3;
-	ft0 = ft0 * ft0 *ft0 / 6.0f;
-	ft1 = ((3.0f * ft3 - 6.0f) * ft3 * ft3 +4.0f) / 6.0f;
-	ft2 = (((3.0f  - 3.0f * ft3) * ft3 +3.0f) * ft3 + 1.0f) / 6.0f;
-	ft3 = 1.0f - ft0 - ft1 - ft2;
+	float ft0 = 1.0f - t;
+	ft0 = ft0 * ft0 * ft0 / 6.0f;
+	float ft1 = ((3.0f * t - 6.0f) * t * t +4.0f) / 6.0f;
+	float ft2 = (((3.0f  - 3.0f * t) * t +3.0f) * t + 1.0f) / 6.0f;
+	float ft3 = 1.0f - ft0 - ft1 - ft2;
 
 	Vector3 result;
 	result.x = m_vConPoints[fromIndex].x * ft0 + m_vConPoints[fromIndex + 1].x * ft1 + m_vConPoints[fromIndex + 2].x * ft2 + m_vConPoints[fromIndex + 3].x * ft3;
@@ -133,7 +135,6 @@ Vector3 ActionCubicBSpline::Interpolate(uint fromIndex, float t) const
 
 void ActionCubicBSpline::RecaleControlPoint()
 {
-	//TODO:
 	// Can't do anything
 	if(m_vPoints.size() < 3) return;
 	
@@ -159,5 +160,4 @@ void ActionCubicBSpline::RecaleControlPoint()
 	m_vConPoints[nNumberPoints].z = 6.0f * m_vConPoints[nNumberPoints].z 
 								- 4.0f * m_vConPoints[nNumberPoints - 1].z 
 								- m_vConPoints[nNumberPoints - 2].z;
-
 }

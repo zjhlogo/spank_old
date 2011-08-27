@@ -5,22 +5,25 @@
  *	
  * \author:	wbaoqing(wbaoqing@gmail.com)
  */
+#ifndef __ACTIONSCALEBY_H__
+#define __ACTIONSCALEBY_H__
+
 #include "IActionBase.h"
-#ifndef __ACTIONSCALEBY_H_
-#define __ACTIONSCALEBY_H_
+
 class ActionScaleBy: public IActionBase
 {
 public: 
 	ActionScaleBy(const Vector3& ScaleStart, const Vector3& ScaleOff, float time);
-	~ActionScaleBy();
-public:
-	virtual void Reset(void);
+	virtual ~ActionScaleBy();
+
+	virtual void Reset();
 	virtual void Update(float dt);
 
-	virtual IActionBase* Clone(void);
-	virtual IActionBase* CloneInverse(void);
+	virtual IActionBase* Clone();
+	virtual IActionBase* CloneInverse();
 
-	virtual float GetTimeLength(void) const;
+	virtual float GetTimeLength() const;
+
 private:
 	Vector3 m_vScaleStart;
 	Vector3 m_vScaleOff;
@@ -29,4 +32,5 @@ private:
 	float m_fCurrTime;
 
 };
-#endif//__ACTIONSCALEBY_H_
+
+#endif // __ACTIONSCALEBY_H__

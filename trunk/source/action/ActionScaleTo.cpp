@@ -5,28 +5,29 @@
  * 
  * \author wbaoqing (wbaoqing@gmail.com)
  */
-#include "action/ActionScaleTo.h"
+#include <action/ActionScaleTo.h>
+
 ActionScaleTo::ActionScaleTo(const Vector3& ScaleStart, const Vector3& ScaleEnd, float time)
 {
-	//TODO:
 	m_vScaleStart = ScaleStart;
 	m_vScaleEnd = ScaleEnd;
 	m_fTime = time;
 
 	Reset();
 }
+
 ActionScaleTo::~ActionScaleTo()
 {
 	//TODO:
 }
-void ActionScaleTo::Reset(void)
+
+void ActionScaleTo::Reset()
 {
-	//TODO:
-	m_fCurrTime = 0.0;
+	m_fCurrTime = 0.0f;
 }
+
 void ActionScaleTo::Update(float dt)
 {
-	//TODO:
 	if(!IsRunning())return;
 	m_fCurrTime += dt;
 	// action end
@@ -36,20 +37,19 @@ void ActionScaleTo::Update(float dt)
 		Stop();
 		return;
 	}
+
 	// changing the position
 	float alpha = m_fCurrTime / m_fTime;
 	SetScale(m_vScaleStart * (1.0f - alpha) + m_vScaleEnd * alpha);
 }
 
-IActionBase* ActionScaleTo::Clone(void)
+IActionBase* ActionScaleTo::Clone()
 {
-	//TODO:
 	return new ActionScaleTo(m_vScaleStart, m_vScaleEnd, m_fTime);
 }
 
-IActionBase* ActionScaleTo::CloneInverse(void)
+IActionBase* ActionScaleTo::CloneInverse()
 {
-	//TODO:
 	return new ActionScaleTo(m_vScaleEnd, m_vScaleStart, m_fTime);
 }	
 

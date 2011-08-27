@@ -5,55 +5,55 @@
  *	
  * \author:	wbaoqing(wbaoqing@gmail.com)
  */
-#ifndef __ACTIONBYSPLINE_H_
-#define __ACTIONBYSPLINE_H_
+#ifndef __ACTIONBYSPLINE_H__
+#define __ACTIONBYSPLINE_H__
 
-#include <math/IMath.h>
-#include <BaseType.h>
-#include <IShader.h>
-#include <IShaderMgr.h>
-#include <ITexture.h>
-#include <ITextureMgr.h>
-#include <vector>
 #include "IActionBase.h"
+#include <math/IMath.h>
+#include <vector>
+
 class ActionBySpline :public IActionBase
 {
+public:
+	typedef std::vector<Vector3> TV_VECTOR3;
+
 public:
 	ActionBySpline(float time);
 	virtual ~ActionBySpline();
 
 	/** Adds a control point to the end of the spline. */
 	void AddPoint(const Vector3& Point);
+
 	/** Gets the detail of one of the control points of the spline. */
 	const Vector3& GetPoint(uint index);
+
 	/** Gets the number of control points in the spline. */
 	uint GetNumberPoints(void) const;
+
 	/** Clears all the points in the spline. */
-	void Clear(void);
+	void Clear();
+
 	/** Updates a single point in the spline.*/
 	void UpdatePoint(uint index, const Vector3& value);
 
-	virtual void Reset(void);
+	virtual void Reset();
 	virtual void Update(float dt);
-	virtual IActionBase* Clone(void);
-	virtual IActionBase* CloneInverse(void);
-	virtual float GetTimeLength(void) const;
+	virtual IActionBase* Clone();
+	virtual IActionBase* CloneInverse();
+	virtual float GetTimeLength() const;
+
 private:
-	Vector3 interpolate(uint fromIndex, float t) const;
-	void setAutoCalculate(bool autoCalc);
-	void recalcTangents(void);
+	Vector3 Interpolate(uint fromIndex, float t) const;
+	void RecalcTangents();
+
 private:
-	std::vector<Vector3> m_vPoints;
-	
-	std::vector<Vector3> m_vTangents;
-	VATTR_POS_UV* pVerts;
-	IShader* m_pShader;
-	ITexture* m_pTexTure;
-	/// Matrix of coefficients 
-	Matrix4x4 m_matCoeffs;
+	TV_VECTOR3 m_vPoints;
+	TV_VECTOR3 m_vTangents;
+	Matrix4x4 m_matCoeffs;					// Matrix of coefficients 
+
 	bool m_bClosed;
 	float m_fTime;
 	float m_fCurrenTime;
-};
 
-#endif//__ACTIONBYSPLINE_H_
+};
+#endif // __ACTIONBYSPLINE_H__

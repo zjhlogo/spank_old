@@ -12,6 +12,7 @@
 #include <ITextureMgr.h>
 #include <IShaderMgr.h>
 #include <IRenderer2D.h>
+
 Level2D::Level2D(const char* pszLevel2DFile)
 {
 	m_vCenterPosition = IMath::VEC2_ZERO;
@@ -44,14 +45,6 @@ Level2D::~Level2D()
 
 void Level2D::Update(float dt)
 {
-	INode* pNode = GetParentNode();
-	if (pNode)
-	{
-		const Vector3& pos = pNode->GetPosition();
-		m_vCenterPosition.x = pos.x;
-		m_vCenterPosition.y = pos.y;
-	}
-
 	int nXBoundary = (TILE_BORDER_SIZE + m_nHalfSceneWidth / m_FileHeader.nTileWidth) * m_FileHeader.nTileWidth - m_nHalfSceneWidth;
 	int nYBoundary = (TILE_BORDER_SIZE + m_nHalfSceneHeight / m_FileHeader.nTileHeight) * m_FileHeader.nTileHeight - m_nHalfSceneHeight;
 	
@@ -80,6 +73,16 @@ void Level2D::Render()
 	uint unRectSize = m_nSurfaceRowTileNum * m_nSurfaceColTileNum;
 	IRenderer2D::GetInstance().DrawTriangleList(m_pVerts, unRectSize * VERTEX_CACHE_SIZE, m_pIndis, unRectSize * INDEX_CACHE_SIZE, m_pShader);
 
+}
+
+void Level2D::SetCenterPosition(const Vector2& pos)
+{
+	m_vCenterPosition = pos;
+}
+
+const Vector2& Level2D::GetCenterPosition() const
+{
+	return m_vCenterPosition;
 }
 
 bool Level2D::LoadLevel2DFromFile(const char* pszLevel2DFile)

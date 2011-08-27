@@ -81,6 +81,7 @@ UIScreen* UISystem_Impl::CreateUIScreen()
 
 	pScreen->SetPosition(IMath::VEC2_ZERO);
 	pScreen->SetSize(ScreenUtil::GetInstance().GetScreenSize());
+	m_vUIScreen.push_back(pScreen);
 
 	return pScreen;
 }

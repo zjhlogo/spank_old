@@ -29,11 +29,22 @@ public:
 
 	UIWindow* GetParentWindow();
 
+	int GetID() const;
+	void SetID(int nID);
+
 	const Vector2& GetPosition() const;
 	void SetPosition(const Vector2& pos);
 
 	const Vector2& GetSize() const;
 	void SetSize(const Vector2& size);
+
+	void SetPadding(float left, float top, float right, float bottom);
+	const Vector2& GetPaddingLeftTop() const;
+	const Vector2& GetPaddingRightBottom() const;
+
+	void SetMargin(float left, float top, float right, float bottom);
+	const Vector2& GetMarginLeftTop() const;
+	const Vector2& GetMarginRightBottom() const;
 
 	bool ProcessTouchEvent(const Vector2& pos, UI_TOUCH_EVENT_TYPE eType);
 
@@ -56,8 +67,16 @@ private:
 	UIWindow* m_pParent;
 	TV_WINDOW m_vChildren;
 
+	int m_nID;
+
 	Vector2 m_vPosition;
 	Vector2 m_vSize;
+
+	Vector2 m_PaddingLeftTop;
+	Vector2 m_PaddingRightBottom;
+
+	Vector2 m_MarginLeftTop;
+	Vector2 m_MarginRightBottom;
 
 };
 #endif // __UIWINDOW_H__

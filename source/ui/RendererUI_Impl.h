@@ -46,7 +46,7 @@ public:
 	virtual void EndRender();
 
 private:
-	bool AddPrimetive(VertexCache** pCache, int nNumCache, IShader* pShader, const void* pVerts, uint nVerts, const ushort* pIndis, uint nIndis);
+	bool AddPrimetive(VertexCache** pCache, int nNumCache, IShader* pShader, ITexture* pTexture, const void* pVerts, uint nVerts, const ushort* pIndis, uint nIndis);
 	bool OnLineCacheFlushed(IMsgBase* pMsg);
 	bool OnTriangleCacheFlushed(IMsgBase* pMsg);
 

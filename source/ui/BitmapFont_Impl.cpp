@@ -13,7 +13,7 @@
 
 BitmapFont_Impl::BitmapFont_Impl(const char* pszFontFile)
 {
-	m_nLineHeight = 0;
+	m_fLineHeight = 0.0f;
 	m_nPageCount = 0;
 
 	m_bOK = CreateBitmapFont(pszFontFile);
@@ -27,9 +27,9 @@ BitmapFont_Impl::~BitmapFont_Impl()
 	FreeFont();
 }
 
-int BitmapFont_Impl::GetLineHeight() const
+float BitmapFont_Impl::GetLineHeight() const
 {
-	return m_nLineHeight;
+	return m_fLineHeight;
 }
 
 const BitmapFont_Impl::CHAR_INFO* BitmapFont_Impl::GetCharInfo(int nID) const
@@ -43,7 +43,7 @@ const BitmapFont_Impl::CHAR_INFO* BitmapFont_Impl::GetCharInfo(int nID) const
 	return NULL;
 }
 
-int BitmapFont_Impl::GetKerning(int nFirstID, int nSecondID) const
+float BitmapFont_Impl::GetKerning(int nFirstID, int nSecondID) const
 {
 	int nHaskKey = HashKerningID(nFirstID, nSecondID);
 
@@ -53,7 +53,7 @@ int BitmapFont_Impl::GetKerning(int nFirstID, int nSecondID) const
 		return itfound->second;
 	}
 
-	return 0;
+	return 0.0f;
 }
 
 bool BitmapFont_Impl::CreateBitmapFont(const char* pszFontFile)
@@ -81,6 +81,7 @@ bool BitmapFont_Impl::CreateBitmapFont(const char* pszFontFile)
 	TiXmlElement* pElmCharsInfo = pElmFont->FirstChildElement("chars");
 	if (!pElmCharsInfo) return false;
 	if (!CreateCharsInfo(pElmCharsInfo)) return false;
+	if (!CreateControlCharsInfo()) return false;
 
 	TiXmlElement* pElmKerningsInfo = pElmFont->FirstChildElement("kernings");
 	if (pElmKerningsInfo)
@@ -93,7 +94,10 @@ bool BitmapFont_Impl::CreateBitmapFont(const char* pszFontFile)
 
 bool BitmapFont_Impl::ParseCommonInfo(TiXmlElement* pElmCommon)
 {
-	if (!pElmCommon->Attribute("lineHeight", &m_nLineHeight)) return false;
+	int temp = 0;
+	if (!pElmCommon->Attribute("lineHeight", &temp)) return false;
+	m_fLineHeight = (float)temp;
+
 	if (!pElmCommon->Attribute("pages", &m_nPageCount)) return false;
 
 	return true;
@@ -175,14 +179,24 @@ bool BitmapFont_Impl::CreateCharsInfo(TiXmlElement* pElmChars)
 		float fTextureWidth = (float)CharInfo.pTexture->GetWidth();
 		float fTextureHeight = (float)CharInfo.pTexture->GetHeight();
 
-		CharInfo.u = (posX-0.5f)/fTextureWidth;
-		CharInfo.v = (fTextureHeight-posY-CharInfo.height-0.5f)/fTextureHeight;		// invert the y-axis for opengl
-		CharInfo.du = (CharInfo.width+0.5f)/fTextureWidth;
-		CharInfo.dv = (CharInfo.height+0.5f)/fTextureHeight;
+		CharInfo.u = (posX)/fTextureWidth;
+		CharInfo.v = (fTextureHeight-posY-CharInfo.height)/fTextureHeight;		// invert the y-axis for opengl
+		CharInfo.du = (CharInfo.width)/fTextureWidth;
+		CharInfo.dv = (CharInfo.height)/fTextureHeight;
 
 		m_mapCharInfo.insert(std::make_pair(CharInfo.nID, CharInfo));
 	}
 
+	return true;
+}
+
+bool BitmapFont_Impl::CreateControlCharsInfo()
+{
+	const CHAR_INFO* pCharInfo = GetCharInfo(-1);
+	CHAR_INFO CharInfoReturn = (*pCharInfo);
+	CharInfoReturn.nID = '\n';
+
+	m_mapCharInfo.insert(std::make_pair(CharInfoReturn.nID, CharInfoReturn));
 	return true;
 }
 
@@ -204,14 +218,16 @@ bool BitmapFont_Impl::CreateKerningsInfo(TiXmlElement* pElmKernings)
 	{
 		int nFirstID = 0;
 		int nSecondID = 0;
-		int nOffset = 0;
 		if (!pElmKerning->Attribute("first", &nFirstID)) return false;
 		if (!pElmKerning->Attribute("second", &nSecondID)) return false;
-		if (!pElmKerning->Attribute("amount", &nOffset)) return false;
+
+		int temp = 0;
+		if (!pElmKerning->Attribute("amount", &temp)) return false;
+		float fOffset = (float)temp;
 
 		int nHaskKey = HashKerningID(nFirstID, nSecondID);
 
-		m_mapKerning.insert(std::make_pair(nHaskKey, nHaskKey));
+		m_mapKerning.insert(std::make_pair(nHaskKey, fOffset));
 	}
 
 	return true;

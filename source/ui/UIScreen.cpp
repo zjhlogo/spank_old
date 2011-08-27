@@ -10,7 +10,7 @@
 UIScreen::UIScreen()
 :UIWindow(NULL)
 {
-	// TODO: 
+	m_bOK = true;
 }
 
 UIScreen::~UIScreen()

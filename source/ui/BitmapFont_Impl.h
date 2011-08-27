@@ -18,15 +18,15 @@ class BitmapFont_Impl : public IFont
 public:
 	typedef std::vector<ITexture*> TV_TEXTURE;
 	typedef std::map<int, CHAR_INFO> TM_CHAR_INFO;
-	typedef std::map<int, int> TM_KERNING;
+	typedef std::map<int, float> TM_KERNING;
 
 public:
 	BitmapFont_Impl(const char* pszFontFile);
 	virtual ~BitmapFont_Impl();
 
-	virtual int GetLineHeight() const;
+	virtual float GetLineHeight() const;
 	virtual const CHAR_INFO* GetCharInfo(int nID) const;
-	virtual int GetKerning(int nFirstID, int nSecondID) const;
+	virtual float GetKerning(int nFirstID, int nSecondID) const;
 
 private:
 	bool CreateBitmapFont(const char* pszFontFile);
@@ -36,6 +36,7 @@ private:
 	void DestroyTextures();
 
 	bool CreateCharsInfo(TiXmlElement* pElmChars);
+	bool CreateControlCharsInfo();
 	void DestroyCharsInfo();
 
 	bool CreateKerningsInfo(TiXmlElement* pElmKernings);
@@ -45,7 +46,7 @@ private:
 	void FreeFont();
 
 private:
-	int m_nLineHeight;
+	float m_fLineHeight;
 	int m_nPageCount;
 	TV_TEXTURE m_vTextures;
 	TM_CHAR_INFO m_mapCharInfo;

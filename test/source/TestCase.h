@@ -19,6 +19,9 @@ public:
 	TestCase(const char* pszTestName);
 	virtual ~TestCase();
 
+	const char* GetName() const;
+	UIScreen* GetScreen();
+
 	bool InternalInitialize();
 	void InternalTerminate();
 
@@ -30,6 +33,7 @@ public:
 
 private:
 	void AddReturnButton(UIScreen* pUIScreen);
+	bool OnBtnReturnClicked(IMsgBase* pMsg);
 
 private:
 	std::string m_strTestName;

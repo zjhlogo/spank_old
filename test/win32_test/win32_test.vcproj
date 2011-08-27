@@ -174,11 +174,43 @@
 	</References>
 	<Files>
 		<File
+			RelativePath="..\source\ActionTestCase.cpp"
+			>
+		</File>
+		<File
+			RelativePath="..\source\ActionTestCase.h"
+			>
+		</File>
+		<File
 			RelativePath="..\source\GameApp.cpp"
 			>
 		</File>
 		<File
 			RelativePath="..\source\GameApp.h"
+			>
+		</File>
+		<File
+			RelativePath="..\source\MapTestCase.cpp"
+			>
+		</File>
+		<File
+			RelativePath="..\source\MapTestCase.h"
+			>
+		</File>
+		<File
+			RelativePath="..\source\ParticleTestCase.cpp"
+			>
+		</File>
+		<File
+			RelativePath="..\source\ParticleTestCase.h"
+			>
+		</File>
+		<File
+			RelativePath="..\source\SpriteTestCase.cpp"
+			>
+		</File>
+		<File
+			RelativePath="..\source\SpriteTestCase.h"
 			>
 		</File>
 		<File
@@ -195,6 +227,10 @@
 		</File>
 		<File
 			RelativePath="..\source\UITestCase.h"
+			>
+		</File>
+		<File
+			RelativePath="..\source\UserMsgID.h"
 			>
 		</File>
 	</Files>

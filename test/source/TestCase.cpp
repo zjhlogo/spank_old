@@ -7,10 +7,14 @@
  */
 #include "TestCase.h"
 #include <ui/IUISystem.h>
+#include <ui/UITextView.h>
+#include <util/ScreenUtil.h>
+#include <msg/MsgCommon.h>
+#include "UserMsgID.h"
 
 TestCase::TestCase(const char* pszTestName)
 {
-	if (!pszTestName)
+	if (pszTestName)
 	{
 		m_strTestName = pszTestName;
 	}
@@ -20,11 +24,22 @@ TestCase::TestCase(const char* pszTestName)
 	}
 
 	m_pUIScreen = NULL;
+	m_bOK = true;
 }
 
 TestCase::~TestCase()
 {
 	// TODO: 
+}
+
+const char* TestCase::GetName() const
+{
+	return m_strTestName.c_str();
+}
+
+UIScreen* TestCase::GetScreen()
+{
+	return m_pUIScreen;
 }
 
 bool TestCase::InternalInitialize()
@@ -58,5 +73,17 @@ void TestCase::Render()
 
 void TestCase::AddReturnButton(UIScreen* pUIScreen)
 {
-	// TODO: 
+	UITextView* pTextView = new UITextView(pUIScreen, "RETURN");
+
+	Vector2 pos(0.0f, ScreenUtil::GetInstance().GetScreenHeight() - pTextView->GetSize().y);
+	pTextView->SetPosition(pos);
+	pTextView->ConnectEvent(MI_UI_CLICKED, this, CAST_MSG_CALLBACK(&TestCase::OnBtnReturnClicked));
+}
+
+bool TestCase::OnBtnReturnClicked(IMsgBase* pMsg)
+{
+	// return to menu
+	MsgCommon msgCommon(MI_USER_RETURN);
+	CallEvent(msgCommon);
+	return true;
 }

@@ -27,10 +27,13 @@ public:
 	void Render(const Vector2& pos);
 
 	bool SetText(const char* pszText);
+	const Vector2& GetSize() const;
 
 private:
 	bool CreateCharVerts(const char* pszText);
 	void ClearCharVerts();
+
+	void RecalculateSize();
 
 private:
 	IFont* m_pFont;
@@ -38,6 +41,7 @@ private:
 	int m_nCharCount;
 
 	TV_CHAR_INFO m_vCharInfo;
+	Vector2 m_vSize;
 
 };
 #endif // __UISTRING_H__

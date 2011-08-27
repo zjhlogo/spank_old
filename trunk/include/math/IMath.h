@@ -62,6 +62,7 @@ public:
 
 public:
 	static const float F_PI;
+	static const float F_PI2;
 	static const float FLOAT_MIN;
 	static const float FLOAT_MAX;
 

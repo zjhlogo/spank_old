@@ -10,8 +10,15 @@
 
 UIWindow::UIWindow(UIWindow* pParent)
 {
+	m_nID = 0;
 	m_vPosition = IMath::VEC2_ZERO;
-	m_vSize = Vector2(100.0f, 100.0f);
+	m_vSize = IMath::VEC2_ZERO;
+
+	m_PaddingLeftTop = Vector2(10.0f, 10.0f);
+	m_PaddingRightBottom = Vector2(10.0f, 10.0f);
+
+	m_MarginLeftTop = IMath::VEC2_ZERO;
+	m_MarginRightBottom = IMath::VEC2_ZERO;
 
 	m_pParent = pParent;
 	if (m_pParent)
@@ -35,6 +42,16 @@ UIWindow* UIWindow::GetParentWindow()
 	return m_pParent;
 }
 
+int UIWindow::GetID() const
+{
+	return m_nID;
+}
+
+void UIWindow::SetID(int nID)
+{
+	m_nID = nID;
+}
+
 const Vector2& UIWindow::GetPosition() const
 {
 	return m_vPosition;
@@ -53,6 +70,44 @@ const Vector2& UIWindow::GetSize() const
 void UIWindow::SetSize(const Vector2& size)
 {
 	m_vSize = size;
+	m_vSize += m_PaddingLeftTop;
+	m_vSize += m_PaddingRightBottom;
+}
+
+void UIWindow::SetPadding(float left, float top, float right, float bottom)
+{
+	m_PaddingLeftTop.x = left;
+	m_PaddingLeftTop.y = top;
+	m_PaddingRightBottom.x = right;
+	m_PaddingRightBottom.y = bottom;
+}
+
+const Vector2& UIWindow::GetPaddingLeftTop() const
+{
+	return m_PaddingLeftTop;
+}
+
+const Vector2& UIWindow::GetPaddingRightBottom() const
+{
+	return m_PaddingRightBottom;
+}
+
+void UIWindow::SetMargin(float left, float top, float right, float bottom)
+{
+	m_MarginLeftTop.x = left;
+	m_MarginLeftTop.y = top;
+	m_MarginRightBottom.x = right;
+	m_MarginRightBottom.y = bottom;
+}
+
+const Vector2& UIWindow::GetMarginLeftTop() const
+{
+	return m_MarginLeftTop;
+}
+
+const Vector2& UIWindow::GetMarginRightBottom() const
+{
+	return m_MarginRightBottom;
 }
 
 bool UIWindow::ProcessTouchEvent(const Vector2& pos, UI_TOUCH_EVENT_TYPE eType)

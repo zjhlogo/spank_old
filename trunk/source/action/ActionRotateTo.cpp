@@ -7,58 +7,54 @@
  */
 #include <action/ActionRotateTo.h>
 
-ActionRotateTo::ActionRotateTo(const Vector3& rkAxis, const float& fStartAngle, const float& fEndAngle, float time)
+ActionRotateTo::ActionRotateTo(const Vector3& vAxis, float fStartAngle, float fEndAngle, float time)
 {
-	m_qRotStart = Quaternion(rkAxis, fStartAngle);
-	m_qRotEnd = Quaternion(rkAxis, fEndAngle);
-
-	m_vAxis = rkAxis;
+	m_vAxis = vAxis;
 	m_fStartAngle = fStartAngle;
 	m_fEndAngle = fEndAngle;
 	m_fTime = time;
+
 	Reset();
-	
 }
+
 ActionRotateTo::~ActionRotateTo()
 {
 	//TODO:
-};
+}
 
-void ActionRotateTo::Reset(void)
+void ActionRotateTo::Reset()
 {
-	//TODO:
 	m_fCurrTime = 0.0f;
 }
 
 void ActionRotateTo::Update(float dt)
 {
-	//TODO
 	if(!IsRunning())return;
 
 	m_fCurrTime += dt;
 	//action end
 	if (m_fCurrTime > m_fTime)
 	{
-		SetRotation(m_qRotStart);
+		SetRotation(m_vAxis, m_fEndAngle);
 		Stop();
 		return;
 	}
+
 	float alpha = m_fCurrTime / m_fTime;
 	SetRotation(m_vAxis, m_fStartAngle * (1.0f - alpha) + m_fEndAngle * alpha);
 }
-IActionBase* ActionRotateTo::Clone(void)
+
+IActionBase* ActionRotateTo::Clone()
 {
-	//TODO:
 	return new ActionRotateTo(m_vAxis, m_fStartAngle, m_fEndAngle, m_fTime);
 }
 
-IActionBase* ActionRotateTo::CloneInverse(void)
+IActionBase* ActionRotateTo::CloneInverse()
 {
-	//TODO;
 	return new ActionRotateTo(m_vAxis, m_fEndAngle, m_fStartAngle, m_fTime);
 }
 
-float ActionRotateTo::GetTimeLength(void) const
+float ActionRotateTo::GetTimeLength() const
 {
 	return m_fTime;
 }

@@ -42,6 +42,13 @@ void UIString::Render(const Vector2& pos)
 	{
 		const IFont::CHAR_INFO* pCharInfo = (*it);
 
+		if (pCharInfo->nID == '\n')
+		{
+			fBasePosY += m_pFont->GetLineHeight();
+			fBasePosX = pos.x;
+			continue;
+		}
+
 		QUAD_VERT_POS_UV quad;
 
 		float fCharPosX = fBasePosX + pCharInfo->offsetx;
@@ -81,7 +88,14 @@ void UIString::Render(const Vector2& pos)
 bool UIString::SetText(const char* pszText)
 {
 	// create char cache
-	return CreateCharVerts(pszText);
+	if (!CreateCharVerts(pszText)) return false;
+	RecalculateSize();
+	return true;
+}
+
+const Vector2& UIString::GetSize() const
+{
+	return m_vSize;
 }
 
 bool UIString::CreateCharVerts(const char* pszText)
@@ -99,8 +113,7 @@ bool UIString::CreateCharVerts(const char* pszText)
 	for (int i = 0; i < m_nCharCount; ++i)
 	{
 		const IFont::CHAR_INFO* pCharInfo = m_pFont->GetCharInfo(m_UnicodeChars[i]);
-		if (!pCharInfo) return false;
-
+		if (!pCharInfo) pCharInfo = m_pFont->GetCharInfo(-1);
 		m_vCharInfo.push_back(pCharInfo);
 	}
 
@@ -112,4 +125,28 @@ void UIString::ClearCharVerts()
 	m_UnicodeChars.clear();
 	m_nCharCount = 0;
 	m_vCharInfo.clear();
+}
+
+void UIString::RecalculateSize()
+{
+	m_vSize.x = 0.0f;
+	m_vSize.y = m_pFont->GetLineHeight();
+
+	float fLineWidth = 0.0f;
+	for (TV_CHAR_INFO::const_iterator it = m_vCharInfo.begin(); it != m_vCharInfo.end(); ++it)
+	{
+		const IFont::CHAR_INFO* pCharInfo = (*it);
+		if (pCharInfo->nID == '\n')
+		{
+			m_vSize.x = fLineWidth > m_vSize.x ? fLineWidth : m_vSize.x;
+			m_vSize.y += m_pFont->GetLineHeight();
+			fLineWidth = 0.0f;
+		}
+		else
+		{
+			fLineWidth += pCharInfo->advance;
+		}
+	}
+
+	m_vSize.x = fLineWidth > m_vSize.x ? fLineWidth : m_vSize.x;
 }

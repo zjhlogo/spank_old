@@ -29,7 +29,7 @@ RendererUI_Impl::RendererUI_Impl()
 	m_pShader_POS_UV = NULL;
 
 	m_pTexture = NULL;
-	m_vColor = IMath::VEC4_ONE;
+	m_vColor = Vector4(0.0f, 0.0f, 0.0f, 1.0f);
 	m_bRenderBegan = false;
 }
 
@@ -95,13 +95,13 @@ void RendererUI_Impl::SetColor(float r, float g, float b, float a)
 
 void RendererUI_Impl::DrawLineList(const VATTR_POS_RGB* pVerts, uint nVerts, const ushort* pIndis, uint nIndis)
 {
-	AddPrimetive(m_pCaches_POS_RGB, NUM_POS_RGB_CACHE, m_pShader_POS_RGB, pVerts, nVerts, pIndis, nIndis);
+	AddPrimetive(m_pCaches_POS_RGB, NUM_POS_RGB_CACHE, m_pShader_POS_RGB, NULL, pVerts, nVerts, pIndis, nIndis);
 }
 
 void RendererUI_Impl::DrawLineRect(const QUAD_VERT_POS_RGB& quad)
 {
 	static const ushort s_Indis[8] = {0, 1, 1, 3, 3, 2, 2, 0};
-	AddPrimetive(m_pCaches_POS_RGB, NUM_POS_RGB_CACHE, m_pShader_POS_RGB, &quad.verts[0], 4, s_Indis, 8);
+	AddPrimetive(m_pCaches_POS_RGB, NUM_POS_RGB_CACHE, m_pShader_POS_RGB, NULL, &quad.verts[0], 4, s_Indis, 8);
 }
 
 void RendererUI_Impl::DrawLineRect(const Vector2& pos, const Vector2& size)
@@ -146,13 +146,13 @@ void RendererUI_Impl::DrawLineRect(float x, float y, float width, float height)
 
 void RendererUI_Impl::DrawTriangleList(const VATTR_POS_UV* pVerts, uint nVerts, const ushort* pIndis, uint nIndis)
 {
-	AddPrimetive(m_pCaches_POS_UV, NUM_POS_UV_CACHE, m_pShader_POS_UV, pVerts, nVerts, pIndis, nIndis);
+	AddPrimetive(m_pCaches_POS_UV, NUM_POS_UV_CACHE, m_pShader_POS_UV, m_pTexture, pVerts, nVerts, pIndis, nIndis);
 }
 
 void RendererUI_Impl::DrawTriangleRect(const QUAD_VERT_POS_UV& quad)
 {
 	static const ushort s_Indis[6] = {0, 1, 2, 1, 3, 2};
-	AddPrimetive(m_pCaches_POS_UV, NUM_POS_UV_CACHE, m_pShader_POS_UV, &quad.verts[0], 4, s_Indis, 6);
+	AddPrimetive(m_pCaches_POS_UV, NUM_POS_UV_CACHE, m_pShader_POS_UV, m_pTexture, &quad.verts[0], 4, s_Indis, 6);
 }
 
 void RendererUI_Impl::BeginRender()
@@ -195,7 +195,7 @@ void RendererUI_Impl::EndRender()
 	m_bRenderBegan = false;
 }
 
-bool RendererUI_Impl::AddPrimetive(VertexCache** pCache, int nNumCache, IShader* pShader, const void* pVerts, uint nVerts, const ushort* pIndis, uint nIndis)
+bool RendererUI_Impl::AddPrimetive(VertexCache** pCache, int nNumCache, IShader* pShader, ITexture* pTexture, const void* pVerts, uint nVerts, const ushort* pIndis, uint nIndis)
 {
 	if (!m_bRenderBegan) return false;
 
@@ -205,7 +205,7 @@ bool RendererUI_Impl::AddPrimetive(VertexCache** pCache, int nNumCache, IShader*
 	for (int i = 0; i < nNumCache; ++i)
 	{
 		if (pCache[i]->GetShader() == pShader
-			&& pCache[i]->GetTexture() == m_pTexture)
+			&& pCache[i]->GetTexture() == pTexture)
 		{
 			pMatchCache = pCache[i];
 			break;
@@ -232,7 +232,7 @@ bool RendererUI_Impl::AddPrimetive(VertexCache** pCache, int nNumCache, IShader*
 	}
 	else if (pEmptyCache)
 	{
-		pEmptyCache->SetTexture(m_pTexture);
+		pEmptyCache->SetTexture(pTexture);
 		pEmptyCache->SetShader(pShader);
 		bool bOK = pEmptyCache->AddVerts(pVerts, nVerts, pIndis, nIndis);
 		if (!bOK)

@@ -31,6 +31,9 @@ public:
 	virtual void Update(float dt);
 	virtual void Render();
 
+	void SetCenterPosition(const Vector2& pos);
+	const Vector2& GetCenterPosition() const;
+
 private:
 	void InitVerts();
 	void UpdateVerts();

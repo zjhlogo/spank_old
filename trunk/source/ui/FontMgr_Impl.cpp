@@ -28,7 +28,7 @@ FontMgr_Impl::~FontMgr_Impl()
 
 bool FontMgr_Impl::Initialize()
 {
-	m_pDefaultFont = CreateFont("12px_Tahoma.fnt");
+	m_pDefaultFont = CreateFont("40px_arial_black.fnt");
 	if (!m_pDefaultFont) return false;
 
 	return true;

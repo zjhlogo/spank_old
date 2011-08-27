@@ -30,13 +30,18 @@ public:
 
 private:
 	bool OnMsgTouch(IMsgBase* pMsg);
-	bool AddTestCase(TestCase* pTestCase);
+	bool OnBtnTestCaseClicked(IMsgBase* pMsg);
+	bool OnBtnReturnClicked(IMsgBase* pMsg);
+
+	bool AddTestCase(TestCase* pTestCase, UIScreen* pScreen);
+	void FreeCurrTestCase();
+	bool SwitchTestCase(int nIndex);
 
 private:
 	TV_TEST_CASE m_vTestCase;
+	TestCase* m_pCurrTestCase;
+	UIScreen* m_pMainScreen;
+	Vector2 m_vTextViewPos;
 
-	//Sprite* m_pSprite;
-	//Level2D* m_pLevel;
-	//SnowParticleSystem* m_pSnow;
 };
 #endif // __GAMEAPP_H__

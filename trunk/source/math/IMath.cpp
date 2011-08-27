@@ -10,6 +10,8 @@
 #include <stdlib.h>
 
 const float IMath::F_PI = 3.141592f;
+const float IMath::F_PI2 = 6.283184f;
+
 const float IMath::FLOAT_MIN = 0.000001f;
 const float IMath::FLOAT_MAX = 3.402823466e+38F;
 

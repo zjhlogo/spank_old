@@ -6,20 +6,20 @@
  * \author zjhlogo (zjhlogo@gmail.com)
  */
 #include "GameApp.h"
+#include <util/ScreenUtil.h>
 #include <util/IDebugUtil.h>
 #include <msg/MsgID.h>
 #include <msg/MsgMgr.h>
 #include <msg/MsgTouch.h>
-#include <action/ActionMoveTo.h>
-#include <action/ActionRotateTo.h>
-#include <action/ActionScaleTo.h>
-#include <action/ActionSequeue.h>
-#include <action/ActionLoop.h>
-#include <ui/IRendererUI.h>
-#include <ui/IFontMgr.h>
+#include <msg/MsgCommon.h>
 #include <ui/IUISystem.h>
 #include <ui/UITextView.h>
-#include <ICore.h>
+#include "UserMsgID.h"
+#include "UITestCase.h"
+#include "SpriteTestCase.h"
+#include "ActionTestCase.h"
+#include "ParticleTestCase.h"
+#include "MapTestCase.h"
 
 IGameApp& IGameApp::GetInstance()
 {
@@ -29,11 +29,9 @@ IGameApp& IGameApp::GetInstance()
 
 GameApp::GameApp()
 {
-	//m_pSprite = NULL;
-	//m_pLevel = NULL;
-	//m_pSnow = NULL;
-	//m_pString = NULL;
-	//m_pFont = NULL;
+	m_pCurrTestCase = NULL;
+	m_pMainScreen = NULL;
+	m_vTextViewPos = IMath::VEC2_ZERO;
 }
 
 GameApp::~GameApp()
@@ -45,69 +43,38 @@ bool GameApp::Initialize()
 {
 	MsgMgr::GetInstance().SubscribeMessage(MI_TOUCH, this, CAST_MSG_CALLBACK(&GameApp::OnMsgTouch));
 
-	// TODO: add test case
+	m_pMainScreen = IUISystem::GetInstance().GetCurrentScreen();
 
-	//m_pLevel = new Level2D("level.l2d");
-	//INode* pRootNode = ICore::GetInstance().GetRootNode();
-	//pRootNode->AttachObject(m_pLevel);
+	// add test case
+	AddTestCase(new UITestCase(), m_pMainScreen);
+	AddTestCase(new SpriteTestCase(), m_pMainScreen);
+	AddTestCase(new ActionTestCase(), m_pMainScreen);
+	AddTestCase(new ParticleTestCase(), m_pMainScreen);
+	AddTestCase(new MapTestCase(), m_pMainScreen);
 
-	//INode* pSpriteNode = pRootNode->CreateChildNode();
-	//m_pSprite = new Sprite("test_sprite.xml");
-	//pSpriteNode->AttachObject(m_pSprite);
-
-	//ActionSequeue* pActionSequeue = new ActionSequeue();
-	//IActionBase* pActScaleTo1 = new ActionScaleTo(Vector3(1.0f, 1.0f, 1.0f), Vector3(0.8f, 0.8f, 0.8f), 10.0f);
-	//IActionBase* pActScaleTo2 = new ActionScaleTo(Vector3(0.8f, 0.8f, 0.8f), Vector3(0.6f, 0.6f, 0.6f), 10.0f);
-	//IActionBase* pActScaleTo3 = new ActionScaleTo(Vector3(0.6f, 0.6f, 0.6f), Vector3(0.4f, 0.4f, 0.4f), 10.0f);
-	//IActionBase* pActScaleTo4 = new ActionScaleTo(Vector3(0.4f, 0.4f, 0.4f), Vector3(0.6f, 0.6f, 0.6f), 10.0f);
-	//IActionBase* pActScaleTo5 = new ActionScaleTo(Vector3(0.6f, 0.6f, 0.6f), Vector3(0.8f, 0.8f, 0.8f), 10.0f);
-	//IActionBase* pActScaleTo6 = new ActionScaleTo(Vector3(0.8f, 0.8f, 0.8f), Vector3(3.0f, 3.0f, 3.0f), 10.0f);
-
-	//pActionSequeue->AddAction(pActScaleTo1);
-	//pActionSequeue->AddAction(pActScaleTo2);
-	//pActionSequeue->AddAction(pActScaleTo3);
-	//pActionSequeue->AddAction(pActScaleTo4);
-	//pActionSequeue->AddAction(pActScaleTo5);
-	//pActionSequeue->AddAction(pActScaleTo6);
-	//ActionLoop * pActionLoop = new ActionLoop(pActionSequeue);
-
-	//pSpriteNode->RunAction(pActionLoop);
-	//
-	//m_pSnow = new SnowParticleSystem();
-
-// 	UIScreen* pScreen = IUISystem::GetInstance().GetCurrentScreen();
-// 	UITextView* pTextView = new UITextView(pScreen, "0123456789 | /*-+. | ABCDEFG | abcedfg");
-// 	pTextView->SetPosition(Vector2(100.0f, 100.0f));
 	return true;
 }
 
 void GameApp::Terminate()
 {
-	// TODO: free test case
+	FreeCurrTestCase();
 
-	//SAFE_DELETE(m_pSprite);
-	//SAFE_RELEASE(m_pLevel);
-	//SAFE_DELETE(m_pSnow);
+	// free test case
+	for (TV_TEST_CASE::iterator it = m_vTestCase.begin(); it != m_vTestCase.end(); ++it)
+	{
+		TestCase* pTestCase = (*it);
+		SAFE_DELETE(pTestCase);
+	}
 }
 
 void GameApp::Update(float dt)
 {
-	////const Vector3& pos = m_pSprite->GetParentNode()->GetPosition();
-	//static Vector2 positon(0,0);
-	//positon.x -= 40*dt;
-	//positon.y -= 40*dt;
-	//m_pLevel->SetCenterPosition(positon);
-	//m_pSnow->Update(dt);
+	if (m_pCurrTestCase) m_pCurrTestCase->Update(dt);
 }
 
 void GameApp::Render()
 {
-	//// TODO: 
-	//m_pSnow->Render();
-
-	//IRendererUI::GetInstance().BeginRender();
-	//m_pString->Render();
-	//IRendererUI::GetInstance().EndRender();
+	if (m_pCurrTestCase) m_pCurrTestCase->Render();
 }
 
 bool GameApp::OnMsgTouch(IMsgBase* pMsg)
@@ -133,7 +100,26 @@ bool GameApp::OnMsgTouch(IMsgBase* pMsg)
 	return true;
 }
 
-bool GameApp::AddTestCase(TestCase* pTestCase)
+bool GameApp::OnBtnTestCaseClicked(IMsgBase* pMsg)
+{
+	MsgCommon* pMsgCommon = (MsgCommon*)pMsg;
+	UITextView* pTextView = (UITextView*)pMsgCommon->GetObject();
+
+	// switch to the new test case
+	int nIndex = pTextView->GetID();
+	SwitchTestCase(nIndex);
+
+	return true;
+}
+
+bool GameApp::OnBtnReturnClicked(IMsgBase* pMsg)
+{
+	// free current test case
+	FreeCurrTestCase();
+	return true;
+}
+
+bool GameApp::AddTestCase(TestCase* pTestCase, UIScreen* pScreen)
 {
 	if (!pTestCase)
 	{
@@ -141,6 +127,48 @@ bool GameApp::AddTestCase(TestCase* pTestCase)
 		return false;
 	}
 
+	int nIndex = (int)m_vTestCase.size();
+
+	UITextView* pTextView = new UITextView(pScreen, pTestCase->GetName());
+
+	Vector2 pos((ScreenUtil::GetInstance().GetScreenWidth() - pTextView->GetSize().x) / 2.0f, m_vTextViewPos.y);
+	pTextView->SetID(nIndex);
+	pTextView->SetPosition(pos);
+	pTextView->ConnectEvent(MI_UI_CLICKED, this, CAST_MSG_CALLBACK(&GameApp::OnBtnTestCaseClicked));
+
 	m_vTestCase.push_back(pTestCase);
+	pTestCase->ConnectEvent(MI_USER_RETURN, this, CAST_MSG_CALLBACK(&GameApp::OnBtnReturnClicked));
+
+	m_vTextViewPos.y += pTextView->GetSize().y;
+	return true;
+}
+
+void GameApp::FreeCurrTestCase()
+{
+	if (m_pCurrTestCase)
+	{
+		m_pCurrTestCase->InternalTerminate();
+		IUISystem::GetInstance().SetCurrentScreen(m_pMainScreen);
+		m_pCurrTestCase = NULL;
+	}
+}
+
+bool GameApp::SwitchTestCase(int nIndex)
+{
+	if (nIndex < 0 && nIndex >= (int)m_vTestCase.size()) return false;
+
+	TestCase* pTestCase = m_vTestCase[nIndex];
+	if (pTestCase != m_pCurrTestCase) FreeCurrTestCase();
+
+	if (!pTestCase->InternalInitialize())
+	{
+		pTestCase->InternalTerminate();
+		LOGE("initialize test case failed %s", pTestCase->GetName());
+		return false;
+	}
+
+	m_pCurrTestCase = pTestCase;
+	IUISystem::GetInstance().SetCurrentScreen(pTestCase->GetScreen());
+
 	return true;
 }

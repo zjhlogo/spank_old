@@ -84,7 +84,7 @@ void ActionCubicBSpline::Update(float dt)
 	Vector3 Position = Interpolate(segIdx, alpha);
 	Vector3 prvposition = GetPosition();
 	Vector3 direct = Position - prvposition;
-	if(direct.x < IMath::FLOAT_MIN)
+	if(direct.x < IMath::FLOAT_MIN && direct.x > -IMath::FLOAT_MIN)
 	{
 		SetPosition(Position);
 		return;

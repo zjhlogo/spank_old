@@ -33,7 +33,6 @@ ActionBySpline::ActionBySpline(float time)
 	m_matCoeffs.e[Matrix4x4::E42] = 0.0f;
 	m_matCoeffs.e[Matrix4x4::E43] = 0.0f;
 	m_matCoeffs.e[Matrix4x4::E44] = 0.0f;
-
 	m_bClosed = false;
 	Reset();
 }

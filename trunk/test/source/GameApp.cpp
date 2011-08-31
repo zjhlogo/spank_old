@@ -20,6 +20,7 @@
 #include "ActionTestCase.h"
 #include "ParticleTestCase.h"
 #include "MapTestCase.h"
+#include "Box2DTestCase.h"
 
 IGameApp& IGameApp::GetInstance()
 {
@@ -51,6 +52,7 @@ bool GameApp::Initialize()
 	AddTestCase(new ActionTestCase(), m_pMainScreen);
 	AddTestCase(new ParticleTestCase(), m_pMainScreen);
 	AddTestCase(new MapTestCase(), m_pMainScreen);
+	AddTestCase(new Box2DTestCase(), m_pMainScreen);
 
 	return true;
 }

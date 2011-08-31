@@ -114,6 +114,7 @@ void Renderer2D_Impl::DrawLineList(const void* pVerts, uint nNumVerts, const ush
 	if(!pShader) return;
 
 	pShader->Commit(pVerts);
+// 	glLineWidth(2.0f);
 	glDrawElements(GL_LINES, nNumIndis, GL_UNSIGNED_SHORT, pIndis);
 }
 

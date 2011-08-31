@@ -1,0 +1,5 @@
+Box2D_v2.1.2
+lpng154
+tinyxml-2.6.2
+wxWidgets-2.9.2
+zlib-1.2.3

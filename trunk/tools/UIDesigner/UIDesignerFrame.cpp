@@ -6,6 +6,7 @@
  * \author zjhlogo (zjhlogo@gmail.com)
  */
 #include "UIDesignerFrame.h"
+#include "UIImageEditor.h"
 #include <wx/menu.h>
 #include <wx/treectrl.h>
 
@@ -214,9 +215,11 @@ void UIDesignerFrame::CreatePropertyControl()
 
 void UIDesignerFrame::CreateInputView()
 {
-	wxWindow* itemWindow63 = new wxWindow( this, ID_INPUT_VIEW, wxDefaultPosition, wxSize(100, 100), wxNO_BORDER );
-	m_auiManager.AddPane(itemWindow63, wxAuiPaneInfo()
+	UIImageEditor* pImageEditor = new UIImageEditor( this, ID_INPUT_VIEW, wxDefaultPosition, wxSize(200, 200), wxNO_BORDER );
+	m_auiManager.AddPane(pImageEditor, wxAuiPaneInfo()
 		.Name(_T("Input")).Caption(_("Input")).Centre().CaptionVisible(false).CloseButton(false).DestroyOnClose(false).Resizable(true).Floatable(false).Movable(false));
+
+	pImageEditor->OpenBitmap(wxT("test.png"));
 }
 
 void UIDesignerFrame::CreateOutputView()

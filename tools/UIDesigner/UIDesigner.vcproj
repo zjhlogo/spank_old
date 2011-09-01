@@ -193,6 +193,14 @@
 			RelativePath=".\UIDesignerFrame.h"
 			>
 		</File>
+		<File
+			RelativePath=".\UIImageEditor.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\UIImageEditor.h"
+			>
+		</File>
 	</Files>
 	<Globals>
 	</Globals>

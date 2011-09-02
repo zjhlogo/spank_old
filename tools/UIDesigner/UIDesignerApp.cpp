@@ -23,6 +23,7 @@ UIDesignerApp::~UIDesignerApp()
 bool UIDesignerApp::OnInit()
 {
 	wxImage::AddHandler(new wxPNGHandler());
+	wxImage::AddHandler(new wxCURHandler());
 
 	UIDesignerFrame* mainWindow = new UIDesignerFrame();
 	mainWindow->Maximize(true);

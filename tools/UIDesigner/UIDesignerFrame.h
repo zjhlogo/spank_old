@@ -10,6 +10,7 @@
 
 #include <wx/frame.h>
 #include <wx/aui/aui.h>
+#include "UIImageEditor.h"
 
 class UIDesignerFrame : public wxFrame
 {
@@ -56,6 +57,10 @@ public:
 	};
 
 public:
+	DECLARE_DYNAMIC_CLASS(UIDesignerFrame)
+	DECLARE_EVENT_TABLE()
+
+public:
 	UIDesignerFrame();
 	virtual ~UIDesignerFrame();
 
@@ -68,8 +73,13 @@ private:
 	void CreateInputView();
 	void CreateOutputView();
 
+	void OnZoomIn(wxCommandEvent& event);
+	void OnZoomOut(wxCommandEvent& event);
+	void OnZoomFixed(wxCommandEvent& event);
+
 private:
 	wxAuiManager m_auiManager;
+	UIImageEditor* m_pImageEditor;
 
 };
 #endif // __UIDESIGNERFRAME_H__

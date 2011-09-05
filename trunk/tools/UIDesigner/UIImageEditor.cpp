@@ -8,21 +8,22 @@
 #include "UIImageEditor.h"
 #include <wx/dcclient.h>
 
-BEGIN_EVENT_TABLE(UIImageEditor, wxScrolledWindow)
+BEGIN_EVENT_TABLE(UIImageEditor, wxWindow)
+	EVT_PAINT(UIImageEditor::OnPaint)
 	EVT_MOUSEWHEEL(UIImageEditor::OnMouseWheel)
 	EVT_MOTION(UIImageEditor::OnMouseMove)
 	EVT_LEFT_DOWN(UIImageEditor::OnMouseLButtonDown)
 	EVT_LEFT_UP(UIImageEditor::OnMouseLButtonUp)
 END_EVENT_TABLE()
 
-IMPLEMENT_DYNAMIC_CLASS(UIImageEditor, wxScrolledWindow)
+IMPLEMENT_DYNAMIC_CLASS(UIImageEditor, wxWindow)
 
 UIImageEditor::UIImageEditor()
 {
 	Init();
 }
 
-UIImageEditor::UIImageEditor(wxWindow *parent, wxWindowID winid /*= wxID_ANY*/, const wxPoint& pos /*= wxDefaultPosition*/, const wxSize& size /*= wxDefaultSize*/, long style /*= wxScrolledWindowStyle*/, const wxString& name /*= wxPanelNameStr*/)
+UIImageEditor::UIImageEditor(wxWindow *parent, wxWindowID winid, const wxPoint& pos /* = wxDefaultPosition */, const wxSize& size /* = wxDefaultSize */, long style /* = 0 */, const wxString& name /* = wxPanelNameStr */)
 {
 	Init();
 	Create(parent, winid, pos, size, style, name);
@@ -40,7 +41,7 @@ UIImageEditor::~UIImageEditor()
 void UIImageEditor::Init()
 {
 	m_bmpGrid.LoadFile(wxT("images/grid.png"), wxBITMAP_TYPE_PNG);
-	m_dcMemory.SelectObject(wxNullBitmap);
+	m_dcImage.SelectObject(wxNullBitmap);
 
 	m_penBlue.SetColour(0, 0, 255);
 	m_penRed.SetColour(255, 0, 0);
@@ -65,10 +66,11 @@ void UIImageEditor::Init()
 	m_CurrDragMode = PIC_UNKNOWN;
 }
 
-bool UIImageEditor::Create(wxWindow *parent, wxWindowID winid /*= wxID_ANY*/, const wxPoint& pos /*= wxDefaultPosition*/, const wxSize& size /*= wxDefaultSize*/, long style /*= wxScrolledWindowStyle*/, const wxString& name /*= wxPanelNameStr*/)
+bool UIImageEditor::Create(wxWindow *parent, wxWindowID winid, const wxPoint& pos /* = wxDefaultPosition */, const wxSize& size /* = wxDefaultSize */, long style /* = 0 */, const wxString& name /* = wxPanelNameStr */)
 {
-	if (!wxScrolledWindow::Create(parent, winid, pos, size, style, name)) return false;
+	if (!wxWindow::Create(parent, winid, pos, size, style, name)) return false;
 
+	SetScrollbar();
 	return true;
 }
 
@@ -78,38 +80,10 @@ wxSize UIImageEditor::DoGetBestSize() const
 	return wxSize(2000, 2000);
 }
 
-void UIImageEditor::OnDraw(wxDC& dc)
-{
-	int ppuX = 0, ppuY = 0;
-	GetScrollPixelsPerUnit(&ppuX, &ppuY);
-
-	int startX = 0, startY = 0;
-	GetViewStart(&startX, &startY);
-
-	wxRect clientRect = GetClientRect();
-	dc.SetBrush(m_brushGrid);
-	dc.DrawRectangle(ppuX*startX, ppuY*startY, clientRect.GetWidth(), clientRect.GetHeight());
-
-	dc.StretchBlit(0, 0,
-		m_bmpDC.GetWidth()*m_nZoom,
-		m_bmpDC.GetHeight()*m_nZoom,
-		&m_dcMemory,
-		0, 0,
-		m_bmpDC.GetWidth(),
-		m_bmpDC.GetHeight(),
-		wxCOPY);
-
-	DrawSelectedRect(dc, m_rectSelected);
-	if (m_CurrDragMode != PIC_UNKNOWN)
-	{
-		DrawDragRect(dc, m_rectDrag);
-	}
-}
-
 bool UIImageEditor::OpenBitmap(const wxString& path)
 {
-	if (!m_bmpDC.LoadFile(path, wxBITMAP_TYPE_PNG)) return false;
-	m_dcMemory.SelectObject(m_bmpDC);
+	if (!m_bmpImage.LoadFile(path, wxBITMAP_TYPE_PNG)) return false;
+	m_dcImage.SelectObject(m_bmpImage);
 
 	UpdateVirtualSize();
 
@@ -158,10 +132,10 @@ int UIImageEditor::GetZoom() const
 
 void UIImageEditor::UpdateVirtualSize()
 {
-	wxSize size = m_bmpDC.GetSize();
-	SetVirtualSize(size.x*m_nZoom, size.y*m_nZoom);
-	SetScrollRate(m_nZoom, m_nZoom);
-	Refresh(true);
+// 	wxSize size = m_bmpImage.GetSize();
+// 	SetVirtualSize(size.x*m_nZoom, size.y*m_nZoom);
+// 	SetScrollRate(m_nZoom, m_nZoom);
+// 	Refresh(true);
 }
 
 void UIImageEditor::DrawSelectedRect(wxDC& dc, const wxRect& rect)
@@ -238,133 +212,167 @@ void UIImageEditor::SetCursorByType(CURSOR_TYPE eType)
 	}
 }
 
+void UIImageEditor::OnPaint(wxPaintEvent& event)
+{
+	wxPaintDC dc(this);
+
+	//// prepare dc
+	//int ppuX = 0, ppuY = 0;
+	//GetScrollPixelsPerUnit(&ppuX, &ppuY);
+	//int startX = 0, startY = 0;
+	//GetViewStart(&startX, &startY);
+
+	//// get virtual size
+	//int virtualWidth = 0, virtualHeight = 0;
+	//GetVirtualSize(&virtualWidth, &virtualHeight);
+
+	//// get client rect
+	//wxRect clientRect = GetClientRect();
+	//int width = virtualWidth > clientRect.width ? virtualWidth : clientRect.width;
+	//int height = virtualHeight > clientRect.height ? virtualHeight : clientRect.height;
+
+	//if (m_bmpBackBuffer.GetWidth() != width || m_bmpBackBuffer.GetHeight() != height)
+	//{
+	//	m_dcBackBuffer.SelectObject(wxNullBitmap);
+	//	m_bmpBackBuffer.Create(width, height);
+	//	m_dcBackBuffer.SelectObject(m_bmpBackBuffer);
+	//}
+	//m_dcBackBuffer.SetDeviceOrigin(-startX*ppuX, -startY*ppuY);
+	//m_dcBackBuffer.SetBackground(m_brushGrid);
+	//m_dcBackBuffer.Clear();
+
+	//dc.SetDeviceOrigin(-startX*ppuX, -startY*ppuY);
+	//dc.Blit(0, 0, width, height, &m_dcBackBuffer, 0, 0);
+}
+
 void UIImageEditor::OnMouseWheel(wxMouseEvent& event)
 {
-	int lines = -event.GetWheelRotation() / event.GetWheelDelta();
-
-	wxPoint pt = GetViewStart();
-
-	int nDistance = (MOUSE_WHEEL_DISTANCE / m_nZoom);
-	if (event.ShiftDown())
-	{
-		Scroll(pt.x + lines * event.GetLinesPerAction() * nDistance, pt.y);
-	}
-	else if (event.ControlDown())
-	{
-		if (lines < 0)
-		{
-			ZoomIn();
-		}
-		else
-		{
-			ZoomOut();
-		}
-	}
-	else
-	{
-		Scroll(pt.x, pt.y + lines * event.GetLinesPerAction() * nDistance);
-	}
+// 	int lines = -event.GetWheelRotation() / event.GetWheelDelta();
+// 
+// 	wxPoint pt = GetViewStart();
+// 
+// 	int nDistance = (MOUSE_WHEEL_DISTANCE / m_nZoom);
+// 	if (event.ShiftDown())
+// 	{
+// 		Scroll(pt.x + lines * event.GetLinesPerAction() * nDistance, pt.y);
+// 	}
+// 	else if (event.ControlDown())
+// 	{
+// 		if (lines < 0)
+// 		{
+// 			ZoomIn();
+// 		}
+// 		else
+// 		{
+// 			ZoomOut();
+// 		}
+// 	}
+// 	else
+// 	{
+// 		Scroll(pt.x, pt.y + lines * event.GetLinesPerAction() * nDistance);
+// 	}
+	event.Skip();
 }
 
 void UIImageEditor::OnMouseMove(wxMouseEvent& event)
 {
-	wxPoint pt = event.GetPosition();
-
-	if (m_CurrDragMode == PIC_UNKNOWN)
-	{
-		wxRect zoomedRect(m_rectSelected.x*m_nZoom, m_rectSelected.y*m_nZoom, m_rectSelected.width*m_nZoom, m_rectSelected.height*m_nZoom);
-
-		int ppuX = 0, ppuY = 0;
-		GetScrollPixelsPerUnit(&ppuX, &ppuY);
-
-		int startX = 0, startY = 0;
-		GetViewStart(&startX, &startY);
-
-		wxPoint zoomedPoint(pt.x+ppuX*startX, pt.y+ppuY*startY);
-
-		POINT_IN_CONNER eType = CheckPointInConner(zoomedRect, zoomedPoint);
-		switch (eType)
-		{
-		case PIC_TOP_LEFT:
-		case PIC_BOTTOM_RIGHT:
-			{
-				SetCursorByType(CT_DIAGONAL);
-			}
-			break;
-		case PIC_TOP_RIGHT:
-		case PIC_BOTTOM_LEFT:
-			{
-				SetCursorByType(CT_DIAGONAL_INV);
-			}
-			break;
-		case PIC_TOP_CENTER:
-		case PIC_BOTTOM_CENTER:
-			{
-				SetCursorByType(CT_VERTICAL);
-			}
-			break;
-		case PIC_MIDDLE_LEFT:
-		case PIC_MIDDLE_RIGHT:
-			{
-				SetCursorByType(CT_HORIZONTAL);
-			}
-			break;
-		case PIC_MIDDLE_CENTER:
-			{
-				SetCursorByType(CT_MOVE);
-			}
-			break;
-		default:
-			{
-				SetCursorByType(CT_DEFAULT);
-			}
-			break;
-		}
-	}
-	else
-	{
-		// apply drag rect
-		m_rectDrag.x = (pt.x - m_ptMouseDown.x)/m_nZoom + m_rectSelected.x;
-		m_rectDrag.y = (pt.y - m_ptMouseDown.y)/m_nZoom + m_rectSelected.y;
-		Refresh(false);
-	}
+// 	wxPoint pt = event.GetPosition();
+// 
+// 	if (m_CurrDragMode == PIC_UNKNOWN)
+// 	{
+// 		wxRect zoomedRect(m_rectSelected.x*m_nZoom, m_rectSelected.y*m_nZoom, m_rectSelected.width*m_nZoom, m_rectSelected.height*m_nZoom);
+// 
+// 		int ppuX = 0, ppuY = 0;
+// 		GetScrollPixelsPerUnit(&ppuX, &ppuY);
+// 
+// 		int startX = 0, startY = 0;
+// 		GetViewStart(&startX, &startY);
+// 
+// 		wxPoint zoomedPoint(pt.x+ppuX*startX, pt.y+ppuY*startY);
+// 
+// 		POINT_IN_CONNER eType = CheckPointInConner(zoomedRect, zoomedPoint);
+// 		switch (eType)
+// 		{
+// 		case PIC_TOP_LEFT:
+// 		case PIC_BOTTOM_RIGHT:
+// 			{
+// 				SetCursorByType(CT_DIAGONAL);
+// 			}
+// 			break;
+// 		case PIC_TOP_RIGHT:
+// 		case PIC_BOTTOM_LEFT:
+// 			{
+// 				SetCursorByType(CT_DIAGONAL_INV);
+// 			}
+// 			break;
+// 		case PIC_TOP_CENTER:
+// 		case PIC_BOTTOM_CENTER:
+// 			{
+// 				SetCursorByType(CT_VERTICAL);
+// 			}
+// 			break;
+// 		case PIC_MIDDLE_LEFT:
+// 		case PIC_MIDDLE_RIGHT:
+// 			{
+// 				SetCursorByType(CT_HORIZONTAL);
+// 			}
+// 			break;
+// 		case PIC_MIDDLE_CENTER:
+// 			{
+// 				SetCursorByType(CT_MOVE);
+// 			}
+// 			break;
+// 		default:
+// 			{
+// 				SetCursorByType(CT_DEFAULT);
+// 			}
+// 			break;
+// 		}
+// 	}
+// 	else
+// 	{
+// 		// apply drag rect
+// 		m_rectDrag.x = (pt.x - m_ptMouseDown.x)/m_nZoom + m_rectSelected.x;
+// 		m_rectDrag.y = (pt.y - m_ptMouseDown.y)/m_nZoom + m_rectSelected.y;
+// 		Refresh(true);
+// 	}
 
 	event.Skip();
 }
 
 void UIImageEditor::OnMouseLButtonDown(wxMouseEvent& event)
 {
-	m_ptMouseDown = event.GetPosition();
-
-	wxRect zoomedRect(m_rectSelected.x*m_nZoom, m_rectSelected.y*m_nZoom, m_rectSelected.width*m_nZoom, m_rectSelected.height*m_nZoom);
-
-	int ppuX = 0, ppuY = 0;
-	GetScrollPixelsPerUnit(&ppuX, &ppuY);
-
-	int startX = 0, startY = 0;
-	GetViewStart(&startX, &startY);
-
-	wxPoint zoomedPoint(m_ptMouseDown.x+ppuX*startX, m_ptMouseDown.y+ppuY*startY);
-
-	m_CurrDragMode = CheckPointInConner(zoomedRect, zoomedPoint);
-	if (m_CurrDragMode != PIC_UNKNOWN)
-	{
-		m_rectDrag = m_rectSelected;
-// 		this->CaptureMouse();
-	}
+// 	m_ptMouseDown = event.GetPosition();
+// 
+// 	wxRect zoomedRect(m_rectSelected.x*m_nZoom, m_rectSelected.y*m_nZoom, m_rectSelected.width*m_nZoom, m_rectSelected.height*m_nZoom);
+// 
+// 	int ppuX = 0, ppuY = 0;
+// 	GetScrollPixelsPerUnit(&ppuX, &ppuY);
+// 
+// 	int startX = 0, startY = 0;
+// 	GetViewStart(&startX, &startY);
+// 
+// 	wxPoint zoomedPoint(m_ptMouseDown.x+ppuX*startX, m_ptMouseDown.y+ppuY*startY);
+// 
+// 	m_CurrDragMode = CheckPointInConner(zoomedRect, zoomedPoint);
+// 	if (m_CurrDragMode != PIC_UNKNOWN)
+// 	{
+// 		m_rectDrag = m_rectSelected;
+// // 		this->CaptureMouse();
+// 	}
 
 	event.Skip();
 }
 
 void UIImageEditor::OnMouseLButtonUp(wxMouseEvent& event)
 {
-	if (m_CurrDragMode != PIC_UNKNOWN)
-	{
-		// TODO: apply drag
-		m_CurrDragMode = PIC_UNKNOWN;
-// 		this->ReleaseMouse();
-		Refresh(false);
-	}
+// 	if (m_CurrDragMode != PIC_UNKNOWN)
+// 	{
+// 		// TODO: apply drag
+// 		m_CurrDragMode = PIC_UNKNOWN;
+// // 		this->ReleaseMouse();
+// 		Refresh(true);
+// 	}
 
 	event.Skip();
 }

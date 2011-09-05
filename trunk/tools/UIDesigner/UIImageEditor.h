@@ -12,7 +12,7 @@
 #include <wx/bitmap.h>
 #include <wx/dcmemory.h>
 
-class UIImageEditor : public wxScrolledWindow
+class UIImageEditor : public wxWindow
 {
 public:
 	enum CONST_DEFINE
@@ -57,24 +57,22 @@ public:
 public:
 	UIImageEditor();
 	UIImageEditor(wxWindow *parent,
-		wxWindowID winid = wxID_ANY,
+		wxWindowID winid,
 		const wxPoint& pos = wxDefaultPosition,
 		const wxSize& size = wxDefaultSize,
-		long style = wxScrolledWindowStyle,
+		long style = 0,
 		const wxString& name = wxPanelNameStr);
 
 	virtual ~UIImageEditor();
 
 	bool Create(wxWindow *parent,
-		wxWindowID winid = wxID_ANY,
+		wxWindowID winid,
 		const wxPoint& pos = wxDefaultPosition,
 		const wxSize& size = wxDefaultSize,
-		long style = wxScrolledWindowStyle,
+		long style = 0,
 		const wxString& name = wxPanelNameStr);
 
 	virtual wxSize DoGetBestSize() const;
-
-	virtual void OnDraw(wxDC& dc);
 
 	bool OpenBitmap(const wxString& path);
 
@@ -91,15 +89,20 @@ private:
 	POINT_IN_CONNER CheckPointInConner(const wxRect& rect, const wxPoint& pt);
 	void SetCursorByType(CURSOR_TYPE eType);
 
+	void OnPaint(wxPaintEvent& event);
 	void OnMouseWheel(wxMouseEvent& event);
 	void OnMouseMove(wxMouseEvent& event);
 	void OnMouseLButtonDown(wxMouseEvent& event);
 	void OnMouseLButtonUp(wxMouseEvent& event);
 
 private:
-	wxBitmap m_bmpDC;
+	wxBitmap m_bmpImage;
+	wxBitmap m_bmpBackBuffer;
 	wxBitmap m_bmpGrid;
-	wxMemoryDC m_dcMemory;
+
+	wxMemoryDC m_dcImage;
+	wxMemoryDC m_dcBackBuffer;
+
 
 	int m_nZoom;
 

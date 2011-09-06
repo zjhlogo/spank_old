@@ -14,8 +14,8 @@ UIWindow::UIWindow(UIWindow* pParent)
 	m_vPosition = IMath::VEC2_ZERO;
 	m_vSize = IMath::VEC2_ZERO;
 
-	m_PaddingLeftTop = Vector2(10.0f, 10.0f);
-	m_PaddingRightBottom = Vector2(10.0f, 10.0f);
+	m_PaddingLeftTop = Vector2(0.0f, 0.0f);
+	m_PaddingRightBottom = Vector2(0.0f, 0.0f);
 
 	m_MarginLeftTop = IMath::VEC2_ZERO;
 	m_MarginRightBottom = IMath::VEC2_ZERO;
@@ -70,8 +70,8 @@ const Vector2& UIWindow::GetSize() const
 void UIWindow::SetSize(const Vector2& size)
 {
 	m_vSize = size;
-	m_vSize += m_PaddingLeftTop;
-	m_vSize += m_PaddingRightBottom;
+ 	m_vSize += m_PaddingLeftTop;
+ 	m_vSize += m_PaddingRightBottom;
 }
 
 void UIWindow::SetPadding(float left, float top, float right, float bottom)

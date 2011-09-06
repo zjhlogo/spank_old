@@ -155,6 +155,80 @@ void RendererUI_Impl::DrawTriangleRect(const QUAD_VERT_POS_UV& quad)
 	AddPrimetive(m_pCaches_POS_UV, NUM_POS_UV_CACHE, m_pShader_POS_UV, m_pTexture, &quad.verts[0], 4, s_Indis, 6);
 }
 
+bool RendererUI_Impl::ClipRect( QUAD_VERT_POS_UV& quadInOut, float x, float y, float width, float height )
+{
+	//determine whether rect in the Quad
+	if((quadInOut.verts[0].x > x + width)
+		||(quadInOut.verts[3].x < x)
+		||(quadInOut.verts[0].y < y)
+		||(quadInOut.verts[1].y > y + height))
+		return false;
+
+	if( quadInOut.verts[0].x < x)
+	{
+		float Alpha = (x - quadInOut.verts[0].x) / (quadInOut.verts[3].x - quadInOut.verts[0].x);
+		float u = quadInOut.verts[0].u * (1.0f - Alpha) + quadInOut.verts[3].u * Alpha;
+		quadInOut.verts[0].x = x;
+		quadInOut.verts[0].u = u;
+		quadInOut.verts[1].x = x;
+		quadInOut.verts[1].u = u;
+	}
+	
+	if(quadInOut.verts[3].x > x + width)
+	{
+		float Alpha = ((x + width) - quadInOut.verts[0].x) / (quadInOut.verts[3].x - quadInOut.verts[0].x);
+		float u = quadInOut.verts[0].u * (1.0f - Alpha) + quadInOut.verts[3].u * Alpha;
+
+		quadInOut.verts[3].x = x +width;
+		quadInOut.verts[3].u = y;
+		quadInOut.verts[4].x = x +width;
+		quadInOut.verts[4].u = u;
+	}
+
+	if(quadInOut.verts[1].y < y)
+	{
+		float Alpha =(y - quadInOut.verts[1].y) / (quadInOut.verts[0].y - quadInOut.verts[1].y);
+		float v = quadInOut.verts[1].v *  Alpha + quadInOut.verts[3].v * (1.0f - Alpha);
+
+		quadInOut.verts[1].y = y;
+		quadInOut.verts[1].v = v;
+		quadInOut.verts[4].y = y;
+		quadInOut.verts[4].v = v;
+	}
+
+	if( quadInOut.verts[0].y > y + height)
+	{
+		float Alpha = ((y + height) - quadInOut.verts[1].y) / (quadInOut.verts[0].y - quadInOut.verts[1].y);
+		float v = quadInOut.verts[1].v *  Alpha + quadInOut.verts[3].v * (1.0f - Alpha);
+
+		quadInOut.verts[0].y = y + height;
+		quadInOut.verts[0].v = v;
+		quadInOut.verts[3].y = y + height;
+		quadInOut.verts[3].v = v;
+	}
+
+	return true;
+}
+
+void RendererUI_Impl::Flush()
+{
+	if (!m_bRenderBegan) return;
+
+	for (int i = 0; i < NUM_POS_RGB_CACHE; ++i)
+	{
+		m_pCaches_POS_RGB[i]->Flush();
+		m_pCaches_POS_RGB[i]->SetShader(NULL);
+		m_pCaches_POS_RGB[i]->SetTexture(NULL);
+	}
+
+	for (int i = 0; i < NUM_POS_UV_CACHE; ++i)
+	{
+		m_pCaches_POS_UV[i]->Flush();
+		m_pCaches_POS_UV[i]->SetShader(NULL);
+		m_pCaches_POS_UV[i]->SetTexture(NULL);
+	}
+}
+
 void RendererUI_Impl::BeginRender()
 {
 	if (m_bRenderBegan) return;
@@ -280,3 +354,4 @@ bool RendererUI_Impl::OnTriangleCacheFlushed(IMsgBase* pMsg)
 	IRenderer2D::GetInstance().DrawTriangleList(pCache->GetVerts(), pCache->GetNumVerts(), pCache->GetIndis(), pCache->GetNumIndis(), pShader);
 	return true;
 }
+

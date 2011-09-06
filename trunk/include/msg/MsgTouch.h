@@ -30,7 +30,7 @@ public:
 	void SetPosition(const Vector2& pos);
 	void SetPosition(float x, float y);
 	const Vector2& GetPosition() const;
-
+	
 	int GetIndex() const;
 
 	bool IsTouchBegin() const;

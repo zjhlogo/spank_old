@@ -41,6 +41,10 @@ public:
 
 	virtual void DrawTriangleList(const VATTR_POS_UV* pVerts, uint nVerts, const ushort* pIndis, uint nIndis);
 	virtual void DrawTriangleRect(const QUAD_VERT_POS_UV& quad);
+	
+	virtual bool ClipRect(QUAD_VERT_POS_UV& quadInOut, float x, float y, float width, float height);
+
+	virtual void Flush();
 
 	virtual void BeginRender();
 	virtual void EndRender();

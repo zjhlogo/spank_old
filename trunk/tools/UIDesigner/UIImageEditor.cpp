@@ -14,6 +14,13 @@ BEGIN_EVENT_TABLE(UIImageEditor, wxWindow)
 	EVT_MOTION(UIImageEditor::OnMouseMove)
 	EVT_LEFT_DOWN(UIImageEditor::OnMouseLButtonDown)
 	EVT_LEFT_UP(UIImageEditor::OnMouseLButtonUp)
+	EVT_SIZE(UIImageEditor::OnSize)
+	EVT_SCROLLWIN_LINEUP(UIImageEditor::OnScrollLineUp)
+	EVT_SCROLLWIN_LINEDOWN(UIImageEditor::OnScrollLineDown)
+	EVT_SCROLLWIN_PAGEUP(UIImageEditor::OnScrollPageUp)
+	EVT_SCROLLWIN_PAGEDOWN(UIImageEditor::OnScrollPageDown)
+	EVT_SCROLLWIN_THUMBTRACK(UIImageEditor::OnScrollThumbTrack)
+	EVT_SCROLLWIN_THUMBRELEASE(UIImageEditor::OnScrollThumbRelease)
 END_EVENT_TABLE()
 
 IMPLEMENT_DYNAMIC_CLASS(UIImageEditor, wxWindow)
@@ -41,14 +48,7 @@ UIImageEditor::~UIImageEditor()
 void UIImageEditor::Init()
 {
 	m_bmpGrid.LoadFile(wxT("images/grid.png"), wxBITMAP_TYPE_PNG);
-	m_dcImage.SelectObject(wxNullBitmap);
 
-	m_penBlue.SetColour(0, 0, 255);
-	m_penRed.SetColour(255, 0, 0);
-
-	m_brushTransparent.SetStyle(wxBRUSHSTYLE_TRANSPARENT);
-	m_brushBlue.SetStyle(wxBRUSHSTYLE_SOLID);
-	m_brushBlue.SetColour(0, 0, 255);
 	m_brushGrid.SetStyle(wxBRUSHSTYLE_STIPPLE);
 	m_brushGrid.SetStipple(m_bmpGrid);
 
@@ -64,64 +64,55 @@ void UIImageEditor::Init()
 	m_pCursors[CT_MOVE] = new wxCursor(wxT("images/move_r.cur"), wxBITMAP_TYPE_CUR);
 
 	m_CurrDragMode = PIC_UNKNOWN;
+
+	m_sizeVirtual.Set(DEFAULT_VIRTUAL_SIZE*m_nZoom, DEFAULT_VIRTUAL_SIZE*m_nZoom);
+	m_ptOrigin.x = 0;
+	m_ptOrigin.y = 0;
 }
 
 bool UIImageEditor::Create(wxWindow *parent, wxWindowID winid, const wxPoint& pos /* = wxDefaultPosition */, const wxSize& size /* = wxDefaultSize */, long style /* = 0 */, const wxString& name /* = wxPanelNameStr */)
 {
 	if (!wxWindow::Create(parent, winid, pos, size, style, name)) return false;
 
-	SetScrollbar();
 	return true;
 }
 
 wxSize UIImageEditor::DoGetBestSize() const
 {
-	// TODO: 
-	return wxSize(2000, 2000);
+	return m_sizeVirtual;
 }
 
-bool UIImageEditor::OpenBitmap(const wxString& path)
+bool UIImageEditor::LoadBitmapFile(const wxString& path)
 {
 	if (!m_bmpImage.LoadFile(path, wxBITMAP_TYPE_PNG)) return false;
 	m_dcImage.SelectObject(m_bmpImage);
 
 	UpdateVirtualSize();
+	UpdateScrollPosition(GetScrollPos(wxHORIZONTAL), GetScrollPos(wxVERTICAL));
 
 	return true;
 }
 
 bool UIImageEditor::ZoomIn()
 {
-	m_nZoom += ZOOM_STEP;
-	if (m_nZoom > ZOOM_MAX)
-	{
-		m_nZoom = ZOOM_MAX;
-		return false;
-	}
-
-	UpdateVirtualSize();
-	return true;
+	return Zoom(m_nZoom+1);
 }
 
 bool UIImageEditor::ZoomOut()
 {
-	m_nZoom -= ZOOM_STEP;
-	if (m_nZoom < ZOOM_MIN)
-	{
-		m_nZoom = ZOOM_MIN;
-		return false;
-	}
-
-	UpdateVirtualSize();
-	return true;
+	return Zoom(m_nZoom-1);
 }
 
 bool UIImageEditor::Zoom(int zoom)
 {
 	if (zoom < ZOOM_MIN || zoom > ZOOM_MAX) return false;
+	if (m_nZoom == zoom) return true;
 
+	m_ptOrigin = (m_ptOrigin/m_nZoom)*zoom;
 	m_nZoom = zoom;
 	UpdateVirtualSize();
+	UpdateScrollPosition(GetScrollPos(wxHORIZONTAL), GetScrollPos(wxVERTICAL));
+
 	return true;
 }
 
@@ -132,38 +123,79 @@ int UIImageEditor::GetZoom() const
 
 void UIImageEditor::UpdateVirtualSize()
 {
-// 	wxSize size = m_bmpImage.GetSize();
-// 	SetVirtualSize(size.x*m_nZoom, size.y*m_nZoom);
-// 	SetScrollRate(m_nZoom, m_nZoom);
-// 	Refresh(true);
+	m_sizeVirtual = m_bmpImage.GetSize();
+	m_sizeVirtual *= m_nZoom;
+
+	wxRect rect = GetClientRect();
+
+	// hide unnessary scroll bar
+	bool bShowHorizontal = true;
+	if (m_sizeVirtual.GetWidth() <= rect.GetWidth())
+	{
+		SetScrollbar(wxHORIZONTAL, 0, 0, 0, true);
+		bShowHorizontal = false;
+	}
+
+	bool bShowVertical = true;
+	if (m_sizeVirtual.GetHeight() <= rect.GetHeight())
+	{
+		SetScrollbar(wxVERTICAL, 0, 0, 0, true);
+		bShowVertical = false;
+	}
+
+	// get the rect again, it may be difference from the old rect after hide the scroll bar
+	rect = GetClientRect();
+
+	// recalculate the scroll bar range
+	if (bShowHorizontal)
+	{
+		SetScrollbar(wxHORIZONTAL, m_ptOrigin.x, rect.GetWidth(), m_sizeVirtual.GetWidth(), true);
+	}
+	if (bShowVertical)
+	{
+		SetScrollbar(wxVERTICAL, m_ptOrigin.y, rect.GetHeight(), m_sizeVirtual.GetHeight(), true);
+	}
+}
+
+const wxSize& UIImageEditor::GetVirtualSize()
+{
+	return m_sizeVirtual;
+}
+
+void UIImageEditor::UpdateScrollPosition(int x, int y)
+{
+	m_ptOrigin.x = x;
+	m_ptOrigin.y = y;
+
+	Refresh(false);
 }
 
 void UIImageEditor::DrawSelectedRect(wxDC& dc, const wxRect& rect)
 {
-	dc.SetPen(m_penBlue);
-	dc.SetBrush(m_brushTransparent);
-
-	wxRect zoomedRect(rect.x*m_nZoom, rect.y*m_nZoom, rect.width*m_nZoom, rect.height*m_nZoom);
-	dc.DrawRectangle(zoomedRect);
-
-	dc.SetBrush(m_brushBlue);
-	dc.DrawRectangle(zoomedRect.x-RECT_SPOT_SIZE, zoomedRect.y-RECT_SPOT_SIZE, RECT_SPOT_SIZE*2, RECT_SPOT_SIZE*2);
-	dc.DrawRectangle(zoomedRect.x+zoomedRect.width/2-RECT_SPOT_SIZE, zoomedRect.y-RECT_SPOT_SIZE, RECT_SPOT_SIZE*2, RECT_SPOT_SIZE*2);
-	dc.DrawRectangle(zoomedRect.x+zoomedRect.width-RECT_SPOT_SIZE, zoomedRect.y-RECT_SPOT_SIZE, RECT_SPOT_SIZE*2, RECT_SPOT_SIZE*2);
-	dc.DrawRectangle(zoomedRect.x-RECT_SPOT_SIZE, zoomedRect.y+zoomedRect.height/2-RECT_SPOT_SIZE, RECT_SPOT_SIZE*2, RECT_SPOT_SIZE*2);
-	dc.DrawRectangle(zoomedRect.x+zoomedRect.width-RECT_SPOT_SIZE, zoomedRect.y+zoomedRect.height/2-RECT_SPOT_SIZE, RECT_SPOT_SIZE*2, RECT_SPOT_SIZE*2);
-	dc.DrawRectangle(zoomedRect.x-RECT_SPOT_SIZE, zoomedRect.y+zoomedRect.height-RECT_SPOT_SIZE, RECT_SPOT_SIZE*2, RECT_SPOT_SIZE*2);
-	dc.DrawRectangle(zoomedRect.x+zoomedRect.width/2-RECT_SPOT_SIZE, zoomedRect.y+zoomedRect.height-RECT_SPOT_SIZE, RECT_SPOT_SIZE*2, RECT_SPOT_SIZE*2);
-	dc.DrawRectangle(zoomedRect.x+zoomedRect.width-RECT_SPOT_SIZE, zoomedRect.y+zoomedRect.height-RECT_SPOT_SIZE, RECT_SPOT_SIZE*2, RECT_SPOT_SIZE*2);
+// 	dc.SetPen(m_penBlue);
+// 	dc.SetBrush(m_brushTransparent);
+// 
+// 	wxRect zoomedRect(rect.x*m_nZoom, rect.y*m_nZoom, rect.width*m_nZoom, rect.height*m_nZoom);
+// 	dc.DrawRectangle(zoomedRect);
+// 
+// 	dc.SetBrush(m_brushBlue);
+// 	dc.DrawRectangle(zoomedRect.x-RECT_SPOT_SIZE, zoomedRect.y-RECT_SPOT_SIZE, RECT_SPOT_SIZE*2, RECT_SPOT_SIZE*2);
+// 	dc.DrawRectangle(zoomedRect.x+zoomedRect.width/2-RECT_SPOT_SIZE, zoomedRect.y-RECT_SPOT_SIZE, RECT_SPOT_SIZE*2, RECT_SPOT_SIZE*2);
+// 	dc.DrawRectangle(zoomedRect.x+zoomedRect.width-RECT_SPOT_SIZE, zoomedRect.y-RECT_SPOT_SIZE, RECT_SPOT_SIZE*2, RECT_SPOT_SIZE*2);
+// 	dc.DrawRectangle(zoomedRect.x-RECT_SPOT_SIZE, zoomedRect.y+zoomedRect.height/2-RECT_SPOT_SIZE, RECT_SPOT_SIZE*2, RECT_SPOT_SIZE*2);
+// 	dc.DrawRectangle(zoomedRect.x+zoomedRect.width-RECT_SPOT_SIZE, zoomedRect.y+zoomedRect.height/2-RECT_SPOT_SIZE, RECT_SPOT_SIZE*2, RECT_SPOT_SIZE*2);
+// 	dc.DrawRectangle(zoomedRect.x-RECT_SPOT_SIZE, zoomedRect.y+zoomedRect.height-RECT_SPOT_SIZE, RECT_SPOT_SIZE*2, RECT_SPOT_SIZE*2);
+// 	dc.DrawRectangle(zoomedRect.x+zoomedRect.width/2-RECT_SPOT_SIZE, zoomedRect.y+zoomedRect.height-RECT_SPOT_SIZE, RECT_SPOT_SIZE*2, RECT_SPOT_SIZE*2);
+// 	dc.DrawRectangle(zoomedRect.x+zoomedRect.width-RECT_SPOT_SIZE, zoomedRect.y+zoomedRect.height-RECT_SPOT_SIZE, RECT_SPOT_SIZE*2, RECT_SPOT_SIZE*2);
 }
 
 void UIImageEditor::DrawDragRect(wxDC& dc, const wxRect& rect)
 {
-	dc.SetPen(m_penRed);
-	dc.SetBrush(m_brushTransparent);
-
-	wxRect zoomedRect(rect.x*m_nZoom, rect.y*m_nZoom, rect.width*m_nZoom, rect.height*m_nZoom);
-	dc.DrawRectangle(zoomedRect);
+// 	dc.SetPen(m_penRed);
+// 	dc.SetBrush(m_brushTransparent);
+// 
+// 	wxRect zoomedRect(rect.x*m_nZoom, rect.y*m_nZoom, rect.width*m_nZoom, rect.height*m_nZoom);
+// 	dc.DrawRectangle(zoomedRect);
 }
 
 UIImageEditor::POINT_IN_CONNER UIImageEditor::CheckPointInConner(const wxRect& rect, const wxPoint& pt)
@@ -216,61 +248,50 @@ void UIImageEditor::OnPaint(wxPaintEvent& event)
 {
 	wxPaintDC dc(this);
 
-	//// prepare dc
-	//int ppuX = 0, ppuY = 0;
-	//GetScrollPixelsPerUnit(&ppuX, &ppuY);
-	//int startX = 0, startY = 0;
-	//GetViewStart(&startX, &startY);
+	// get client size
+	wxRect clientSize = GetClientSize();
 
-	//// get virtual size
-	//int virtualWidth = 0, virtualHeight = 0;
-	//GetVirtualSize(&virtualWidth, &virtualHeight);
+	// draw image
+	int nWidth = clientSize.GetWidth() > m_bmpImage.GetWidth() ? clientSize.GetWidth() : m_bmpImage.GetWidth();
+	int nHeight = clientSize.GetHeight() > m_bmpImage.GetHeight() ? clientSize.GetHeight() : m_bmpImage.GetHeight();
 
-	//// get client rect
-	//wxRect clientRect = GetClientRect();
-	//int width = virtualWidth > clientRect.width ? virtualWidth : clientRect.width;
-	//int height = virtualHeight > clientRect.height ? virtualHeight : clientRect.height;
+	m_dcBackBuffer.SetBrush(m_brushGrid);
+	m_dcBackBuffer.SetPen(*wxTRANSPARENT_PEN);
+	m_dcBackBuffer.DrawRectangle(0, 0, nWidth*m_nZoom, nHeight*m_nZoom);
 
-	//if (m_bmpBackBuffer.GetWidth() != width || m_bmpBackBuffer.GetHeight() != height)
-	//{
-	//	m_dcBackBuffer.SelectObject(wxNullBitmap);
-	//	m_bmpBackBuffer.Create(width, height);
-	//	m_dcBackBuffer.SelectObject(m_bmpBackBuffer);
-	//}
-	//m_dcBackBuffer.SetDeviceOrigin(-startX*ppuX, -startY*ppuY);
-	//m_dcBackBuffer.SetBackground(m_brushGrid);
-	//m_dcBackBuffer.Clear();
+	m_dcBackBuffer.StretchBlit(-m_ptOrigin.x, -m_ptOrigin.y,
+		m_bmpImage.GetWidth()*m_nZoom,
+		m_bmpImage.GetHeight()*m_nZoom,
+		&m_dcImage,
+		0, 0,
+		m_bmpImage.GetWidth(),
+		m_bmpImage.GetHeight());
 
-	//dc.SetDeviceOrigin(-startX*ppuX, -startY*ppuY);
-	//dc.Blit(0, 0, width, height, &m_dcBackBuffer, 0, 0);
+	// flush to dc
+	dc.Blit(0, 0, m_bmpBackBuffer.GetWidth(), m_bmpBackBuffer.GetHeight(), &m_dcBackBuffer, 0, 0);
 }
 
 void UIImageEditor::OnMouseWheel(wxMouseEvent& event)
 {
-// 	int lines = -event.GetWheelRotation() / event.GetWheelDelta();
-// 
-// 	wxPoint pt = GetViewStart();
-// 
-// 	int nDistance = (MOUSE_WHEEL_DISTANCE / m_nZoom);
-// 	if (event.ShiftDown())
-// 	{
-// 		Scroll(pt.x + lines * event.GetLinesPerAction() * nDistance, pt.y);
-// 	}
-// 	else if (event.ControlDown())
-// 	{
-// 		if (lines < 0)
-// 		{
-// 			ZoomIn();
-// 		}
-// 		else
-// 		{
-// 			ZoomOut();
-// 		}
-// 	}
-// 	else
-// 	{
-// 		Scroll(pt.x, pt.y + lines * event.GetLinesPerAction() * nDistance);
-// 	}
+ 	int lines = -event.GetWheelRotation() / event.GetWheelDelta();
+
+	if (event.ShiftDown())
+ 	{
+		int nPos = GetScrollPos(wxHORIZONTAL);
+		SetScrollPos(wxHORIZONTAL, nPos + lines * event.GetLinesPerAction() * SCROLL_LINE_DISTANCE);
+		UpdateScrollPosition(GetScrollPos(wxHORIZONTAL), GetScrollPos(wxVERTICAL));
+ 	}
+ 	else if (event.ControlDown())
+ 	{
+ 		if (lines < 0) ZoomIn();
+ 		else ZoomOut();
+ 	}
+ 	else
+ 	{
+		int nPos = GetScrollPos(wxVERTICAL);
+		SetScrollPos(wxVERTICAL, nPos + lines * event.GetLinesPerAction() * SCROLL_LINE_DISTANCE);
+		UpdateScrollPosition(GetScrollPos(wxHORIZONTAL), GetScrollPos(wxVERTICAL));
+ 	}
 	event.Skip();
 }
 
@@ -375,4 +396,77 @@ void UIImageEditor::OnMouseLButtonUp(wxMouseEvent& event)
 // 	}
 
 	event.Skip();
+}
+
+void UIImageEditor::OnSize(wxSizeEvent& event)
+{
+	UpdateVirtualSize();
+	UpdateScrollPosition(GetScrollPos(wxHORIZONTAL), GetScrollPos(wxVERTICAL));
+
+	if (m_bmpBackBuffer.GetSize() != GetClientSize())
+	{
+		m_dcBackBuffer.SelectObject(wxNullBitmap);
+		m_bmpBackBuffer.Create(GetClientSize());
+		m_dcBackBuffer.SelectObject(m_bmpBackBuffer);
+	}
+
+	event.Skip();
+}
+
+void UIImageEditor::OnScrollLineUp(wxScrollWinEvent& event)
+{
+	int nOrientation = event.GetOrientation();
+
+	int nPos = GetScrollPos(nOrientation);
+	SetScrollPos(nOrientation, nPos-SCROLL_LINE_DISTANCE, true);
+	UpdateScrollPosition(GetScrollPos(wxHORIZONTAL), GetScrollPos(wxVERTICAL));
+}
+
+void UIImageEditor::OnScrollLineDown(wxScrollWinEvent& event)
+{
+	int nOrientation = event.GetOrientation();
+
+	int nPos = GetScrollPos(nOrientation);
+	SetScrollPos(nOrientation, nPos+SCROLL_LINE_DISTANCE, true);
+	UpdateScrollPosition(GetScrollPos(wxHORIZONTAL), GetScrollPos(wxVERTICAL));
+}
+
+void UIImageEditor::OnScrollPageUp(wxScrollWinEvent& event)
+{
+	int nOrientation = event.GetOrientation();
+	int nDistance = GetScrollThumb(nOrientation);
+	int nPos = GetScrollPos(nOrientation);
+	SetScrollPos(nOrientation, nPos-nDistance, true);
+	UpdateScrollPosition(GetScrollPos(wxHORIZONTAL), GetScrollPos(wxVERTICAL));
+}
+
+void UIImageEditor::OnScrollPageDown(wxScrollWinEvent& event)
+{
+	int nOrientation = event.GetOrientation();
+	int nDistance = GetScrollThumb(nOrientation);
+	int nPos = GetScrollPos(nOrientation);
+	SetScrollPos(nOrientation, nPos+nDistance, true);
+	UpdateScrollPosition(GetScrollPos(wxHORIZONTAL), GetScrollPos(wxVERTICAL));
+}
+
+void UIImageEditor::OnScrollThumbTrack(wxScrollWinEvent& event)
+{
+	int nOrientation = event.GetOrientation();
+	int nPos = event.GetPosition();
+	if (nOrientation == wxHORIZONTAL)
+	{
+		UpdateScrollPosition(nPos, GetScrollPos(wxVERTICAL));
+	}
+	else
+	{
+		UpdateScrollPosition(GetScrollPos(wxHORIZONTAL), nPos);
+	}
+}
+
+void UIImageEditor::OnScrollThumbRelease(wxScrollWinEvent& event)
+{
+	int nOrientation = event.GetOrientation();
+	int nPos = event.GetPosition();
+	SetScrollPos(nOrientation, nPos, true);
+	UpdateScrollPosition(GetScrollPos(wxHORIZONTAL), GetScrollPos(wxVERTICAL));
 }

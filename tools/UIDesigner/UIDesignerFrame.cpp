@@ -320,7 +320,7 @@ void UIDesignerFrame::CreateInputView()
 		.Floatable(false)
 		.Movable(false));
 
-	m_pImageEditor->OpenBitmap(wxT("test.png"));
+	m_pImageEditor->LoadBitmapFile(wxT("test.png"));
 }
 
 void UIDesignerFrame::CreateOutputView()

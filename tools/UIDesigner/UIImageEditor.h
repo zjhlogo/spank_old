@@ -17,12 +17,13 @@ class UIImageEditor : public wxWindow
 public:
 	enum CONST_DEFINE
 	{
-		MOUSE_WHEEL_DISTANCE = 10,
+		SCROLL_LINE_DISTANCE = 10,
 		ZOOM_MIN = 1,
 		ZOOM_STEP = 1,
 		ZOOM_MAX = 10,
 		RECT_SPOT_SIZE = 2,
 		RECT_SENSOR_SIZE = 4,
+		DEFAULT_VIRTUAL_SIZE = 100,
 	};
 
 	enum POINT_IN_CONNER
@@ -74,7 +75,7 @@ public:
 
 	virtual wxSize DoGetBestSize() const;
 
-	bool OpenBitmap(const wxString& path);
+	bool LoadBitmapFile(const wxString& path);
 
 	bool ZoomIn();
 	bool ZoomOut();
@@ -83,7 +84,11 @@ public:
 
 private:
 	void Init();
+
 	void UpdateVirtualSize();
+	const wxSize& GetVirtualSize();
+	void UpdateScrollPosition(int x, int y);
+
 	void DrawSelectedRect(wxDC& dc, const wxRect& rect);
 	void DrawDragRect(wxDC& dc, const wxRect& rect);
 	POINT_IN_CONNER CheckPointInConner(const wxRect& rect, const wxPoint& pt);
@@ -94,23 +99,26 @@ private:
 	void OnMouseMove(wxMouseEvent& event);
 	void OnMouseLButtonDown(wxMouseEvent& event);
 	void OnMouseLButtonUp(wxMouseEvent& event);
+	void OnSize(wxSizeEvent& event);
+
+	void OnScrollLineUp(wxScrollWinEvent& event);
+	void OnScrollLineDown(wxScrollWinEvent& event);
+	void OnScrollPageUp(wxScrollWinEvent& event);
+	void OnScrollPageDown(wxScrollWinEvent& event);
+	void OnScrollThumbTrack(wxScrollWinEvent& event);
+	void OnScrollThumbRelease(wxScrollWinEvent& event);
 
 private:
 	wxBitmap m_bmpImage;
-	wxBitmap m_bmpBackBuffer;
-	wxBitmap m_bmpGrid;
-
 	wxMemoryDC m_dcImage;
+
+	wxBitmap m_bmpBackBuffer;
 	wxMemoryDC m_dcBackBuffer;
 
+	wxBitmap m_bmpGrid;
+	wxBrush m_brushGrid;
 
 	int m_nZoom;
-
-	wxPen m_penBlue;
-	wxPen m_penRed;
-	wxBrush m_brushTransparent;
-	wxBrush m_brushBlue;
-	wxBrush m_brushGrid;
 
 	wxRect m_rectSelected;
 	wxRect m_rectDrag;
@@ -120,6 +128,9 @@ private:
 
 	POINT_IN_CONNER m_CurrDragMode;
 	wxPoint m_ptMouseDown;
+
+	wxSize m_sizeVirtual;
+	wxPoint m_ptOrigin;
 
 };
 #endif // __UIIMAGEEDITOR_H__

@@ -9,23 +9,18 @@ public:
 	enum CLICK_TYPE
 	{
 		CT_UNKONWN= 0,
-		CT_PRESSED,
+		CT_CHECK,
 		CT_NORMAL,
 	};
 public:
-	MsgClick(CLICK_TYPE eType, const Vector2& pos);
-	MsgClick(CLICK_TYPE eType, const float x, float y);
+	MsgClick(CLICK_TYPE eType, int nButtonID);
 	~MsgClick();
 
-	void SetPosition(const Vector2& Position);
-	void SetPosition(const float x, const float y);
-	const Vector2& GetPosition(void) const;
-	
-	bool IsPressed() const;
-	bool IsNormal() const;
+	int GetButtonID() const;
+	bool IsCheck()const;
+	bool ISNormal()const;
 private:
 	CLICK_TYPE m_eClieckType;
-	Vector2 m_vPosition;
-	
+	int m_nButtonID;
 };
 #endif//__MSGCLICK_H_

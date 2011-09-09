@@ -18,6 +18,7 @@ public:
 
 	virtual bool Initialize(UIScreen* pUIScreen);
 	virtual void Terminate();
-
+	
+	void UITestFun(IMsgBase* pMsg);
 };
 #endif // __UITESTCASE_H__

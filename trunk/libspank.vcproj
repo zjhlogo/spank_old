@@ -285,6 +285,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\source\msg\MsgClick.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\msg\MsgClick.h"
+				>
+			</File>
+			<File
 				RelativePath=".\source\msg\MsgCommon.cpp"
 				>
 			</File>
@@ -298,6 +306,14 @@
 			</File>
 			<File
 				RelativePath=".\include\msg\MsgMgr.h"
+				>
+			</File>
+			<File
+				RelativePath=".\source\msg\MsgSlider.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\msg\MsgSlider.h"
 				>
 			</File>
 			<File
@@ -505,11 +521,51 @@
 				>
 			</File>
 			<File
+				RelativePath=".\source\ui\UIButton.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\ui\UIButton.h"
+				>
+			</File>
+			<File
+				RelativePath=".\source\ui\UICheck.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\ui\UICheck.h"
+				>
+			</File>
+			<File
+				RelativePath=".\source\ui\UIRadio.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\ui\UIRadio.h"
+				>
+			</File>
+			<File
+				RelativePath=".\source\ui\UIRadioGroup.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\ui\UIRadioGroup.h"
+				>
+			</File>
+			<File
 				RelativePath=".\source\ui\UIScreen.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\include\ui\UIScreen.h"
+				>
+			</File>
+			<File
+				RelativePath=".\source\ui\UISlider.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\ui\UISlider.h"
 				>
 			</File>
 			<File

@@ -229,3 +229,8 @@ bool UIWindow::PointInRect(const Vector2& point, const Vector2& rectPos, const V
 
 	return true;
 }
+
+std::vector<UIWindow*>& UIWindow::GetChildRef()
+{
+	return m_vChildren;
+}

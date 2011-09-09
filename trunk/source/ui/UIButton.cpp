@@ -6,136 +6,155 @@
  * \author:	wbaoqing(wbaoqing@gmail.com)
  */
 #include <ui/UIButton.h>
-#include <ui/IRendererUI.h>
-#include <ITexture.h>
 #include <util/IDebugUtil.h>
+#include <ITextureMgr.h>
+#include <ui/IRendererUI.h>
 #include <msg/MsgID.h>
 UIButton::UIButton(UIWindow *pParent)
 :UIWindow(pParent)
 {
+	//TODO
 	m_pString = NULL;
-	m_pNormaldTexture = NULL;
-	m_pPressedtexture = NULL;
-	m_bIsVisual = true;
-	m_State = MsgClick::CT_NORMAL;
+	m_pNormalTexture = NULL;
+	m_pCheckedTexture = NULL;
+	m_bCheckState = false;
 }
-
 UIButton::~UIButton(void)
 {
+	//TODO:
+	SAFE_RELEASE(m_pCheckedTexture);
+	SAFE_RELEASE(m_pNormalTexture);
 	SAFE_DELETE(m_pString);
 }
 
-void UIButton::SetText(const char *pszText)
+
+void UIButton::SetText( char* pszText )
 {
+	if(pszText == NULL) return;
 	m_pString = new UIString(pszText);
 	m_pString->SetText(pszText);
-	SetSize(m_pString->GetSize());
 }
 
-void UIButton::SetNormalTexture(ITexture *pTexture)
+void UIButton::SetNormalTexture( ITexture* pTexture )
 {
-	m_pNormaldTexture = pTexture;
-	float fWidth = (float)pTexture->GetWidth();
-	float fheight = (float)pTexture->GetHeight();
-	SetSize(Vector2(fWidth, fheight));
-	
+	if(pTexture == NULL) return;
+
+	m_pNormalTexture = pTexture;
+	float fWidth = 0.0f;
+	float fHeight = 0.0f;
+	fWidth = (float)pTexture->GetWidth();
+	fHeight = (float)pTexture->GetHeight();
+	if( fWidth < GetSize().x)
+		fWidth = GetSize().x;
+	if (fHeight < GetSize().y)
+		fHeight = GetSize().y;
+
+	SetSize(Vector2(fWidth, fHeight));
 }
 
-void UIButton::SetPressedTexture( ITexture* pTexture )
+void UIButton::SetCheckedTexture( ITexture* pTexture )
 {
-	m_pPressedtexture = pTexture;
-	float fWidth = (float)pTexture->GetWidth();
-	float fheight = (float)pTexture->GetHeight();
-	SetSize(Vector2(fWidth, fheight));
+	if(pTexture== NULL)return;
+
+	m_pCheckedTexture = pTexture;
+	float fWidth = 0.0f;
+	float fHeight = 0.0f;
+	fWidth = (float)pTexture->GetWidth();
+	fHeight = (float)pTexture->GetHeight();
+	if( fWidth < GetSize().x)
+		fWidth = GetSize().x;
+	if (fHeight < GetSize().y)
+		fHeight = GetSize().y;
+
+	SetSize(Vector2(fWidth, fHeight));
 }
 
-void UIButton::Update(float dt)
+void UIButton::Render( const RenderParam& param )
 {
 	//TODO:
-}
 
-void UIButton::Render(const RenderParam &param)
-{
-	//TODO:
-	if(!m_bIsVisual) return;
+	if( m_pCheckedTexture== NULL && m_pNormalTexture == NULL)
+		return;
+	Vector2 vrefPos = param.m_vBasePos + GetPosition();
 
-	Vector2 pos = param.m_vBasePos + GetPosition();
-	if( m_pPressedtexture!= NULL || m_pNormaldTexture!= NULL)
-	{
-		QUAD_VERT_POS_UV quad;
-		quad.verts[0].x = pos.x;
-		quad.verts[0].y = pos.y + GetSize().y;
-		quad.verts[0].z = 0.0f;
-		quad.verts[0].u = 0.0f;
-		quad.verts[0].v = 0.0;
+	QUAD_VERT_POS_UV quad;
+	quad.verts[0].x = vrefPos.x;
+	quad.verts[0].y = vrefPos.y + GetSize().y;
+	quad.verts[0].z = 0.0f;
+	quad.verts[0].u = 0.0f;
+	quad.verts[0].v = 0.0;
 
-		quad.verts[1].x = pos.x;
-		quad.verts[1].y = pos.y;
-		quad.verts[1].z = 0.0f;
-		quad.verts[1].u = 0.0f;
-		quad.verts[1].v = 1.0f;
+	quad.verts[1].x = vrefPos.x;
+	quad.verts[1].y = vrefPos.y;
+	quad.verts[1].z = 0.0f;
+	quad.verts[1].u = 0.0f;
+	quad.verts[1].v = 1.0f;
 
-		quad.verts[2].x = pos.x + GetSize().x;
-		quad.verts[2].y = pos.y + GetSize().y;
-		quad.verts[2].z = 0.0f;
-		quad.verts[2].u = 1.0f;
-		quad.verts[2].v = 0.0f;
+	quad.verts[2].x = vrefPos.x + GetSize().x;
+	quad.verts[2].y = vrefPos.y + GetSize().y;
+	quad.verts[2].z = 0.0f;
+	quad.verts[2].u = 1.0f;
+	quad.verts[2].v = 0.0f;
 
-		quad.verts[3].x = pos.x + GetSize().x;
-		quad.verts[3].y = pos.y;
-		quad.verts[3].z = 0.0f;
-		quad.verts[3].u = 1.0f;
-		quad.verts[3].v = 1.0f;
-		
-		if( m_State == MsgClick::CT_NORMAL)
-			IRendererUI::GetInstance().SetTexture(m_pNormaldTexture);
-		else
-			IRendererUI::GetInstance().SetTexture(m_pPressedtexture);
-		
-		IRendererUI::GetInstance().DrawTriangleRect(quad);
-	}
+	quad.verts[3].x = vrefPos.x + GetSize().x;
+	quad.verts[3].y = vrefPos.y;
+	quad.verts[3].z = 0.0f;
+	quad.verts[3].u = 1.0f;
+	quad.verts[3].v = 1.0f;
+
+	if(m_bCheckState)
+		IRendererUI::GetInstance().SetTexture(m_pCheckedTexture);
 	else
-		IRendererUI::GetInstance().DrawLineRect(pos, GetSize());
+		IRendererUI::GetInstance().SetTexture(m_pNormalTexture);
+	IRendererUI::GetInstance().DrawTriangleRect(quad);
 
-	IRendererUI::GetInstance().Flush();
+	if(m_pString != NULL)
+	{
+		IRendererUI::GetInstance().Flush();
 
-	pos += GetPaddingLeftTop();
-	if(m_pString!=NULL)
-		m_pString->Render(pos);
-	
+		vrefPos += GetPaddingLeftTop();
+		if(m_pString!=NULL)
+			m_pString->Render(vrefPos);
+	}
+}
+
+void UIButton::Update( float dt )
+{
+	//TODO:
+}
+
+bool UIButton::GetCheckState() const
+{
+	return m_bCheckState;
+}
+
+void UIButton::SetCheckedState( bool bflag )
+{
+	m_bCheckState = bflag;
 }
 
 bool UIButton::OnClicked(const Vector2& pos)
 {  
-	if(!m_bIsVisual) return true;
-	MsgClick msgclick(m_State, pos);
+	MsgClick msgclick(MsgClick::CT_CHECK, GetID());
 	CallEvent(msgclick);
 	return true;
 }
 
-void UIButton::SetVisual(bool IsVisual)
-{
-	m_bIsVisual = IsVisual;
-}
-
 bool UIButton::OnTouchBegin( const Vector2& pos )
 {
-	m_State = MsgClick::CT_PRESSED;
+	SetCheckedState(true);
 	return true;
-	//TODO:
 }
 
 bool UIButton::OnTouchMove( const Vector2& pos )
 {
-	if( !PointInRect(pos, GetPosition(),GetSize()))
-		m_State = MsgClick::CT_NORMAL;
+	SetCheckedState(false);
 	return true;
-	//TODO:
 }
 
 bool UIButton::OnTouchEnd( const Vector2& pos )
 {
-	m_State = MsgClick::CT_NORMAL;
+	SetCheckedState(false);
 	return true;
-	//TODO:
 }
+

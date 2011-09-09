@@ -8,47 +8,29 @@
 #include <msg/MsgClick.h>
 #include <msg/MsgID.h>
 
-MsgClick::MsgClick(MsgClick::CLICK_TYPE eType, const float x, float y)
+MsgClick::MsgClick(MsgClick::CLICK_TYPE eType, int nButtonID)
 :IMsgBase(MI_UI_CLICKED)
 {
 	m_eClieckType = eType;
-	m_vPosition.x = x;
-	m_vPosition.y = y;
+	m_nButtonID = nButtonID;
 }
 
-MsgClick::MsgClick(MsgClick::CLICK_TYPE eType, const Vector2 &pos)
-:IMsgBase(MI_UI_CLICKED)
-{
-	m_eClieckType = eType;
-	m_vPosition = pos;
-}
 
 MsgClick::~MsgClick()
 {
 	//TODO:
 }
 
-void MsgClick::SetPosition(const float x, const float y)
+int MsgClick::GetButtonID() const
 {
-	m_vPosition.x = x;
-	m_vPosition.y = y;
+	return m_nButtonID;
+}
+bool MsgClick::IsCheck()const
+{
+	return (m_eClieckType == CT_CHECK);
 }
 
-void MsgClick::SetPosition(const Vector2 &Position)
+bool MsgClick::ISNormal() const
 {
-	m_vPosition = Position;
-}
-const Vector2& MsgClick::GetPosition() const
-{
-	return m_vPosition;
-}
-
-bool MsgClick::IsPressed() const
-{
-	 return (m_eClieckType == CT_PRESSED);
-}
-
-bool MsgClick::IsNormal() const
-{
-	return (m_eClieckType == CT_PRESSED);
+	return (m_eClieckType == CT_NORMAL);
 }

@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)\..\..\vendor\wxWidgets-2.9.2\include&quot;;&quot;$(ProjectDir)\..\..\vendor\wxWidgets-2.9.2\lib\vc_lib\mswud&quot;"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)\..\..\vendor\wxWidgets-2.9.2\include&quot;;&quot;$(ProjectDir)\..\..\vendor\wxWidgets-2.9.2\lib\vc_lib\mswud&quot;;&quot;$(ProjectDir)\..\..\vendor&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -121,7 +121,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)\..\..\vendor\wxWidgets-2.9.2\include&quot;;&quot;$(ProjectDir)\..\..\vendor\wxWidgets-2.9.2\lib\vc_lib\mswud&quot;"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)\..\..\vendor\wxWidgets-2.9.2\include&quot;;&quot;$(ProjectDir)\..\..\vendor\wxWidgets-2.9.2\lib\vc_lib\mswud&quot;;&quot;$(ProjectDir)\..\..\vendor&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -194,11 +194,35 @@
 			>
 		</File>
 		<File
-			RelativePath=".\UIImageEditor.cpp"
+			RelativePath=".\UIDocumentBase.cpp"
 			>
 		</File>
 		<File
-			RelativePath=".\UIImageEditor.h"
+			RelativePath=".\UIDocumentBase.h"
+			>
+		</File>
+		<File
+			RelativePath=".\UIImagePieceDocument.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\UIImagePieceDocument.h"
+			>
+		</File>
+		<File
+			RelativePath=".\UIImagePieceView.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\UIImagePieceView.h"
+			>
+		</File>
+		<File
+			RelativePath=".\wxImagePieceEvent.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\wxImagePieceEvent.h"
 			>
 		</File>
 	</Files>

@@ -10,7 +10,11 @@
 
 #include <wx/frame.h>
 #include <wx/aui/aui.h>
-#include "UIImageEditor.h"
+#include <wx/treectrl.h>
+
+#include "UIImagePieceView.h"
+#include "UIImagePieceDocument.h"
+#include "wxImagePieceEvent.h"
 
 class UIDesignerFrame : public wxFrame
 {
@@ -18,12 +22,6 @@ public:
 	enum CONTROL_ID
 	{
 		ID_UIDESIGNERFRAME = 10000,
-		ID_FILE_NEW = 10018,
-		ID_FILE_OPEN = 10019,
-		ID_FILE_CLOSE = 10022,
-		ID_FILE_SAVE = 10020,
-		ID_FILE_SAVE_AS = 10021,
-		ID_FILE_EXIT = 10023,
 		ID_EDIT_UNDO = 10048,
 		ID_EDIT_REDO = 10049,
 		ID_EDIT_COPY = 10025,
@@ -43,17 +41,14 @@ public:
 		ID_LAYOUT_MOVE_UP = 10036,
 		ID_LAYOUT_MOVE_DOWN = 10037,
 		ID_VIEW_GRID = 10038,
-		ID_VIEW_ZOOM_FIXED = 10045,
-		ID_VIEW_ZOOM_IN = 10046,
-		ID_VIEW_ZOOM_OUT = 10047,
 		ID_TOOL_PREFERENCES = 10042,
 		ID_HELP_SUPPORT = 10043,
 		ID_HELP_ABOUT = 10044,
 		ID_TOOLBAR = 10018,
 		IDC_PROJECT = 10003,
 		IDC_PROPERTY = 10002,
-		ID_INPUT_VIEW = 10004,
-		ID_OUTPUT_VIEW = 10001
+		IDC_INPUT_VIEW = 10004,
+		IDC_OUTPUT_VIEW = 10001
 	};
 
 public:
@@ -65,21 +60,40 @@ public:
 	virtual ~UIDesignerFrame();
 
 private:
+	void Init();
+
 	void CreateControls();
 	void CreateMenu();
 	void CreateToolbar();
-	void CreateProjectControl();
-	void CreatePropertyControl();
+	void CreateProjectView();
+	void CreatePropertyView();
 	void CreateInputView();
 	void CreateOutputView();
 
-	void OnZoomIn(wxCommandEvent& event);
-	void OnZoomOut(wxCommandEvent& event);
-	void OnZoomFixed(wxCommandEvent& event);
+	void UpdateProjectView();
+	void UpdateImagePieceView(const UIImagePieceDocument::PIECE_INFO* pPieceInfo);
+
+	void OnFileNew(wxCommandEvent& event);
+	void OnFileOpen(wxCommandEvent& event);
+	void OnFileSave(wxCommandEvent& event);
+
+	void OnLayoutMoveLeft(wxCommandEvent& event);
+	void OnLayoutMoveRight(wxCommandEvent& event);
+	void OnLayoutMoveUp(wxCommandEvent& event);
+	void OnLayoutMoveDown(wxCommandEvent& event);
+
+	void OnViewZoom100(wxCommandEvent& event);
+	void OnViewZoomIn(wxCommandEvent& event);
+	void OnViewZoomOut(wxCommandEvent& event);
+
+	void OnProjectItemSelChanged(wxTreeEvent& event);
+	void OnImagePieceChanged(wxImagePieceEvent& event);
 
 private:
 	wxAuiManager m_auiManager;
-	UIImageEditor* m_pImageEditor;
+	wxTreeCtrl* m_pProjectView;
+	UIImagePieceView* m_pImagePieceView;
+	UIImagePieceDocument* m_pImagePieceDocument;
 
 };
 #endif // __UIDESIGNERFRAME_H__

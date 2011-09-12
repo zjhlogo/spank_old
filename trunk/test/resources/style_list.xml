@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<Styles>
+	<Style name="btn_login">
+		<normal piece="btn_login_normal" />
+		<pressed piece="btn_login_pressed" />
+	</Style>
+	<Style name="slider">
+		<foreground piece="slider_fg" />
+		<background piece="slider_bg" />
+		<thumb piece="slider_thumb" />
+	</Style>
+</Styles>

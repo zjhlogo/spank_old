@@ -529,27 +529,19 @@
 				>
 			</File>
 			<File
-				RelativePath=".\source\ui\UICheck.cpp"
+				RelativePath=".\source\ui\UICheckButton.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\include\ui\UICheck.h"
+				RelativePath=".\include\ui\UICheckButton.h"
 				>
 			</File>
 			<File
-				RelativePath=".\source\ui\UIRadio.cpp"
+				RelativePath=".\source\ui\UIRadioButton.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\include\ui\UIRadio.h"
-				>
-			</File>
-			<File
-				RelativePath=".\source\ui\UIRadioGroup.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\include\ui\UIRadioGroup.h"
+				RelativePath=".\include\ui\UIRadioButton.h"
 				>
 			</File>
 			<File
@@ -561,11 +553,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\source\ui\UISlider.cpp"
+				RelativePath=".\source\ui\UISliderBar.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\include\ui\UISlider.h"
+				RelativePath=".\include\ui\UISliderBar.h"
 				>
 			</File>
 			<File
@@ -687,6 +679,14 @@
 		</File>
 		<File
 			RelativePath=".\source\Renderer2D_Impl.h"
+			>
+		</File>
+		<File
+			RelativePath=".\source\ResourceMgr_Impl.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\source\ResourceMgr_Impl.h"
 			>
 		</File>
 		<File

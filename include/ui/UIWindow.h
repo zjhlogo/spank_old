@@ -45,7 +45,11 @@ public:
 	void SetMargin(float left, float top, float right, float bottom);
 	const Vector2& GetMarginLeftTop() const;
 	const Vector2& GetMarginRightBottom() const;
-	
+
+	void SetAutoAdjustSize(bool bAuto);
+	bool GetAutoAdjustSize() const;
+	virtual Vector2 GetBestSize();
+
 	virtual bool ProcessTouchEvent(const Vector2& pos, UI_TOUCH_EVENT_TYPE eType);
 
 	virtual bool OnClicked(const Vector2& pos);
@@ -63,6 +67,7 @@ protected:
 	UIWindow* FindChildUnderPoint(const Vector2& pos);
 	bool PointInRect(const Vector2& point, const Vector2& rectPos, const Vector2& rectSize);
 	TV_WINDOW& GetChildRef();
+
 private:
 	UIWindow* m_pParent;
 	TV_WINDOW m_vChildren;
@@ -77,6 +82,8 @@ private:
 
 	Vector2 m_MarginLeftTop;
 	Vector2 m_MarginRightBottom;
+
+	bool m_bAutoAdjustSize;
 
 };
 #endif // __UIWINDOW_H__

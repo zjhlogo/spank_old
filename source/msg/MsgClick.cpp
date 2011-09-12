@@ -8,11 +8,10 @@
 #include <msg/MsgClick.h>
 #include <msg/MsgID.h>
 
-MsgClick::MsgClick(MsgClick::CLICK_TYPE eType, int nButtonID)
+MsgClick::MsgClick(UIWindow* pSender)
 :IMsgBase(MI_UI_CLICKED)
 {
-	m_eClieckType = eType;
-	m_nButtonID = nButtonID;
+	m_pSender = pSender;
 }
 
 
@@ -21,16 +20,12 @@ MsgClick::~MsgClick()
 	//TODO:
 }
 
-int MsgClick::GetButtonID() const
+UIWindow* MsgClick::GetSender()
 {
-	return m_nButtonID;
-}
-bool MsgClick::IsCheck()const
-{
-	return (m_eClieckType == CT_CHECK);
+	return m_pSender;
 }
 
-bool MsgClick::ISNormal() const
+int MsgClick::GetSenderID() const
 {
-	return (m_eClieckType == CT_NORMAL);
+	return m_pSender->GetID();
 }

@@ -20,5 +20,6 @@ public:
 	virtual void Terminate();
 	
 	void UITestFun(IMsgBase* pMsg);
+
 };
 #endif // __UITESTCASE_H__

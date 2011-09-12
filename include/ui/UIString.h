@@ -16,7 +16,7 @@ class UIString : public IObject
 {
 public:
 	typedef std::vector<ushort> TV_UNICODE_CHAR;
-	typedef std::vector<const IFont::CHAR_INFO*> TV_CHAR_INFO;
+	typedef std::vector<const CHAR_INFO*> TV_CHAR_INFO;
 
 public:
 	UIString(IFont* pFont, const char* pszText);

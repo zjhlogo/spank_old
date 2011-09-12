@@ -14,6 +14,7 @@
 #include <msg/MsgCommon.h>
 #include <ui/IUISystem.h>
 #include <ui/UITextView.h>
+#include <IResourceMgr.h>
 #include "UserMsgID.h"
 #include "UITestCase.h"
 #include "SpriteTestCase.h"
@@ -43,6 +44,7 @@ GameApp::~GameApp()
 bool GameApp::Initialize()
 {
 	MsgMgr::GetInstance().SubscribeMessage(MI_TOUCH, this, CAST_MSG_CALLBACK(&GameApp::OnMsgTouch));
+	IResourceMgr::GetInstance().AddTexturePieceList("piece_list");
 
 	m_pMainScreen = IUISystem::GetInstance().GetCurrentScreen();
 

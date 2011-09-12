@@ -1,21 +1,21 @@
 /*!
- * \file UISilder.h
+ * \file UISliderBar.h
  * \date 2011/09/05 16:15
  *	
  *	
  * \author:	wbaoqng(wbaoqing@gmail.com)
  */
-#ifndef __UISILDER_H_
-#define __UISILDER_H_
+#ifndef __UISILDERBAR_H__
+#define __UISILDERBAR_H__
 
-#include <ui/UIWindow.h>
-#include <ITexture.h>
+#include "UIWindow.h"
+#include "../ITexture.h"
 
-class UISlider :public UIWindow
+class UISliderBar : public UIWindow
 {
 public:
-	UISlider(UIWindow* pParent);
-	virtual ~UISlider();
+	UISliderBar(UIWindow* pParent);
+	virtual ~UISliderBar();
 
 	void Update(float dt);
 	void Render(const RenderParam& param);
@@ -28,10 +28,12 @@ public:
 	virtual bool OnTouchBegin(const Vector2& pos);
 	virtual bool OnTouchMove(const Vector2& pos);
 	virtual bool OnTouchEnd(const Vector2& pos);
+
 private:
-	void DrawMaskBar( Vector2& pos);
-	void DrawNormalBar( Vector2& pos);
+	void DrawMaskBar(Vector2& pos);
+	void DrawNormalBar(Vector2& pos);
 	void DrawArrow(Vector2& pos);
+
 private:
 	ITexture* m_pMaskBar;
 	ITexture* m_pNormalbar;
@@ -39,4 +41,4 @@ private:
 	float m_fPercent;
 
 };
-#endif//__UISILDER_H_
+#endif // __UISILDERBAR_H__

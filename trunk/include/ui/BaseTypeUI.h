@@ -8,7 +8,7 @@
 #ifndef __BASETYPEUI_H__
 #define __BASETYPEUI_H__
 
-#include "../BaseType.h"
+#include "../BaseTypeEx.h"
 
 enum UI_TOUCH_EVENT_TYPE
 {
@@ -17,4 +17,15 @@ enum UI_TOUCH_EVENT_TYPE
 	UTET_MOVE,
 	UTET_END,
 };
+
+typedef struct CHAR_INFO_tag
+{
+	int nID;
+	float width, height;
+	float u, v, du, dv;
+	ITexture* pTexture;
+	float offsetx, offsety, advance;
+	int nRef;
+} CHAR_INFO;
+
 #endif // __BASETYPEUI_H__

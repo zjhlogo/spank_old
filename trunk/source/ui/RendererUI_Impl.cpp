@@ -149,10 +149,50 @@ void RendererUI_Impl::DrawTriangleList(const VATTR_POS_UV* pVerts, uint nVerts, 
 	AddPrimetive(m_pCaches_POS_UV, NUM_POS_UV_CACHE, m_pShader_POS_UV, m_pTexture, pVerts, nVerts, pIndis, nIndis);
 }
 
-void RendererUI_Impl::DrawTriangleRect(const QUAD_VERT_POS_UV& quad)
+void RendererUI_Impl::DrawRect(const QUAD_VERT_POS_UV& quad)
 {
 	static const ushort s_Indis[6] = {0, 1, 2, 1, 3, 2};
 	AddPrimetive(m_pCaches_POS_UV, NUM_POS_UV_CACHE, m_pShader_POS_UV, m_pTexture, &quad.verts[0], 4, s_Indis, 6);
+}
+
+void RendererUI_Impl::DrawRect(const Vector2& pos, const TEXTURE_PIECE* pTexturePiece)
+{
+	DrawRect(pos.x, pos.y, pTexturePiece);
+}
+
+void RendererUI_Impl::DrawRect(float x, float y, const TEXTURE_PIECE* pTexturePiece)
+{
+	static VATTR_POS_UV s_Verts[4] =
+	{
+		{-0.5f, -0.5f, 0.0f, 0.0f, 0.0f},
+		{-0.5f, +0.5f, 0.0f, 0.0f, 1.0f},
+		{+0.5f, -0.5f, 0.0f, 1.0f, 0.0f},
+		{+0.5f, +0.5f, 0.0f, 1.0f, 1.0f},
+	};
+
+	static const ushort s_Indis[6] = {0, 1, 2, 1, 3, 2};
+
+	s_Verts[0].x = x;
+	s_Verts[0].y = y + pTexturePiece->height;
+	s_Verts[0].u = pTexturePiece->u;
+	s_Verts[0].v = pTexturePiece->v;
+
+	s_Verts[1].x = x;
+	s_Verts[1].y = y;
+	s_Verts[1].u = pTexturePiece->u;
+	s_Verts[1].v = pTexturePiece->v + pTexturePiece->dv;
+
+	s_Verts[2].x = x + pTexturePiece->width;
+	s_Verts[2].y = y + pTexturePiece->height;
+	s_Verts[2].u = pTexturePiece->u + pTexturePiece->du;
+	s_Verts[2].v = pTexturePiece->v;
+
+	s_Verts[3].x = x + pTexturePiece->width;
+	s_Verts[3].y = y;
+	s_Verts[3].u = pTexturePiece->u + pTexturePiece->du;
+	s_Verts[3].v = pTexturePiece->v + pTexturePiece->dv;
+
+	AddPrimetive(m_pCaches_POS_UV, NUM_POS_UV_CACHE, m_pShader_POS_UV, pTexturePiece->pTexture, &s_Verts[0], 4, s_Indis, 6);
 }
 
 bool RendererUI_Impl::ClipRect( QUAD_VERT_POS_UV& quadInOut, float x, float y, float width, float height )

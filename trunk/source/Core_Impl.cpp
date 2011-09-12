@@ -14,6 +14,7 @@
 #include <InputMgr.h>
 #include <IRenderDevice.h>
 #include <ITextureMgr.h>
+#include <IResourceMgr.h>
 #include <IShaderMgr.h>
 #include <IRenderer2D.h>
 #include <ui/IRendererUI.h>
@@ -54,6 +55,7 @@ bool Core_Impl::Initialize()
 	if (!InputMgr::GetInstance().Initialize()) return false;
 	if (!IRenderDevice::GetInstance().Initialize()) return false;
 	if (!ITextureMgr::GetInstance().Initialize()) return false;
+	if (!IResourceMgr::GetInstance().Initialize()) return false;
 	if (!IShaderMgr::GetInstance().Initialize()) return false;
 	if (!IRenderer2D::GetInstance().Initialize()) return false;
 	if (!IRendererUI::GetInstance().Initialize()) return false;
@@ -86,6 +88,7 @@ void Core_Impl::Terminate()
 	IRendererUI::GetInstance().Terminate();
 	IRenderer2D::GetInstance().Terminate();
 	IShaderMgr::GetInstance().Terminate();
+	IResourceMgr::GetInstance().Terminate();
 	ITextureMgr::GetInstance().Terminate();
 	IRenderDevice::GetInstance().Terminate();
 	InputMgr::GetInstance().Terminate();

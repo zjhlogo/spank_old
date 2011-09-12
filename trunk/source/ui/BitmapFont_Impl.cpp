@@ -32,7 +32,7 @@ float BitmapFont_Impl::GetLineHeight() const
 	return m_fLineHeight;
 }
 
-const BitmapFont_Impl::CHAR_INFO* BitmapFont_Impl::GetCharInfo(int nID) const
+const CHAR_INFO* BitmapFont_Impl::GetCharInfo(int nID) const
 {
 	TM_CHAR_INFO::const_iterator itfound = m_mapCharInfo.find(nID);
 	if (itfound != m_mapCharInfo.end())

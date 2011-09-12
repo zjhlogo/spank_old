@@ -21,10 +21,9 @@ UIWindow::UIWindow(UIWindow* pParent)
 	m_MarginRightBottom = IMath::VEC2_ZERO;
 
 	m_pParent = pParent;
-	if (m_pParent)
-	{
-		m_pParent->AddChild(this);
-	}
+	if (m_pParent) m_pParent->AddChild(this);
+
+	m_bAutoAdjustSize = true;
 }
 
 UIWindow::~UIWindow()
@@ -108,6 +107,21 @@ const Vector2& UIWindow::GetMarginLeftTop() const
 const Vector2& UIWindow::GetMarginRightBottom() const
 {
 	return m_MarginRightBottom;
+}
+
+void UIWindow::SetAutoAdjustSize(bool bAuto)
+{
+	m_bAutoAdjustSize = bAuto;
+}
+
+bool UIWindow::GetAutoAdjustSize() const
+{
+	return m_bAutoAdjustSize;
+}
+
+Vector2 UIWindow::GetBestSize()
+{
+	return IMath::VEC2_ZERO;
 }
 
 bool UIWindow::ProcessTouchEvent(const Vector2& pos, UI_TOUCH_EVENT_TYPE eType)

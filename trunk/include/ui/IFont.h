@@ -9,21 +9,10 @@
 #define __IFONT_H__
 
 #include "../IObject.h"
-#include "../ITexture.h"
+#include "BaseTypeUI.h"
 
 class IFont : public IObject
 {
-public:
-	typedef struct CHAR_INFO_tag
-	{
-		int nID;
-		float width, height;
-		float u, v, du, dv;
-		ITexture* pTexture;
-		float offsetx, offsety, advance;
-		int nRef;
-	} CHAR_INFO;
-
 public:
 	virtual float GetLineHeight() const = 0;
 	virtual const CHAR_INFO* GetCharInfo(int nID) const = 0;

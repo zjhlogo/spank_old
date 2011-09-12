@@ -1,26 +1,28 @@
-#ifndef __MSGCLICK_H_
-#define __MSGCLICK_H_
+/*!
+ * \file MsgClick.h
+ * \date 2011/09/05 14:10
+ *	
+ *	
+ * \author:	wbaoqing(wbaoqing@gmail.com)
+ */
+#ifndef __MSGCLICK_H__
+#define __MSGCLICK_H__
 
 #include "IMsgBase.h"
-#include "../math/IMath.h"
-class MsgClick: public IMsgBase
+#include "../ui/UIWindow.h"
+
+class MsgClick : public IMsgBase
 {
 public:
-	enum CLICK_TYPE
-	{
-		CT_UNKONWN= 0,
-		CT_CHECK,
-		CT_NORMAL,
-	};
-public:
-	MsgClick(CLICK_TYPE eType, int nButtonID);
+	MsgClick(UIWindow* pSender);
 	~MsgClick();
 
-	int GetButtonID() const;
-	bool IsCheck()const;
-	bool ISNormal()const;
+	UIWindow* GetSender();
+	int GetSenderID() const;
+
 private:
-	CLICK_TYPE m_eClieckType;
-	int m_nButtonID;
+	UIWindow* m_pSender;
+
 };
-#endif//__MSGCLICK_H_
+
+#endif // __MSGCLICK_H__

@@ -40,7 +40,7 @@ void UIString::Render(const Vector2& pos)
 
 	for (TV_CHAR_INFO::const_iterator it = m_vCharInfo.begin(); it != m_vCharInfo.end(); ++it)
 	{
-		const IFont::CHAR_INFO* pCharInfo = (*it);
+		const CHAR_INFO* pCharInfo = (*it);
 
 		if (pCharInfo->nID == '\n')
 		{
@@ -79,7 +79,7 @@ void UIString::Render(const Vector2& pos)
 		quad.verts[3].v = pCharInfo->v+pCharInfo->dv;
 
 		IRendererUI::GetInstance().SetTexture(pCharInfo->pTexture);
-		IRendererUI::GetInstance().DrawTriangleRect(quad);
+		IRendererUI::GetInstance().DrawRect(quad);
 
 		fBasePosX += pCharInfo->advance;
 	}
@@ -112,7 +112,7 @@ bool UIString::CreateCharVerts(const char* pszText)
 	m_vCharInfo.clear();
 	for (int i = 0; i < m_nCharCount; ++i)
 	{
-		const IFont::CHAR_INFO* pCharInfo = m_pFont->GetCharInfo(m_UnicodeChars[i]);
+		const CHAR_INFO* pCharInfo = m_pFont->GetCharInfo(m_UnicodeChars[i]);
 		if (!pCharInfo) pCharInfo = m_pFont->GetCharInfo(-1);
 		m_vCharInfo.push_back(pCharInfo);
 	}
@@ -135,7 +135,7 @@ void UIString::RecalculateSize()
 	float fLineWidth = 0.0f;
 	for (TV_CHAR_INFO::const_iterator it = m_vCharInfo.begin(); it != m_vCharInfo.end(); ++it)
 	{
-		const IFont::CHAR_INFO* pCharInfo = (*it);
+		const CHAR_INFO* pCharInfo = (*it);
 		if (pCharInfo->nID == '\n')
 		{
 			m_vSize.x = fLineWidth > m_vSize.x ? fLineWidth : m_vSize.x;

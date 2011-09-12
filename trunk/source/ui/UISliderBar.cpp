@@ -1,46 +1,45 @@
 /*!
- * \file UISilder.cpp
+ * \file UISliderBar.cpp
  * \date 2011/09/05 16:15
  *	
  *	
  * \author:	wbaoqing(wbaoqing@gmail.com)
  */
-#include <ui/UISlider.h>
+#include <ui/UISliderBar.h>
+#include <ui/IRendererUI.h>
 #include <msg/MsgSlider.h>
 #include <util/IDebugUtil.h>
-#include <ui/IRendererUI.h>
-UISlider::UISlider( UIWindow* pParent )
-: UIWindow(pParent)
+
+UISliderBar::UISliderBar(UIWindow* pParent)
+:UIWindow(pParent)
 {
-	
 	m_pMaskBar = NULL;
 	m_pNormalbar = NULL;
 	m_pArrow = NULL;
 	m_fPercent = 0.5f;
 }
-UISlider::~UISlider()
+
+UISliderBar::~UISliderBar()
 {
-	//TODO:
 	SAFE_RELEASE(m_pNormalbar);
 	SAFE_RELEASE(m_pMaskBar);
 	SAFE_RELEASE(m_pArrow);
 }
 
-void UISlider::Update( float dt )
+void UISliderBar::Update(float dt)
 {
 	//TODO:
 }
 
-void UISlider::Render( const RenderParam& param )
+void UISliderBar::Render(const RenderParam& param)
 {
-	//TODO:
 	Vector2 pos = param.m_vBasePos + GetPosition();
 	DrawNormalBar(pos);
 	DrawMaskBar(pos);
 	DrawArrow(pos);
 }
 
-void UISlider::SetArrowTexture( ITexture* pTexture )
+void UISliderBar::SetArrowTexture(ITexture* pTexture)
 {
 	if(!pTexture) return;
 	
@@ -49,7 +48,7 @@ void UISlider::SetArrowTexture( ITexture* pTexture )
 	float fHeight = 0.0f;
 	fWidth = (float)pTexture->GetWidth();
 	fHeight = (float)pTexture->GetHeight();
-	if( fWidth < GetSize().x)
+	if(fWidth < GetSize().x)
 		fWidth = GetSize().x;
 	if (fHeight < GetSize().y)
 		fHeight = GetSize().y;
@@ -58,16 +57,15 @@ void UISlider::SetArrowTexture( ITexture* pTexture )
 
 }
 
-void UISlider::SetMaskBarTexture( ITexture* pTexture )
+void UISliderBar::SetMaskBarTexture(ITexture* pTexture)
 {
-	//TODO:
 	if(!pTexture) return;
 	m_pMaskBar = pTexture;
 	float fWidth = 0.0f;
 	float fHeight = 0.0f;
 	fWidth = (float)pTexture->GetWidth();
 	fHeight = (float)pTexture->GetHeight();
-	if( fWidth < GetSize().x)
+	if(fWidth < GetSize().x)
 		fWidth = GetSize().x;
 	if (fHeight < GetSize().y)
 		fHeight = GetSize().y;
@@ -75,16 +73,15 @@ void UISlider::SetMaskBarTexture( ITexture* pTexture )
 	SetSize(Vector2(fWidth, fHeight));
 }
 
-void UISlider::SetNormalBarTexture( ITexture* pTexture )
+void UISliderBar::SetNormalBarTexture(ITexture* pTexture)
 {
-	//TODO:
 	if(!pTexture) return;
 	m_pNormalbar = pTexture;
 	float fWidth = 0.0f;
 	float fHeight = 0.0f;
 	fWidth = (float)pTexture->GetWidth();
 	fHeight = (float)pTexture->GetHeight();
-	if( fWidth < GetSize().x)
+	if(fWidth < GetSize().x)
 		fWidth = GetSize().x;
 	if (fHeight < GetSize().y)
 		fHeight = GetSize().y;
@@ -92,43 +89,39 @@ void UISlider::SetNormalBarTexture( ITexture* pTexture )
 	SetSize(Vector2(fWidth, fHeight));
 }
 
-bool UISlider::OnClicked( const Vector2& pos )
+bool UISliderBar::OnClicked(const Vector2& pos)
 {
-	//TODO:
 	m_fPercent = pos.x / GetSize().x;
 	MsgSilder msgSlider(MsgSilder::ST_BEGIN, m_fPercent);
 	CallEvent(msgSlider);
 	return true;
 }
 
-bool UISlider::OnTouchBegin( const Vector2& pos )
+bool UISliderBar::OnTouchBegin(const Vector2& pos)
 {
-	//TODO:
 	m_fPercent = pos.x / GetSize().x;
 	MsgSilder msgSlider(MsgSilder::ST_BEGIN, m_fPercent);
 	CallEvent(msgSlider);
 	return true;
 }
 
-bool UISlider::OnTouchMove( const Vector2& pos )
+bool UISliderBar::OnTouchMove(const Vector2& pos)
 {
-	//TODO:
 	m_fPercent = pos.x / GetSize().x;
 	MsgSilder msgSlider(MsgSilder::ST_MOVE, m_fPercent);
 	CallEvent(msgSlider);
 	return true;
 }
 
-bool UISlider::OnTouchEnd( const Vector2& pos )
+bool UISliderBar::OnTouchEnd(const Vector2& pos)
 {
-	//TODO:
 	m_fPercent = pos.x  / GetSize().x;
 	MsgSilder msgSlider(MsgSilder::ST_END, m_fPercent);
 	CallEvent(msgSlider);
 	return true;
 }
 
-void UISlider::DrawMaskBar(  Vector2& pos )
+void UISliderBar::DrawMaskBar(Vector2& pos)
 {
 	if(!m_pMaskBar) return;
 	float fMaskTextureX = (float)m_pMaskBar->GetWidth();
@@ -160,10 +153,10 @@ void UISlider::DrawMaskBar(  Vector2& pos )
 	quad.verts[3].v = 1.0f;
 	
 	IRendererUI::GetInstance().SetTexture(m_pMaskBar);
-	IRendererUI::GetInstance().DrawTriangleRect(quad);
+	IRendererUI::GetInstance().DrawRect(quad);
 }
 
-void UISlider::DrawNormalBar( Vector2& pos )
+void UISliderBar::DrawNormalBar(Vector2& pos)
 {
 	if(!m_pNormalbar) return;
 
@@ -196,10 +189,10 @@ void UISlider::DrawNormalBar( Vector2& pos )
 	quad.verts[3].v = 1.0f;
 
 	IRendererUI::GetInstance().SetTexture(m_pNormalbar);
-	IRendererUI::GetInstance().DrawTriangleRect(quad);
+	IRendererUI::GetInstance().DrawRect(quad);
 }
 
-void UISlider::DrawArrow( Vector2& pos )
+void UISliderBar::DrawArrow(Vector2& pos)
 {
 	if(!m_pArrow) return;
 
@@ -210,7 +203,6 @@ void UISlider::DrawArrow( Vector2& pos )
 	float fPosX = pos.x + m_fPercent * m_pMaskBar->GetWidth() - fNormalTextureX /2.0f ;
 	float fPosY = pos.y - (fNormalTextureY - m_pMaskBar->GetHeight()) / 2.0f; 
 
-	
 	QUAD_VERT_POS_UV quad;
 
 	quad.verts[0].x = fPosX;
@@ -238,14 +230,5 @@ void UISlider::DrawArrow( Vector2& pos )
 	quad.verts[3].v = 1.0f;
 
 	IRendererUI::GetInstance().SetTexture(m_pArrow);
-	IRendererUI::GetInstance().DrawTriangleRect(quad);
-
+	IRendererUI::GetInstance().DrawRect(quad);
 }
-
-
-
-
-
-
-
-

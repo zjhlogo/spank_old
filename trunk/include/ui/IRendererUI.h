@@ -27,7 +27,9 @@ public:
 	virtual void SetColor(float r, float g, float b, float a) = 0;
 
 	virtual void DrawTriangleList(const VATTR_POS_UV* pVerts, uint nVerts, const ushort* pIndis, uint nIndis) = 0;
-	virtual void DrawTriangleRect(const QUAD_VERT_POS_UV& quad) = 0;
+	virtual void DrawRect(const QUAD_VERT_POS_UV& quad) = 0;
+	virtual void DrawRect(const Vector2& pos, const TEXTURE_PIECE* pTexturePiece) = 0;
+	virtual void DrawRect(float x, float y, const TEXTURE_PIECE* pTexturePiece) = 0;
 
 	virtual bool ClipRect(QUAD_VERT_POS_UV& quadInOut, float x, float y, float width, float height) = 0;
 

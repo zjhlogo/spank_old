@@ -18,26 +18,18 @@ class UIButton : public UIWindow
 {
 public:
 	UIButton(UIWindow* pParent);
-	virtual ~UIButton(void);
-	void SetText(char* pszText);
-	void SetNormalTexture(ITexture* pTexture);
-	void SetCheckedTexture(ITexture* pTexture);
+	virtual ~UIButton();
 
-	virtual void Render(const RenderParam& param);
 	virtual void Update(float dt);
+	virtual void Render(const RenderParam& param);
 
-
-	bool GetCheckState() const;
-	void SetCheckedState(bool bflag);
+	void SetText(const char* pszText);
+	void SetStyle(const char* pszStyle);
 
 	virtual bool OnClicked(const Vector2& pos);
-	virtual bool OnTouchBegin(const Vector2& pos);
-	virtual bool OnTouchMove(const Vector2& pos);
-	virtual bool OnTouchEnd(const Vector2& pos);
+
 private:
 	UIString* m_pString;
-	ITexture* m_pNormalTexture;
-	ITexture* m_pCheckedTexture;
-	bool m_bCheckState;
+
 };
 #endif//__UIBUTTON_H_

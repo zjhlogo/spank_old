@@ -4,6 +4,11 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "L2DConvert", "tools\L2DConvert\L2DConvert.vcproj", "{D874272C-ABEF-4093-A183-F6EE0B6CEDCF}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UIDesigner", "tools\UIDesigner\UIDesigner.vcproj", "{93BB0F52-9F03-4906-B764-95E6DDA6120C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{FF5B6302-6F61-455F-B702-D307D601EC2F} = {FF5B6302-6F61-455F-B702-D307D601EC2F}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libtinyxml", "vendor\tinyxml-2.6.2\libtinyxml.vcproj", "{FF5B6302-6F61-455F-B702-D307D601EC2F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,6 +24,10 @@ Global
 		{93BB0F52-9F03-4906-B764-95E6DDA6120C}.Debug|Win32.Build.0 = Debug|Win32
 		{93BB0F52-9F03-4906-B764-95E6DDA6120C}.Release|Win32.ActiveCfg = Release|Win32
 		{93BB0F52-9F03-4906-B764-95E6DDA6120C}.Release|Win32.Build.0 = Release|Win32
+		{FF5B6302-6F61-455F-B702-D307D601EC2F}.Debug|Win32.ActiveCfg = Debug|Win32
+		{FF5B6302-6F61-455F-B702-D307D601EC2F}.Debug|Win32.Build.0 = Debug|Win32
+		{FF5B6302-6F61-455F-B702-D307D601EC2F}.Release|Win32.ActiveCfg = Release|Win32
+		{FF5B6302-6F61-455F-B702-D307D601EC2F}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

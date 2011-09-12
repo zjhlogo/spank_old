@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<ImagePiece>
+    <ImageList>
+        <Image file="ui.png" id="1" />
+    </ImageList>
+    <PieceList>
+        <Piece name="btn_login_normal" image_id="1" x="1" y="1" width="93" height="34" />
+        <Piece name="btn_login_pressed" image_id="1" x="95" y="1" width="93" height="34" />
+        <Piece name="slider_bg" image_id="1" x="1" y="46" width="266" height="9" />
+        <Piece name="slider_fg" image_id="1" x="1" y="36" width="266" height="9" />
+        <Piece name="slider_thumb" image_id="1" x="189" y="1" width="26" height="27" />
+    </PieceList>
+</ImagePiece>

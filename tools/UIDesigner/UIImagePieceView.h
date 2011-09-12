@@ -1,18 +1,19 @@
 /*!
- * \file UIImageEditor.h
+ * \file UIImagePieceView.h
  * \date 01-09-2011 21:21:40
  * 
  * 
  * \author zjhlogo (zjhlogo@gmail.com)
  */
-#ifndef __UIIMAGEEDITOR_H__
-#define __UIIMAGEEDITOR_H__
+#ifndef __UIIMAGEPIECEVIEW_H__
+#define __UIIMAGEPIECEVIEW_H__
 
 #include <wx/scrolwin.h>
 #include <wx/bitmap.h>
 #include <wx/dcmemory.h>
+#include "UIImagePieceDocument.h"
 
-class UIImageEditor : public wxWindow
+class UIImagePieceView : public wxWindow
 {
 public:
 	enum CONST_DEFINE
@@ -52,19 +53,19 @@ public:
 	};
 
 public:
-	DECLARE_DYNAMIC_CLASS(UIImageEditor)
+	DECLARE_DYNAMIC_CLASS(UIImagePieceView)
 	DECLARE_EVENT_TABLE()
 
 public:
-	UIImageEditor();
-	UIImageEditor(wxWindow *parent,
+	UIImagePieceView();
+	UIImagePieceView(wxWindow *parent,
 		wxWindowID winid,
 		const wxPoint& pos = wxDefaultPosition,
 		const wxSize& size = wxDefaultSize,
 		long style = 0,
 		const wxString& name = wxPanelNameStr);
 
-	virtual ~UIImageEditor();
+	virtual ~UIImagePieceView();
 
 	bool Create(wxWindow *parent,
 		wxWindowID winid,
@@ -75,24 +76,21 @@ public:
 
 	virtual wxSize DoGetBestSize() const;
 
-	bool LoadBitmapFile(const wxString& path);
+	bool LoadImageFromFile(const wxString& strImage);
+
+	void SetSelectedPiece(const UIImagePieceDocument::PIECE_INFO* pPieceInfo);
+	const UIImagePieceDocument::PIECE_INFO* GetSelectedPiece() const;
 
 	bool ZoomIn();
 	bool ZoomOut();
 	bool Zoom(int zoom);
 	int GetZoom() const;
 
+	bool MoveRelative(int x, int y);
+
 private:
 	void Init();
-
-	void UpdateVirtualSize();
-	const wxSize& GetVirtualSize();
-	void UpdateScrollPosition(int x, int y);
-
-	void DrawSelectedRect(wxDC& dc, const wxRect& rect);
-	void DrawDragRect(wxDC& dc, const wxRect& rect);
-	POINT_IN_CONNER CheckPointInConner(const wxRect& rect, const wxPoint& pt);
-	void SetCursorByType(CURSOR_TYPE eType);
+	void Release();
 
 	void OnPaint(wxPaintEvent& event);
 	void OnMouseWheel(wxMouseEvent& event);
@@ -108,6 +106,14 @@ private:
 	void OnScrollThumbTrack(wxScrollWinEvent& event);
 	void OnScrollThumbRelease(wxScrollWinEvent& event);
 
+	void UpdateVirtualSize();
+	const wxSize& GetVirtualSize();
+	void UpdateScrollPosition(int x, int y);
+
+	void DrawRect(wxDC& dc, const wxRect& rect);
+	POINT_IN_CONNER CheckPointInConner(const wxRect& rect, const wxPoint& pt);
+	void SetCursorByType(CURSOR_TYPE eType);
+
 private:
 	wxBitmap m_bmpImage;
 	wxMemoryDC m_dcImage;
@@ -121,7 +127,7 @@ private:
 	int m_nZoom;
 
 	wxRect m_rectSelected;
-	wxRect m_rectDrag;
+	wxRect m_rectSelectedBackup;
 
 	wxCursor* m_pCursors[NUM_CT];
 	CURSOR_TYPE m_eCurType;
@@ -132,5 +138,8 @@ private:
 	wxSize m_sizeVirtual;
 	wxPoint m_ptOrigin;
 
+	wxString m_strImage;
+	const UIImagePieceDocument::PIECE_INFO* m_pPieceInfo;
+
 };
-#endif // __UIIMAGEEDITOR_H__
+#endif // __UIIMAGEPIECEVIEW_H__

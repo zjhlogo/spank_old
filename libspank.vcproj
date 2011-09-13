@@ -497,14 +497,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\source\ui\FontMgr_Impl.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\source\ui\FontMgr_Impl.h"
-				>
-			</File>
-			<File
 				RelativePath=".\source\ui\RendererUI_Impl.cpp"
 				>
 			</File>
@@ -542,6 +534,14 @@
 			</File>
 			<File
 				RelativePath=".\include\ui\UIRadioButton.h"
+				>
+			</File>
+			<File
+				RelativePath=".\source\ui\UIResMgr_Impl.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\source\ui\UIResMgr_Impl.h"
 				>
 			</File>
 			<File

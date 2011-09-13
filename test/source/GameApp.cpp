@@ -11,7 +11,7 @@
 #include <msg/MsgID.h>
 #include <msg/MsgMgr.h>
 #include <msg/MsgTouch.h>
-#include <msg/MsgCommon.h>
+#include <msg/MsgClick.h>
 #include <ui/IUISystem.h>
 #include <ui/UITextView.h>
 #include <IResourceMgr.h>
@@ -44,7 +44,6 @@ GameApp::~GameApp()
 bool GameApp::Initialize()
 {
 	MsgMgr::GetInstance().SubscribeMessage(MI_TOUCH, this, CAST_MSG_CALLBACK(&GameApp::OnMsgTouch));
-	IResourceMgr::GetInstance().AddTexturePieceList("piece_list");
 
 	m_pMainScreen = IUISystem::GetInstance().GetCurrentScreen();
 
@@ -106,12 +105,10 @@ bool GameApp::OnMsgTouch(IMsgBase* pMsg)
 
 bool GameApp::OnBtnTestCaseClicked(IMsgBase* pMsg)
 {
-	MsgCommon* pMsgCommon = (MsgCommon*)pMsg;
-	UITextView* pTextView = (UITextView*)pMsgCommon->GetObject();
+	MsgClick* pMsgClick = (MsgClick*)pMsg;
 
 	// switch to the new test case
-	int nIndex = pTextView->GetID();
-	SwitchTestCase(nIndex);
+	SwitchTestCase(pMsgClick->GetSenderID());
 
 	return true;
 }

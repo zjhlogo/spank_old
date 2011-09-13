@@ -22,14 +22,17 @@ public:
 
 	virtual void Update(float dt);
 	virtual void Render(const RenderParam& param);
+	virtual Vector2 GetBestSize();
 
 	void SetText(const char* pszText);
-	void SetStyle(const char* pszStyle);
+
+	bool SetButtonTexture(const IMAGE_PIECE* pImagePiece, int nIndex);
 
 	virtual bool OnClicked(const Vector2& pos);
 
 private:
 	UIString* m_pString;
+	const IMAGE_PIECE* m_pStyle[DUS_BUTTON_NUM];
 
 };
 #endif//__UIBUTTON_H_

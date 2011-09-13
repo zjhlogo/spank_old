@@ -40,12 +40,12 @@ typedef struct QUAD_VERT_POS_RGB_tag
 	VATTR_POS_RGB verts[4];
 } QUAD_VERT_POS_RGB;
 
-typedef struct TEXTURE_PIECE_tag
+typedef struct IMAGE_PIECE_tag
 {
 	float width, height;
 	float u, v, du, dv;
 	ITexture* pTexture;
-} TEXTURE_PIECE;
+} IMAGE_PIECE;
 
 enum ATTRIBUTE_ITEM_TYPE
 {

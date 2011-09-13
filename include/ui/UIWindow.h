@@ -18,6 +18,15 @@
 class UIWindow : public IObject
 {
 public:
+	enum WINDOW_STATE
+	{
+		WS_VISIBLE				= 0x00000001,
+		WS_ENABLE				= 0x00000002,
+		WS_AUTO_ADJUST_SIZE		= 0x00000004,
+		WS_PRESSED				= 0x00000008,
+		WS_DEFAULT_STATE		= WS_VISIBLE | WS_ENABLE | WS_AUTO_ADJUST_SIZE,
+	};
+
 	typedef std::vector<UIWindow*> TV_WINDOW;
 
 public:
@@ -26,6 +35,7 @@ public:
 
 	virtual void Update(float dt) = 0;
 	virtual void Render(const RenderParam& param) = 0;
+	virtual Vector2 GetBestSize() = 0;
 
 	UIWindow* GetParentWindow();
 
@@ -38,17 +48,25 @@ public:
 	const Vector2& GetSize() const;
 	void SetSize(const Vector2& size);
 
-	void SetPadding(float left, float top, float right, float bottom);
-	const Vector2& GetPaddingLeftTop() const;
-	const Vector2& GetPaddingRightBottom() const;
-
 	void SetMargin(float left, float top, float right, float bottom);
 	const Vector2& GetMarginLeftTop() const;
 	const Vector2& GetMarginRightBottom() const;
 
-	void SetAutoAdjustSize(bool bAuto);
-	bool GetAutoAdjustSize() const;
-	virtual Vector2 GetBestSize();
+	void SetWindowState(uint nMask, bool bSet);
+	bool CheckWindowState(uint nMask) const;
+
+	void SetVisible(bool bVisible);
+	bool IsVisible() const;
+
+	void SetEnable(bool bEnable);
+	bool IsEnable() const;
+
+	void SetAutoAdjustSize(bool bAutoAdjustSize);
+	bool IsAutoAdjustSize() const;
+
+	bool IsPressed() const;
+
+	void AdjustSize();
 
 	virtual bool ProcessTouchEvent(const Vector2& pos, UI_TOUCH_EVENT_TYPE eType);
 
@@ -65,8 +83,6 @@ protected:
 	void RenderChildrenWindow(const RenderParam& param);
 
 	UIWindow* FindChildUnderPoint(const Vector2& pos);
-	bool PointInRect(const Vector2& point, const Vector2& rectPos, const Vector2& rectSize);
-	TV_WINDOW& GetChildRef();
 
 private:
 	UIWindow* m_pParent;
@@ -77,13 +93,10 @@ private:
 	Vector2 m_vPosition;
 	Vector2 m_vSize;
 
-	Vector2 m_PaddingLeftTop;
-	Vector2 m_PaddingRightBottom;
-
 	Vector2 m_MarginLeftTop;
 	Vector2 m_MarginRightBottom;
 
-	bool m_bAutoAdjustSize;
+	uint m_nState;
 
 };
 #endif // __UIWINDOW_H__

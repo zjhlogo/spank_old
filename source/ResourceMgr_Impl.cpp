@@ -7,6 +7,7 @@
  */
 #include "ResourceMgr_Impl.h"
 #include <ITextureMgr.h>
+#include <util/IFileUtil.h>
 #include <tinyxml-2.6.2/tinyxml.h>
 
 IResourceMgr& IResourceMgr::GetInstance()
@@ -27,7 +28,8 @@ ResourceMgr_Impl::~ResourceMgr_Impl()
 
 bool ResourceMgr_Impl::Initialize()
 {
-	// TODO: 
+	if (!AddImagePieceList("piece_list.xml")) return false;
+
 	return true;
 }
 
@@ -41,10 +43,16 @@ void ResourceMgr_Impl::Terminate()
 	m_vTextures.clear();
 }
 
-bool ResourceMgr_Impl::AddTexturePieceList(const char* pszFile)
+bool ResourceMgr_Impl::AddImagePieceList(const char* pszFile)
 {
+	StreamReader* pReader = IFileUtil::GetInstance().LoadFile(pszFile);
+	if (!pReader) return false;
+
 	TiXmlDocument doc;
-	if (!doc.LoadFile(pszFile)) return false;
+	doc.Parse((const char*)pReader->GetBuffer());
+	SAFE_RELEASE(pReader);
+
+	if (doc.Error()) return false;
 
 	TiXmlElement* pElmImagePiece = doc.RootElement();
 	if (!pElmImagePiece || strcmp(pElmImagePiece->Value(), "ImagePiece") != 0) return false;
@@ -57,11 +65,11 @@ bool ResourceMgr_Impl::AddTexturePieceList(const char* pszFile)
 	TiXmlElement* pElmImage = pElmImageList->FirstChildElement("Image");
 	while (pElmImage)
 	{
-		const char* pszTexture = pElmImage->Attribute("file");
-		if (!pszTexture) return false;
-
 		int nID = 0;
 		if (!pElmImage->Attribute("id", &nID)) return false;
+
+		const char* pszTexture = pElmImage->Attribute("file");
+		if (!pszTexture) return false;
 
 		ITexture* pTexture = ITextureMgr::GetInstance().CreateTexture(pszTexture);
 		if (!pTexture) return false;
@@ -77,11 +85,11 @@ bool ResourceMgr_Impl::AddTexturePieceList(const char* pszFile)
 	TiXmlElement* pElmPiece = pElmPieceList->FirstChildElement("Piece");
 	while (pElmPiece)
 	{
-		const char* pszName = pElmPiece->Attribute("name");
+		const char* pszName = pElmPiece->Attribute("id");
 		if (!pszName) return false;
 
 		int nTextureID = 0;
-		if (!pElmPiece->Attribute("image_id", &nTextureID)) return false;
+		if (!pElmPiece->Attribute("image", &nTextureID)) return false;
 
 		ITexture* pTexture = FindTexture(textureInfoMap, nTextureID);
 		if (!pTexture) return false;
@@ -95,13 +103,14 @@ bool ResourceMgr_Impl::AddTexturePieceList(const char* pszFile)
 		float fTextureWidth = (float)pTexture->GetWidth();
 		float fTextureHeight = (float)pTexture->GetHeight();
 
-		TEXTURE_PIECE pieceInfo;
+		IMAGE_PIECE pieceInfo;
 		pieceInfo.width = (float)width;
 		pieceInfo.height = (float)height;
 		pieceInfo.u = (x)/fTextureWidth;
 		pieceInfo.v = (fTextureHeight-y-height)/fTextureHeight;		// invert the y-axis for opengl
 		pieceInfo.du = (width)/fTextureWidth;
 		pieceInfo.dv = (height)/fTextureHeight;
+		pieceInfo.pTexture = pTexture;
 
 		// TODO: check piece name existing ?
 		m_TexturePieceMap.insert(std::make_pair(pszName, pieceInfo));
@@ -112,9 +121,9 @@ bool ResourceMgr_Impl::AddTexturePieceList(const char* pszFile)
 	return true;
 }
 
-const TEXTURE_PIECE* ResourceMgr_Impl::FindTexturePiece(const char* pszName)
+const IMAGE_PIECE* ResourceMgr_Impl::FindImagePiece(const char* pszName)
 {
-	TM_TEXTURE_PIECE::iterator itfound = m_TexturePieceMap.find(pszName);
+	TM_IMAGE_PIECE::iterator itfound = m_TexturePieceMap.find(pszName);
 	if (itfound == m_TexturePieceMap.end()) return NULL;
 
 	return &(itfound->second);

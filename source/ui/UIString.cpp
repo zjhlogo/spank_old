@@ -8,7 +8,7 @@
 #include <ui/UIString.h>
 #include <util/StringUtil.h>
 #include <ui/IRendererUI.h>
-#include <ui/IFontMgr.h>
+#include <ui/IUIResMgr.h>
 
 UIString::UIString(IFont* pFont, const char* pszText)
 {
@@ -18,7 +18,7 @@ UIString::UIString(IFont* pFont, const char* pszText)
 
 UIString::UIString(const char* pszText)
 {
-	m_pFont = IFontMgr::GetInstance().GetDefaultFont();
+	m_pFont = IUIResMgr::GetInstance().GetDefaultFont();
 	SetText(pszText);
 }
 

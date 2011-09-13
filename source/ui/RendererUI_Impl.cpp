@@ -155,12 +155,12 @@ void RendererUI_Impl::DrawRect(const QUAD_VERT_POS_UV& quad)
 	AddPrimetive(m_pCaches_POS_UV, NUM_POS_UV_CACHE, m_pShader_POS_UV, m_pTexture, &quad.verts[0], 4, s_Indis, 6);
 }
 
-void RendererUI_Impl::DrawRect(const Vector2& pos, const TEXTURE_PIECE* pTexturePiece)
+void RendererUI_Impl::DrawRect(const Vector2& pos, const IMAGE_PIECE* pImagePiece)
 {
-	DrawRect(pos.x, pos.y, pTexturePiece);
+	DrawRect(pos.x, pos.y, pImagePiece);
 }
 
-void RendererUI_Impl::DrawRect(float x, float y, const TEXTURE_PIECE* pTexturePiece)
+void RendererUI_Impl::DrawRect(float x, float y, const IMAGE_PIECE* pImagePiece)
 {
 	static VATTR_POS_UV s_Verts[4] =
 	{
@@ -173,26 +173,26 @@ void RendererUI_Impl::DrawRect(float x, float y, const TEXTURE_PIECE* pTexturePi
 	static const ushort s_Indis[6] = {0, 1, 2, 1, 3, 2};
 
 	s_Verts[0].x = x;
-	s_Verts[0].y = y + pTexturePiece->height;
-	s_Verts[0].u = pTexturePiece->u;
-	s_Verts[0].v = pTexturePiece->v;
+	s_Verts[0].y = y + pImagePiece->height;
+	s_Verts[0].u = pImagePiece->u;
+	s_Verts[0].v = pImagePiece->v;
 
 	s_Verts[1].x = x;
 	s_Verts[1].y = y;
-	s_Verts[1].u = pTexturePiece->u;
-	s_Verts[1].v = pTexturePiece->v + pTexturePiece->dv;
+	s_Verts[1].u = pImagePiece->u;
+	s_Verts[1].v = pImagePiece->v + pImagePiece->dv;
 
-	s_Verts[2].x = x + pTexturePiece->width;
-	s_Verts[2].y = y + pTexturePiece->height;
-	s_Verts[2].u = pTexturePiece->u + pTexturePiece->du;
-	s_Verts[2].v = pTexturePiece->v;
+	s_Verts[2].x = x + pImagePiece->width;
+	s_Verts[2].y = y + pImagePiece->height;
+	s_Verts[2].u = pImagePiece->u + pImagePiece->du;
+	s_Verts[2].v = pImagePiece->v;
 
-	s_Verts[3].x = x + pTexturePiece->width;
+	s_Verts[3].x = x + pImagePiece->width;
 	s_Verts[3].y = y;
-	s_Verts[3].u = pTexturePiece->u + pTexturePiece->du;
-	s_Verts[3].v = pTexturePiece->v + pTexturePiece->dv;
+	s_Verts[3].u = pImagePiece->u + pImagePiece->du;
+	s_Verts[3].v = pImagePiece->v + pImagePiece->dv;
 
-	AddPrimetive(m_pCaches_POS_UV, NUM_POS_UV_CACHE, m_pShader_POS_UV, pTexturePiece->pTexture, &s_Verts[0], 4, s_Indis, 6);
+	AddPrimetive(m_pCaches_POS_UV, NUM_POS_UV_CACHE, m_pShader_POS_UV, pImagePiece->pTexture, &s_Verts[0], 4, s_Indis, 6);
 }
 
 bool RendererUI_Impl::ClipRect( QUAD_VERT_POS_UV& quadInOut, float x, float y, float width, float height )

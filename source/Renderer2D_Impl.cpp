@@ -168,7 +168,7 @@ void Renderer2D_Impl::DrawRect(const QUAD_VERT_POS_UV& quadVerts, IShader* pShad
 	DrawTriangleList(&quadVerts.verts[0], 4, s_Indis, 6, pShader);
 }
 
-void Renderer2D_Impl::DrawRect(float x, float y, const TEXTURE_PIECE* pTexturePiece, IShader* pShader)
+void Renderer2D_Impl::DrawRect(float x, float y, const IMAGE_PIECE* pImagePiece, IShader* pShader)
 {
 	static VATTR_POS_UV s_Verts[4] =
 	{
@@ -180,28 +180,28 @@ void Renderer2D_Impl::DrawRect(float x, float y, const TEXTURE_PIECE* pTexturePi
 
 	static const ushort s_Indis[6] = {0, 1, 2, 1, 3, 2};
 
-	float halfWidth = pTexturePiece->width*0.5f;
-	float halfHeight = pTexturePiece->height*0.5f;
+	float halfWidth = pImagePiece->width*0.5f;
+	float halfHeight = pImagePiece->height*0.5f;
 
 	s_Verts[0].x = x - halfWidth;
 	s_Verts[0].y = y - halfHeight;
-	s_Verts[0].u = pTexturePiece->u;
-	s_Verts[0].v = pTexturePiece->v;
+	s_Verts[0].u = pImagePiece->u;
+	s_Verts[0].v = pImagePiece->v;
 
 	s_Verts[1].x = x - halfWidth;
 	s_Verts[1].y = y + halfHeight;
-	s_Verts[1].u = pTexturePiece->u;
-	s_Verts[1].v = pTexturePiece->v + pTexturePiece->dv;
+	s_Verts[1].u = pImagePiece->u;
+	s_Verts[1].v = pImagePiece->v + pImagePiece->dv;
 
 	s_Verts[2].x = x + halfWidth;
 	s_Verts[2].y = y - halfHeight;
-	s_Verts[2].u = pTexturePiece->u + pTexturePiece->du;
-	s_Verts[2].v = pTexturePiece->v;
+	s_Verts[2].u = pImagePiece->u + pImagePiece->du;
+	s_Verts[2].v = pImagePiece->v;
 
 	s_Verts[3].x = x + halfWidth;
 	s_Verts[3].y = y + halfHeight;
-	s_Verts[3].u = pTexturePiece->u + pTexturePiece->du;
-	s_Verts[3].v = pTexturePiece->v + pTexturePiece->dv;
+	s_Verts[3].u = pImagePiece->u + pImagePiece->du;
+	s_Verts[3].v = pImagePiece->v + pImagePiece->dv;
 
 	DrawTriangleList(s_Verts, 4, s_Indis, 6, pShader);
 }

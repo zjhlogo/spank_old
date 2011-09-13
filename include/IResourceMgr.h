@@ -16,8 +16,8 @@ class IResourceMgr : public IMgr
 public:
 	static IResourceMgr& GetInstance();
 
-	virtual bool AddTexturePieceList(const char* pszFile) = 0;
-	virtual const TEXTURE_PIECE* FindTexturePiece(const char* pszName) = 0;
+	virtual bool AddImagePieceList(const char* pszFile) = 0;
+	virtual const IMAGE_PIECE* FindImagePiece(const char* pszName) = 0;
 
 };
 #endif // __IRESOURCEMGR_H__

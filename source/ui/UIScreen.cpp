@@ -6,6 +6,7 @@
  * \author zjhlogo (zjhlogo@gmail.com)
  */
 #include <ui/UIScreen.h>
+#include <util/ScreenUtil.h>
 
 UIScreen::UIScreen()
 :UIWindow(NULL)
@@ -26,4 +27,9 @@ void UIScreen::Update(float dt)
 void UIScreen::Render(const RenderParam& param)
 {
 	RenderChildrenWindow(param);
+}
+
+Vector2 UIScreen::GetBestSize()
+{
+	return ScreenUtil::GetInstance().GetScreenSize();
 }

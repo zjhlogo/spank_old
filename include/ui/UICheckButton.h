@@ -19,18 +19,21 @@ public:
 
 	virtual void Update(float dt);
 	virtual void Render(const RenderParam& param);
+	virtual Vector2 GetBestSize();
 
 	void SetText(const char* pszText);
-	void SetStyle(const char* pszStyle);
 
 	void SetCheck(bool bCheck);
-	bool GetCheck() const;
+	bool IsChecked() const;
+
+	bool SetCheckButtonTexture(const IMAGE_PIECE* pImagePiece, int nIndex);
 
 	virtual bool OnClicked(const Vector2& pos);
 
 private:
 	UIString* m_pString;
 	bool m_bCheck;
+	const IMAGE_PIECE* m_pStyle[DUS_CHECKBUTTON_NUM];
 
 };
 #endif // __UICHECKBUTTON_H__

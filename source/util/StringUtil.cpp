@@ -54,6 +54,8 @@ int StringUtil::Utf8ToUnicode(ushort* pUnicodeOut, int nUnicodeLength, const cha
 	// ...
 	// 
 
+	if (!pszUtf8) return 0;
+
 	int nUtf8Length = strlen(pszUtf8);
 	int nFinalLength = 0;
 	int nUtf8Index = 0;

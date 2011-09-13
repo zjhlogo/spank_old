@@ -378,7 +378,7 @@ void UIDesignerFrame::UpdateProjectView()
 	for (UIImagePieceDocument::TM_PIECE_INFO::const_iterator it = pieceInfoMap.begin(); it != pieceInfoMap.end(); ++it)
 	{
 		const UIImagePieceDocument::PIECE_INFO& pieceInfo = it->second;
-		m_pProjectView->AppendItem(rootItem, pieceInfo.strName);
+		m_pProjectView->AppendItem(rootItem, pieceInfo.strID);
 	}
 	m_pProjectView->ExpandAll();
 
@@ -458,9 +458,9 @@ void UIDesignerFrame::OnViewZoomOut(wxCommandEvent& event)
 void UIDesignerFrame::OnProjectItemSelChanged(wxTreeEvent& event)
 {
 	wxTreeItemId itemID = event.GetItem();
-	wxString strItemName = m_pProjectView->GetItemText(itemID);
+	wxString strItemID = m_pProjectView->GetItemText(itemID);
 
-	const UIImagePieceDocument::PIECE_INFO* pPieceInfo = m_pImagePieceDocument->FindPieceInfo(strItemName);
+	const UIImagePieceDocument::PIECE_INFO* pPieceInfo = m_pImagePieceDocument->FindPieceInfo(strItemID);
 	if (!pPieceInfo) return;
 
 	UpdateImagePieceView(pPieceInfo);

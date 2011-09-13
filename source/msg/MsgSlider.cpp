@@ -9,7 +9,7 @@
 #include <msg/MsgID.h>
 
 MsgSilder::MsgSilder(MsgSilder::SILDER_TYPE eType, float fPercent)
-: IMsgBase(MI_SLIDER)
+: IMsgBase(MI_UI_SLIDER)
 {
 	m_eSilderType = eType;
 	m_fPercent = fPercent;

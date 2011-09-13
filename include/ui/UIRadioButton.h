@@ -19,18 +19,25 @@ public:
 
 	virtual void Update(float dt);
 	virtual void Render(const RenderParam& param);
+	virtual Vector2 GetBestSize();
 
 	void SetGroupID(int nGroup);
 	int GetGroupID() const;
 
 	void SetText(const char* pszText);
-	void SetStyle(const char* pszStyle);
+
+	void SetCheck(bool bCheck);
+	bool IsChecked() const;
+
+	bool SetRadioButtonTexture(const IMAGE_PIECE* pImagePiece, int nIndex);
 
 	virtual bool OnClicked(const Vector2& pos);
 
 private:
 	int m_nGroupID;
 	UIString* m_pString;
+	bool m_bCheck;
+	const IMAGE_PIECE* m_pStyle[DUS_RADIOBUTTON_NUM];
 
 };
 

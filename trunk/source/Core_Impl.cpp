@@ -18,7 +18,7 @@
 #include <IShaderMgr.h>
 #include <IRenderer2D.h>
 #include <ui/IRendererUI.h>
-#include <ui/IFontMgr.h>
+#include <ui/IUIResMgr.h>
 #include <ui/IUISystem.h>
 #include <IGameApp.h>
 #include "Node_Impl.h"
@@ -59,7 +59,7 @@ bool Core_Impl::Initialize()
 	if (!IShaderMgr::GetInstance().Initialize()) return false;
 	if (!IRenderer2D::GetInstance().Initialize()) return false;
 	if (!IRendererUI::GetInstance().Initialize()) return false;
-	if (!IFontMgr::GetInstance().Initialize()) return false;
+	if (!IUIResMgr::GetInstance().Initialize()) return false;
 	if (!IUISystem::GetInstance().Initialize()) return false;
 	if (!PreInitialize()) return false;
 	if (!IGameApp::GetInstance().Initialize()) return false;
@@ -84,7 +84,7 @@ void Core_Impl::Terminate()
 	IGameApp::GetInstance().Terminate();
 	PreTerminate();
 	IUISystem::GetInstance().Terminate();
-	IFontMgr::GetInstance().Terminate();
+	IUIResMgr::GetInstance().Terminate();
 	IRendererUI::GetInstance().Terminate();
 	IRenderer2D::GetInstance().Terminate();
 	IShaderMgr::GetInstance().Terminate();

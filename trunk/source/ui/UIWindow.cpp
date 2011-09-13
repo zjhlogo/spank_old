@@ -8,14 +8,21 @@
 #include <ui/UIWindow.h>
 #include <math/IMath.h>
 
+static bool PointInRect(const Vector2& point, const Vector2& rectPos, const Vector2& rectSize)
+{
+	if (point.x < rectPos.x
+		|| point.x > rectPos.x + rectSize.x
+		|| point.y < rectPos.y
+		|| point.y > rectPos.y + rectSize.y) return false;
+
+	return true;
+}
+
 UIWindow::UIWindow(UIWindow* pParent)
 {
 	m_nID = 0;
 	m_vPosition = IMath::VEC2_ZERO;
 	m_vSize = IMath::VEC2_ZERO;
-
-	m_PaddingLeftTop = Vector2(0.0f, 0.0f);
-	m_PaddingRightBottom = Vector2(0.0f, 0.0f);
 
 	m_MarginLeftTop = IMath::VEC2_ZERO;
 	m_MarginRightBottom = IMath::VEC2_ZERO;
@@ -23,7 +30,7 @@ UIWindow::UIWindow(UIWindow* pParent)
 	m_pParent = pParent;
 	if (m_pParent) m_pParent->AddChild(this);
 
-	m_bAutoAdjustSize = true;
+	m_nState = WS_DEFAULT_STATE;
 }
 
 UIWindow::~UIWindow()
@@ -68,27 +75,8 @@ const Vector2& UIWindow::GetSize() const
 
 void UIWindow::SetSize(const Vector2& size)
 {
+	SetAutoAdjustSize(false);
 	m_vSize = size;
- 	m_vSize += m_PaddingLeftTop;
- 	m_vSize += m_PaddingRightBottom;
-}
-
-void UIWindow::SetPadding(float left, float top, float right, float bottom)
-{
-	m_PaddingLeftTop.x = left;
-	m_PaddingLeftTop.y = top;
-	m_PaddingRightBottom.x = right;
-	m_PaddingRightBottom.y = bottom;
-}
-
-const Vector2& UIWindow::GetPaddingLeftTop() const
-{
-	return m_PaddingLeftTop;
-}
-
-const Vector2& UIWindow::GetPaddingRightBottom() const
-{
-	return m_PaddingRightBottom;
 }
 
 void UIWindow::SetMargin(float left, float top, float right, float bottom)
@@ -109,19 +97,64 @@ const Vector2& UIWindow::GetMarginRightBottom() const
 	return m_MarginRightBottom;
 }
 
-void UIWindow::SetAutoAdjustSize(bool bAuto)
+void UIWindow::SetWindowState(uint nMask, bool bSet)
 {
-	m_bAutoAdjustSize = bAuto;
+	if (bSet)
+	{
+		m_nState |= nMask;
+	}
+	else
+	{
+		m_nState &= (~nMask);
+	}
 }
 
-bool UIWindow::GetAutoAdjustSize() const
+bool UIWindow::CheckWindowState(uint nMask) const
 {
-	return m_bAutoAdjustSize;
+	return (m_nState & nMask) == nMask;
 }
 
-Vector2 UIWindow::GetBestSize()
+void UIWindow::SetVisible(bool bVisible)
 {
-	return IMath::VEC2_ZERO;
+	SetWindowState(WS_VISIBLE, bVisible);
+}
+
+bool UIWindow::IsVisible() const
+{
+	return CheckWindowState(WS_VISIBLE);
+}
+
+void UIWindow::SetEnable(bool bEnable)
+{
+	SetWindowState(WS_ENABLE, bEnable);
+}
+
+bool UIWindow::IsEnable() const
+{
+	return CheckWindowState(WS_ENABLE);
+}
+
+void UIWindow::SetAutoAdjustSize(bool bAutoAdjustSize)
+{
+	SetWindowState(WS_AUTO_ADJUST_SIZE, bAutoAdjustSize);
+}
+
+bool UIWindow::IsAutoAdjustSize() const
+{
+	return CheckWindowState(WS_AUTO_ADJUST_SIZE);
+}
+
+bool UIWindow::IsPressed() const
+{
+	return CheckWindowState(WS_PRESSED);
+}
+
+void UIWindow::AdjustSize()
+{
+	if (IsAutoAdjustSize())
+	{
+		m_vSize = GetBestSize();
+	}
 }
 
 bool UIWindow::ProcessTouchEvent(const Vector2& pos, UI_TOUCH_EVENT_TYPE eType)
@@ -139,16 +172,19 @@ bool UIWindow::ProcessTouchEvent(const Vector2& pos, UI_TOUCH_EVENT_TYPE eType)
 	{
 	case UTET_BEGIN:
 		{
+			SetWindowState(WS_PRESSED, true);
 			bProcessed = OnTouchBegin(pos);
 		}
 		break;
 	case UTET_MOVE:
 		{
+			SetWindowState(WS_PRESSED, true);
 			bProcessed = OnTouchMove(pos);
 		}
 		break;
 	case UTET_END:
 		{
+			SetWindowState(WS_PRESSED, false);
 			if (OnTouchEnd(pos)) bProcessed = true;
 			if (OnClicked(pos)) bProcessed = true;
 		}
@@ -160,7 +196,12 @@ bool UIWindow::ProcessTouchEvent(const Vector2& pos, UI_TOUCH_EVENT_TYPE eType)
 
 void UIWindow::AddChild(UIWindow* pWindow)
 {
-	// TODO: check pWindow exist ?
+	// check pWindow exist ?
+	for (TV_WINDOW::iterator it = m_vChildren.begin(); it != m_vChildren.end(); ++it)
+	{
+		if ((*it) == pWindow) return;
+	}
+
 	m_vChildren.push_back(pWindow);
 }
 
@@ -201,25 +242,21 @@ void UIWindow::RenderChildrenWindow(const RenderParam& param)
 
 bool UIWindow::OnClicked(const Vector2& pos)
 {
-	// TODO: 
 	return true;
 }
 
 bool UIWindow::OnTouchBegin(const Vector2& pos)
 {
-	// TODO: 
 	return true;
 }
 
 bool UIWindow::OnTouchMove(const Vector2& pos)
 {
-	// TODO: 
 	return true;
 }
 
 bool UIWindow::OnTouchEnd(const Vector2& pos)
 {
-	// TODO: 
 	return true;
 }
 
@@ -232,19 +269,4 @@ UIWindow* UIWindow::FindChildUnderPoint(const Vector2& pos)
 	}
 
 	return NULL;
-}
-
-bool UIWindow::PointInRect(const Vector2& point, const Vector2& rectPos, const Vector2& rectSize)
-{
-	if (point.x < rectPos.x
-		|| point.x > rectPos.x + rectSize.x
-		|| point.y < rectPos.y
-		|| point.y > rectPos.y + rectSize.y) return false;
-
-	return true;
-}
-
-std::vector<UIWindow*>& UIWindow::GetChildRef()
-{
-	return m_vChildren;
 }

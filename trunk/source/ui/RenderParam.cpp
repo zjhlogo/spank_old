@@ -11,14 +11,14 @@ RenderParam::RenderParam(const Vector2& pos, const Vector2& size)
 {
 	m_vBasePos = pos;
 	m_vBaseSize = size;
-	m_nRenderState = RS_DEFAULT;
+	m_nRenderState = URS_DEFAULT;
 }
 
 RenderParam::RenderParam(const RenderParam& param)
 {
 	m_vBasePos = param.m_vBasePos;
 	m_vBaseSize = param.m_vBaseSize;
-	m_nRenderState = RS_DEFAULT;
+	m_nRenderState = URS_DEFAULT;
 }
 
 RenderParam::~RenderParam()
@@ -46,7 +46,17 @@ void RenderParam::SetRenderState(uint nMask, bool bEnable)
 	}
 }
 
-bool RenderParam::CheckRenderState(uint nMask)
+bool RenderParam::CheckRenderState(uint nMask) const
 {
 	return (nMask & m_nRenderState) == nMask;
+}
+
+void RenderParam::SetEnable(bool bEnable)
+{
+	SetRenderState(URS_ENABLE, bEnable);
+}
+
+bool RenderParam::IsEnable() const
+{
+	return CheckRenderState(URS_ENABLE);
 }

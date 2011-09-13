@@ -36,10 +36,10 @@ bool UIImagePieceDocument::OpenFile(const wxString& strFile)
 	{
 		IMAGE_INFO imageInfo;
 
+		if (!pElmImage->Attribute("id", &imageInfo.nID)) return false;
 		imageInfo.strFile = pElmImage->Attribute("file");
-		if (!pElmImage->Attribute("id", &imageInfo.nImageID)) return false;
 
-		m_ImageMap.insert(std::make_pair(imageInfo.nImageID, imageInfo));
+		m_ImageMap.insert(std::make_pair(imageInfo.nID, imageInfo));
 
 		pElmImage = pElmImage->NextSiblingElement("Image");
 	}
@@ -51,16 +51,16 @@ bool UIImagePieceDocument::OpenFile(const wxString& strFile)
 	while (pElmPiece)
 	{
 		PIECE_INFO pieceInfo;
-		pieceInfo.strName = pElmPiece->Attribute("name");
+		pieceInfo.strID = pElmPiece->Attribute("id");
 
-		if (!pElmPiece->Attribute("image_id", &pieceInfo.nImageID)) return false;
+		if (!pElmPiece->Attribute("image", &pieceInfo.nImageID)) return false;
 
 		if (!pElmPiece->Attribute("x", &pieceInfo.rect.x)) return false;
 		if (!pElmPiece->Attribute("y", &pieceInfo.rect.y)) return false;
 		if (!pElmPiece->Attribute("width", &pieceInfo.rect.width)) return false;
 		if (!pElmPiece->Attribute("height", &pieceInfo.rect.height)) return false;
 
-		m_PieceInfoMap.insert(std::make_pair(pieceInfo.strName, pieceInfo));
+		m_PieceInfoMap.insert(std::make_pair(pieceInfo.strID, pieceInfo));
 
 		pElmPiece = pElmPiece->NextSiblingElement("Piece");
 	}
@@ -85,8 +85,8 @@ bool UIImagePieceDocument::SaveFile(const wxString& strFile)
 	{
 		const IMAGE_INFO& imageInfo = it->second;
 		TiXmlElement* pElmImage = new TiXmlElement("Image");
+		pElmImage->SetAttribute("id", imageInfo.nID);
 		pElmImage->SetAttribute("file", imageInfo.strFile);
-		pElmImage->SetAttribute("id", imageInfo.nImageID);
 		pElmImageList->LinkEndChild(pElmImage);
 	}
 
@@ -97,8 +97,8 @@ bool UIImagePieceDocument::SaveFile(const wxString& strFile)
 	{
 		const PIECE_INFO& pieceInfo = it->second;
 		TiXmlElement* pElmPiece = new TiXmlElement("Piece");
-		pElmPiece->SetAttribute("name", pieceInfo.strName);
-		pElmPiece->SetAttribute("image_id", pieceInfo.nImageID);
+		pElmPiece->SetAttribute("id", pieceInfo.strID);
+		pElmPiece->SetAttribute("image", pieceInfo.nImageID);
 		pElmPiece->SetAttribute("x", pieceInfo.rect.x);
 		pElmPiece->SetAttribute("y", pieceInfo.rect.y);
 		pElmPiece->SetAttribute("width", pieceInfo.rect.width);
@@ -134,16 +134,16 @@ const UIImagePieceDocument::TM_PIECE_INFO& UIImagePieceDocument::GetPieceInfoMap
 	return m_PieceInfoMap;
 }
 
-const UIImagePieceDocument::PIECE_INFO* UIImagePieceDocument::FindPieceInfo(const wxString& strName) const
+const UIImagePieceDocument::PIECE_INFO* UIImagePieceDocument::FindPieceInfo(const wxString& strID) const
 {
-	TM_PIECE_INFO::const_iterator itfound = m_PieceInfoMap.find(strName);
+	TM_PIECE_INFO::const_iterator itfound = m_PieceInfoMap.find(strID);
 	if (itfound == m_PieceInfoMap.end()) return NULL;
 	return &itfound->second;
 }
 
 void UIImagePieceDocument::UpdateImagePiece(const PIECE_INFO& pieceInfo)
 {
-	TM_PIECE_INFO::iterator itfound = m_PieceInfoMap.find(pieceInfo.strName);
+	TM_PIECE_INFO::iterator itfound = m_PieceInfoMap.find(pieceInfo.strID);
 	if (itfound == m_PieceInfoMap.end()) return;
 
 	PIECE_INFO* pPieceInfo = &itfound->second;

@@ -22,6 +22,8 @@ public:
 	virtual void Update(float dt);
 	virtual void Render(const RenderParam& param);
 
+	virtual Vector2 GetBestSize();
+
 	virtual bool OnClicked(const Vector2& pos);
 
 private:

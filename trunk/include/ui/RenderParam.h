@@ -9,19 +9,10 @@
 #define __RENDERPARAM_H__
 
 #include "../math/IMath.h"
-#include "../BaseType.h"
+#include "BaseTypeUI.h"
 
 class RenderParam
 {
-public:
-	enum RENDER_STATE
-	{
-		RS_ENABLE = 0x00000001,
-		RS_DEFAULT = RS_ENABLE,
-
-		RS_FORCE_32BIT = 0x7FFFFFFF,
-	};
-
 public:
 	RenderParam(const Vector2& pos, const Vector2& size);
 	RenderParam(const RenderParam& param);
@@ -30,7 +21,10 @@ public:
 	RenderParam& operator=(const RenderParam& param);
 
 	void SetRenderState(uint nMask, bool bEnable);
-	bool CheckRenderState(uint nMask);
+	bool CheckRenderState(uint nMask) const;
+
+	void SetEnable(bool bEnable);
+	bool IsEnable() const;
 
 public:
 	Vector2 m_vBasePos;

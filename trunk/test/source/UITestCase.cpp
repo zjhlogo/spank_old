@@ -8,12 +8,12 @@
 #include "UITestCase.h"
 #include <ui/UITextView.h>
 #include <ui/UIButton.h>
-#include <ui/UISlider.h>
+#include <ui/UISliderBar.h>
 #include <ui/UICheckButton.h>
 #include <ITextureMgr.h>
 #include <msg/MsgID.h>
 #include <util/IDebugUtil.h>
-#include "GameApp.h"
+
 UITestCase::UITestCase()
 :TestCase("UITestCase")
 {
@@ -37,12 +37,11 @@ bool UITestCase::Initialize(UIScreen* pUIScreen)
 	UITextView* pTextView = new UITextView(pUIScreen, s_pszText);
 	pTextView->SetPosition(Vector2(80.0f, 50.0f));
 
-// 	/*Test show a normal button*/
-// 	UIButton* m_pButton = new UIButton(pUIScreen);
-// 	m_pButton->SetPosition(Vector2(0.0f, 0.0));
-// 	m_pButton->SetNormalTexture(ITextureMgr::GetInstance().CreateTexture("ButtonNormal.png", TST_LINEAR));
-// 	m_pButton->SetCheckedTexture(ITextureMgr::GetInstance().CreateTexture("ButtonPressed.png",TST_LINEAR));
-// 	m_pButton->ConnectEvent(MI_UI_CLICKED, this,CAST_MSG_CALLBACK(&UITestCase::UITestFun));
+	/*Test show a normal button*/
+	UIButton* m_pButton = new UIButton(pUIScreen);
+	m_pButton->SetPosition(Vector2(0.0f, 0.0f));
+	m_pButton->ConnectEvent(MI_UI_CLICKED, this,CAST_MSG_CALLBACK(&UITestCase::UITestFun));
+
 // 	/*Test, show a Slider, you should set a maskTexture.at last*/
 // 	UISlider* pSilder = new UISlider(pUIScreen);
 // 	pSilder->SetPosition(Vector2(200,20.0f));

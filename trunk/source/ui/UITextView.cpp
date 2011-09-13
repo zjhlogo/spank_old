@@ -8,14 +8,14 @@
 #include <ui/UITextView.h>
 #include <ui/IRendererUI.h>
 #include <util/IDebugUtil.h>
-#include <msg/MsgCommon.h>
+#include <msg/MsgClick.h>
 #include <msg/MsgID.h>
 
 UITextView::UITextView(UIWindow* pParent, const char* pszText)
 :UIWindow(pParent)
 {
-	m_pString = new UIString(pszText);
-	SetSize(m_pString->GetSize());
+	m_pString = new UIString(NULL);
+	SetText(pszText);
 }
 
 UITextView::~UITextView()
@@ -26,7 +26,7 @@ UITextView::~UITextView()
 void UITextView::SetText(const char* pszText)
 {
 	m_pString->SetText(pszText);
-	SetSize(m_pString->GetSize());
+	AdjustSize();
 }
 
 void UITextView::Update(float dt)
@@ -36,19 +36,20 @@ void UITextView::Update(float dt)
 
 void UITextView::Render(const RenderParam& param)
 {
-	Vector2 pos = param.m_vBasePos + GetPosition();
-	const Vector2& size = GetSize();
-	IRendererUI::GetInstance().DrawLineRect(pos, size);
+ 	Vector2 posAbs = param.m_vBasePos + GetPosition();
+ 	const Vector2& size = GetSize();
+ 	IRendererUI::GetInstance().DrawLineRect(posAbs, size);
+	m_pString->Render(posAbs);
+}
 
-	pos += GetPaddingLeftTop();
- 	m_pString->Render(pos);
+Vector2 UITextView::GetBestSize()
+{
+	return m_pString->GetSize();
 }
 
 bool UITextView::OnClicked(const Vector2& pos)
 {
-	MsgCommon msgCommon(MI_UI_CLICKED);
-	msgCommon.SetObject(this);
-	CallEvent(msgCommon);
-
+	MsgClick msgClick(this);
+	CallEvent(msgClick);
 	return true;
 }

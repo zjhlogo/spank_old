@@ -17,7 +17,7 @@ class UIImagePieceDocument : public UIDocumentBase
 public:
 	typedef struct IMAGE_INFO_tag
 	{
-		int nImageID;
+		int nID;
 		wxString strFile;
 	} IMAGE_INFO;
 
@@ -25,7 +25,7 @@ public:
 
 	typedef struct PIECE_INFO_tag
 	{
-		wxString strName;
+		wxString strID;
 		int nImageID;
 		wxRect rect;
 	} PIECE_INFO;
@@ -44,7 +44,7 @@ public:
 	const wxString& FindImage(int nID) const;
 
 	const TM_PIECE_INFO& GetPieceInfoMap() const;
-	const PIECE_INFO* FindPieceInfo(const wxString& strName) const;
+	const PIECE_INFO* FindPieceInfo(const wxString& strID) const;
 
 	void UpdateImagePiece(const PIECE_INFO& pieceInfo);
 

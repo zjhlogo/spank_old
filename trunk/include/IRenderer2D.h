@@ -51,7 +51,7 @@ public:
 	 * \return 
 	 */
 	virtual void DrawRect(const QUAD_VERT_POS_UV& quadVerts, IShader* pShader) = 0;
-	virtual void DrawRect(float x, float y, const TEXTURE_PIECE* pTexturePiece, IShader* pShader) = 0;
+	virtual void DrawRect(float x, float y, const IMAGE_PIECE* pImagePiece, IShader* pShader) = 0;
 
 };
 #endif // __IRENDERER2D_H__

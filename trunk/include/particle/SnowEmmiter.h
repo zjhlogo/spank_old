@@ -19,6 +19,8 @@ public:
 	};
 
 public:
+	DECLARE_RTTI(SnowEmmiter, IEmmiter);
+
 	SnowEmmiter();
 	virtual ~SnowEmmiter();
 

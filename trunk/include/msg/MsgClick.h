@@ -14,6 +14,8 @@
 class MsgClick : public IMsgBase
 {
 public:
+	DECLARE_RTTI(MsgClick, IMsgBase);
+
 	MsgClick(UIWindow* pSender);
 	~MsgClick();
 

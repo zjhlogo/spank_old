@@ -21,6 +21,8 @@ public:
 	typedef std::map<int, float> TM_KERNING;
 
 public:
+	DECLARE_RTTI(BitmapFont_Impl, IFont);
+
 	BitmapFont_Impl(const char* pszFontFile);
 	virtual ~BitmapFont_Impl();
 

@@ -13,6 +13,8 @@
 class ActionLoop : public IActionBase
 {
 public:
+	DECLARE_RTTI(ActionLoop, IActionBase);
+
 	ActionLoop(IActionBase* pAction, int nLoop = 0);
 	virtual ~ActionLoop();
 

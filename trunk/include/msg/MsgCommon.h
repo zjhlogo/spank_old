@@ -14,6 +14,8 @@
 class MsgCommon : public IMsgBase
 {
 public:
+	DECLARE_RTTI(MsgCommon, IMsgBase);
+
 	MsgCommon(uint nMsgID);
 	virtual ~MsgCommon();
 

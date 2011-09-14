@@ -194,6 +194,19 @@ bool UIWindow::ProcessTouchEvent(const Vector2& pos, UI_TOUCH_EVENT_TYPE eType)
 	return bProcessed;
 }
 
+bool UIWindow::EnumlateChildrenWindows(TV_WINDOW& vWindowsOut, IMsgHandler* pHandler, ENUM_WINDOW_FILTER pCallback, void* pCustomData)
+{
+	if (!pHandler || !pCallback) return false;
+
+	for (TV_WINDOW::iterator it = m_vChildren.begin(); it != m_vChildren.end(); ++it)
+	{
+		bool bOK = (pHandler->*pCallback)(*it, pCustomData);
+		if (bOK) vWindowsOut.push_back(*it);
+	}
+
+	return true;
+}
+
 void UIWindow::AddChild(UIWindow* pWindow)
 {
 	// check pWindow exist ?

@@ -19,6 +19,8 @@ public:
 	typedef std::map<std::string, int> TM_INT;
 
 public:
+	DECLARE_RTTI(ConfigUtil, IMgr);
+
 	ConfigUtil();
 	virtual ~ConfigUtil();
 

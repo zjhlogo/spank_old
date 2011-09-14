@@ -20,6 +20,8 @@ public:
 	typedef std::vector<ITexture*> TV_TEXTURE;
 
 public:
+	DECLARE_RTTI(ResourceMgr_Impl, IResourceMgr);
+
 	ResourceMgr_Impl();
 	virtual ~ResourceMgr_Impl();
 

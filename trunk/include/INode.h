@@ -16,6 +16,8 @@ class IRenderableObject;
 class INode : public IObject
 {
 public:
+	DECLARE_RTTI(INode, IObject);
+
 	virtual INode* CreateChildNode() = 0;
 	virtual bool RemoveChildNode(INode* pNode) = 0;
 	virtual INode* GetChildNode(int nIndex) = 0;

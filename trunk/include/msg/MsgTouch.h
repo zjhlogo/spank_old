@@ -23,6 +23,8 @@ public:
 	};
 
 public:
+	DECLARE_RTTI(MsgTouch, IMsgBase);
+
 	MsgTouch(TOUCH_TYPE eType, int nIndex, const Vector2& pos);
 	MsgTouch(TOUCH_TYPE eType, int nIndex, float x, float y);
 	~MsgTouch();

@@ -25,6 +25,8 @@ public:
 	};
 
 public:
+	DECLARE_RTTI(RendererUI_Impl, IRendererUI);
+
 	RendererUI_Impl();
 	virtual ~RendererUI_Impl();
 

@@ -13,6 +13,8 @@
 class ActionDelay : public IActionBase
 {
 public:
+	DECLARE_RTTI(ActionDelay, IActionBase);
+
 	ActionDelay(float delay);
 	virtual ~ActionDelay();
 

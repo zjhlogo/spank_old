@@ -16,6 +16,8 @@
 class IRendererUI : public IMgr
 {
 public:
+	DECLARE_RTTI(IRendererUI, IMgr);
+
 	static IRendererUI& GetInstance();
 
 	virtual void SetTexture(ITexture* pTexture) = 0;

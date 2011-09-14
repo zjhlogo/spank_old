@@ -13,17 +13,18 @@
 class ActionMoveTo : public IActionBase
 {
 public:
+	DECLARE_RTTI(ActionMoveTo, IActionBase);
+
 	ActionMoveTo(const Vector3& posStart, const Vector3& posEnd, float time);
 	virtual ~ActionMoveTo();
-public:
 
-	virtual void Reset(void);
+	virtual void Reset();
 	virtual void Update(float dt);
 
-	virtual IActionBase* Clone(void);
-	virtual IActionBase* CloneInverse(void);
+	virtual IActionBase* Clone();
+	virtual IActionBase* CloneInverse();
 
-	virtual float GetTimeLength(void) const;
+	virtual float GetTimeLength() const;
 
 private:
 	Vector3 m_vPosStart;

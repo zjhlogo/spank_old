@@ -18,6 +18,8 @@ public:
 	typedef std::vector<Vector3> TV_VECTOR3;
 
 public:
+	DECLARE_RTTI(ActionBySpline, IActionBase);
+
 	ActionBySpline(float time);
 	virtual ~ActionBySpline();
 

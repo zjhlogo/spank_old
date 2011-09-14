@@ -10,9 +10,11 @@
 
 #include "IActionBase.h"
 
-class ActionRotateBy: public IActionBase
+class ActionRotateBy : public IActionBase
 {
 public: 
+	DECLARE_RTTI(ActionRotateBy, IActionBase);
+
 	ActionRotateBy(const Vector3& vAxis, const float& fStartAngle, const float& fOffAngle, float time);
 	virtual ~ActionRotateBy();
 

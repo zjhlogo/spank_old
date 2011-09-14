@@ -21,6 +21,8 @@ public:
 	};
 
 public:
+	DECLARE_RTTI(DebugUtil_Win32_Impl, IDebugUtil);
+
 	DebugUtil_Win32_Impl();
 	virtual ~DebugUtil_Win32_Impl();
 

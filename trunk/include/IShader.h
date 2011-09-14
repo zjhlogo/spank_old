@@ -16,6 +16,8 @@
 class IShader : public IObject
 {
 public:
+	DECLARE_RTTI(IShader, IObject);
+
 	/*!
 	 * \brief set matrix
 	 *

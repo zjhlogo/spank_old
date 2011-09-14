@@ -15,6 +15,8 @@
 class IUIResMgr : public IMgr
 {
 public:
+	DECLARE_RTTI(IUIResMgr, IMgr);
+
 	static IUIResMgr& GetInstance();
 
 	virtual IFont* CreateFont(const char* pszFontFile) = 0;

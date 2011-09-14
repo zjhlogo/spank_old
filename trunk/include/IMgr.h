@@ -19,7 +19,8 @@
 class IMgr : public IMsgHandler
 {
 public:
-	
+	DECLARE_RTTI(IMgr, IMsgHandler);
+
 	/*!
 	 * \brief initialize the instance
 	 *

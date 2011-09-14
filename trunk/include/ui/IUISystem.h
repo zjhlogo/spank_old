@@ -14,6 +14,8 @@
 class IUISystem : public IMgr
 {
 public:
+	DECLARE_RTTI(IUISystem, IMgr);
+
 	static IUISystem& GetInstance();
 
 	virtual void Update(float dt) = 0;

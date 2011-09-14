@@ -8,11 +8,13 @@
 #ifndef __IMSGBASE_H__
 #define __IMSGBASE_H__
 
-#include "BaseType.h"
+#include "../IRtti.h"
 
 class IMsgBase
 {
 public:
+	DECLARE_RTTI(IMsgBase, INoRtti);
+
 	IMsgBase(uint nMsgID);
 	~IMsgBase();
 

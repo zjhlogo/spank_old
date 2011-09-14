@@ -14,6 +14,8 @@
 class MsgActionUpdate : public IMsgBase
 {
 public:
+	DECLARE_RTTI(MsgActionUpdate, IMsgBase);
+
 	MsgActionUpdate(ACTION_UPDATE_TYPE eType, IActionBase* pAction);
 	virtual ~MsgActionUpdate();
 

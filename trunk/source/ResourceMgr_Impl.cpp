@@ -28,8 +28,7 @@ ResourceMgr_Impl::~ResourceMgr_Impl()
 
 bool ResourceMgr_Impl::Initialize()
 {
-	if (!AddImagePieceList("piece_list.xml")) return false;
-
+	// TODO: 
 	return true;
 }
 

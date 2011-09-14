@@ -18,6 +18,8 @@ public:
 	typedef std::vector<IRenderableObject*> TV_RENDERABLE_OBJECT;
 
 public:
+	DECLARE_RTTI(Node_Impl, INode);
+
 	Node_Impl();
 	virtual ~Node_Impl();
 

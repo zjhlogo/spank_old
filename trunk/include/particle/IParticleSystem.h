@@ -15,6 +15,8 @@
 class IParticleSystem : public IRenderableObject
 {
 public:
+	DECLARE_RTTI(IParticleSystem, IRenderableObject);
+
 	IParticleSystem();
 	virtual ~IParticleSystem();
 

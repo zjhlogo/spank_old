@@ -22,7 +22,10 @@ public:
 		ST_MOVE,
 		ST_END,
 	};
+
 public:
+	DECLARE_RTTI(MsgSilder, IMsgBase);
+
 	MsgSilder(SILDER_TYPE eType, float fPercent);
 	virtual ~MsgSilder();
 	

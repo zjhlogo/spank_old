@@ -8,7 +8,8 @@
 #ifndef __IMSGHANDLER_H__
 #define __IMSGHANDLER_H__
 
-#include "BaseType.h"
+#include "../BaseType.h"
+#include "../IRtti.h"
 #include "IMsgBase.h"
 #include <map>
 
@@ -30,6 +31,8 @@ public:
 	typedef std::map<uint, CONNECTION_INFO> TM_CONNECTION_INFO;
 
 public:
+	DECLARE_RTTI(IMsgHandler, INoRtti);
+
 	IMsgHandler();
 	virtual ~IMsgHandler();
 

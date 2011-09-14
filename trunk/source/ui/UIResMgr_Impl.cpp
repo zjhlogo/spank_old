@@ -37,6 +37,8 @@ bool UIResMgr_Impl::Initialize()
 	m_pDefaultFont = CreateFont("40px_arial_black.fnt");
 	if (!m_pDefaultFont) return false;
 
+	if (!IResourceMgr::GetInstance().AddImagePieceList("ui_default.xml")) return false;
+
 	if (!InitDefaultButtonStyle()) return false;
 	if (!InitDefaultCheckButtonStyle()) return false;
 	if (!InitDefaultRadioButtonStyle()) return false;
@@ -130,7 +132,7 @@ bool UIResMgr_Impl::SetupDefaultCheckButtonTextures(const IMAGE_PIECE** pPieceOu
 
 	for (int i = 0; i < DUS_CHECKBUTTON_NUM; ++i)
 	{
-		pPieceOut[i] = m_pButtonStyle[i];
+		pPieceOut[i] = m_pCheckButtonStyle[i];
 	}
 
 	return true;
@@ -146,7 +148,7 @@ bool UIResMgr_Impl::SetupDefaultRadioButtonTextures(const IMAGE_PIECE** pPieceOu
 
 	for (int i = 0; i < DUS_RADIOBUTTON_NUM; ++i)
 	{
-		pPieceOut[i] = m_pButtonStyle[i];
+		pPieceOut[i] = m_pRadioButtonStyle[i];
 	}
 
 	return true;

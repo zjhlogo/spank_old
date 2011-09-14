@@ -15,6 +15,8 @@
 class IRenderer2D : public IMgr
 {
 public:
+	DECLARE_RTTI(IRenderer2D, IMgr);
+
 	static IRenderer2D& GetInstance();
 
 	virtual void SetModelViewMatrix(const Matrix4x4& mat) = 0;

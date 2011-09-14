@@ -15,6 +15,8 @@
 class RenderDevice_Win32_Impl : public IRenderDevice
 {
 public:
+	DECLARE_RTTI(RenderDevice_Win32_Impl, IRenderDevice);
+
 	RenderDevice_Win32_Impl();
 	virtual ~RenderDevice_Win32_Impl();
 

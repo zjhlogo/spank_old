@@ -17,6 +17,8 @@ public:
 	typedef std::vector<Vector3> TV_VECTOR3;
 
 public:
+	DECLARE_RTTI(ActionCubicBSpline, IActionBase);
+
 	ActionCubicBSpline(float ftime);
 	virtual ~ActionCubicBSpline();
 

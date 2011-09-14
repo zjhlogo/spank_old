@@ -14,6 +14,8 @@
 class Mutex_Win32_Impl : public IMutex
 {
 public:
+	DECLARE_RTTI(Mutex_Win32_Impl, IMutex);
+
 	Mutex_Win32_Impl();
 	virtual ~Mutex_Win32_Impl();
 

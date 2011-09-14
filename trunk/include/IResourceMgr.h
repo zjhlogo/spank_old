@@ -14,6 +14,8 @@
 class IResourceMgr : public IMgr
 {
 public:
+	DECLARE_RTTI(IResourceMgr, IMgr);
+
 	static IResourceMgr& GetInstance();
 
 	virtual bool AddImagePieceList(const char* pszFile) = 0;

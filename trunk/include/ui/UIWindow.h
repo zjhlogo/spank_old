@@ -9,11 +9,13 @@
 #define __UIWINDOW_H__
 
 #include "../IObject.h"
-#include "../math/Vector2.h"
 #include "BaseTypeUI.h"
 #include "RenderParam.h"
 
 #include <vector>
+
+class UIWindow;
+typedef bool (IMsgHandler::*ENUM_WINDOW_FILTER)(UIWindow* pWindow, void* pData);
 
 class UIWindow : public IObject
 {
@@ -30,6 +32,8 @@ public:
 	typedef std::vector<UIWindow*> TV_WINDOW;
 
 public:
+	DECLARE_RTTI(UIWindow, IObject);
+
 	UIWindow(UIWindow* pParent);
 	virtual ~UIWindow();
 
@@ -69,6 +73,7 @@ public:
 	void AdjustSize();
 
 	virtual bool ProcessTouchEvent(const Vector2& pos, UI_TOUCH_EVENT_TYPE eType);
+	bool EnumlateChildrenWindows(TV_WINDOW& vWindowsOut, IMsgHandler* pHandler, ENUM_WINDOW_FILTER pCallback, void* pCustomData);
 
 	virtual bool OnClicked(const Vector2& pos);
 	virtual bool OnTouchBegin(const Vector2& pos);

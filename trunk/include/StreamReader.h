@@ -13,6 +13,8 @@
 class StreamReader : public IObject
 {
 public:
+	DECLARE_RTTI(StreamReader, IObject);
+
 	StreamReader(const void* pBuffer, int nBufferSize, bool bManageBuffer = false);
 	virtual ~StreamReader();
 

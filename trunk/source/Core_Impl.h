@@ -13,6 +13,8 @@
 class Core_Impl : public ICore
 {
 public:
+	DECLARE_RTTI(Core_Impl, ICore);
+
 	Core_Impl();
 	virtual ~Core_Impl();
 

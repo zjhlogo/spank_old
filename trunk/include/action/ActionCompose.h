@@ -18,6 +18,8 @@ public:
 	typedef std::vector<IActionBase*> TV_ACTION_BASE;
 
 public:
+	DECLARE_RTTI(ActionCompose, IActionBase);
+
 	ActionCompose();
 	virtual ~ActionCompose();
 

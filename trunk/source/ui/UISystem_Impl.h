@@ -17,6 +17,8 @@ public:
 	typedef std::vector<UIScreen*> TV_UISCREEN;
 
 public:
+	DECLARE_RTTI(UISystem_Impl, IUISystem);
+
 	UISystem_Impl();
 	virtual ~UISystem_Impl();
 

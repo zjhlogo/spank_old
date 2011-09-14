@@ -14,6 +14,8 @@
 class UIRadioButton : public UIWindow
 {
 public:
+	DECLARE_RTTI(UIRadioButton, UIWindow);
+
 	UIRadioButton(UIWindow* pParent);
 	virtual ~UIRadioButton();
 
@@ -26,12 +28,15 @@ public:
 
 	void SetText(const char* pszText);
 
-	void SetCheck(bool bCheck);
+	bool SetCheck(bool bCheck);
 	bool IsChecked() const;
 
 	bool SetRadioButtonTexture(const IMAGE_PIECE* pImagePiece, int nIndex);
 
 	virtual bool OnClicked(const Vector2& pos);
+
+private:
+	bool RadioButtonFilter(UIWindow* pWindow, void* pData);
 
 private:
 	int m_nGroupID;

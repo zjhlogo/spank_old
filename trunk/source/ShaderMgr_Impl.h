@@ -18,6 +18,8 @@ public:
 	typedef std::map<int, IShader*> TM_SHADER;
 
 public:
+	DECLARE_RTTI(ShaderMgr_Impl, IShaderMgr);
+
 	ShaderMgr_Impl();
 	virtual ~ShaderMgr_Impl();
 

@@ -14,6 +14,8 @@
 class FileUtil_Win32_Impl : public IFileUtil
 {
 public:
+	DECLARE_RTTI(FileUtil_Win32_Impl, IFileUtil);
+
 	FileUtil_Win32_Impl();
 	virtual ~FileUtil_Win32_Impl();
 

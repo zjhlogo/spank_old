@@ -14,6 +14,8 @@
 class ITextureMgr : public IMgr
 {
 public:
+	DECLARE_RTTI(ITextureMgr, IMgr);
+
 	static ITextureMgr& GetInstance();
 
 	virtual ITexture* CreateTexture(const char* pszFileName, TEXTURE_SAMPLE_TYPE eSample = TST_POINT) = 0;

@@ -13,6 +13,8 @@
 class IRenderDevice : public IMgr
 {
 public:
+	DECLARE_RTTI(IRenderDevice, IMgr);
+
 	static IRenderDevice& GetInstance();
 
 	virtual int GetSurfaceWidth() const = 0;

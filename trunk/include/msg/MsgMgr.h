@@ -48,6 +48,8 @@ public:
 	typedef std::queue<MESSAGE_INFO> TQ_MESSAGE_INFO;
 
 public:
+	DECLARE_RTTI(MsgMgr, IMgr);
+
 	MsgMgr();
 	virtual ~MsgMgr();
 

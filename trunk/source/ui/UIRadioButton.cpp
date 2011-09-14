@@ -17,6 +17,7 @@ UIRadioButton::UIRadioButton(UIWindow* pParent)
 	m_bCheck = false;
 
 	IUIResMgr::GetInstance().SetupDefaultRadioButtonTextures(m_pStyle, DUS_RADIOBUTTON_NUM);
+	AdjustSize();
 }
 
 UIRadioButton::~UIRadioButton()
@@ -109,10 +110,26 @@ void UIRadioButton::SetText(const char* pszText)
 	AdjustSize();
 }
 
-void UIRadioButton::SetCheck(bool bCheck)
+bool UIRadioButton::SetCheck(bool bCheck)
 {
+	if (m_bCheck == bCheck) return false;
 	m_bCheck = bCheck;
-	// TODO: remove the old check one
+	if (!m_bCheck) return true;
+
+	// remove the old check one
+	UIWindow* pParentWindow = GetParentWindow();
+	if (!pParentWindow) return true;
+
+	TV_WINDOW vRadioButton;
+	if (!pParentWindow->EnumlateChildrenWindows(vRadioButton, this, (ENUM_WINDOW_FILTER)&UIRadioButton::RadioButtonFilter, NULL)) return true;
+
+	for (TV_WINDOW::iterator it = vRadioButton.begin(); it != vRadioButton.end(); ++it)
+	{
+		UIRadioButton* pRadioButton = (UIRadioButton*)(*it);
+		pRadioButton->SetCheck(false);
+	}
+
+	return true;
 }
 
 bool UIRadioButton::IsChecked() const
@@ -131,6 +148,22 @@ bool UIRadioButton::SetRadioButtonTexture(const IMAGE_PIECE* pImagePiece, int nI
 
 bool UIRadioButton::OnClicked(const Vector2& pos)
 {
-	// TODO: change status and send message
+	// change status and send message
+	if (SetCheck(true))
+	{
+		// TODO: notify check event
+	}
+
+	return true;
+}
+
+bool UIRadioButton::RadioButtonFilter(UIWindow* pWindow, void* pData)
+{
+	if (pWindow == this) return false;
+	if (pWindow->GetRtti() != this->GetRtti()) return false;
+
+	UIRadioButton* pRadioButton = (UIRadioButton*)pWindow;
+	if (pRadioButton->GetGroupID() != this->GetGroupID()) return false;
+
 	return true;
 }

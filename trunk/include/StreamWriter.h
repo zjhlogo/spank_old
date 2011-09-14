@@ -19,6 +19,8 @@ public:
 	};
 
 public:
+	DECLARE_RTTI(StreamWriter, IObject);
+
 	StreamWriter();
 	virtual ~StreamWriter();
 

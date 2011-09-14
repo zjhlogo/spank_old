@@ -19,6 +19,8 @@ public:
 	typedef std::vector<const CHAR_INFO*> TV_CHAR_INFO;
 
 public:
+	DECLARE_RTTI(UIString, IObject);
+
 	UIString(IFont* pFont, const char* pszText);
 	UIString(const char* pszText);
 	virtual ~UIString();

@@ -326,6 +326,22 @@ bool RendererUI_Impl::ClipRect( QUAD_VERT_POS_UV& quadInOut, float x, float y, f
 	return true;
 }
 
+bool RendererUI_Impl::ClipRect( const IMAGE_PIECE* pImagePiece,IMAGE_PIECE& ImagePieceOut, float u, float v, float du, float dv )
+{
+	ImagePieceOut.u = pImagePiece->u + pImagePiece->du * u;
+	ImagePieceOut.v = pImagePiece->v + pImagePiece->dv * v;
+
+	ImagePieceOut.du = pImagePiece->du * du;
+	ImagePieceOut.dv = pImagePiece->dv * dv;
+
+	ImagePieceOut.width = pImagePiece->width * du;
+	ImagePieceOut.height = pImagePiece->height *dv;
+
+	ImagePieceOut.pTexture = pImagePiece->pTexture;
+	return true;
+}
+
+
 void RendererUI_Impl::Flush()
 {
 	if (!m_bRenderBegan) return;

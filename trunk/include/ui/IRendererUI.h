@@ -39,6 +39,7 @@ public:
 	virtual Vector2 CalculateSizeWithFrame(float width, float height, const IMAGE_FRAME* pImageFrame) = 0;
 
 	virtual bool ClipRect(QUAD_VERT_POS_UV& quadInOut, float x, float y, float width, float height) = 0;
+	virtual bool ClipRect(const IMAGE_PIECE* pImagePiece,IMAGE_PIECE& ImagePieceOut, float u, float v, float du, float dv) = 0;
 
 	virtual void Flush() = 0;
 	virtual void BeginRender() = 0;

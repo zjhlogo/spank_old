@@ -41,6 +41,7 @@ public:
 	virtual bool SetupDefaultButtonTextures(const IMAGE_PIECE** pPieceOut, int nPiece = DUS_BUTTON_NUM) const;
 	virtual bool SetupDefaultCheckButtonTextures(const IMAGE_PIECE** pPieceOut, int nPiece = DUS_CHECKBUTTON_NUM) const;
 	virtual bool SetupDefaultRadioButtonTextures(const IMAGE_PIECE** pPieceOut, int nPiece = DUS_RADIOBUTTON_NUM) const;
+	virtual bool SetupDefaultSliderBarTextures(const IMAGE_PIECE** pPirceOut, int nPiece = DUS_SLIDERBAR_NUM) const;
 
 private:
 	IFont* FindFont(const char* pszFontFile);
@@ -49,6 +50,7 @@ private:
 	bool InitDefaultButtonStyle();
 	bool InitDefaultCheckButtonStyle();
 	bool InitDefaultRadioButtonStyle();
+	bool InitDefaultSliderBarStyle();
 
 private:
 	TM_FONT m_mapFont;
@@ -57,7 +59,7 @@ private:
 	const IMAGE_PIECE* m_pButtonStyle[DUS_BUTTON_NUM];
 	const IMAGE_PIECE* m_pCheckButtonStyle[DUS_CHECKBUTTON_NUM];
 	const IMAGE_PIECE* m_pRadioButtonStyle[DUS_RADIOBUTTON_NUM];
-
+	const IMAGE_PIECE* m_pSliderBarStyle[DUS_SLIDERBAR_NUM];
 	TM_IMAGE_FRAME m_mapImageFrame;
 	const IMAGE_FRAME* m_pDefaultFrame;
 

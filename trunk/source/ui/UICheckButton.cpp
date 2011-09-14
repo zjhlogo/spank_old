@@ -35,7 +35,9 @@ void UICheckButton::Render(const RenderParam& param)
 	RenderBorder(param);
 
 	Vector2 posAbs = param.m_vBasePos + GetPosition();
-
+	
+	//calculate the off size of string in the right;
+	Vector2 posStroff = (GetSize() - m_pString->GetSize());
 	if (IsChecked())
 	{
 		if (!IsEnable() || !param.IsEnable())
@@ -43,21 +45,21 @@ void UICheckButton::Render(const RenderParam& param)
 			// render disabled state
 			IRendererUI::GetInstance().DrawRect(posAbs, m_pStyle[DUS_CHECKBUTTON_CHECK_DISABLED]);
 			// TODO: render string disabled state
-			m_pString->Render(posAbs);
+			m_pString->Render(posAbs + posStroff);
 		}
 		else if (IsPressed())
 		{
 			// render pressed state
 			IRendererUI::GetInstance().DrawRect(posAbs, m_pStyle[DUS_CHECKBUTTON_CHECK_PRESSED]);
 			// TODO: render string pressed state
-			m_pString->Render(posAbs);
+			m_pString->Render(posAbs + posStroff);
 		}
 		else
 		{
 			// render default state
 			IRendererUI::GetInstance().DrawRect(posAbs, m_pStyle[DUS_CHECKBUTTON_CHECK]);
 			// TODO: render string pressed state
-			m_pString->Render(posAbs);
+			m_pString->Render(posAbs + posStroff);
 		}
 	}
 	else
@@ -67,21 +69,21 @@ void UICheckButton::Render(const RenderParam& param)
 			// render disabled state
 			IRendererUI::GetInstance().DrawRect(posAbs, m_pStyle[DUS_CHECKBUTTON_UNCHECK_DISABLED]);
 			// TODO: render string disabled state
-			m_pString->Render(posAbs);
+			m_pString->Render(posAbs + posStroff);
 		}
 		else if (IsPressed())
 		{
 			// render pressed state
 			IRendererUI::GetInstance().DrawRect(posAbs, m_pStyle[DUS_CHECKBUTTON_UNCHECK_PRESSED]);
 			// TODO: render string pressed state
-			m_pString->Render(posAbs);
+			m_pString->Render(posAbs + posStroff);
 		}
 		else
 		{
 			// render default state
 			IRendererUI::GetInstance().DrawRect(posAbs, m_pStyle[DUS_CHECKBUTTON_UNCHECK]);
 			// TODO: render string pressed state
-			m_pString->Render(posAbs);
+			m_pString->Render(posAbs + posStroff);
 		}
 	}
 }

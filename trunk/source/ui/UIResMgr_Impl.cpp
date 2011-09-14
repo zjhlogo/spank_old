@@ -27,6 +27,7 @@ UIResMgr_Impl::UIResMgr_Impl()
 	StringUtil::ZeroMemory(m_pCheckButtonStyle, sizeof(m_pCheckButtonStyle));
 	StringUtil::ZeroMemory(m_pRadioButtonStyle, sizeof(m_pRadioButtonStyle));
 	m_pDefaultFrame = NULL;
+	StringUtil::ZeroMemory(m_pSliderBarStyle, sizeof(m_pSliderBarStyle));
 }
 
 UIResMgr_Impl::~UIResMgr_Impl()
@@ -48,7 +49,7 @@ bool UIResMgr_Impl::Initialize()
 	if (!InitDefaultButtonStyle()) return false;
 	if (!InitDefaultCheckButtonStyle()) return false;
 	if (!InitDefaultRadioButtonStyle()) return false;
-
+	if (!InitDefaultSliderBarStyle()) return false;
 	return true;
 }
 
@@ -215,7 +216,20 @@ bool UIResMgr_Impl::SetupDefaultRadioButtonTextures(const IMAGE_PIECE** pPieceOu
 
 	return true;
 }
-
+bool UIResMgr_Impl::SetupDefaultSliderBarTextures( const IMAGE_PIECE** pPirceOut, int nPiece /*= DUS_SLIDERBAR_NUM*/ ) const
+{
+	if(nPiece != DUS_SLIDERBAR_NUM)
+	{
+		LOGE("boundary out of range");
+		return false;
+	}
+	for (int i = 0; i< DUS_SLIDERBAR_NUM; i++)
+	{
+		pPirceOut[i] = m_pSliderBarStyle[i];
+	}
+	
+	return true;
+}
 IFont* UIResMgr_Impl::FindFont(const char* pszFontFile)
 {
 	TM_FONT::iterator itfound = m_mapFont.find(pszFontFile);
@@ -301,3 +315,25 @@ bool UIResMgr_Impl::InitDefaultRadioButtonStyle()
 
 	return true;
 }
+bool UIResMgr_Impl::InitDefaultSliderBarStyle()
+{
+	static const char* s_pszImagePieces[DUS_SLIDERBAR_NUM] = 
+	{
+		"ui_slider_thumb",
+		"ui_slider_thumb",
+		"ui_slider_bg",
+		"ui_slider_fg",
+		"ui_slider_bg",
+	};
+
+	for (int i = 0; i < DUS_SLIDERBAR_NUM; i++ )
+	{
+		m_pSliderBarStyle[i] = IResourceMgr::GetInstance().FindImagePiece(s_pszImagePieces[i]);
+		if(!m_pSliderBarStyle[i]) return false;
+	}
+	
+	return true;
+}
+
+
+

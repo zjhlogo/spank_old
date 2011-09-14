@@ -14,6 +14,8 @@
 class IParticle : public IObject
 {
 public:
+	DECLARE_RTTI(IParticle, IObject);
+
 	IParticle();
 	virtual ~IParticle();
 

@@ -19,6 +19,8 @@ public:
 	typedef std::map<std::string, IFont*> TM_FONT;
 
 public:
+	DECLARE_RTTI(UIResMgr_Impl, IUIResMgr);
+
 	UIResMgr_Impl();
 	virtual ~UIResMgr_Impl();
 

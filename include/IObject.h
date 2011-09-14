@@ -13,6 +13,8 @@
 class IObject : public IMsgHandler
 {
 public:
+	DECLARE_RTTI(IObject, IMsgHandler);
+
 	IObject();
 	virtual ~IObject();
 

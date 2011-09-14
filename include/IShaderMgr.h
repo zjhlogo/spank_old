@@ -15,6 +15,8 @@
 class IShaderMgr : public IMgr
 {
 public:
+	DECLARE_RTTI(IShaderMgr, IMgr);
+
 	static IShaderMgr& GetInstance();
 
 	virtual IShader* CreateShader(const char* pszShaderFile) = 0;

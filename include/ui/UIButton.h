@@ -17,6 +17,8 @@
 class UIButton : public UIWindow
 {
 public:
+	DECLARE_RTTI(UIButton, UIWindow);
+
 	UIButton(UIWindow* pParent);
 	virtual ~UIButton();
 

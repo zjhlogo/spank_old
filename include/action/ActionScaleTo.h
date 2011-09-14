@@ -13,6 +13,8 @@
 class ActionScaleTo : public IActionBase
 {
 public:
+	DECLARE_RTTI(ActionScaleTo, IActionBase);
+
 	ActionScaleTo(const Vector3& ScaleStart, const Vector3& ScaleEnd, float time);
 	virtual ~ActionScaleTo();
 

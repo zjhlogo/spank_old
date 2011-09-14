@@ -14,6 +14,8 @@
 class ICore : public IMgr
 {
 public:
+	DECLARE_RTTI(ICore, IMgr);
+
 	static ICore& GetInstance();
 
 	virtual INode* GetRootNode() = 0;

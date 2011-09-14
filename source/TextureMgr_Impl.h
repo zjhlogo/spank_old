@@ -19,6 +19,8 @@ public:
 	typedef std::map<std::string, ITexture*> TM_TEXTURE;
 
 public:
+	DECLARE_RTTI(TextureMgr_Impl, ITextureMgr);
+
 	TextureMgr_Impl();
 	virtual ~TextureMgr_Impl();
 

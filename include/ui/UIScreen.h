@@ -13,6 +13,8 @@
 class UIScreen : public UIWindow
 {
 public:
+	DECLARE_RTTI(UIScreen, UIWindow);
+
 	UIScreen();
 	virtual ~UIScreen();
 

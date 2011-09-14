@@ -15,6 +15,8 @@
 class VertexCache : public IObject
 {
 public:
+	DECLARE_RTTI(VertexCache, IObject);
+
 	VertexCache(uint nVertsCacheSize, uint nIndisCacheSize);
 	virtual ~VertexCache();
 

@@ -21,6 +21,8 @@ public:
 	} PARTICLE_CACHE_ITEM;
 
 public:
+	DECLARE_RTTI(IEmmiter, IObject);
+
 	IEmmiter();
 	virtual ~IEmmiter();
 

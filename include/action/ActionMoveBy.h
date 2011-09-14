@@ -10,9 +10,11 @@
 
 #include "IActionBase.h"
 
-class ActionMoveBy :public IActionBase
+class ActionMoveBy : public IActionBase
 {
 public:
+	DECLARE_RTTI(ActionMoveBy, IActionBase);
+
 	ActionMoveBy(const Vector3& posStart, const Vector3& posOff, float time);
 	virtual ~ActionMoveBy();
 

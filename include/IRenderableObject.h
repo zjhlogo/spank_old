@@ -14,6 +14,8 @@
 class IRenderableObject : public IObject
 {
 public:
+	DECLARE_RTTI(IRenderableObject, IObject);
+
 	IRenderableObject();
 	virtual ~IRenderableObject();
 

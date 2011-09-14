@@ -14,6 +14,8 @@
 class UITextView : public UIWindow
 {
 public:
+	DECLARE_RTTI(UITextView, UIWindow);
+
 	UITextView(UIWindow* pParent, const char* pszText);
 	virtual ~UITextView();
 

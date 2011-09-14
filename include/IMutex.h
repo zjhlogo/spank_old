@@ -13,6 +13,7 @@
 class IMutex : public IObject
 {
 public:
+	DECLARE_RTTI(IMutex, IObject);
 	static IMutex* CreateMutexObject();
 
 	virtual void Lock() = 0;

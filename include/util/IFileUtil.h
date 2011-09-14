@@ -14,6 +14,8 @@
 class IFileUtil : public IMgr
 {
 public:
+	DECLARE_RTTI(IFileUtil, IMgr);
+
 	static IFileUtil& GetInstance();
 
 	virtual StreamReader* LoadFile(const char* pszFileName) = 0;

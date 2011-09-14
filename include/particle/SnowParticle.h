@@ -14,6 +14,8 @@
 class SnowParticle : public IParticle
 {
 public:
+	DECLARE_RTTI(SnowParticle, IParticle);
+
 	SnowParticle();
 	virtual ~SnowParticle();
 

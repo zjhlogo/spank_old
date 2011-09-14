@@ -10,10 +10,13 @@
 
 #include "../math/IMath.h"
 #include "BaseTypeUI.h"
+#include "../IRtti.h"
 
 class RenderParam
 {
 public:
+	DECLARE_RTTI(RenderParam, INoRtti);
+
 	RenderParam(const Vector2& pos, const Vector2& size);
 	RenderParam(const RenderParam& param);
 	~RenderParam();

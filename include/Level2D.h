@@ -25,6 +25,8 @@ public:
 	};
 
 public:
+	DECLARE_RTTI(Level2D, IRenderableObject);
+
 	Level2D(const char* pszLevel2DFile);
 	virtual ~Level2D();
 	

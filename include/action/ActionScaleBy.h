@@ -10,9 +10,11 @@
 
 #include "IActionBase.h"
 
-class ActionScaleBy: public IActionBase
+class ActionScaleBy : public IActionBase
 {
 public: 
+	DECLARE_RTTI(ActionScaleBy, IActionBase);
+
 	ActionScaleBy(const Vector3& ScaleStart, const Vector3& ScaleOff, float time);
 	virtual ~ActionScaleBy();
 

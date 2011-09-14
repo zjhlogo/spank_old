@@ -15,6 +15,8 @@
 class Sprite : public IRenderableObject
 {
 public:
+	DECLARE_RTTI(Sprite, IRenderableObject);
+
 	Sprite(const char* pszSpriteFile);
 	virtual ~Sprite();
 

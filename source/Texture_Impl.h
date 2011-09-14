@@ -15,6 +15,8 @@
 class Texture_Impl : public ITexture
 {
 public:
+	DECLARE_RTTI(Texture_Impl, ITexture);
+
 	Texture_Impl(const char* pszFileName, TEXTURE_SAMPLE_TYPE eSample);
 	virtual ~Texture_Impl();
 

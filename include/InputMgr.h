@@ -19,6 +19,8 @@ public:
 	};
 
 public:
+	DECLARE_RTTI(InputMgr, IMgr);
+
 	InputMgr();
 	virtual ~InputMgr();
 

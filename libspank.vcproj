@@ -642,6 +642,14 @@
 			>
 		</File>
 		<File
+			RelativePath=".\source\IRtti.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\include\IRtti.h"
+			>
+		</File>
+		<File
 			RelativePath=".\source\Level2D.cpp"
 			>
 		</File>

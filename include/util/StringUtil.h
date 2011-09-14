@@ -8,11 +8,13 @@
 #ifndef __STRINGUTIL_H__
 #define __STRINGUTIL_H__
 
-#include "../BaseType.h"
+#include "../IRtti.h"
 
 class StringUtil
 {
 public:
+	DECLARE_RTTI(StringUtil, INoRtti);
+
 	static void ZeroMemory(void* pBuffer, int nSize);
 	static bool CopyString(char* pszBufferOut, int nBufferSize, const char* pszIn);
 	static int StringLength(const char* pszString);

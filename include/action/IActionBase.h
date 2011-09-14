@@ -15,6 +15,8 @@
 class IActionBase : public IObject
 {
 public:
+	DECLARE_RTTI(IActionBase, IObject);
+
 	IActionBase(int nID = 0);
 	virtual ~IActionBase();
 

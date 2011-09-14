@@ -13,6 +13,8 @@
 class Image : public IObject
 {
 public:
+	DECLARE_RTTI(Image, IObject);
+
 	Image(const char* pszImageFile);
 	virtual ~Image();
 

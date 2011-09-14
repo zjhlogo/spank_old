@@ -28,6 +28,8 @@ public:
 	typedef std::vector<IParticle*> TV_PARTICLE;
 
 public:
+	DECLARE_RTTI(SnowParticleSystem, IParticleSystem);
+
 	SnowParticleSystem();
 	virtual ~SnowParticleSystem();
 

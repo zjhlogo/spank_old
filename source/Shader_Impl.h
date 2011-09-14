@@ -17,6 +17,8 @@
 class Shader_Impl : public IShader
 {
 public:
+	DECLARE_RTTI(Shader_Impl, IShader);
+
 	Shader_Impl(StreamReader* pVertexShader, StreamReader* pFregmentShader, VertexAttribute* pVertexAttribute);
 	virtual ~Shader_Impl();
 

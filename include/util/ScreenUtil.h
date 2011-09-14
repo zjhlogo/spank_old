@@ -30,7 +30,8 @@ public:
 	};
 
 public:
-	
+	DECLARE_RTTI(ScreenUtil, IMgr);
+
 	/*!
 	 * \brief default constructure
 	 */

@@ -14,6 +14,8 @@
 class VertexAttribute : public IObject
 {
 public:
+	DECLARE_RTTI(VertexAttribute, IObject);
+
 	VertexAttribute(const ATTRIBUTE_ITEM* pAttrItems);
 	virtual ~VertexAttribute();
 

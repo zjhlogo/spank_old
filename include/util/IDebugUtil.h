@@ -13,6 +13,8 @@
 class IDebugUtil : public IMgr
 {
 public:
+	DECLARE_RTTI(IDebugUtil, IMgr);
+
 	static IDebugUtil& GetInstance();
 
 	virtual void Debug(const char* format, ...) = 0;

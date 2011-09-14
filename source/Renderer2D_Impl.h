@@ -13,6 +13,8 @@
 class Renderer2D_Impl : public IRenderer2D
 {
 public:
+	DECLARE_RTTI(Renderer2D_Impl, IRenderer2D);
+
 	Renderer2D_Impl();
 	virtual ~Renderer2D_Impl();
 

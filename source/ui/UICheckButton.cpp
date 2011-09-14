@@ -17,6 +17,7 @@ UICheckButton::UICheckButton(UIWindow* pParent)
 	m_bCheck = false;
 	// load default state styles
 	IUIResMgr::GetInstance().SetupDefaultCheckButtonTextures(m_pStyle);
+	AdjustSize();
 }
 
 UICheckButton::~UICheckButton()
@@ -98,9 +99,11 @@ void UICheckButton::SetText(const char* pszText)
 	AdjustSize();
 }
 
-void UICheckButton::SetCheck(bool bCheck)
+bool UICheckButton::SetCheck(bool bCheck)
 {
+	if (m_bCheck == bCheck) return false;
 	m_bCheck = bCheck;
+	return true;
 }
 
 bool UICheckButton::IsChecked() const

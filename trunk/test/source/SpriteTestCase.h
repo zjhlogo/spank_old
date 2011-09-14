@@ -14,6 +14,8 @@
 class SpriteTestCase : public TestCase
 {
 public:
+	DECLARE_RTTI(SpriteTestCase, TestCase);
+
 	SpriteTestCase();
 	virtual ~SpriteTestCase();
 

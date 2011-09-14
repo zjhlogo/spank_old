@@ -19,6 +19,8 @@ public:
 	};
 
 public:
+	DECLARE_RTTI(DebugUtil_Mac_Impl, IDebugUtil);
+
 	DebugUtil_Mac_Impl();
 	virtual ~DebugUtil_Mac_Impl();
 

@@ -19,6 +19,8 @@ public:
 	typedef std::vector<TestCase*> TV_TEST_CASE;
 
 public:
+	DECLARE_RTTI(GameApp, IGameApp);
+
 	GameApp();
 	virtual ~GameApp();
 

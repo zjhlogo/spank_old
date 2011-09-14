@@ -13,6 +13,8 @@
 class DebugUtil_Android_Impl : public IDebugUtil
 {
 public:
+	DECLARE_RTTI(DebugUtil_Android_Impl, IDebugUtil);
+
 	DebugUtil_Android_Impl();
 	virtual ~DebugUtil_Android_Impl();
 

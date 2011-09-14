@@ -14,6 +14,8 @@
 class FileUtil_Mac_Impl : public IFileUtil
 {
 public:
+	DECLARE_RTTI(FileUtil_Mac_Impl, IFileUtil);
+
 	FileUtil_Mac_Impl();
 	virtual ~FileUtil_Mac_Impl();
 

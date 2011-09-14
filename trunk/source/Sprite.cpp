@@ -10,6 +10,7 @@
 #include <IShaderMgr.h>
 #include <ITextureMgr.h>
 #include <IRenderer2D.h>
+#include <INode.h>
 #include <tinyxml-2.6.2/tinyxml.h>
 
 Sprite::Sprite(const char* pszSpriteFile)
@@ -56,7 +57,7 @@ void Sprite::Render()
 
 	m_pShader->SetTexture("u_texture", m_pTexture);
 
-	IRenderer2D::GetInstance().SetModelViewMatrix(GetFinalMatrix());
+	IRenderer2D::GetInstance().SetModelViewMatrix(pNode->GetFinalMatrix());
 	m_pShader->SetMatrix4x4("u_matModelViewProj", IRenderer2D::GetInstance().GetFinalMatrixTranspose());
 
 	IRenderer2D::GetInstance().DrawRect(m_pQuadVerts[m_nCurrIndex], m_pShader);
@@ -174,4 +175,14 @@ void Sprite::CreateVertexs()
 		m_pQuadVerts[i].verts[3].u = (nCurrOffsetX+m_nPieceWidth) / fTextureWidth;
 		m_pQuadVerts[i].verts[3].v = (nTextureHeight - nCurrOffsetY) / fTextureHeight;
 	}
+}
+
+INode* Sprite::GetParentNode()
+{
+	IObject* pObject = GetParent();
+	if (!pObject) return NULL;
+
+	if (pObject->GetRtti()->IsDerived(INode::__RttiData())) return (INode*)pObject;
+
+	return NULL;
 }

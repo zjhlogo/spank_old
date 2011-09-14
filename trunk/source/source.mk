@@ -1,20 +1,4 @@
 LIBSPANK_SOURCE_FILES := \
-		$(LIBSPANK_SOURCE)/Core_Impl.cpp \
-		$(LIBSPANK_SOURCE)/Image.cpp \
-		$(LIBSPANK_SOURCE)/InputMgr.cpp \
-		$(LIBSPANK_SOURCE)/IObject.cpp \
-		$(LIBSPANK_SOURCE)/IRenderableObject.cpp \
-		$(LIBSPANK_SOURCE)/Level2D.cpp \
-		$(LIBSPANK_SOURCE)/Node_Impl.cpp \
-		$(LIBSPANK_SOURCE)/Renderer2D_Impl.cpp \
-		$(LIBSPANK_SOURCE)/Shader_Impl.cpp \
-		$(LIBSPANK_SOURCE)/ShaderMgr_Impl.cpp \
-		$(LIBSPANK_SOURCE)/Sprite.cpp \
-		$(LIBSPANK_SOURCE)/StreamReader.cpp \
-		$(LIBSPANK_SOURCE)/StreamWriter.cpp \
-		$(LIBSPANK_SOURCE)/Texture_Impl.cpp \
-		$(LIBSPANK_SOURCE)/TextureMgr_Impl.cpp \
-		$(LIBSPANK_SOURCE)/VertexAttribute.cpp \
 		$(LIBSPANK_SOURCE)/action/ActionCompose.cpp \
 		$(LIBSPANK_SOURCE)/action/ActionDelay.cpp \
 		$(LIBSPANK_SOURCE)/action/ActionLoop.cpp \
@@ -37,8 +21,10 @@ LIBSPANK_SOURCE_FILES := \
 		$(LIBSPANK_SOURCE)/msg/IMsgBase.cpp \
 		$(LIBSPANK_SOURCE)/msg/IMsgHandler.cpp \
 		$(LIBSPANK_SOURCE)/msg/MsgActionUpdate.cpp \
+		$(LIBSPANK_SOURCE)/msg/MsgClick.cpp \
 		$(LIBSPANK_SOURCE)/msg/MsgCommon.cpp \
 		$(LIBSPANK_SOURCE)/msg/MsgMgr.cpp \
+		$(LIBSPANK_SOURCE)/msg/MsgSlider.cpp \
 		$(LIBSPANK_SOURCE)/msg/MsgTouch.cpp \
 		$(LIBSPANK_SOURCE)/particle/IEmmiter.cpp \
 		$(LIBSPANK_SOURCE)/particle/IParticle.cpp \
@@ -53,10 +39,14 @@ LIBSPANK_SOURCE_FILES := \
 		$(LIBSPANK_SOURCE)/platforms/android/unzip/unzip.cpp \
 		$(LIBSPANK_SOURCE)/platforms/android/unzip/ioapi.cpp \
 		$(LIBSPANK_SOURCE)/ui/BitmapFont_Impl.cpp \
-		$(LIBSPANK_SOURCE)/ui/FontMgr_Impl.cpp \
 		$(LIBSPANK_SOURCE)/ui/RendererUI_Impl.cpp \
 		$(LIBSPANK_SOURCE)/ui/RenderParam.cpp \
+		$(LIBSPANK_SOURCE)/ui/UIButton.cpp \
+		$(LIBSPANK_SOURCE)/ui/UICheckButton.cpp \
+		$(LIBSPANK_SOURCE)/ui/UIRadioButton.cpp \
+		$(LIBSPANK_SOURCE)/ui/UIResMgr_Impl.cpp \
 		$(LIBSPANK_SOURCE)/ui/UIScreen.cpp \
+		$(LIBSPANK_SOURCE)/ui/UISliderBar.cpp \
 		$(LIBSPANK_SOURCE)/ui/UIString.cpp \
 		$(LIBSPANK_SOURCE)/ui/UISystem_Impl.cpp \
 		$(LIBSPANK_SOURCE)/ui/UITextView.cpp \
@@ -66,3 +56,21 @@ LIBSPANK_SOURCE_FILES := \
 		$(LIBSPANK_SOURCE)/util/ConfigUtil.cpp \
 		$(LIBSPANK_SOURCE)/util/ScreenUtil.cpp \
 		$(LIBSPANK_SOURCE)/util/StringUtil.cpp \
+		$(LIBSPANK_SOURCE)/Core_Impl.cpp \
+		$(LIBSPANK_SOURCE)/Image.cpp \
+		$(LIBSPANK_SOURCE)/InputMgr.cpp \
+		$(LIBSPANK_SOURCE)/IObject.cpp \
+		$(LIBSPANK_SOURCE)/IRenderableObject.cpp \
+		$(LIBSPANK_SOURCE)/IRtti.cpp \
+		$(LIBSPANK_SOURCE)/Level2D.cpp \
+		$(LIBSPANK_SOURCE)/Node_Impl.cpp \
+		$(LIBSPANK_SOURCE)/Renderer2D_Impl.cpp \
+		$(LIBSPANK_SOURCE)/ResourceMgr_Impl.cpp \
+		$(LIBSPANK_SOURCE)/Shader_Impl.cpp \
+		$(LIBSPANK_SOURCE)/ShaderMgr_Impl.cpp \
+		$(LIBSPANK_SOURCE)/Sprite.cpp \
+		$(LIBSPANK_SOURCE)/StreamReader.cpp \
+		$(LIBSPANK_SOURCE)/StreamWriter.cpp \
+		$(LIBSPANK_SOURCE)/Texture_Impl.cpp \
+		$(LIBSPANK_SOURCE)/TextureMgr_Impl.cpp \
+		$(LIBSPANK_SOURCE)/VertexAttribute.cpp \

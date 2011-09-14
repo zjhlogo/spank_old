@@ -21,6 +21,8 @@ public:
 	};
 
 public:
+	DECLARE_RTTI(FileUtil_Android_Impl, IFileUtil);
+
 	FileUtil_Android_Impl();
 	virtual ~FileUtil_Android_Impl();
 

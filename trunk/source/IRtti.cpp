@@ -7,10 +7,10 @@
  */
 #include <IRtti.h>
 
-IRtti::IRtti(const char* pszTypeName, const IRtti* pBaseRtti)
+IRtti::IRtti(const char* pszTypeName, const IRtti* pParentRtti)
 {
 	m_pszTypeName = pszTypeName;
-	m_pBaseRtti = pBaseRtti;
+	m_pParentRtti = pParentRtti;
 }
 
 IRtti::~IRtti()
@@ -23,24 +23,26 @@ const char* IRtti::GetTypeName() const
 	return m_pszTypeName;
 }
 
-const IRtti* IRtti::GetBaseRtti() const
+const IRtti* IRtti::GetParentRtti() const
 {
-	return m_pBaseRtti;
+	return m_pParentRtti;
 }
 
-bool IRtti::IsType(const char* pszTypeName) const
+bool IRtti::IsType(const IRtti* pRtti) const
 {
-	return m_pszTypeName == pszTypeName;
+	return (this == pRtti);
 }
 
-bool IRtti::IsDerived(const char* pszTypeName) const
+bool IRtti::IsDerived(const IRtti* pRtti) const
 {
-	const IRtti* pRtti = m_pBaseRtti;
+	if (IsType(pRtti)) return true;
 
-	while (pRtti)
+	const IRtti* pCurrRtti = m_pParentRtti;
+
+	while (pCurrRtti)
 	{
-		if (pRtti->GetTypeName() == pszTypeName) return true;
-		pRtti = pRtti->GetBaseRtti();
+		if (pCurrRtti == pRtti) return true;
+		pCurrRtti = pCurrRtti->GetParentRtti();
 	}
 
 	return false;

@@ -70,24 +70,24 @@ INode* Node_Impl::GetParentNode()
 	return m_pParentNode;
 }
 
-bool Node_Impl::AttachObject(IRenderableObject* pObject)
+bool Node_Impl::AttachObject(IObject* pObject)
 {
 	// check pObject exist
 	if (IsObjectExist(pObject)) return false;
 
-	pObject->SetParentNode(this);
+	pObject->SetParent(this);
 	m_vAttachedObjects.push_back(pObject);
 	return true;
 }
 
-bool Node_Impl::DettachObject(IRenderableObject* pObject)
+bool Node_Impl::DettachObject(IObject* pObject)
 {
-	for (TV_RENDERABLE_OBJECT::iterator it = m_vAttachedObjects.begin(); it != m_vAttachedObjects.end(); ++it)
+	for (TV_OBJECT::iterator it = m_vAttachedObjects.begin(); it != m_vAttachedObjects.end(); ++it)
 	{
 		if (pObject == (*it))
 		{
 			m_vAttachedObjects.erase(it);
-			pObject->SetParentNode(NULL);
+			pObject->SetParent(NULL);
 			return true;
 		}
 	}
@@ -95,7 +95,7 @@ bool Node_Impl::DettachObject(IRenderableObject* pObject)
 	return false;
 }
 
-IRenderableObject* Node_Impl::GetAttachedObject(int nIndex)
+IObject* Node_Impl::GetAttachedObject(int nIndex)
 {
 	if (nIndex < 0 || nIndex >= (int)m_vAttachedObjects.size()) return NULL;
 	return m_vAttachedObjects[nIndex];
@@ -236,10 +236,14 @@ void Node_Impl::UpdateAction(float dt)
 
 void Node_Impl::UpdateObjects(float dt)
 {
-	for (TV_RENDERABLE_OBJECT::iterator it = m_vAttachedObjects.begin(); it != m_vAttachedObjects.end(); ++it)
+	for (TV_OBJECT::iterator it = m_vAttachedObjects.begin(); it != m_vAttachedObjects.end(); ++it)
 	{
-		IRenderableObject* pObject = (*it);
-		pObject->Update(dt);
+		IObject* pObject = (*it);
+		if (pObject->GetRtti()->IsDerived(IUpdateableObject::__RttiData()))
+		{
+			IUpdateableObject* pUpdateableObject = (IUpdateableObject*)pObject;
+			pUpdateableObject->Update(dt);
+		}
 	}
 
 	for (TV_NODE::iterator it = m_vChildNodes.begin(); it != m_vChildNodes.end(); ++it)
@@ -251,10 +255,14 @@ void Node_Impl::UpdateObjects(float dt)
 
 void Node_Impl::RenderObjects()
 {
-	for (TV_RENDERABLE_OBJECT::iterator it = m_vAttachedObjects.begin(); it != m_vAttachedObjects.end(); ++it)
+	for (TV_OBJECT::iterator it = m_vAttachedObjects.begin(); it != m_vAttachedObjects.end(); ++it)
 	{
-		IRenderableObject* pObject = (*it);
-		pObject->Render();
+		IObject* pObject = (*it);
+		if (pObject->GetRtti()->IsDerived(IRenderableObject::__RttiData()))
+		{
+			IRenderableObject* pRenderableObject = (IRenderableObject*)pObject;
+			pRenderableObject->Render();
+		}
 	}
 
 	for (TV_NODE::iterator it = m_vChildNodes.begin(); it != m_vChildNodes.end(); ++it)
@@ -282,7 +290,7 @@ void Node_Impl::ClearAttachedObjects()
 
 bool Node_Impl::IsObjectExist(IObject* pObject)
 {
-	for (TV_RENDERABLE_OBJECT::iterator it = m_vAttachedObjects.begin(); it != m_vAttachedObjects.end(); ++it)
+	for (TV_OBJECT::iterator it = m_vAttachedObjects.begin(); it != m_vAttachedObjects.end(); ++it)
 	{
 		if (pObject == (*it)) return true;
 	}

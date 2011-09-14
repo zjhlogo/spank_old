@@ -13,6 +13,8 @@
 class UITestCase : public TestCase
 {
 public:
+	DECLARE_RTTI(UITestCase, TestCase);
+
 	UITestCase();
 	virtual ~UITestCase();
 

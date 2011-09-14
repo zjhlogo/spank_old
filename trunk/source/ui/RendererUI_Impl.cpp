@@ -162,6 +162,16 @@ void RendererUI_Impl::DrawRect(const Vector2& pos, const IMAGE_PIECE* pImagePiec
 
 void RendererUI_Impl::DrawRect(float x, float y, const IMAGE_PIECE* pImagePiece)
 {
+	DrawRect(x, y, pImagePiece->width, pImagePiece->height, pImagePiece);
+}
+
+void RendererUI_Impl::DrawRect(const Vector2& pos, const Vector2& size, const IMAGE_PIECE* pImagePiece)
+{
+	DrawRect(pos.x, pos.y, size.x, size.y, pImagePiece);
+}
+
+void RendererUI_Impl::DrawRect(float x, float y, float width, float height, const IMAGE_PIECE* pImagePiece)
+{
 	static VATTR_POS_UV s_Verts[4] =
 	{
 		{-0.5f, -0.5f, 0.0f, 0.0f, 0.0f},
@@ -173,7 +183,7 @@ void RendererUI_Impl::DrawRect(float x, float y, const IMAGE_PIECE* pImagePiece)
 	static const ushort s_Indis[6] = {0, 1, 2, 1, 3, 2};
 
 	s_Verts[0].x = x;
-	s_Verts[0].y = y + pImagePiece->height;
+	s_Verts[0].y = y + height;
 	s_Verts[0].u = pImagePiece->u;
 	s_Verts[0].v = pImagePiece->v;
 
@@ -182,12 +192,12 @@ void RendererUI_Impl::DrawRect(float x, float y, const IMAGE_PIECE* pImagePiece)
 	s_Verts[1].u = pImagePiece->u;
 	s_Verts[1].v = pImagePiece->v + pImagePiece->dv;
 
-	s_Verts[2].x = x + pImagePiece->width;
-	s_Verts[2].y = y + pImagePiece->height;
+	s_Verts[2].x = x + width;
+	s_Verts[2].y = y + height;
 	s_Verts[2].u = pImagePiece->u + pImagePiece->du;
 	s_Verts[2].v = pImagePiece->v;
 
-	s_Verts[3].x = x + pImagePiece->width;
+	s_Verts[3].x = x + width;
 	s_Verts[3].y = y;
 	s_Verts[3].u = pImagePiece->u + pImagePiece->du;
 	s_Verts[3].v = pImagePiece->v + pImagePiece->dv;
@@ -197,12 +207,56 @@ void RendererUI_Impl::DrawRect(float x, float y, const IMAGE_PIECE* pImagePiece)
 
 void RendererUI_Impl::DrawRect(const Vector2& pos, const Vector2& size, const IMAGE_FRAME* pImageFrame)
 {
-	// TODO: 
+	DrawRect(pos.x, pos.y, size.x, size.y, pImageFrame);
 }
 
 void RendererUI_Impl::DrawRect(float x, float y, float width, float height, const IMAGE_FRAME* pImageFrame)
 {
-	// TODO: 
+	// top left
+ 	DrawRect(x, y, pImageFrame->pImagePiece[IFB_TOP_LEFT]);
+
+	// top center
+	DrawRect(x + pImageFrame->pImagePiece[IFB_TOP_LEFT]->width, y,
+		width - pImageFrame->pImagePiece[IFB_TOP_LEFT]->width - pImageFrame->pImagePiece[IFB_TOP_RIGHT]->width,
+		pImageFrame->pImagePiece[IFB_TOP_CENTER]->height,
+		pImageFrame->pImagePiece[IFB_TOP_CENTER]);
+
+	// top right
+	DrawRect(x + width - pImageFrame->pImagePiece[IFB_TOP_RIGHT]->width, y, pImageFrame->pImagePiece[IFB_TOP_RIGHT]);
+
+	// middle left
+	DrawRect(x, y + pImageFrame->pImagePiece[IFB_TOP_LEFT]->height,
+		pImageFrame->pImagePiece[IFB_MIDDLE_LEFT]->width,
+		height - pImageFrame->pImagePiece[IFB_TOP_LEFT]->height - pImageFrame->pImagePiece[IFB_BOTTOM_LEFT]->height,
+		pImageFrame->pImagePiece[IFB_MIDDLE_LEFT]);
+
+	// middle center
+	DrawRect(x + pImageFrame->pImagePiece[IFB_MIDDLE_LEFT]->width, y + pImageFrame->pImagePiece[IFB_TOP_CENTER]->height,
+		width - pImageFrame->pImagePiece[IFB_MIDDLE_LEFT]->width - pImageFrame->pImagePiece[IFB_MIDDLE_RIGHT]->width,
+		height - pImageFrame->pImagePiece[IFB_TOP_CENTER]->height - pImageFrame->pImagePiece[IFB_BOTTOM_CENTER]->height,
+		pImageFrame->pImagePiece[IFB_MIDDLE_CENTER]);
+
+	// middle right
+	DrawRect(x + width - pImageFrame->pImagePiece[IFB_MIDDLE_RIGHT]->width,
+		y + pImageFrame->pImagePiece[IFB_TOP_RIGHT]->height,
+		pImageFrame->pImagePiece[IFB_MIDDLE_RIGHT]->width,
+		height - pImageFrame->pImagePiece[IFB_TOP_RIGHT]->height - pImageFrame->pImagePiece[IFB_TOP_RIGHT]->height,
+		pImageFrame->pImagePiece[IFB_MIDDLE_RIGHT]);
+
+	// bottom left
+	DrawRect(x, y + height - pImageFrame->pImagePiece[IFB_BOTTOM_LEFT]->height, pImageFrame->pImagePiece[IFB_BOTTOM_LEFT]);
+
+	// bottom center
+	DrawRect(x + pImageFrame->pImagePiece[IFB_BOTTOM_LEFT]->width,
+		y + height - pImageFrame->pImagePiece[IFB_BOTTOM_CENTER]->height,
+		width - pImageFrame->pImagePiece[IFB_BOTTOM_LEFT]->width - pImageFrame->pImagePiece[IFB_BOTTOM_RIGHT]->width,
+		pImageFrame->pImagePiece[IFB_BOTTOM_CENTER]->height,
+		pImageFrame->pImagePiece[IFB_BOTTOM_CENTER]);
+
+	// bottom right
+	DrawRect(x + width - pImageFrame->pImagePiece[IFB_BOTTOM_RIGHT]->width,
+		y + height - pImageFrame->pImagePiece[IFB_BOTTOM_RIGHT]->height,
+		pImageFrame->pImagePiece[IFB_BOTTOM_RIGHT]);
 }
 
 Vector2 RendererUI_Impl::CalculateSizeWithFrame(const Vector2& size, const IMAGE_FRAME* pImageFrame)

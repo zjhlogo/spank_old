@@ -34,6 +34,8 @@ void UISliderBar::Update(float dt)
 
 void UISliderBar::Render(const RenderParam& param)
 {
+	RenderBorder(param);
+
 //	// TODO: draw under states, ex: (normal, pressed, disabled ...)
 //	Vector2 posAbs = param.m_vBasePos + GetPosition();
 // 	DrawNormalBar(posAbs);

@@ -57,9 +57,9 @@ bool UITestCase::Initialize(UIScreen* pUIScreen)
 		pUIRadio->SetPosition(Vector2(210.0f, 100.0f+i*50.0f));
 	}
 
- 	/*Test, show a Slider, you should set a maskTexture.at last*/
- 	UISliderBar* pSilder = new UISliderBar(pUIScreen);
- 	pSilder->SetPosition(Vector2(10.0f, 250.0f));
+//  	/*Test, show a Slider, you should set a maskTexture.at last*/
+//  	UISliderBar* pSilder = new UISliderBar(pUIScreen);
+//  	pSilder->SetPosition(Vector2(10.0f, 250.0f));
 
 	return true;
 }

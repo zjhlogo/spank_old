@@ -30,6 +30,8 @@ public:
 	virtual void DrawRect(const QUAD_VERT_POS_UV& quad) = 0;
 	virtual void DrawRect(const Vector2& pos, const IMAGE_PIECE* pImagePiece) = 0;
 	virtual void DrawRect(float x, float y, const IMAGE_PIECE* pImagePiece) = 0;
+	virtual void DrawRect(const Vector2& pos, const Vector2& size, const IMAGE_PIECE* pImagePiece) = 0;
+	virtual void DrawRect(float x, float y, float width, float height, const IMAGE_PIECE* pImagePiece) = 0;
 	virtual void DrawRect(const Vector2& pos, const Vector2& size, const IMAGE_FRAME* pImageFrame) = 0;
 	virtual void DrawRect(float x, float y, float width, float height, const IMAGE_FRAME* pImageFrame) = 0;
 

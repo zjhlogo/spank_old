@@ -17,6 +17,7 @@ class UIResMgr_Impl : public IUIResMgr
 {
 public:
 	typedef std::map<std::string, IFont*> TM_FONT;
+	typedef std::map<std::string, IMAGE_FRAME> TM_IMAGE_FRAME;
 
 public:
 	DECLARE_RTTI(UIResMgr_Impl, IUIResMgr);
@@ -29,6 +30,13 @@ public:
 
 	virtual IFont* CreateFont(const char* pszFontFile);
 	virtual IFont* GetDefaultFont();
+
+	virtual bool AddImageFrame(const char* pszFrameFile);
+	virtual const IMAGE_FRAME* FindImageFrame(const char* pszFrameName) const;
+
+	virtual const IMAGE_FRAME* GetDefaultImageFrame() const;
+	virtual const IMAGE_FRAME* GetPressedImageFrame() const;
+	virtual const IMAGE_FRAME* GetDisabledImageFrame() const;
 
 	virtual bool SetupDefaultButtonTextures(const IMAGE_PIECE** pPieceOut, int nPiece = DUS_BUTTON_NUM) const;
 	virtual bool SetupDefaultCheckButtonTextures(const IMAGE_PIECE** pPieceOut, int nPiece = DUS_CHECKBUTTON_NUM) const;
@@ -49,6 +57,9 @@ private:
 	const IMAGE_PIECE* m_pButtonStyle[DUS_BUTTON_NUM];
 	const IMAGE_PIECE* m_pCheckButtonStyle[DUS_CHECKBUTTON_NUM];
 	const IMAGE_PIECE* m_pRadioButtonStyle[DUS_RADIOBUTTON_NUM];
+
+	TM_IMAGE_FRAME m_mapImageFrame;
+	const IMAGE_FRAME* m_pDefaultFrame;
 
 };
 #endif // __UIRESMGR_IMPL_H__

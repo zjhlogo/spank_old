@@ -7,6 +7,7 @@
  */
 #include <ui/UITextView.h>
 #include <ui/IRendererUI.h>
+#include <ui/IUIResMgr.h>
 #include <util/IDebugUtil.h>
 #include <msg/MsgClick.h>
 #include <msg/MsgID.h>
@@ -36,9 +37,8 @@ void UITextView::Update(float dt)
 
 void UITextView::Render(const RenderParam& param)
 {
+	RenderBorder(param);
  	Vector2 posAbs = param.m_vBasePos + GetPosition();
- 	const Vector2& size = GetSize();
- 	IRendererUI::GetInstance().DrawLineRect(posAbs, size);
 	m_pString->Render(posAbs);
 }
 

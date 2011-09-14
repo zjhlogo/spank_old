@@ -32,6 +32,8 @@ void UICheckButton::Update(float dt)
 
 void UICheckButton::Render(const RenderParam& param)
 {
+	RenderBorder(param);
+
 	Vector2 posAbs = param.m_vBasePos + GetPosition();
 
 	if (IsChecked())

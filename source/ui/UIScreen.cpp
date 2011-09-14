@@ -26,6 +26,8 @@ void UIScreen::Update(float dt)
 
 void UIScreen::Render(const RenderParam& param)
 {
+	RenderBorder(param);
+
 	RenderChildrenWindow(param);
 }
 

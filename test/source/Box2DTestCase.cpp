@@ -8,6 +8,7 @@
 #include "Box2DTestCase.h"
 #include <IRenderer2D.h>
 #include <IShaderMgr.h>
+#include <IResourceMgr.h>
 
 Box2DTestCase::Box2DTestCase()
 :TestCase("Box2DTestCase")
@@ -15,6 +16,7 @@ Box2DTestCase::Box2DTestCase()
 	m_pWorld = NULL;
 	m_pBody = NULL;
 	m_pShader = NULL;
+	m_pBoxPiece = NULL;
 }
 
 Box2DTestCase::~Box2DTestCase()
@@ -52,6 +54,9 @@ bool Box2DTestCase::Initialize(UIScreen* pUIScreen)
 	m_pShader = IShaderMgr::GetInstance().CreateShader(SSI_DEFAULT);
 	if (!m_pShader) return false;
 
+	m_pBoxPiece = IResourceMgr::GetInstance().FindImagePiece("ui_slider_thumb");
+	if (!m_pBoxPiece) return false;
+
 	return true;
 }
 
@@ -80,5 +85,6 @@ void Box2DTestCase::Render()
 	IRenderer2D::GetInstance().SetModelViewMatrix(matModelView);
 
 	m_pShader->SetMatrix4x4("u_matModelViewProj", IRenderer2D::GetInstance().GetFinalMatrixTranspose());
-	IRenderer2D::GetInstance().DrawRect(0.0f, 0.0f, 20.0f, 20.0f, m_pShader);
+	m_pShader->SetTexture("u_texture", m_pBoxPiece->pTexture);
+	IRenderer2D::GetInstance().DrawRect(0.0f, 0.0f, m_pBoxPiece, m_pShader);
 }

@@ -79,6 +79,7 @@ public:
 	virtual bool OnTouchBegin(const Vector2& pos);
 	virtual bool OnTouchMove(const Vector2& pos);
 	virtual bool OnTouchEnd(const Vector2& pos);
+	virtual void OnTouchLost();
 	
 protected:
 	void AddChild(UIWindow* pWindow);
@@ -86,6 +87,7 @@ protected:
 
 	void UpdateChildrenWindow(float dt);
 	void RenderChildrenWindow(const RenderParam& param);
+	void RenderBorder(const RenderParam& param);
 
 	UIWindow* FindChildUnderPoint(const Vector2& pos);
 
@@ -102,6 +104,8 @@ private:
 	Vector2 m_MarginRightBottom;
 
 	uint m_nState;
+
+	UIWindow* m_pLastTouchedWindow;
 
 };
 #endif // __UIWINDOW_H__

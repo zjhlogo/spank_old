@@ -32,6 +32,8 @@ void UIRadioButton::Update(float dt)
 
 void UIRadioButton::Render(const RenderParam& param)
 {
+	RenderBorder(param);
+
 	Vector2 posAbs = param.m_vBasePos + GetPosition();
 
 	if (IsChecked())

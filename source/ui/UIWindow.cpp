@@ -6,7 +6,8 @@
  * \author zjhlogo (zjhlogo@gmail.com)
  */
 #include <ui/UIWindow.h>
-#include <math/IMath.h>
+#include <ui/IRendererUI.h>
+#include <ui/IUIResMgr.h>
 
 static bool PointInRect(const Vector2& point, const Vector2& rectPos, const Vector2& rectSize)
 {
@@ -31,6 +32,8 @@ UIWindow::UIWindow(UIWindow* pParent)
 	if (m_pParent) m_pParent->AddChild(this);
 
 	m_nState = WS_DEFAULT_STATE;
+
+	m_pLastTouchedWindow = NULL;
 }
 
 UIWindow::~UIWindow()
@@ -160,10 +163,20 @@ void UIWindow::AdjustSize()
 bool UIWindow::ProcessTouchEvent(const Vector2& pos, UI_TOUCH_EVENT_TYPE eType)
 {
 	UIWindow* pWindow = FindChildUnderPoint(pos);
+
 	if (pWindow)
 	{
+		if (m_pLastTouchedWindow && m_pLastTouchedWindow != pWindow) m_pLastTouchedWindow->OnTouchLost();
+		m_pLastTouchedWindow = pWindow;
+
 		Vector2 localPos = pos - pWindow->GetPosition();
 		return pWindow->ProcessTouchEvent(localPos, eType);
+	}
+
+	if (m_pLastTouchedWindow)
+	{
+		m_pLastTouchedWindow->OnTouchLost();
+		m_pLastTouchedWindow = NULL;
 	}
 
 	bool bProcessed = false;
@@ -253,6 +266,13 @@ void UIWindow::RenderChildrenWindow(const RenderParam& param)
 	}
 }
 
+void UIWindow::RenderBorder(const RenderParam& param)
+{
+	Vector2 posAbs = param.m_vBasePos + GetPosition();
+	const Vector2& size = GetSize();
+	IRendererUI::GetInstance().DrawRect(posAbs, size, IUIResMgr::GetInstance().GetDefaultImageFrame());
+}
+
 bool UIWindow::OnClicked(const Vector2& pos)
 {
 	return true;
@@ -271,6 +291,11 @@ bool UIWindow::OnTouchMove(const Vector2& pos)
 bool UIWindow::OnTouchEnd(const Vector2& pos)
 {
 	return true;
+}
+
+void UIWindow::OnTouchLost()
+{
+	SetWindowState(WS_PRESSED, false);
 }
 
 UIWindow* UIWindow::FindChildUnderPoint(const Vector2& pos)

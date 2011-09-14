@@ -30,6 +30,7 @@ private:
 	b2World* m_pWorld;
 	b2Body* m_pBody;
 	IShader* m_pShader;
+	const IMAGE_PIECE* m_pBoxPiece;
 
 };
 #endif // __BOX2DTESTCASE_H__

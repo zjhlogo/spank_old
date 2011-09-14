@@ -12,6 +12,7 @@
 #include <IResourceMgr.h>
 #include <util/StringUtil.h>
 #include <util/IDebugUtil.h>
+#include <util/IFileUtil.h>
 
 IUIResMgr& IUIResMgr::GetInstance()
 {
@@ -25,6 +26,7 @@ UIResMgr_Impl::UIResMgr_Impl()
 	StringUtil::ZeroMemory(m_pButtonStyle, sizeof(m_pButtonStyle));
 	StringUtil::ZeroMemory(m_pCheckButtonStyle, sizeof(m_pCheckButtonStyle));
 	StringUtil::ZeroMemory(m_pRadioButtonStyle, sizeof(m_pRadioButtonStyle));
+	m_pDefaultFrame = NULL;
 }
 
 UIResMgr_Impl::~UIResMgr_Impl()
@@ -38,6 +40,10 @@ bool UIResMgr_Impl::Initialize()
 	if (!m_pDefaultFont) return false;
 
 	if (!IResourceMgr::GetInstance().AddImagePieceList("ui_default.xml")) return false;
+	if (!AddImageFrame("ui_default_frame.xml")) return false;
+
+	m_pDefaultFrame = FindImageFrame("ui_frame_default");
+	if (!m_pDefaultFrame) return false;
 
 	if (!InitDefaultButtonStyle()) return false;
 	if (!InitDefaultCheckButtonStyle()) return false;
@@ -80,30 +86,86 @@ IFont* UIResMgr_Impl::GetDefaultFont()
 	return m_pDefaultFont;
 }
 
-IFont* UIResMgr_Impl::FindFont(const char* pszFontFile)
+bool UIResMgr_Impl::AddImageFrame(const char* pszFrameFile)
 {
-	TM_FONT::iterator itfound = m_mapFont.find(pszFontFile);
-	if (itfound == m_mapFont.end()) return NULL;
-
-	return itfound->second;
-}
-
-bool UIResMgr_Impl::OnFontDestroied(IMsgBase* pMsg)
-{
-	MsgCommon* pMsgCommon = (MsgCommon*)pMsg;
-	IFont* pFont = (IFont*)pMsgCommon->GetObject();
-	if (!pFont) return false;
-
-	for (TM_FONT::iterator it = m_mapFont.begin(); it != m_mapFont.end(); ++it)
+	static const char* s_FramePieces[IFB_NUM] =
 	{
-		if (it->second == pFont)
+		"PieceTopLeft",
+		"PieceTopCenter",
+		"PieceTopRight",
+		"PieceMiddleLeft",
+		"PieceMiddleCenter",
+		"PieceMiddleRight",
+		"PieceBottomLeft",
+		"PieceBottomCenter",
+		"PieceBottomRight",
+	};
+
+	StreamReader* pReader = IFileUtil::GetInstance().LoadFile(pszFrameFile);
+	if (!pReader) return false;
+
+	TiXmlDocument doc;
+	doc.Parse((const char*)pReader->GetBuffer());
+	SAFE_RELEASE(pReader);
+
+	if (doc.Error()) return false;
+
+	TiXmlElement* pElmFrameList = doc.RootElement();
+	if (!pElmFrameList || strcmp(pElmFrameList->Value(), "FrameList") != 0) return false;
+
+	TiXmlElement* pElmFrame = pElmFrameList->FirstChildElement("Frame");
+	while (pElmFrame)
+	{
+		IMAGE_FRAME imageFrame;
+
+		const char* pszFrameName = pElmFrame->Attribute("id");
+		if (!pszFrameName) return false;
+
+		// TODO: check pszFrameName exist ?
+
+		for (int i = 0; i < IFB_NUM; ++i)
 		{
-			m_mapFont.erase(it);
-			return true;
+			TiXmlElement* pElmPiece = pElmFrame->FirstChildElement(s_FramePieces[i]);
+			if (!pElmPiece) return false;
+
+			const char* pszPieceName = pElmPiece->Attribute("id");
+			if (!pszPieceName) return false;
+
+			imageFrame.pImagePiece[i] = IResourceMgr::GetInstance().FindImagePiece(pszPieceName);
+			if (!imageFrame.pImagePiece[i]) return false;
 		}
+
+		m_mapImageFrame.insert(std::make_pair(pszFrameName, imageFrame));
+
+		pElmFrame = pElmFrame->NextSiblingElement("Frame");
 	}
 
-	return false;
+	return true;
+}
+
+const IMAGE_FRAME* UIResMgr_Impl::FindImageFrame(const char* pszFrameName) const
+{
+	TM_IMAGE_FRAME::const_iterator itfound = m_mapImageFrame.find(pszFrameName);
+	if (itfound == m_mapImageFrame.end()) return NULL;
+
+	return &itfound->second;
+}
+
+const IMAGE_FRAME* UIResMgr_Impl::GetDefaultImageFrame() const
+{
+	return m_pDefaultFrame;
+}
+
+const IMAGE_FRAME* UIResMgr_Impl::GetPressedImageFrame() const
+{
+	// TODO: return a pressed image frame
+	return m_pDefaultFrame;
+}
+
+const IMAGE_FRAME* UIResMgr_Impl::GetDisabledImageFrame() const
+{
+	// TODO: return a disabled image frame
+	return m_pDefaultFrame;
 }
 
 bool UIResMgr_Impl::SetupDefaultButtonTextures(const IMAGE_PIECE** pPieceOut, int nPiece /*= DUS_BUTTON_NUM*/) const
@@ -152,6 +214,32 @@ bool UIResMgr_Impl::SetupDefaultRadioButtonTextures(const IMAGE_PIECE** pPieceOu
 	}
 
 	return true;
+}
+
+IFont* UIResMgr_Impl::FindFont(const char* pszFontFile)
+{
+	TM_FONT::iterator itfound = m_mapFont.find(pszFontFile);
+	if (itfound == m_mapFont.end()) return NULL;
+
+	return itfound->second;
+}
+
+bool UIResMgr_Impl::OnFontDestroied(IMsgBase* pMsg)
+{
+	MsgCommon* pMsgCommon = (MsgCommon*)pMsg;
+	IFont* pFont = (IFont*)pMsgCommon->GetObject();
+	if (!pFont) return false;
+
+	for (TM_FONT::iterator it = m_mapFont.begin(); it != m_mapFont.end(); ++it)
+	{
+		if (it->second == pFont)
+		{
+			m_mapFont.erase(it);
+			return true;
+		}
+	}
+
+	return false;
 }
 
 bool UIResMgr_Impl::InitDefaultButtonStyle()

@@ -45,6 +45,8 @@ public:
 	virtual void DrawRect(const QUAD_VERT_POS_UV& quad);
 	virtual void DrawRect(const Vector2& pos, const IMAGE_PIECE* pImagePiece);
 	virtual void DrawRect(float x, float y, const IMAGE_PIECE* pImagePiece);
+	virtual void DrawRect(const Vector2& pos, const Vector2& size, const IMAGE_PIECE* pImagePiece);
+	virtual void DrawRect(float x, float y, float width, float height, const IMAGE_PIECE* pImagePiece);
 	virtual void DrawRect(const Vector2& pos, const Vector2& size, const IMAGE_FRAME* pImageFrame);
 	virtual void DrawRect(float x, float y, float width, float height, const IMAGE_FRAME* pImageFrame);
 

@@ -60,7 +60,6 @@ LIBSPANK_SOURCE_FILES := \
 		$(LIBSPANK_SOURCE)/Image.cpp \
 		$(LIBSPANK_SOURCE)/InputMgr.cpp \
 		$(LIBSPANK_SOURCE)/IObject.cpp \
-		$(LIBSPANK_SOURCE)/IRenderableObject.cpp \
 		$(LIBSPANK_SOURCE)/IRtti.cpp \
 		$(LIBSPANK_SOURCE)/Level2D.cpp \
 		$(LIBSPANK_SOURCE)/Node_Impl.cpp \

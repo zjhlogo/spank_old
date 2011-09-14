@@ -1,25 +1,25 @@
 /*!
- * \file IMgr.h
+ * \file ISingleton.h
  * \date 23-07-2011 08:19:06
  * 
  * 
  * \author zjhlogo (zjhlogo@gmail.com)
  */
-#ifndef __IMGR_H__
-#define __IMGR_H__
+#ifndef __ISINGLETON_H__
+#define __ISINGLETON_H__
 
 #include "msg/IMsgHandler.h"
 
-/*! \brief base class of all management classes
+/*! \brief base class of all singleton classes
  *
- * all managerment classes should inheritance from IMgr to initialize itself by
+ * all managerment classes should inheritance from ISingleton to initialize itself by
  * override the pure virtual function Initialize(), and terminate the classse
  * by override the pure virtual function Terminate().
  */
-class IMgr : public IMsgHandler
+class ISingleton : public IMsgHandler
 {
 public:
-	DECLARE_RTTI(IMgr, IMsgHandler);
+	DECLARE_RTTI(ISingleton, IMsgHandler);
 
 	/*!
 	 * \brief initialize the instance
@@ -37,4 +37,4 @@ public:
 	virtual void Terminate() = 0;
 
 };
-#endif // __IMGR_H__
+#endif // __ISINGLETON_H__

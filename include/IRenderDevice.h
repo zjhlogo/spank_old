@@ -8,12 +8,12 @@
 #ifndef __IRENDERDEVICE_H__
 #define __IRENDERDEVICE_H__
 
-#include "IMgr.h"
+#include "ISingleton.h"
 
-class IRenderDevice : public IMgr
+class IRenderDevice : public ISingleton
 {
 public:
-	DECLARE_RTTI(IRenderDevice, IMgr);
+	DECLARE_RTTI(IRenderDevice, ISingleton);
 
 	static IRenderDevice& GetInstance();
 

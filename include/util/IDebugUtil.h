@@ -8,12 +8,12 @@
 #ifndef __IDEBUGUTIL_H__
 #define __IDEBUGUTIL_H__
 
-#include "IMgr.h"
+#include "ISingleton.h"
 
-class IDebugUtil : public IMgr
+class IDebugUtil : public ISingleton
 {
 public:
-	DECLARE_RTTI(IDebugUtil, IMgr);
+	DECLARE_RTTI(IDebugUtil, ISingleton);
 
 	static IDebugUtil& GetInstance();
 

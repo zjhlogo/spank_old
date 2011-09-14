@@ -9,12 +9,12 @@
 #define __IGAMEAPP_H__
 
 #include "BaseType.h"
-#include "IMgr.h"
+#include "ISingleton.h"
 
-class IGameApp : public IMgr
+class IGameApp : public ISingleton
 {
 public:
-	DECLARE_RTTI(IGameApp, IMgr);
+	DECLARE_RTTI(IGameApp, ISingleton);
 
 	static IGameApp& GetInstance();
 

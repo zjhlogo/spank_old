@@ -8,18 +8,18 @@
 #ifndef __CONFIGUTIL_H__
 #define __CONFIGUTIL_H__
 
-#include "../IMgr.h"
+#include "../ISingleton.h"
 #include <string>
 #include <map>
 
-class ConfigUtil : public IMgr
+class ConfigUtil : public ISingleton
 {
 public:
 	typedef std::map<std::string, std::string> TM_STRING;
 	typedef std::map<std::string, int> TM_INT;
 
 public:
-	DECLARE_RTTI(ConfigUtil, IMgr);
+	DECLARE_RTTI(ConfigUtil, ISingleton);
 
 	ConfigUtil();
 	virtual ~ConfigUtil();

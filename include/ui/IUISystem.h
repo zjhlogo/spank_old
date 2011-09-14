@@ -8,13 +8,13 @@
 #ifndef __IUISYSTEM_H__
 #define __IUISYSTEM_H__
 
-#include "../IMgr.h"
+#include "../ISingleton.h"
 #include "UIScreen.h"
 
-class IUISystem : public IMgr
+class IUISystem : public ISingleton
 {
 public:
-	DECLARE_RTTI(IUISystem, IMgr);
+	DECLARE_RTTI(IUISystem, ISingleton);
 
 	static IUISystem& GetInstance();
 

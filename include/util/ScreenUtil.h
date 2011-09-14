@@ -8,7 +8,7 @@
 #ifndef __SCREENUTIL_H__
 #define __SCREENUTIL_H__
 
-#include "../IMgr.h"
+#include "../ISingleton.h"
 #include "../math/IMath.h"
 
 /*! \brief screen coordinate system utility class
@@ -16,7 +16,7 @@
  * it is a utility class to manage the screen coordinate system. use this class
  * to convert device coordinate to screen coordinate.
  */
-class ScreenUtil : public IMgr
+class ScreenUtil : public ISingleton
 {
 public:
 	/*! screen rotation enumlate */
@@ -30,7 +30,7 @@ public:
 	};
 
 public:
-	DECLARE_RTTI(ScreenUtil, IMgr);
+	DECLARE_RTTI(ScreenUtil, ISingleton);
 
 	/*!
 	 * \brief default constructure

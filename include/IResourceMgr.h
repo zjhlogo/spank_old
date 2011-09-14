@@ -8,13 +8,13 @@
 #ifndef __IRESOURCEMGR_H__
 #define __IRESOURCEMGR_H__
 
-#include "IMgr.h"
+#include "ISingleton.h"
 #include "BaseTypeEx.h"
 
-class IResourceMgr : public IMgr
+class IResourceMgr : public ISingleton
 {
 public:
-	DECLARE_RTTI(IResourceMgr, IMgr);
+	DECLARE_RTTI(IResourceMgr, ISingleton);
 
 	static IResourceMgr& GetInstance();
 

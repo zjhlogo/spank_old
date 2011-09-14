@@ -22,7 +22,7 @@ public:
 	{
 		TILE_BORDER_SIZE = 3,
 		VERTEX_CACHE_SIZE = 4,
-		INDEX_CACHE_SIZE = 6,	
+		INDEX_CACHE_SIZE = 6,
 	};
 
 public:

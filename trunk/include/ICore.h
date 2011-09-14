@@ -8,13 +8,13 @@
 #ifndef __ICORE_H__
 #define __ICORE_H__
 
-#include "IMgr.h"
+#include "ISingleton.h"
 #include "INode.h"
 
-class ICore : public IMgr
+class ICore : public ISingleton
 {
 public:
-	DECLARE_RTTI(ICore, IMgr);
+	DECLARE_RTTI(ICore, ISingleton);
 
 	static ICore& GetInstance();
 

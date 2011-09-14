@@ -8,7 +8,7 @@
 #ifndef __MSGMGR_H__
 #define __MSGMGR_H__
 
-#include "../IMgr.h"
+#include "../ISingleton.h"
 #include "../IMutex.h"
 #include "IMsgBase.h"
 #include <map>
@@ -23,7 +23,7 @@
  * it to objects who handling this message. (note: the message will not send 
  * immidielity, it's going to send just before the next IGameApp update (IGameApp::Update)).
  */
-class MsgMgr : public IMgr
+class MsgMgr : public ISingleton
 {
 public:
 	/*! message subscribe information */
@@ -48,7 +48,7 @@ public:
 	typedef std::queue<MESSAGE_INFO> TQ_MESSAGE_INFO;
 
 public:
-	DECLARE_RTTI(MsgMgr, IMgr);
+	DECLARE_RTTI(MsgMgr, ISingleton);
 
 	MsgMgr();
 	virtual ~MsgMgr();

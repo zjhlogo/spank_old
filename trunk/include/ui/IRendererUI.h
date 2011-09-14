@@ -8,15 +8,13 @@
 #ifndef __IRENDERERUI_H__
 #define __IRENDERERUI_H__
 
-#include "../IMgr.h"
-#include "../ITexture.h"
-#include "../BaseTypeEx.h"
-#include "../math/IMath.h"
+#include "../ISingleton.h"
+#include "BaseTypeUI.h"
 
-class IRendererUI : public IMgr
+class IRendererUI : public ISingleton
 {
 public:
-	DECLARE_RTTI(IRendererUI, IMgr);
+	DECLARE_RTTI(IRendererUI, ISingleton);
 
 	static IRendererUI& GetInstance();
 
@@ -32,6 +30,11 @@ public:
 	virtual void DrawRect(const QUAD_VERT_POS_UV& quad) = 0;
 	virtual void DrawRect(const Vector2& pos, const IMAGE_PIECE* pImagePiece) = 0;
 	virtual void DrawRect(float x, float y, const IMAGE_PIECE* pImagePiece) = 0;
+	virtual void DrawRect(const Vector2& pos, const Vector2& size, const IMAGE_FRAME* pImageFrame) = 0;
+	virtual void DrawRect(float x, float y, float width, float height, const IMAGE_FRAME* pImageFrame) = 0;
+
+	virtual Vector2 CalculateSizeWithFrame(const Vector2& size, const IMAGE_FRAME* pImageFrame) = 0;
+	virtual Vector2 CalculateSizeWithFrame(float width, float height, const IMAGE_FRAME* pImageFrame) = 0;
 
 	virtual bool ClipRect(QUAD_VERT_POS_UV& quadInOut, float x, float y, float width, float height) = 0;
 

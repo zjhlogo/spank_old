@@ -8,9 +8,9 @@
 #ifndef __INPUTMGR_H__
 #define __INPUTMGR_H__
 
-#include "IMgr.h"
+#include "ISingleton.h"
 
-class InputMgr : public IMgr
+class InputMgr : public ISingleton
 {
 public:
 	enum CONST_DEFINE
@@ -19,7 +19,7 @@ public:
 	};
 
 public:
-	DECLARE_RTTI(InputMgr, IMgr);
+	DECLARE_RTTI(InputMgr, ISingleton);
 
 	InputMgr();
 	virtual ~InputMgr();

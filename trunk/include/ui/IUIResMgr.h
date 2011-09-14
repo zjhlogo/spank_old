@@ -10,12 +10,12 @@
 
 #include "BaseTypeUI.h"
 #include "IFont.h"
-#include "../IMgr.h"
+#include "../ISingleton.h"
 
-class IUIResMgr : public IMgr
+class IUIResMgr : public ISingleton
 {
 public:
-	DECLARE_RTTI(IUIResMgr, IMgr);
+	DECLARE_RTTI(IUIResMgr, ISingleton);
 
 	static IUIResMgr& GetInstance();
 

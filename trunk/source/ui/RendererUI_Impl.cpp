@@ -195,6 +195,28 @@ void RendererUI_Impl::DrawRect(float x, float y, const IMAGE_PIECE* pImagePiece)
 	AddPrimetive(m_pCaches_POS_UV, NUM_POS_UV_CACHE, m_pShader_POS_UV, pImagePiece->pTexture, &s_Verts[0], 4, s_Indis, 6);
 }
 
+void RendererUI_Impl::DrawRect(const Vector2& pos, const Vector2& size, const IMAGE_FRAME* pImageFrame)
+{
+	// TODO: 
+}
+
+void RendererUI_Impl::DrawRect(float x, float y, float width, float height, const IMAGE_FRAME* pImageFrame)
+{
+	// TODO: 
+}
+
+Vector2 RendererUI_Impl::CalculateSizeWithFrame(const Vector2& size, const IMAGE_FRAME* pImageFrame)
+{
+	// TODO: 
+	return IMath::VEC2_ZERO;
+}
+
+Vector2 RendererUI_Impl::CalculateSizeWithFrame(float width, float height, const IMAGE_FRAME* pImageFrame)
+{
+	// TODO: 
+	return IMath::VEC2_ZERO;
+}
+
 bool RendererUI_Impl::ClipRect( QUAD_VERT_POS_UV& quadInOut, float x, float y, float width, float height )
 {
 	//determine whether rect in the Quad
@@ -394,4 +416,3 @@ bool RendererUI_Impl::OnTriangleCacheFlushed(IMsgBase* pMsg)
 	IRenderer2D::GetInstance().DrawTriangleList(pCache->GetVerts(), pCache->GetNumVerts(), pCache->GetIndis(), pCache->GetNumIndis(), pShader);
 	return true;
 }
-

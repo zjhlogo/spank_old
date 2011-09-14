@@ -9,12 +9,12 @@
 #define __IFILEUTIL_H__
 
 #include "../StreamReader.h"
-#include "IMgr.h"
+#include "ISingleton.h"
 
-class IFileUtil : public IMgr
+class IFileUtil : public ISingleton
 {
 public:
-	DECLARE_RTTI(IFileUtil, IMgr);
+	DECLARE_RTTI(IFileUtil, ISingleton);
 
 	static IFileUtil& GetInstance();
 

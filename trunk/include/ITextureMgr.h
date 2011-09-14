@@ -8,13 +8,13 @@
 #ifndef __ITEXTUREMGR_H__
 #define __ITEXTUREMGR_H__
 
-#include "IMgr.h"
+#include "ISingleton.h"
 #include "ITexture.h"
 
-class ITextureMgr : public IMgr
+class ITextureMgr : public ISingleton
 {
 public:
-	DECLARE_RTTI(ITextureMgr, IMgr);
+	DECLARE_RTTI(ITextureMgr, ISingleton);
 
 	static ITextureMgr& GetInstance();
 

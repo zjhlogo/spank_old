@@ -8,14 +8,14 @@
 #ifndef __IRENDERER2D_H__
 #define __IRENDERER2D_H__
 
-#include "IMgr.h"
+#include "ISingleton.h"
 #include "IShader.h"
 #include "math/IMath.h"
 
-class IRenderer2D : public IMgr
+class IRenderer2D : public ISingleton
 {
 public:
-	DECLARE_RTTI(IRenderer2D, IMgr);
+	DECLARE_RTTI(IRenderer2D, ISingleton);
 
 	static IRenderer2D& GetInstance();
 

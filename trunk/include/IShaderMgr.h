@@ -8,14 +8,14 @@
 #ifndef __ISHADERMGR_H__
 #define __ISHADERMGR_H__
 
-#include "IMgr.h"
+#include "ISingleton.h"
 #include "IShader.h"
 #include "BaseTypeEx.h"
 
-class IShaderMgr : public IMgr
+class IShaderMgr : public ISingleton
 {
 public:
-	DECLARE_RTTI(IShaderMgr, IMgr);
+	DECLARE_RTTI(IShaderMgr, ISingleton);
 
 	static IShaderMgr& GetInstance();
 

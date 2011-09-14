@@ -13,6 +13,8 @@
 class RenderDevice_Mac_Impl : public IRenderDevice
 {
 public:
+	DECLARE_RTTI(RenderDevice_Mac_Impl, IRenderDevice);
+
 	RenderDevice_Mac_Impl();
 	virtual ~RenderDevice_Mac_Impl();
 

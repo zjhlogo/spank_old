@@ -14,6 +14,8 @@
 class Mutex_Mac_Impl : public IMutex
 {
 public:
+	DECLARE_RTTI(Mutex_Mac_Impl, IMutex);
+
 	Mutex_Mac_Impl();
 	virtual ~Mutex_Mac_Impl();
 	

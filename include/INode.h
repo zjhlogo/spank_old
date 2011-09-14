@@ -12,7 +12,6 @@
 #include "IObject.h"
 #include "action/IActionBase.h"
 
-class IRenderableObject;
 class INode : public IObject
 {
 public:
@@ -24,9 +23,9 @@ public:
 	virtual int GetNumChildNodes() = 0;
 	virtual INode* GetParentNode() = 0;
 
-	virtual bool AttachObject(IRenderableObject* pObject) = 0;
-	virtual bool DettachObject(IRenderableObject* pObject) = 0;
-	virtual IRenderableObject* GetAttachedObject(int nIndex) = 0;
+	virtual bool AttachObject(IObject* pObject) = 0;
+	virtual bool DettachObject(IObject* pObject) = 0;
+	virtual IObject* GetAttachedObject(int nIndex) = 0;
 	virtual int GetNumAttachedObjects() = 0;
 
 	virtual void SetPosition(const Vector3& vPos) = 0;

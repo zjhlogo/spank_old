@@ -8,27 +8,13 @@
 #ifndef __IRENDERABLEOBJECT_H__
 #define __IRENDERABLEOBJECT_H__
 
-#include "IObject.h"
-#include "INode.h"
+#include "IUpdateableObject.h"
 
-class IRenderableObject : public IObject
+class IRenderableObject : public IUpdateableObject
 {
 public:
-	DECLARE_RTTI(IRenderableObject, IObject);
-
-	IRenderableObject();
-	virtual ~IRenderableObject();
-
-	void SetParentNode(INode* pNode);
-	INode* GetParentNode() const;
-
-	const Matrix4x4& GetFinalMatrix();
-
-	virtual void Update(float dt) = 0;
+	DECLARE_RTTI(IRenderableObject, IUpdateableObject);
 	virtual void Render() = 0;
-
-private:
-	INode* m_pParentNode;
 
 };
 #endif // __IRENDERABLEOBJECT_H__

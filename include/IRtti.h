@@ -13,18 +13,18 @@
 class IRtti
 {
 public:
-	IRtti(const char* pszTypeName, const IRtti* pBaseRtti);
+	IRtti(const char* pszTypeName, const IRtti* pParentRtti);
 	~IRtti();
 
 	const char* GetTypeName() const;
-	const IRtti* GetBaseRtti() const;
+	const IRtti* GetParentRtti() const;
 
-	bool IsType(const char* pszTypeName) const;
-	bool IsDerived(const char* pszTypeName) const;
+	bool IsType(const IRtti* pRtti) const;
+	bool IsDerived(const IRtti* pRtti) const;
 
 private:
 	const char* m_pszTypeName;
-	const IRtti* m_pBaseRtti;
+	const IRtti* m_pParentRtti;
 
 };
 
@@ -38,10 +38,10 @@ public:
 
 };
 
-#define DECLARE_RTTI(name, basename)											\
+#define DECLARE_RTTI(name, parentname)											\
 static const IRtti* __RttiData()												\
 {																				\
-	static const IRtti s_Rtti(#name, basename::__RttiData());					\
+	static const IRtti s_Rtti(#name, parentname::__RttiData());					\
 	return &s_Rtti;																\
 };																				\
 virtual const IRtti* GetRtti()													\

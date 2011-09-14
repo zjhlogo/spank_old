@@ -14,6 +14,8 @@
 class MapTestCase : public TestCase
 {
 public:
+	DECLARE_RTTI(MapTestCase, TestCase);
+
 	MapTestCase();
 	virtual ~MapTestCase();
 

@@ -13,6 +13,8 @@
 class RenderDevice_Android_Impl : public IRenderDevice
 {
 public:
+	DECLARE_RTTI(RenderDevice_Android_Impl, IRenderDevice);
+
 	RenderDevice_Android_Impl();
 	virtual ~RenderDevice_Android_Impl();
 

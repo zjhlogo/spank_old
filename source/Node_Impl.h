@@ -15,7 +15,7 @@ class Node_Impl : public INode
 {
 public:
 	typedef std::vector<INode*> TV_NODE;
-	typedef std::vector<IRenderableObject*> TV_RENDERABLE_OBJECT;
+	typedef std::vector<IObject*> TV_OBJECT;
 
 public:
 	DECLARE_RTTI(Node_Impl, INode);
@@ -29,9 +29,9 @@ public:
 	virtual int GetNumChildNodes();
 	virtual INode* GetParentNode();
 
-	virtual bool AttachObject(IRenderableObject* pObject);
-	virtual bool DettachObject(IRenderableObject* pObject);
-	virtual IRenderableObject* GetAttachedObject(int nIndex);
+	virtual bool AttachObject(IObject* pObject);
+	virtual bool DettachObject(IObject* pObject);
+	virtual IObject* GetAttachedObject(int nIndex);
 	virtual int GetNumAttachedObjects();
 
 	virtual void SetPosition(const Vector3& vPos);
@@ -67,7 +67,7 @@ private:
 private:
 	INode* m_pParentNode;
 	TV_NODE m_vChildNodes;
-	TV_RENDERABLE_OBJECT m_vAttachedObjects;
+	TV_OBJECT m_vAttachedObjects;
 
 	Vector3 m_vPosition;
 	Quaternion m_qRotation;

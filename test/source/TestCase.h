@@ -16,6 +16,8 @@
 class TestCase : public IObject
 {
 public:
+	DECLARE_RTTI(TestCase, IObject);
+
 	TestCase(const char* pszTestName);
 	virtual ~TestCase();
 

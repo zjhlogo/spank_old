@@ -14,6 +14,8 @@
 class IGameApp : public IMgr
 {
 public:
+	DECLARE_RTTI(IGameApp, IMgr);
+
 	static IGameApp& GetInstance();
 
 	virtual void Update(float dt) = 0;

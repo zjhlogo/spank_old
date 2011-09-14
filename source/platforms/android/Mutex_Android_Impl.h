@@ -14,6 +14,8 @@
 class Mutex_Android_Impl : public IMutex
 {
 public:
+	DECLARE_RTTI(Mutex_Android_Impl, IMutex);
+
 	Mutex_Android_Impl();
 	virtual ~Mutex_Android_Impl();
 

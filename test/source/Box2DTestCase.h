@@ -15,6 +15,8 @@
 class Box2DTestCase : public TestCase
 {
 public:
+	DECLARE_RTTI(Box2DTestCase, TestCase);
+
 	Box2DTestCase();
 	virtual ~Box2DTestCase();
 

@@ -13,6 +13,7 @@
 #include <IShader.h>
 #include <BaseTypeEx.h>
 #include <fileformat/FmtL2D.h>
+#include <math/IMath.h>
 
 class Level2D : public IRenderableObject
 {

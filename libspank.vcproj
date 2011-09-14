@@ -634,14 +634,6 @@
 			>
 		</File>
 		<File
-			RelativePath=".\source\IRenderableObject.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\include\IRenderableObject.h"
-			>
-		</File>
-		<File
 			RelativePath=".\source\IRtti.cpp"
 			>
 		</File>

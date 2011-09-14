@@ -14,6 +14,8 @@
 class ActionTestCase : public TestCase
 {
 public:
+	DECLARE_RTTI(ActionTestCase, TestCase);
+
 	ActionTestCase();
 	virtual ~ActionTestCase();
 

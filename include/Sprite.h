@@ -11,6 +11,7 @@
 #include "IRenderableObject.h"
 #include "BaseTypeEx.h"
 #include "IShader.h"
+#include "INode.h"
 
 class Sprite : public IRenderableObject
 {
@@ -28,6 +29,7 @@ public:
 private:
 	bool LoadSpriteFromFile(const char* pszSpriteFile);
 	void CreateVertexs();
+	INode* GetParentNode();
 
 private:
 	IShader* m_pShader;

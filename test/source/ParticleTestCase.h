@@ -14,6 +14,8 @@
 class ParticleTestCase : public TestCase
 {
 public:
+	DECLARE_RTTI(ParticleTestCase, TestCase);
+
 	ParticleTestCase();
 	virtual ~ParticleTestCase();
 

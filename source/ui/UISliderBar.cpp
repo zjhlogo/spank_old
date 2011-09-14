@@ -9,7 +9,7 @@
 #include <ui/IRendererUI.h>
 #include <msg/MsgSlider.h>
 #include <util/IDebugUtil.h>
-
+#include <ui/IUIResMgr.h>
 UISliderBar::UISliderBar(UIWindow* pParent)
 :UIWindow(pParent)
 {
@@ -19,6 +19,8 @@ UISliderBar::UISliderBar(UIWindow* pParent)
 
 // 	// TODO: setup the default textures
 // 	IUIResMgr::GetInstance().SetupDefaultSliderBarTextures(m_pStyle, DUS_SLIDERBAR_NUM);
+	// load default state styles
+	IUIResMgr::GetInstance().SetupDefaultSliderBarTextures(m_pStyle, DUS_SLIDERBAR_NUM);
 	AdjustSize();
 }
 
@@ -34,26 +36,57 @@ void UISliderBar::Update(float dt)
 
 void UISliderBar::Render(const RenderParam& param)
 {
-	RenderBorder(param);
 
-//	// TODO: draw under states, ex: (normal, pressed, disabled ...)
-//	Vector2 posAbs = param.m_vBasePos + GetPosition();
-// 	DrawNormalBar(posAbs);
-// 	DrawMaskBar(posAbs);
-// 	DrawArrow(posAbs);
+	Vector2 posAbs = param.m_vBasePos + GetPosition();
+
+	if(! IsEnable() || !param.IsEnable())
+	{
+		//render disabled state;
+		IRendererUI::GetInstance().DrawRect(posAbs, m_pStyle[DUS_SLIDERBAR_THUMB_DISABLED]);
+	}
+	else
+	{
+		//render the background
+		IRendererUI::GetInstance().DrawRect(posAbs, m_pStyle[DUS_SLIDERBAR_BACKGROUND]);
+		//render the foreground
+		//calculate the size of the new foreground to render
+		float Aplaha = (float)m_nCurrentPos / (m_nMaxRange - m_nMinRange);
+		IMAGE_PIECE ImagePiece;
+		IRendererUI::GetInstance().ClipRect(m_pStyle[DUS_SLIDERBAR_FOREGROUND], ImagePiece, 0.0f, 0.0f, Aplaha, 1.0f);
+		IRendererUI::GetInstance().DrawRect(posAbs, &ImagePiece);
+		 if( IsPressed())
+		{
+			// render pressed state
+			//calculate the position of the Arrow to render
+			float fposx = posAbs.x + m_pStyle[DUS_SLIDERBAR_BACKGROUND]->width * Aplaha - m_pStyle[DUS_SLIDERBAR_THUMB_PRESSED]->width / 2.0f;
+			float fposy = posAbs.y - (m_pStyle[DUS_SLIDERBAR_THUMB_PRESSED]->height - m_pStyle[DUS_SLIDERBAR_BACKGROUND]->height) / 2.0f;
+			IRendererUI::GetInstance().DrawRect(fposx,fposy, m_pStyle[DUS_SLIDERBAR_THUMB_PRESSED]);
+		}
+		else
+		{
+			// render default state
+			//calculate the position of the Arrow to render
+			float fposx = posAbs.x + m_pStyle[DUS_SLIDERBAR_BACKGROUND]->width * Aplaha - m_pStyle[DUS_SLIDERBAR_THUMB_DEFAULT]->width / 2.0f;
+			float fposy = posAbs.y - (m_pStyle[DUS_SLIDERBAR_THUMB_DEFAULT]->height - m_pStyle[DUS_SLIDERBAR_BACKGROUND]->height) / 2.0f;
+			IRendererUI::GetInstance().DrawRect(fposx,fposy, m_pStyle[DUS_SLIDERBAR_THUMB_DEFAULT]);
+		}
+	}
 }
 
 Vector2 UISliderBar::GetBestSize()
 {
 	// TODO: calculate the boundary of the sliderbar
-	return IMath::VEC2_ZERO;
+	Vector2 sizeMax = Vector2(m_pStyle[DUS_SLIDERBAR_BACKGROUND]->width, m_pStyle[DUS_SLIDERBAR_BACKGROUND]->height);
+	if (sizeMax.x < m_pStyle[DUS_SLIDERBAR_FOREGROUND]->width) sizeMax.x = m_pStyle[DUS_SLIDERBAR_FOREGROUND]->width;
+	if (sizeMax.y < m_pStyle[DUS_SLIDERBAR_FOREGROUND]->height) sizeMax.y = m_pStyle[DUS_SLIDERBAR_FOREGROUND]->height;
+	if (sizeMax.y < m_pStyle[DUS_SLIDERBAR_THUMB_DEFAULT]->height) sizeMax.y = m_pStyle[DUS_SLIDERBAR_THUMB_DEFAULT]->height;
+	return sizeMax;
 }
 
 void UISliderBar::SetSliderRange(int nMinRange, int nMaxRange)
 {
 	m_nMinRange = nMinRange;
 	m_nMaxRange = nMaxRange;
-	// TODO: update 
 }
 
 void UISliderBar::SetCurrentPos(int nPos)
@@ -73,165 +106,34 @@ bool UISliderBar::SetSliderBarTexture(const IMAGE_PIECE* pImagePiece, int nIndex
 
 bool UISliderBar::OnClicked(const Vector2& pos)
 {
-// 	m_fPercent = pos.x / GetSize().x;
-// 	MsgSilder msgSlider(MsgSilder::ST_BEGIN, m_fPercent);
-// 	CallEvent(msgSlider);
+
+	m_nCurrentPos = int(pos.x / GetBestSize().x * (m_nMaxRange - m_nMinRange));
+	MsgSilder msgSlider(MsgSilder::ST_BEGIN, m_nCurrentPos);
+	CallEvent(msgSlider);
 	return true;
 }
 
 bool UISliderBar::OnTouchBegin(const Vector2& pos)
 {
-// 	m_fPercent = pos.x / GetSize().x;
-// 	MsgSilder msgSlider(MsgSilder::ST_BEGIN, m_fPercent);
-// 	CallEvent(msgSlider);
+	m_nCurrentPos = int(pos.x / GetBestSize().x * (m_nMaxRange - m_nMinRange));
+	MsgSilder msgSlider(MsgSilder::ST_BEGIN, m_nCurrentPos);
+	CallEvent(msgSlider);
 	return true;
 }
 
 bool UISliderBar::OnTouchMove(const Vector2& pos)
 {
-// 	m_fPercent = pos.x / GetSize().x;
-// 	MsgSilder msgSlider(MsgSilder::ST_MOVE, m_fPercent);
-// 	CallEvent(msgSlider);
+	m_nCurrentPos = int(pos.x / GetBestSize().x * (m_nMaxRange - m_nMinRange));
+	MsgSilder msgSlider(MsgSilder::ST_MOVE, m_nCurrentPos);
+	CallEvent(msgSlider);
+
 	return true;
 }
 
 bool UISliderBar::OnTouchEnd(const Vector2& pos)
 {
-// 	m_fPercent = pos.x  / GetSize().x;
-// 	MsgSilder msgSlider(MsgSilder::ST_END, m_fPercent);
-// 	CallEvent(msgSlider);
+	m_nCurrentPos = int(pos.x / GetBestSize().x * (m_nMaxRange - m_nMinRange));
+	MsgSilder msgSlider(MsgSilder::ST_END, m_nCurrentPos);
+	CallEvent(msgSlider);
 	return true;
-}
-
-void UISliderBar::DrawMaskBar(Vector2& pos)
-{
-// 	// TODO: use following function to draw the piectures
-// 	// 
-// 	//           IRendererUI::DrawRect(const Vector2& pos, const IMAGE_PIECE* pImagePiece);
-// 	//           IRendererUI::DrawRect(float x, float y, const IMAGE_PIECE* pImagePiece);
-// 	//           IRendererUI::ClipRect(QUAD_VERT_POS_UV& quadInOut, float x, float y, float width, float height);
-// 	//
-//
-// 	if(!m_pMaskBar) return;
-// 	float fMaskTextureX = (float)m_pMaskBar->GetWidth();
-// 	float fMaskTextureY = (float)m_pMaskBar->GetHeight();
-// 	QUAD_VERT_POS_UV quad;
-//
-// 	quad.verts[0].x = pos.x;
-// 	quad.verts[0].y = pos.y + fMaskTextureY;
-// 	quad.verts[0].z = 0.0f;
-// 	quad.verts[0].u = 0.0f;
-// 	quad.verts[0].v = 0.0f;
-//
-// 	quad.verts[1].x = pos.x;
-// 	quad.verts[1].y = pos.y;
-// 	quad.verts[1].z = 0.0f;
-// 	quad.verts[1].u = 0.0f;
-// 	quad.verts[1].v = 1.0f;
-// 
-// 	quad.verts[2].x = pos.x + fMaskTextureX * m_fPercent;
-// 	quad.verts[2].y = pos.y + fMaskTextureY;
-// 	quad.verts[2].z = 0.0f;
-// 	quad.verts[2].u = m_fPercent;
-// 	quad.verts[2].v = 0.0f;
-// 
-// 	quad.verts[3].x = pos.x + fMaskTextureX * m_fPercent;
-// 	quad.verts[3].y = pos.y;
-// 	quad.verts[3].z = 0.0f;
-// 	quad.verts[3].u = m_fPercent;
-// 	quad.verts[3].v = 1.0f;
-// 
-// 	IRendererUI::GetInstance().SetTexture(m_pMaskBar);
-// 	IRendererUI::GetInstance().DrawRect(quad);
-}
-
-void UISliderBar::DrawNormalBar(Vector2& pos)
-{
-// 	// TODO: use following function to draw the piectures
-// 	// 
-// 	//           IRendererUI::DrawRect(const Vector2& pos, const IMAGE_PIECE* pImagePiece);
-// 	//           IRendererUI::DrawRect(float x, float y, const IMAGE_PIECE* pImagePiece);
-// 	//           IRendererUI::ClipRect(QUAD_VERT_POS_UV& quadInOut, float x, float y, float width, float height);
-// 	//
-//
-// 	if(!m_pNormalbar) return;
-// 
-// 	float fNormalTextureY = (float)m_pNormalbar->GetHeight();
-// 	float fNormalTextureX = (float)m_pNormalbar->GetWidth();
-// 	QUAD_VERT_POS_UV quad;
-// 
-// 	quad.verts[0].x = pos.x;
-// 	quad.verts[0].y = pos.y + fNormalTextureY;
-// 	quad.verts[0].z = 0.0f;
-// 	quad.verts[0].u = 0.0f;
-// 	quad.verts[0].v = 0.0;
-// 
-// 	quad.verts[1].x = pos.x;
-// 	quad.verts[1].y = pos.y;
-// 	quad.verts[1].z = 0.0f;
-// 	quad.verts[1].u = 0.0f;
-// 	quad.verts[1].v = 1.0f;
-// 
-// 	quad.verts[2].x = pos.x + fNormalTextureX;
-// 	quad.verts[2].y = pos.y + fNormalTextureY;
-// 	quad.verts[2].z = 0.0f;
-// 	quad.verts[2].u = 1.0f;
-// 	quad.verts[2].v = 0.0f;
-// 
-// 	quad.verts[3].x = pos.x + fNormalTextureX;
-// 	quad.verts[3].y = pos.y;
-// 	quad.verts[3].z = 0.0f;
-// 	quad.verts[3].u = 1.0f;
-// 	quad.verts[3].v = 1.0f;
-// 
-// 	IRendererUI::GetInstance().SetTexture(m_pNormalbar);
-// 	IRendererUI::GetInstance().DrawRect(quad);
-}
-
-void UISliderBar::DrawArrow(Vector2& pos)
-{
-// 	// TODO: use following function to draw the piectures
-// 	// 
-// 	//           IRendererUI::DrawRect(const Vector2& pos, const IMAGE_PIECE* pImagePiece);
-// 	//           IRendererUI::DrawRect(float x, float y, const IMAGE_PIECE* pImagePiece);
-// 	//           IRendererUI::ClipRect(QUAD_VERT_POS_UV& quadInOut, float x, float y, float width, float height);
-// 	//
-//
-// 	if(!m_pArrow) return;
-// 
-// 	float fNormalTextureY = (float)m_pArrow->GetHeight();
-// 	float fNormalTextureX = (float)m_pArrow->GetWidth();
-// 	
-// 	if(m_pMaskBar == NULL) return;
-// 	float fPosX = pos.x + m_fPercent * m_pMaskBar->GetWidth() - fNormalTextureX /2.0f ;
-// 	float fPosY = pos.y - (fNormalTextureY - m_pMaskBar->GetHeight()) / 2.0f; 
-// 
-// 	QUAD_VERT_POS_UV quad;
-// 
-// 	quad.verts[0].x = fPosX;
-// 	quad.verts[0].y = fPosY + fNormalTextureY;
-// 	quad.verts[0].z = 0.0f;
-// 	quad.verts[0].u = 0.0f;
-// 	quad.verts[0].v = 0.0;
-// 
-// 	quad.verts[1].x = fPosX;
-// 	quad.verts[1].y = fPosY;
-// 	quad.verts[1].z = 0.0f;
-// 	quad.verts[1].u = 0.0f;
-// 	quad.verts[1].v = 1.0f;
-// 
-// 	quad.verts[2].x = fPosX + fNormalTextureX;
-// 	quad.verts[2].y = fPosY + fNormalTextureY;
-// 	quad.verts[2].z = 0.0f;
-// 	quad.verts[2].u = 1.0f;
-// 	quad.verts[2].v = 0.0f;
-// 
-// 	quad.verts[3].x = fPosX + fNormalTextureX;
-// 	quad.verts[3].y = fPosY;
-// 	quad.verts[3].z = 0.0f;
-// 	quad.verts[3].u = 1.0f;
-// 	quad.verts[3].v = 1.0f;
-// 
-// 	IRendererUI::GetInstance().SetTexture(m_pArrow);
-// 	IRendererUI::GetInstance().DrawRect(quad);
 }

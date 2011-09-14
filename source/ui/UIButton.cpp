@@ -9,6 +9,7 @@
 #include <ui/IRendererUI.h>
 #include <ui/IUIResMgr.h>
 #include <msg/MsgID.h>
+#include <msg/MsgClick.h>
 #include <util/IDebugUtil.h>
 #include <util/StringUtil.h>
 
@@ -38,26 +39,34 @@ void UIButton::Render(const RenderParam& param)
 
  	Vector2 posAbs = param.m_vBasePos + GetPosition();
 
+	//calculate the off size of string 
+	Vector2 posStroff = (GetSize() - m_pString->GetSize());
+	posStroff.x = posStroff.x / 2.0f;
+	posStroff.y = posStroff.y / 2.0f;
+
 	if (!IsEnable() || !param.IsEnable())
 	{
 		// render disabled state
 		IRendererUI::GetInstance().DrawRect(posAbs, m_pStyle[DUS_BUTTON_DISABLED]);
 		// TODO: render string disabled state
-		m_pString->Render(posAbs);
+		IRendererUI::GetInstance().Flush();
+		m_pString->Render(posAbs + posStroff);
 	}
 	else if (IsPressed())
 	{
 		// render pressed state
 		IRendererUI::GetInstance().DrawRect(posAbs, m_pStyle[DUS_BUTTON_PRESSED]);
 		// TODO: render string pressed state
-		m_pString->Render(posAbs);
+		IRendererUI::GetInstance().Flush();
+		m_pString->Render(posAbs + posStroff);
 	}
 	else
 	{
 		// render default state
 		IRendererUI::GetInstance().DrawRect(posAbs, m_pStyle[DUS_BUTTON_DEFAULT]);
 		// TODO: render string pressed state
-		m_pString->Render(posAbs);
+		IRendererUI::GetInstance().Flush();
+		m_pString->Render(posAbs + posStroff);
 	}
 }
 

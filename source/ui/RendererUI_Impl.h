@@ -55,7 +55,7 @@ public:
 
 
 	virtual bool ClipRect(QUAD_VERT_POS_UV& quadInOut, float x, float y, float width, float height);
-
+	virtual bool ClipRect(const IMAGE_PIECE* pImagePiece,IMAGE_PIECE& ImagePieceOut, float u, float v, float du, float dv);
 	virtual void Flush();
 
 	virtual void BeginRender();

@@ -8,11 +8,11 @@
 #include <msg/MsgSlider.h>
 #include <msg/MsgID.h>
 
-MsgSilder::MsgSilder(MsgSilder::SILDER_TYPE eType, float fPercent)
+MsgSilder::MsgSilder(MsgSilder::SILDER_TYPE eType, int nCurrentPos)
 : IMsgBase(MI_UI_SLIDER)
 {
 	m_eSilderType = eType;
-	m_fPercent = fPercent;
+	m_nCurrentPos = nCurrentPos;
 }
 
 MsgSilder::~MsgSilder()
@@ -20,13 +20,13 @@ MsgSilder::~MsgSilder()
 	//TODO:
 }
 
-void MsgSilder::SetPercent(float percent)
+void MsgSilder::SetPosition(int nCurrentPos)
 {
-	m_fPercent = percent;
+	m_nCurrentPos = nCurrentPos;
 }
-const float MsgSilder::GetPercent() const
+const int MsgSilder::GetPosition() const
 {
-	return m_fPercent;
+	return m_nCurrentPos;
 }
 
 bool MsgSilder::IsSilderMove()const

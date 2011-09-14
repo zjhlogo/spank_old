@@ -11,7 +11,7 @@
 
 #include <ui/UIWindow.h>
 #include <ui/UIString.h>
-#include <msg/MsgClick.h>
+
 #include <ITexture.h>
 
 class UIButton : public UIWindow

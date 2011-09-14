@@ -35,7 +35,7 @@ void UIRadioButton::Render(const RenderParam& param)
 	RenderBorder(param);
 
 	Vector2 posAbs = param.m_vBasePos + GetPosition();
-
+	Vector2 posStroff = (GetSize() - m_pString->GetSize());
 	if (IsChecked())
 	{
 		if (!IsEnable() || !param.IsEnable())
@@ -43,21 +43,21 @@ void UIRadioButton::Render(const RenderParam& param)
 			// render disabled state
 			IRendererUI::GetInstance().DrawRect(posAbs, m_pStyle[DUS_RADIOBUTTON_CHECK_DISABLED]);
 			// TODO: render string disabled state
-			m_pString->Render(posAbs);
+			m_pString->Render(posAbs + posStroff);
 		}
 		else if (IsPressed())
 		{
 			// render pressed state
 			IRendererUI::GetInstance().DrawRect(posAbs, m_pStyle[DUS_RADIOBUTTON_CHECK_PRESSED]);
 			// TODO: render string pressed state
-			m_pString->Render(posAbs);
+			m_pString->Render(posAbs + posStroff);
 		}
 		else
 		{
 			// render default state
 			IRendererUI::GetInstance().DrawRect(posAbs, m_pStyle[DUS_RADIOBUTTON_CHECK]);
 			// TODO: render string pressed state
-			m_pString->Render(posAbs);
+			m_pString->Render(posAbs + posStroff);
 		}
 	}
 	else
@@ -67,21 +67,21 @@ void UIRadioButton::Render(const RenderParam& param)
 			// render disabled state
 			IRendererUI::GetInstance().DrawRect(posAbs, m_pStyle[DUS_RADIOBUTTON_UNCHECK_DISABLED]);
 			// TODO: render string disabled state
-			m_pString->Render(posAbs);
+			m_pString->Render(posAbs + posStroff);
 		}
 		else if (IsPressed())
 		{
 			// render pressed state
 			IRendererUI::GetInstance().DrawRect(posAbs, m_pStyle[DUS_RADIOBUTTON_UNCHECK_PRESSED]);
 			// TODO: render string pressed state
-			m_pString->Render(posAbs);
+			m_pString->Render(posAbs + posStroff);
 		}
 		else
 		{
 			// render default state
 			IRendererUI::GetInstance().DrawRect(posAbs, m_pStyle[DUS_RADIOBUTTON_UNCHECK]);
 			// TODO: render string pressed state
-			m_pString->Render(posAbs);
+			m_pString->Render(posAbs + posStroff);
 		}
 	}
 }
@@ -99,6 +99,12 @@ void UIRadioButton::SetGroupID(int nGroup)
 {
 	m_nGroupID = nGroup;
 	// TODO: join to a new group
+	UIWindow* pParentWindow = GetParentWindow();
+	if (!pParentWindow) return ;
+	TV_WINDOW vRadioButton;
+	if (!pParentWindow->EnumlateChildrenWindows(vRadioButton, this, (ENUM_WINDOW_FILTER)&UIRadioButton::RadioButtonFilter, NULL)) return;
+	if( vRadioButton.size() != 0)
+		SetCheck(false);
 }
 
 int UIRadioButton::GetGroupID() const
@@ -166,6 +172,6 @@ bool UIRadioButton::RadioButtonFilter(UIWindow* pWindow, void* pData)
 
 	UIRadioButton* pRadioButton = (UIRadioButton*)pWindow;
 	if (pRadioButton->GetGroupID() != this->GetGroupID()) return false;
-
+	
 	return true;
 }

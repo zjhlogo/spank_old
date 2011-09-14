@@ -41,11 +41,6 @@ public:
 	virtual bool OnTouchEnd(const Vector2& pos);
 
 private:
-	void DrawMaskBar(Vector2& pos);
-	void DrawNormalBar(Vector2& pos);
-	void DrawArrow(Vector2& pos);
-
-private:
 	int m_nMinRange;
 	int m_nMaxRange;
 	int m_nCurrentPos;

@@ -32,6 +32,7 @@ public:
 	virtual bool SetupDefaultButtonTextures(const IMAGE_PIECE** pPieceOut, int nPiece = DUS_BUTTON_NUM) const = 0;
 	virtual bool SetupDefaultCheckButtonTextures(const IMAGE_PIECE** pPieceOut, int nPiece = DUS_CHECKBUTTON_NUM) const = 0;
 	virtual bool SetupDefaultRadioButtonTextures(const IMAGE_PIECE** pPieceOut, int nPiece = DUS_RADIOBUTTON_NUM) const = 0;
-
+	virtual bool SetupDefaultSliderBarTextures(const IMAGE_PIECE** pPirceOut, int nPiece = DUS_SLIDERBAR_NUM) const = 0;
+	
 };
 #endif // __IUIRESMGR_H__

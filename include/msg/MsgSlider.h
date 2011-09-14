@@ -26,18 +26,18 @@ public:
 public:
 	DECLARE_RTTI(MsgSilder, IMsgBase);
 
-	MsgSilder(SILDER_TYPE eType, float fPercent);
+	MsgSilder(SILDER_TYPE eType, int nCurrentPos);
 	virtual ~MsgSilder();
 	
-	void SetPercent(float percent);
-	const float GetPercent() const;
+	void SetPosition(int nCurrentPos);
+	const int GetPosition() const;
 	
 	bool IsSilderMove() const;
 	bool IsSilderBegin() const;
 	bool IsSilderEnd()const;
 private:
 	SILDER_TYPE m_eSilderType;
-	float m_fPercent;
+	int m_nCurrentPos;
 
 };
 #endif//__MSGSLIDER_H_

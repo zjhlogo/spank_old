@@ -17,9 +17,6 @@ UISliderBar::UISliderBar(UIWindow* pParent)
 	m_nMaxRange = SLIDERBAR_MAX_RANGE;
 	m_nCurrentPos = SLIDERBAR_DEFAULT_POS;
 
-// 	// TODO: setup the default textures
-// 	IUIResMgr::GetInstance().SetupDefaultSliderBarTextures(m_pStyle, DUS_SLIDERBAR_NUM);
-	// load default state styles
 	IUIResMgr::GetInstance().SetupDefaultSliderBarTextures(m_pStyle, DUS_SLIDERBAR_NUM);
 	AdjustSize();
 }
@@ -36,8 +33,13 @@ void UISliderBar::Update(float dt)
 
 void UISliderBar::Render(const RenderParam& param)
 {
-
+	RenderBorder(param);
 	Vector2 posAbs = param.m_vBasePos + GetPosition();
+	//AdjustPosition
+	if( m_pStyle[DUS_SLIDERBAR_THUMB_DEFAULT]->height > m_pStyle[DUS_SLIDERBAR_BACKGROUND]->height)
+	{
+		posAbs.y = posAbs.y + (m_pStyle[DUS_SLIDERBAR_THUMB_DEFAULT]->height - m_pStyle[DUS_SLIDERBAR_BACKGROUND]->height) /2.0f;
+	}
 
 	if(! IsEnable() || !param.IsEnable())
 	{
@@ -80,6 +82,7 @@ Vector2 UISliderBar::GetBestSize()
 	if (sizeMax.x < m_pStyle[DUS_SLIDERBAR_FOREGROUND]->width) sizeMax.x = m_pStyle[DUS_SLIDERBAR_FOREGROUND]->width;
 	if (sizeMax.y < m_pStyle[DUS_SLIDERBAR_FOREGROUND]->height) sizeMax.y = m_pStyle[DUS_SLIDERBAR_FOREGROUND]->height;
 	if (sizeMax.y < m_pStyle[DUS_SLIDERBAR_THUMB_DEFAULT]->height) sizeMax.y = m_pStyle[DUS_SLIDERBAR_THUMB_DEFAULT]->height;
+
 	return sizeMax;
 }
 
@@ -100,7 +103,6 @@ bool UISliderBar::SetSliderBarTexture(const IMAGE_PIECE* pImagePiece, int nIndex
 
 	m_pStyle[nIndex] = pImagePiece;
 	AdjustSize();
-
 	return true;
 }
 
@@ -137,3 +139,4 @@ bool UISliderBar::OnTouchEnd(const Vector2& pos)
 	CallEvent(msgSlider);
 	return true;
 }
+

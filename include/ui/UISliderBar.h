@@ -39,7 +39,6 @@ public:
 	virtual bool OnTouchBegin(const Vector2& pos);
 	virtual bool OnTouchMove(const Vector2& pos);
 	virtual bool OnTouchEnd(const Vector2& pos);
-
 private:
 	int m_nMinRange;
 	int m_nMaxRange;

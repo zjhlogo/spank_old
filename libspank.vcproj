@@ -285,11 +285,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\source\msg\MsgButtonClick.cpp"
+				RelativePath=".\source\msg\MsgButtonSelect.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\include\msg\MsgButtonClick.h"
+				RelativePath=".\include\msg\MsgButtonSelect.h"
 				>
 			</File>
 			<File

@@ -18,6 +18,7 @@ IUISystem& IUISystem::GetInstance()
 UISystem_Impl::UISystem_Impl()
 {
 	m_pCurrScreen = NULL;
+	m_pWinMouseCapture = NULL;
 }
 
 UISystem_Impl::~UISystem_Impl()
@@ -65,8 +66,10 @@ UIScreen* UISystem_Impl::GetCurrentScreen()
 bool UISystem_Impl::SetCurrentScreen(UIScreen* pUIScreen)
 {
 	if (!FindUIScreen(pUIScreen)) return false;
+	if (m_pCurrScreen == pUIScreen) return false;
 
 	m_pCurrScreen = pUIScreen;
+	ReleaseMouse();
 	return true;
 }
 
@@ -95,7 +98,11 @@ bool UISystem_Impl::ReleaseUIScreen(UIScreen* pUIScreen)
 		{
 			SAFE_DELETE(pScreen);
 			m_vUIScreen.erase(it);
-			if (m_pCurrScreen == pUIScreen) m_pCurrScreen = NULL;
+			if (m_pCurrScreen == pUIScreen)
+			{
+				m_pCurrScreen = NULL;
+				ReleaseMouse();
+			}
 			return true;
 		}
 	}
@@ -103,9 +110,29 @@ bool UISystem_Impl::ReleaseUIScreen(UIScreen* pUIScreen)
 	return false;
 }
 
+bool UISystem_Impl::CaptureMouse(UIWindow* pWindow)
+{
+	if (m_pWinMouseCapture != NULL || pWindow == NULL) return false;
+	m_pWinMouseCapture = pWindow;
+	return true;
+}
+
+bool UISystem_Impl::ReleaseMouse()
+{
+	if (m_pWinMouseCapture == NULL) return false;
+	m_pWinMouseCapture = NULL;
+	return true;
+}
+
 bool UISystem_Impl::ProcessTouchEvent(const Vector2& pos, UI_TOUCH_EVENT_TYPE eType)
 {
 	if (!m_pCurrScreen) return false;
+
+	if (m_pWinMouseCapture)
+	{
+		Vector2 posRelative = pos - m_pWinMouseCapture->GetPositionAbsolute();
+		return m_pWinMouseCapture->ProcessTouchEvent(posRelative, eType);
+	}
 
 	return m_pCurrScreen->ProcessTouchEvent(pos, eType);
 }

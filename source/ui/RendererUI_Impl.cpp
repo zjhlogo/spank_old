@@ -282,7 +282,7 @@ bool RendererUI_Impl::ClipRect(QUAD_VERT_POS_UV& quadInOut, float x, float y, fl
 	if((quadInOut.verts[0].x > x + width)
 		||(quadInOut.verts[3].x < x)
 		||(quadInOut.verts[0].y < y)
-		||(quadInOut.verts[1].y > y + height))
+		||(quadInOut.verts[3].y > y + height))
 		return false;
 
 	if( quadInOut.verts[0].x < x)
@@ -376,25 +376,6 @@ bool RendererUI_Impl::SetupQuad(QUAD_VERT_POS_UV& quadOut, const IMAGE_PIECE* pI
 
 	return true;
 }
-
-// void RendererUI_Impl::Flush()
-// {
-// 	if (!m_bRenderBegan) return;
-// 
-// 	for (int i = 0; i < NUM_POS_RGB_CACHE; ++i)
-// 	{
-// 		m_pCaches_POS_RGB[i]->Flush();
-// 		m_pCaches_POS_RGB[i]->SetShader(NULL);
-// 		m_pCaches_POS_RGB[i]->SetTexture(NULL);
-// 	}
-// 
-// 	for (int i = 0; i < NUM_POS_UV_CACHE; ++i)
-// 	{
-// 		m_pCaches_POS_UV[i]->Flush();
-// 		m_pCaches_POS_UV[i]->SetShader(NULL);
-// 		m_pCaches_POS_UV[i]->SetTexture(NULL);
-// 	}
-// }
 
 void RendererUI_Impl::BeginRender()
 {

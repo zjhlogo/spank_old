@@ -170,6 +170,11 @@ void Renderer2D_Impl::DrawRect(const QUAD_VERT_POS_UV& quadVerts, IShader* pShad
 
 void Renderer2D_Impl::DrawRect(float x, float y, const IMAGE_PIECE* pImagePiece, IShader* pShader)
 {
+	DrawRect(x, y, pImagePiece->width, pImagePiece->height, pImagePiece, pShader);
+}
+
+void Renderer2D_Impl::DrawRect(float x, float y, float width, float height, const IMAGE_PIECE* pImagePiece, IShader* pShader)
+{
 	static VATTR_POS_UV s_Verts[4] =
 	{
 		{-0.5f, -0.5f, 0.0f, 0.0f, 0.0f},
@@ -180,8 +185,8 @@ void Renderer2D_Impl::DrawRect(float x, float y, const IMAGE_PIECE* pImagePiece,
 
 	static const ushort s_Indis[6] = {0, 1, 2, 1, 3, 2};
 
-	float halfWidth = pImagePiece->width*0.5f;
-	float halfHeight = pImagePiece->height*0.5f;
+	float halfWidth = width*0.5f;
+	float halfHeight = height*0.5f;
 
 	s_Verts[0].x = x - halfWidth;
 	s_Verts[0].y = y - halfHeight;

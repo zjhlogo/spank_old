@@ -8,11 +8,11 @@
 #include <ui/uimsg/MsgSlider.h>
 #include <ui/uimsg/UIMsgID.h>
 
-MsgSlider::MsgSlider(SILDER_TYPE eType, int nCurrentPos, UIWindow* pSender)
+MsgSlider::MsgSlider(SLIDER_TYPE eType, int nPos, UIWindow* pSender)
 :IMsgBaseUI(UMI_SLIDER, pSender)
 {
-	m_eSilderType = eType;
-	m_nCurrentPos = nCurrentPos;
+	m_eSliderType = eType;
+	m_nPos = nPos;
 }
 
 MsgSlider::~MsgSlider()
@@ -22,25 +22,20 @@ MsgSlider::~MsgSlider()
 
 void MsgSlider::SetPosition(int nCurrentPos)
 {
-	m_nCurrentPos = nCurrentPos;
+	m_nPos = nCurrentPos;
 }
 
-const int MsgSlider::GetPosition() const
+int MsgSlider::GetPosition() const
 {
-	return m_nCurrentPos;
+	return m_nPos;
 }
 
-bool MsgSlider::IsSilderMove()const
+bool MsgSlider::IsPositionChanged() const
 {
-	return (m_eSilderType == ST_MOVE);
+	return (m_eSliderType == ST_POSITION);
 }
 
-bool MsgSlider::IsSilderBegin() const
+bool MsgSlider::IsTracking() const
 {
-	return (m_eSilderType == ST_BEGIN);
-}
-
-bool MsgSlider::IsSilderEnd() const
-{
-	return (m_eSilderType == ST_END);
+	return (m_eSliderType == ST_TRACKING);
 }

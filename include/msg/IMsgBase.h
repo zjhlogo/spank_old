@@ -16,7 +16,7 @@ public:
 	DECLARE_RTTI(IMsgBase, INoRtti);
 
 	IMsgBase(uint nMsgID);
-	~IMsgBase();
+	virtual ~IMsgBase();
 
 	uint GetMsgID() const;
 

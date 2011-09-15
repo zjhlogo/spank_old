@@ -20,6 +20,7 @@ static bool PointInRect(const Vector2& point, const Vector2& rectPos, const Vect
 }
 
 UIWindow::UIWindow(UIWindow* pParent)
+:IObject(pParent)
 {
 	m_nID = 0;
 	m_vPosition = IMath::VEC2_ZERO;
@@ -28,8 +29,7 @@ UIWindow::UIWindow(UIWindow* pParent)
 	m_MarginLeftTop = IMath::VEC2_ZERO;
 	m_MarginRightBottom = IMath::VEC2_ZERO;
 
-	m_pParent = pParent;
-	if (m_pParent) m_pParent->AddChild(this);
+	if (GetParentWindow()) GetParentWindow()->AddChild(this);
 
 	m_nState = WS_DEFAULT_STATE;
 
@@ -48,7 +48,7 @@ UIWindow::~UIWindow()
 
 UIWindow* UIWindow::GetParentWindow()
 {
-	return m_pParent;
+	return (UIWindow*)GetParent();
 }
 
 int UIWindow::GetID() const
@@ -64,6 +64,20 @@ void UIWindow::SetID(int nID)
 const Vector2& UIWindow::GetPosition() const
 {
 	return m_vPosition;
+}
+
+Vector2 UIWindow::GetPositionAbsolute()
+{
+	Vector2 vPosition = m_vPosition;
+
+	UIWindow* pParentWindow = GetParentWindow();
+	while (pParentWindow)
+	{
+		vPosition += pParentWindow->GetPosition();
+		pParentWindow = pParentWindow->GetParentWindow();
+	}
+
+	return vPosition;
 }
 
 void UIWindow::SetPosition(const Vector2& pos)

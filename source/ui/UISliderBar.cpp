@@ -8,6 +8,7 @@
 #include <ui/UISliderBar.h>
 #include <ui/IRendererUI.h>
 #include <ui/IUIResMgr.h>
+#include <ui/IUISystem.h>
 #include <ui/uimsg/MsgSlider.h>
 #include <util/IDebugUtil.h>
 
@@ -95,15 +96,23 @@ Vector2 UISliderBar::GetBestSize()
 	return sizeMax;
 }
 
-void UISliderBar::SetSliderRange(int nMinRange, int nMaxRange)
+bool UISliderBar::SetSliderRange(int nMinRange, int nMaxRange)
 {
+	if (nMinRange < 0 || nMaxRange < 0) return false;
+	if (nMinRange > nMaxRange) return false;
+
 	m_nMinRange = nMinRange;
 	m_nMaxRange = nMaxRange;
+	SetCurrentPos(m_nCurrentPos);
+
+	return true;
 }
 
 void UISliderBar::SetCurrentPos(int nPos)
 {
 	m_nCurrentPos = nPos;
+	if (m_nCurrentPos < m_nMinRange) m_nCurrentPos = m_nMinRange;
+	if (m_nCurrentPos > m_nMaxRange) m_nCurrentPos = m_nMaxRange;
 }
 
 bool UISliderBar::SetSliderBarTexture(const IMAGE_PIECE* pImagePiece, int nIndex)
@@ -117,33 +126,38 @@ bool UISliderBar::SetSliderBarTexture(const IMAGE_PIECE* pImagePiece, int nIndex
 
 bool UISliderBar::OnClicked(const Vector2& pos)
 {
-	m_nCurrentPos = int(pos.x / GetSize().x * (m_nMaxRange - m_nMinRange));
-	MsgSlider msgSlider(MsgSlider::ST_END, m_nCurrentPos, this);
+	m_nCurrentPos = CalculatePosition(pos, GetSize());
+	MsgSlider msgSlider(MsgSlider::ST_POSITION, m_nCurrentPos, this);
 	CallEvent(msgSlider);
 	return true;
 }
 
 bool UISliderBar::OnTouchBegin(const Vector2& pos)
 {
-	m_nCurrentPos = int(pos.x / GetSize().x * (m_nMaxRange - m_nMinRange));
-	MsgSlider msgSlider(MsgSlider::ST_BEGIN, m_nCurrentPos, this);
-	CallEvent(msgSlider);
+	IUISystem::GetInstance().CaptureMouse(this);
 	return true;
 }
 
 bool UISliderBar::OnTouchMove(const Vector2& pos)
 {
-	m_nCurrentPos = int(pos.x / GetSize().x * (m_nMaxRange - m_nMinRange));
-	MsgSlider msgSlider(MsgSlider::ST_MOVE, m_nCurrentPos, this);
+	m_nCurrentPos = CalculatePosition(pos, GetSize());
+	MsgSlider msgSlider(MsgSlider::ST_TRACKING, m_nCurrentPos, this);
 	CallEvent(msgSlider);
-
 	return true;
 }
 
 bool UISliderBar::OnTouchEnd(const Vector2& pos)
 {
-	m_nCurrentPos = int(pos.x / GetSize().x * (m_nMaxRange - m_nMinRange));
-	MsgSlider msgSlider(MsgSlider::ST_END, m_nCurrentPos, this);
-	CallEvent(msgSlider);
+	IUISystem::GetInstance().ReleaseMouse();
 	return true;
+}
+
+int UISliderBar::CalculatePosition(const Vector2& posMouse, const Vector2& size)
+{
+	float fPos = posMouse.x;
+	if (fPos < 0.0f) fPos = 0.0f;
+	if (fPos > size.x) fPos = size.x;
+
+	float fAlpha = fPos / size.x;
+	return (int)(m_nMinRange + fAlpha*(m_nMaxRange-m_nMinRange) + 0.5f);
 }

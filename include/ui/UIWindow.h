@@ -47,6 +47,7 @@ public:
 	void SetID(int nID);
 
 	const Vector2& GetPosition() const;
+	Vector2 GetPositionAbsolute();
 	void SetPosition(const Vector2& pos);
 
 	const Vector2& GetSize() const;
@@ -92,7 +93,6 @@ protected:
 	UIWindow* FindChildUnderPoint(const Vector2& pos);
 
 private:
-	UIWindow* m_pParent;
 	TV_WINDOW m_vChildren;
 
 	int m_nID;

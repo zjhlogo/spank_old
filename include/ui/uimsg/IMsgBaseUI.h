@@ -17,7 +17,7 @@ public:
 	DECLARE_RTTI(IMsgBaseUI, IMsgBase);
 
 	IMsgBaseUI(uint nMsgID, UIWindow* pSender);
-	~IMsgBaseUI();
+	virtual ~IMsgBaseUI();
 
 	UIWindow* GetSender();
 	int GetSenderID() const;

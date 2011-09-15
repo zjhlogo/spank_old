@@ -5,39 +5,35 @@
  *	
  * \author:	wbaoqing(wbaoqing@gamil.com)
  */
-#ifndef __MSGSLIDER_H_
-#define __MSGSLIDER_H_
+#ifndef __MSGSLIDER_H__
+#define __MSGSLIDER_H__
 
 #include "IMsgBaseUI.h"
 
 class MsgSlider : public IMsgBaseUI
 {
 public:
-	enum SILDER_TYPE
+	enum SLIDER_TYPE
 	{
-		ST_UNKNOWN = 0,
-		ST_CLICK,
-		ST_BEGIN,
-		ST_MOVE,
-		ST_END,
+		ST_POSITION,
+		ST_TRACKING,
 	};
 
 public:
 	DECLARE_RTTI(MsgSlider, IMsgBaseUI);
 
-	MsgSlider(SILDER_TYPE eType, int nCurrentPos, UIWindow* pSender);
+	MsgSlider(SLIDER_TYPE eType, int nPos, UIWindow* pSender);
 	virtual ~MsgSlider();
 	
 	void SetPosition(int nCurrentPos);
-	const int GetPosition() const;
+	int GetPosition() const;
 	
-	bool IsSilderMove() const;
-	bool IsSilderBegin() const;
-	bool IsSilderEnd() const;
+	bool IsPositionChanged() const;
+	bool IsTracking() const;
 
 private:
-	SILDER_TYPE m_eSilderType;
-	int m_nCurrentPos;
+	SLIDER_TYPE m_eSliderType;
+	int m_nPos;
 
 };
-#endif//__MSGSLIDER_H_
+#endif // __MSGSLIDER_H__

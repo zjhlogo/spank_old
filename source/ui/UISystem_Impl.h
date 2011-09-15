@@ -34,6 +34,9 @@ public:
 	virtual UIScreen* CreateUIScreen();
 	virtual bool ReleaseUIScreen(UIScreen* pUIScreen);
 
+	virtual bool CaptureMouse(UIWindow* pWindow);
+	virtual bool ReleaseMouse();
+
 	virtual bool ProcessTouchEvent(const Vector2& pos, UI_TOUCH_EVENT_TYPE eType);
 
 private:
@@ -42,6 +45,7 @@ private:
 private:
 	TV_UISCREEN m_vUIScreen;
 	UIScreen* m_pCurrScreen;
+	UIWindow* m_pWinMouseCapture;
 
 };
 

@@ -20,8 +20,12 @@ public:
 
 	virtual bool Initialize(UIScreen* pUIScreen);
 	virtual void Terminate();
-	
-	void UITestFun(IMsgBase* pMsg);
+
+private:
+	void OnButtonClicked(IMsgBase* pMsg);
+	void OnCheckButtonChecked(IMsgBase* pMsg);
+	void OnRadioButtonChecked(IMsgBase* pMsg);
+	void OnSlider(IMsgBase* pMsg);
 
 };
 #endif // __UITESTCASE_H__

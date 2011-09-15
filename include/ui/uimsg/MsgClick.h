@@ -8,22 +8,15 @@
 #ifndef __MSGCLICK_H__
 #define __MSGCLICK_H__
 
-#include "IMsgBase.h"
-#include "../ui/UIWindow.h"
+#include "IMsgBaseUI.h"
 
-class MsgClick : public IMsgBase
+class MsgClick : public IMsgBaseUI
 {
 public:
-	DECLARE_RTTI(MsgClick, IMsgBase);
+	DECLARE_RTTI(MsgClick, IMsgBaseUI);
 
 	MsgClick(UIWindow* pSender);
 	~MsgClick();
-
-	UIWindow* GetSender();
-	int GetSenderID() const;
-
-private:
-	UIWindow* m_pSender;
 
 };
 

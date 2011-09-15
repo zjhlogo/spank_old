@@ -57,14 +57,14 @@ void UISliderBar::Render(const RenderParam& param)
 		//render the foreground
 		QUAD_VERT_POS_UV quad;
 		IRendererUI::GetInstance().SetupQuad(quad, m_pStyle[DUS_SLIDERBAR_FOREGROUND], posAbs);
-
+		IRendererUI::GetInstance().SetTexture(m_pStyle[DUS_SLIDERBAR_FOREGROUND]->pTexture);
 		//calculate the size of the new foreground to render
 		float fAlpha = (float) m_nCurrentPos / (m_nMaxRange - m_nMinRange);
 		if (IRendererUI::GetInstance().ClipRect(quad, posAbs.x, posAbs.y, fAlpha*m_pStyle[DUS_SLIDERBAR_FOREGROUND]->width, m_pStyle[DUS_SLIDERBAR_FOREGROUND]->height))
-		{
+		{	
 			IRendererUI::GetInstance().DrawRect(quad);
 		}
-
+	
 		if (IsPressed())
 		{
 			// render pressed state

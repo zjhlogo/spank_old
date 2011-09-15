@@ -8,8 +8,8 @@
 #include <ui/UIButton.h>
 #include <ui/IRendererUI.h>
 #include <ui/IUIResMgr.h>
-#include <msg/MsgID.h>
-#include <msg/MsgClick.h>
+#include <ui/uimsg/MsgClick.h>
+#include <ui/uimsg/UIMsgID.h>
 #include <util/IDebugUtil.h>
 #include <util/StringUtil.h>
 
@@ -49,7 +49,6 @@ void UIButton::Render(const RenderParam& param)
 		// render disabled state
 		IRendererUI::GetInstance().DrawRect(posAbs, m_pStyle[DUS_BUTTON_DISABLED]);
 		// TODO: render string disabled state
-		IRendererUI::GetInstance().Flush();
 		m_pString->Render(posAbs + posStroff);
 	}
 	else if (IsPressed())
@@ -57,7 +56,6 @@ void UIButton::Render(const RenderParam& param)
 		// render pressed state
 		IRendererUI::GetInstance().DrawRect(posAbs, m_pStyle[DUS_BUTTON_PRESSED]);
 		// TODO: render string pressed state
-		IRendererUI::GetInstance().Flush();
 		m_pString->Render(posAbs + posStroff);
 	}
 	else
@@ -65,7 +63,6 @@ void UIButton::Render(const RenderParam& param)
 		// render default state
 		IRendererUI::GetInstance().DrawRect(posAbs, m_pStyle[DUS_BUTTON_DEFAULT]);
 		// TODO: render string pressed state
-		IRendererUI::GetInstance().Flush();
 		m_pString->Render(posAbs + posStroff);
 	}
 }

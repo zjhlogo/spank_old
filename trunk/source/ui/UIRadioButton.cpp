@@ -8,7 +8,8 @@
 #include <ui/UIRadioButton.h>
 #include <ui/IRendererUI.h>
 #include <ui/IUIResMgr.h>
-#include <msg/MsgButtonSelect.h>
+#include <ui/uimsg/MsgCheck.h>
+
 UIRadioButton::UIRadioButton(UIWindow* pParent)
 :UIWindow(pParent)
 {
@@ -98,15 +99,24 @@ Vector2 UIRadioButton::GetBestSize()
 void UIRadioButton::SetGroupID(int nGroup)
 {
 	m_nGroupID = nGroup;
-	// TODO: join to a new group
-	if(m_bCheck)
+
+	// join to a new group
+	if(!IsChecked()) return;
+
+	UIWindow* pParentWindow = GetParentWindow();
+	if (!pParentWindow) return;
+
+	TV_WINDOW vRadioButton;
+	if (!pParentWindow->EnumlateChildrenWindows(vRadioButton, this, (ENUM_WINDOW_FILTER)&UIRadioButton::RadioButtonFilter, NULL)) return;
+
+	for (TV_WINDOW::iterator it = vRadioButton.begin(); it != vRadioButton.end(); ++it)
 	{
-		UIWindow* pParentWindow = GetParentWindow();
-		if (!pParentWindow) return ;
-		TV_WINDOW vRadioButton;
-		if (!pParentWindow->EnumlateChildrenWindows(vRadioButton, this, (ENUM_WINDOW_FILTER)&UIRadioButton::RadioButtonFilter, NULL)) return;
-		if( vRadioButton.size() != 0)
-			m_bCheck = false;
+		UIRadioButton* pRadioButton = (UIRadioButton*)(*it);
+		if (pRadioButton->IsChecked())
+		{
+			SetCheck(false);
+			return;
+		}
 	}
 }
 
@@ -162,8 +172,8 @@ bool UIRadioButton::OnClicked(const Vector2& pos)
 	// change status and send message
 	if (SetCheck(true))
 	{
-		MsgButtonSelect msgButtonSelect(m_bCheck);
-		CallEvent(msgButtonSelect);
+		MsgCheck msgCheck(m_bCheck, this);
+		CallEvent(msgCheck);
 	}
 	return true;
 }

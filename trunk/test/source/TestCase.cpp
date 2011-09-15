@@ -10,6 +10,7 @@
 #include <ui/UITextView.h>
 #include <util/ScreenUtil.h>
 #include <msg/MsgCommon.h>
+#include <ui/uimsg/UIMsgID.h>
 #include "UserMsgID.h"
 
 TestCase::TestCase(const char* pszTestName)
@@ -77,7 +78,7 @@ void TestCase::AddReturnButton(UIScreen* pUIScreen)
 
 	Vector2 pos(0.0f, ScreenUtil::GetInstance().GetScreenHeight() - pTextView->GetSize().y);
 	pTextView->SetPosition(pos);
-	pTextView->ConnectEvent(MI_UI_CLICKED, this, CAST_MSG_CALLBACK(&TestCase::OnBtnReturnClicked));
+	pTextView->ConnectEvent(UMI_CLICKED, this, CAST_MSG_CALLBACK(&TestCase::OnBtnReturnClicked));
 }
 
 bool TestCase::OnBtnReturnClicked(IMsgBase* pMsg)

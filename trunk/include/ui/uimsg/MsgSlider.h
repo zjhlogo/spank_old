@@ -8,10 +8,9 @@
 #ifndef __MSGSLIDER_H_
 #define __MSGSLIDER_H_
 
-#include "IMsgBase.h"
-#include "../math/IMath.h"
+#include "IMsgBaseUI.h"
 
-class MsgSilder: public IMsgBase
+class MsgSlider : public IMsgBaseUI
 {
 public:
 	enum SILDER_TYPE
@@ -24,17 +23,18 @@ public:
 	};
 
 public:
-	DECLARE_RTTI(MsgSilder, IMsgBase);
+	DECLARE_RTTI(MsgSlider, IMsgBaseUI);
 
-	MsgSilder(SILDER_TYPE eType, int nCurrentPos);
-	virtual ~MsgSilder();
+	MsgSlider(SILDER_TYPE eType, int nCurrentPos, UIWindow* pSender);
+	virtual ~MsgSlider();
 	
 	void SetPosition(int nCurrentPos);
 	const int GetPosition() const;
 	
 	bool IsSilderMove() const;
 	bool IsSilderBegin() const;
-	bool IsSilderEnd()const;
+	bool IsSilderEnd() const;
+
 private:
 	SILDER_TYPE m_eSilderType;
 	int m_nCurrentPos;

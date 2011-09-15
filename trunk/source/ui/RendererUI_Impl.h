@@ -42,21 +42,27 @@ public:
 	virtual void SetColor(float r, float g, float b, float a);
 
 	virtual void DrawTriangleList(const VATTR_POS_UV* pVerts, uint nVerts, const ushort* pIndis, uint nIndis);
+
 	virtual void DrawRect(const QUAD_VERT_POS_UV& quad);
+
 	virtual void DrawRect(const Vector2& pos, const IMAGE_PIECE* pImagePiece);
 	virtual void DrawRect(float x, float y, const IMAGE_PIECE* pImagePiece);
 	virtual void DrawRect(const Vector2& pos, const Vector2& size, const IMAGE_PIECE* pImagePiece);
 	virtual void DrawRect(float x, float y, float width, float height, const IMAGE_PIECE* pImagePiece);
+
 	virtual void DrawRect(const Vector2& pos, const Vector2& size, const IMAGE_FRAME* pImageFrame);
 	virtual void DrawRect(float x, float y, float width, float height, const IMAGE_FRAME* pImageFrame);
 
 	virtual Vector2 CalculateSizeWithFrame(const Vector2& size, const IMAGE_FRAME* pImageFrame);
 	virtual Vector2 CalculateSizeWithFrame(float width, float height, const IMAGE_FRAME* pImageFrame);
 
-
+	virtual bool ClipRect(QUAD_VERT_POS_UV& quadInOut, const Vector2& pos, const Vector2& size);
 	virtual bool ClipRect(QUAD_VERT_POS_UV& quadInOut, float x, float y, float width, float height);
-	virtual bool ClipRect(const IMAGE_PIECE* pImagePiece,IMAGE_PIECE& ImagePieceOut, float u, float v, float du, float dv);
-	virtual void Flush();
+
+	virtual bool SetupQuad(QUAD_VERT_POS_UV& quadOut, const IMAGE_PIECE* pImagePiece, const Vector2& pos);
+	virtual bool SetupQuad(QUAD_VERT_POS_UV& quadOut, const IMAGE_PIECE* pImagePiece, float x, float y);
+	virtual bool SetupQuad(QUAD_VERT_POS_UV& quadOut, const IMAGE_PIECE* pImagePiece, const Vector2& pos, const Vector2& size);
+	virtual bool SetupQuad(QUAD_VERT_POS_UV& quadOut, const IMAGE_PIECE* pImagePiece, float x, float y, float width, float height);
 
 	virtual void BeginRender();
 	virtual void EndRender();

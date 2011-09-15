@@ -7,9 +7,10 @@
  */
 #include <ui/UISliderBar.h>
 #include <ui/IRendererUI.h>
-#include <msg/MsgSlider.h>
-#include <util/IDebugUtil.h>
 #include <ui/IUIResMgr.h>
+#include <ui/uimsg/MsgSlider.h>
+#include <util/IDebugUtil.h>
+
 UISliderBar::UISliderBar(UIWindow* pParent)
 :UIWindow(pParent)
 {
@@ -34,14 +35,16 @@ void UISliderBar::Update(float dt)
 void UISliderBar::Render(const RenderParam& param)
 {
 	RenderBorder(param);
+
 	Vector2 posAbs = param.m_vBasePos + GetPosition();
+
 	//AdjustPosition
-	if( m_pStyle[DUS_SLIDERBAR_THUMB_DEFAULT]->height > m_pStyle[DUS_SLIDERBAR_BACKGROUND]->height)
+	if (m_pStyle[DUS_SLIDERBAR_THUMB_DEFAULT]->height > m_pStyle[DUS_SLIDERBAR_BACKGROUND]->height)
 	{
 		posAbs.y = posAbs.y + (m_pStyle[DUS_SLIDERBAR_THUMB_DEFAULT]->height - m_pStyle[DUS_SLIDERBAR_BACKGROUND]->height) /2.0f;
 	}
 
-	if(! IsEnable() || !param.IsEnable())
+	if (!IsEnable() || !param.IsEnable())
 	{
 		//render disabled state;
 		IRendererUI::GetInstance().DrawRect(posAbs, m_pStyle[DUS_SLIDERBAR_THUMB_DISABLED]);
@@ -50,27 +53,33 @@ void UISliderBar::Render(const RenderParam& param)
 	{
 		//render the background
 		IRendererUI::GetInstance().DrawRect(posAbs, m_pStyle[DUS_SLIDERBAR_BACKGROUND]);
+
 		//render the foreground
+		QUAD_VERT_POS_UV quad;
+		IRendererUI::GetInstance().SetupQuad(quad, m_pStyle[DUS_SLIDERBAR_FOREGROUND], posAbs);
+
 		//calculate the size of the new foreground to render
-		float Aplaha = (float)m_nCurrentPos / (m_nMaxRange - m_nMinRange);
-		IMAGE_PIECE ImagePiece;
-		IRendererUI::GetInstance().ClipRect(m_pStyle[DUS_SLIDERBAR_FOREGROUND], ImagePiece, 0.0f, 0.0f, Aplaha, 1.0f);
-		IRendererUI::GetInstance().DrawRect(posAbs, &ImagePiece);
-		 if( IsPressed())
+		float fAlpha = (float) m_nCurrentPos / (m_nMaxRange - m_nMinRange);
+		if (IRendererUI::GetInstance().ClipRect(quad, posAbs.x, posAbs.y, fAlpha*m_pStyle[DUS_SLIDERBAR_FOREGROUND]->width, m_pStyle[DUS_SLIDERBAR_FOREGROUND]->height))
+		{
+			IRendererUI::GetInstance().DrawRect(quad);
+		}
+
+		if (IsPressed())
 		{
 			// render pressed state
 			//calculate the position of the Arrow to render
-			float fposx = posAbs.x + m_pStyle[DUS_SLIDERBAR_BACKGROUND]->width * Aplaha - m_pStyle[DUS_SLIDERBAR_THUMB_PRESSED]->width / 2.0f;
+			float fposx = posAbs.x + m_pStyle[DUS_SLIDERBAR_BACKGROUND]->width * fAlpha - m_pStyle[DUS_SLIDERBAR_THUMB_PRESSED]->width / 2.0f;
 			float fposy = posAbs.y - (m_pStyle[DUS_SLIDERBAR_THUMB_PRESSED]->height - m_pStyle[DUS_SLIDERBAR_BACKGROUND]->height) / 2.0f;
-			IRendererUI::GetInstance().DrawRect(fposx,fposy, m_pStyle[DUS_SLIDERBAR_THUMB_PRESSED]);
+			IRendererUI::GetInstance().DrawRect(fposx, fposy, m_pStyle[DUS_SLIDERBAR_THUMB_PRESSED]);
 		}
 		else
 		{
 			// render default state
 			//calculate the position of the Arrow to render
-			float fposx = posAbs.x + m_pStyle[DUS_SLIDERBAR_BACKGROUND]->width * Aplaha - m_pStyle[DUS_SLIDERBAR_THUMB_DEFAULT]->width / 2.0f;
+			float fposx = posAbs.x + m_pStyle[DUS_SLIDERBAR_BACKGROUND]->width * fAlpha - m_pStyle[DUS_SLIDERBAR_THUMB_DEFAULT]->width / 2.0f;
 			float fposy = posAbs.y - (m_pStyle[DUS_SLIDERBAR_THUMB_DEFAULT]->height - m_pStyle[DUS_SLIDERBAR_BACKGROUND]->height) / 2.0f;
-			IRendererUI::GetInstance().DrawRect(fposx,fposy, m_pStyle[DUS_SLIDERBAR_THUMB_DEFAULT]);
+			IRendererUI::GetInstance().DrawRect(fposx, fposy, m_pStyle[DUS_SLIDERBAR_THUMB_DEFAULT]);
 		}
 	}
 }
@@ -108,25 +117,24 @@ bool UISliderBar::SetSliderBarTexture(const IMAGE_PIECE* pImagePiece, int nIndex
 
 bool UISliderBar::OnClicked(const Vector2& pos)
 {
-
-	m_nCurrentPos = int(pos.x / GetBestSize().x * (m_nMaxRange - m_nMinRange));
-	MsgSilder msgSlider(MsgSilder::ST_BEGIN, m_nCurrentPos);
+	m_nCurrentPos = int(pos.x / GetSize().x * (m_nMaxRange - m_nMinRange));
+	MsgSlider msgSlider(MsgSlider::ST_END, m_nCurrentPos, this);
 	CallEvent(msgSlider);
 	return true;
 }
 
 bool UISliderBar::OnTouchBegin(const Vector2& pos)
 {
-	m_nCurrentPos = int(pos.x / GetBestSize().x * (m_nMaxRange - m_nMinRange));
-	MsgSilder msgSlider(MsgSilder::ST_BEGIN, m_nCurrentPos);
+	m_nCurrentPos = int(pos.x / GetSize().x * (m_nMaxRange - m_nMinRange));
+	MsgSlider msgSlider(MsgSlider::ST_BEGIN, m_nCurrentPos, this);
 	CallEvent(msgSlider);
 	return true;
 }
 
 bool UISliderBar::OnTouchMove(const Vector2& pos)
 {
-	m_nCurrentPos = int(pos.x / GetBestSize().x * (m_nMaxRange - m_nMinRange));
-	MsgSilder msgSlider(MsgSilder::ST_MOVE, m_nCurrentPos);
+	m_nCurrentPos = int(pos.x / GetSize().x * (m_nMaxRange - m_nMinRange));
+	MsgSlider msgSlider(MsgSlider::ST_MOVE, m_nCurrentPos, this);
 	CallEvent(msgSlider);
 
 	return true;
@@ -134,9 +142,8 @@ bool UISliderBar::OnTouchMove(const Vector2& pos)
 
 bool UISliderBar::OnTouchEnd(const Vector2& pos)
 {
-	m_nCurrentPos = int(pos.x / GetBestSize().x * (m_nMaxRange - m_nMinRange));
-	MsgSilder msgSlider(MsgSilder::ST_END, m_nCurrentPos);
+	m_nCurrentPos = int(pos.x / GetSize().x * (m_nMaxRange - m_nMinRange));
+	MsgSlider msgSlider(MsgSlider::ST_END, m_nCurrentPos, this);
 	CallEvent(msgSlider);
 	return true;
 }
-

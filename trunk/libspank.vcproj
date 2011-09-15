@@ -285,22 +285,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\source\msg\MsgButtonSelect.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\include\msg\MsgButtonSelect.h"
-				>
-			</File>
-			<File
-				RelativePath=".\source\msg\MsgClick.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\include\msg\MsgClick.h"
-				>
-			</File>
-			<File
 				RelativePath=".\source\msg\MsgCommon.cpp"
 				>
 			</File>
@@ -314,14 +298,6 @@
 			</File>
 			<File
 				RelativePath=".\include\msg\MsgMgr.h"
-				>
-			</File>
-			<File
-				RelativePath=".\source\msg\MsgSlider.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\include\msg\MsgSlider.h"
 				>
 			</File>
 			<File
@@ -608,6 +584,42 @@
 				RelativePath=".\source\ui\VertexCache.h"
 				>
 			</File>
+			<Filter
+				Name="uimsg"
+				>
+				<File
+					RelativePath=".\source\ui\uimsg\IMsgBaseUI.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\include\ui\uimsg\IMsgBaseUI.h"
+					>
+				</File>
+				<File
+					RelativePath=".\source\ui\uimsg\MsgCheck.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\include\ui\uimsg\MsgCheck.h"
+					>
+				</File>
+				<File
+					RelativePath=".\source\ui\uimsg\MsgClick.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\include\ui\uimsg\MsgClick.h"
+					>
+				</File>
+				<File
+					RelativePath=".\source\ui\uimsg\MsgSlider.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\include\ui\uimsg\MsgSlider.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<File
 			RelativePath=".\source\Core_Impl.cpp"

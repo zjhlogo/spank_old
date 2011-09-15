@@ -9,8 +9,7 @@
 #include <ui/IRendererUI.h>
 #include <ui/IUIResMgr.h>
 #include <util/IDebugUtil.h>
-#include <msg/MsgClick.h>
-#include <msg/MsgID.h>
+#include <ui/uimsg/MsgClick.h>
 
 UITextView::UITextView(UIWindow* pParent, const char* pszText)
 :UIWindow(pParent)

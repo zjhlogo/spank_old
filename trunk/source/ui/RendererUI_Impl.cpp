@@ -157,7 +157,7 @@ void RendererUI_Impl::DrawRect(const QUAD_VERT_POS_UV& quad)
 
 void RendererUI_Impl::DrawRect(const Vector2& pos, const IMAGE_PIECE* pImagePiece)
 {
-	DrawRect(pos.x, pos.y, pImagePiece);
+	DrawRect(pos.x, pos.y, pImagePiece->width, pImagePiece->height, pImagePiece);
 }
 
 void RendererUI_Impl::DrawRect(float x, float y, const IMAGE_PIECE* pImagePiece)
@@ -271,7 +271,12 @@ Vector2 RendererUI_Impl::CalculateSizeWithFrame(float width, float height, const
 	return IMath::VEC2_ZERO;
 }
 
-bool RendererUI_Impl::ClipRect( QUAD_VERT_POS_UV& quadInOut, float x, float y, float width, float height )
+bool RendererUI_Impl::ClipRect(QUAD_VERT_POS_UV& quadInOut, const Vector2& pos, const Vector2& size)
+{
+	return ClipRect(quadInOut, pos.x, pos.y, size.x, size.y);
+}
+
+bool RendererUI_Impl::ClipRect(QUAD_VERT_POS_UV& quadInOut, float x, float y, float width, float height)
 {
 	//determine whether rect in the Quad
 	if((quadInOut.verts[0].x > x + width)
@@ -326,40 +331,70 @@ bool RendererUI_Impl::ClipRect( QUAD_VERT_POS_UV& quadInOut, float x, float y, f
 	return true;
 }
 
-bool RendererUI_Impl::ClipRect( const IMAGE_PIECE* pImagePiece,IMAGE_PIECE& ImagePieceOut, float u, float v, float du, float dv )
+bool RendererUI_Impl::SetupQuad(QUAD_VERT_POS_UV& quadOut, const IMAGE_PIECE* pImagePiece, const Vector2& pos)
 {
-	ImagePieceOut.u = pImagePiece->u + pImagePiece->du * u;
-	ImagePieceOut.v = pImagePiece->v + pImagePiece->dv * v;
+	return SetupQuad(quadOut, pImagePiece, pos.x, pos.y, pImagePiece->width, pImagePiece->height);
+}
 
-	ImagePieceOut.du = pImagePiece->du * du;
-	ImagePieceOut.dv = pImagePiece->dv * dv;
+bool RendererUI_Impl::SetupQuad(QUAD_VERT_POS_UV& quadOut, const IMAGE_PIECE* pImagePiece, float x, float y)
+{
+	return SetupQuad(quadOut, pImagePiece, x, y, pImagePiece->width, pImagePiece->height);
+}
 
-	ImagePieceOut.width = pImagePiece->width * du;
-	ImagePieceOut.height = pImagePiece->height *dv;
+bool RendererUI_Impl::SetupQuad(QUAD_VERT_POS_UV& quadOut, const IMAGE_PIECE* pImagePiece, const Vector2& pos, const Vector2& size)
+{
+	return SetupQuad(quadOut, pImagePiece, pos.x, pos.y, size.x, size.y);
+}
 
-	ImagePieceOut.pTexture = pImagePiece->pTexture;
+bool RendererUI_Impl::SetupQuad(QUAD_VERT_POS_UV& quadOut, const IMAGE_PIECE* pImagePiece, float x, float y, float width, float height)
+{
+	if (width <= 0.0f || height <= 0.0f) return false;
+
+	quadOut.verts[0].x = x;
+	quadOut.verts[0].y = y + height;
+	quadOut.verts[0].z = 0.0f;
+	quadOut.verts[0].u = pImagePiece->u;
+	quadOut.verts[0].v = pImagePiece->v;
+
+	quadOut.verts[1].x = x;
+	quadOut.verts[1].y = y;
+	quadOut.verts[1].z = 0.0f;
+	quadOut.verts[1].u = pImagePiece->u;
+	quadOut.verts[1].v = pImagePiece->v + pImagePiece->dv;
+
+	quadOut.verts[2].x = x + width;
+	quadOut.verts[2].y = y + height;
+	quadOut.verts[2].z = 0.0f;
+	quadOut.verts[2].u = pImagePiece->u + pImagePiece->du;
+	quadOut.verts[2].v = pImagePiece->v;
+
+	quadOut.verts[3].x = x + width;
+	quadOut.verts[3].y = y;
+	quadOut.verts[3].z = 0.0f;
+	quadOut.verts[3].u = pImagePiece->u + pImagePiece->du;
+	quadOut.verts[3].v = pImagePiece->v + pImagePiece->dv;
+
 	return true;
 }
 
-
-void RendererUI_Impl::Flush()
-{
-	if (!m_bRenderBegan) return;
-
-	for (int i = 0; i < NUM_POS_RGB_CACHE; ++i)
-	{
-		m_pCaches_POS_RGB[i]->Flush();
-		m_pCaches_POS_RGB[i]->SetShader(NULL);
-		m_pCaches_POS_RGB[i]->SetTexture(NULL);
-	}
-
-	for (int i = 0; i < NUM_POS_UV_CACHE; ++i)
-	{
-		m_pCaches_POS_UV[i]->Flush();
-		m_pCaches_POS_UV[i]->SetShader(NULL);
-		m_pCaches_POS_UV[i]->SetTexture(NULL);
-	}
-}
+// void RendererUI_Impl::Flush()
+// {
+// 	if (!m_bRenderBegan) return;
+// 
+// 	for (int i = 0; i < NUM_POS_RGB_CACHE; ++i)
+// 	{
+// 		m_pCaches_POS_RGB[i]->Flush();
+// 		m_pCaches_POS_RGB[i]->SetShader(NULL);
+// 		m_pCaches_POS_RGB[i]->SetTexture(NULL);
+// 	}
+// 
+// 	for (int i = 0; i < NUM_POS_UV_CACHE; ++i)
+// 	{
+// 		m_pCaches_POS_UV[i]->Flush();
+// 		m_pCaches_POS_UV[i]->SetShader(NULL);
+// 		m_pCaches_POS_UV[i]->SetTexture(NULL);
+// 	}
+// }
 
 void RendererUI_Impl::BeginRender()
 {

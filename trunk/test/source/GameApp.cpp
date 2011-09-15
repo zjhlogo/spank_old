@@ -8,10 +8,12 @@
 #include "GameApp.h"
 #include <util/ScreenUtil.h>
 #include <util/IDebugUtil.h>
-#include <msg/MsgID.h>
 #include <msg/MsgMgr.h>
 #include <msg/MsgTouch.h>
-#include <msg/MsgClick.h>
+
+#include <ui/uimsg/MsgClick.h>
+#include <ui/uimsg/UIMsgID.h>
+
 #include <ui/IUISystem.h>
 #include <ui/UITextView.h>
 #include <IResourceMgr.h>
@@ -86,17 +88,17 @@ bool GameApp::OnMsgTouch(IMsgBase* pMsg)
 
 	if (pMsgTouch->IsTouchBegin())
 	{
-		LOGD("touch begin: (%.02f, %.02f)", pMsgTouch->GetPosition().x, pMsgTouch->GetPosition().y);
+// 		LOGD("touch begin: (%.02f, %.02f)", pMsgTouch->GetPosition().x, pMsgTouch->GetPosition().y);
 		IUISystem::GetInstance().ProcessTouchEvent(pMsgTouch->GetPosition(), UTET_BEGIN);
 	}
 	else if (pMsgTouch->IsTouchMove())
 	{
-		LOGD("touch move: (%.02f, %.02f)", pMsgTouch->GetPosition().x, pMsgTouch->GetPosition().y);
+// 		LOGD("touch move: (%.02f, %.02f)", pMsgTouch->GetPosition().x, pMsgTouch->GetPosition().y);
 		IUISystem::GetInstance().ProcessTouchEvent(pMsgTouch->GetPosition(), UTET_MOVE);
 	}
 	else if (pMsgTouch->IsTouchEnd())
 	{
-		LOGD("touch end: (%.02f, %.02f)", pMsgTouch->GetPosition().x, pMsgTouch->GetPosition().y);
+// 		LOGD("touch end: (%.02f, %.02f)", pMsgTouch->GetPosition().x, pMsgTouch->GetPosition().y);
 		IUISystem::GetInstance().ProcessTouchEvent(pMsgTouch->GetPosition(), UTET_END);
 	}
 
@@ -135,7 +137,7 @@ bool GameApp::AddTestCase(TestCase* pTestCase, UIScreen* pScreen)
 	Vector2 pos((ScreenUtil::GetInstance().GetScreenWidth() - pTextView->GetSize().x) / 2.0f, m_vTextViewPos.y);
 	pTextView->SetID(nIndex);
 	pTextView->SetPosition(pos);
-	pTextView->ConnectEvent(MI_UI_CLICKED, this, CAST_MSG_CALLBACK(&GameApp::OnBtnTestCaseClicked));
+	pTextView->ConnectEvent(UMI_CLICKED, this, CAST_MSG_CALLBACK(&GameApp::OnBtnTestCaseClicked));
 
 	m_vTestCase.push_back(pTestCase);
 	pTestCase->ConnectEvent(MI_USER_RETURN, this, CAST_MSG_CALLBACK(&GameApp::OnBtnReturnClicked));

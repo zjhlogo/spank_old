@@ -287,8 +287,8 @@ bool RendererUI_Impl::ClipRect(QUAD_VERT_POS_UV& quadInOut, float x, float y, fl
 
 	if( quadInOut.verts[0].x < x)
 	{
-		float Alpha = (x - quadInOut.verts[0].x) / (quadInOut.verts[2].x - quadInOut.verts[0].x);
-		float u = quadInOut.verts[0].u * (1.0f - Alpha) + quadInOut.verts[2].u * Alpha;
+		float fAlpha = (x - quadInOut.verts[0].x) / (quadInOut.verts[2].x - quadInOut.verts[0].x);
+		float u = quadInOut.verts[0].u * (1.0f - fAlpha) + quadInOut.verts[2].u * fAlpha;
 		quadInOut.verts[0].x = x;
 		quadInOut.verts[0].u = u;
 		quadInOut.verts[1].x = x;
@@ -297,8 +297,8 @@ bool RendererUI_Impl::ClipRect(QUAD_VERT_POS_UV& quadInOut, float x, float y, fl
 	
 	if(quadInOut.verts[2].x > x + width)
 	{
-		float Alpha = ((x + width) - quadInOut.verts[0].x) / (quadInOut.verts[3].x - quadInOut.verts[0].x);
-		float u = quadInOut.verts[0].u * (1.0f - Alpha) + quadInOut.verts[2].u * Alpha;
+		float fAlpha = ((x + width) - quadInOut.verts[0].x) / (quadInOut.verts[3].x - quadInOut.verts[0].x);
+		float u = quadInOut.verts[0].u * (1.0f - fAlpha) + quadInOut.verts[2].u * fAlpha;
 
 		quadInOut.verts[2].x = x +width;
 		quadInOut.verts[2].u = u;
@@ -308,8 +308,8 @@ bool RendererUI_Impl::ClipRect(QUAD_VERT_POS_UV& quadInOut, float x, float y, fl
 
 	if(quadInOut.verts[1].y < y)
 	{
-		float Alpha =(y - quadInOut.verts[1].y) / (quadInOut.verts[0].y - quadInOut.verts[1].y);
-		float v = quadInOut.verts[1].v *  Alpha + quadInOut.verts[0].v * (1.0f - Alpha);
+		float fAlpha =(y - quadInOut.verts[1].y) / (quadInOut.verts[0].y - quadInOut.verts[1].y);
+		float v = quadInOut.verts[0].v *  fAlpha + quadInOut.verts[1].v * (1.0f - fAlpha);
 
 		quadInOut.verts[1].y = y;
 		quadInOut.verts[1].v = v;
@@ -319,8 +319,8 @@ bool RendererUI_Impl::ClipRect(QUAD_VERT_POS_UV& quadInOut, float x, float y, fl
 
 	if( quadInOut.verts[0].y > y + height)
 	{
-		float Alpha = ((y + height) - quadInOut.verts[1].y) / (quadInOut.verts[0].y - quadInOut.verts[1].y);
-		float v = quadInOut.verts[1].v *  Alpha + quadInOut.verts[0].v * (1.0f - Alpha);
+		float fAlpha = ((y + height) - quadInOut.verts[1].y) / (quadInOut.verts[0].y - quadInOut.verts[1].y);
+		float v = quadInOut.verts[0].v *  fAlpha + quadInOut.verts[1].v * (1.0f - fAlpha);
 
 		quadInOut.verts[0].y = y + height;
 		quadInOut.verts[0].v = v;

@@ -287,45 +287,45 @@ bool RendererUI_Impl::ClipRect(QUAD_VERT_POS_UV& quadInOut, float x, float y, fl
 
 	if( quadInOut.verts[0].x < x)
 	{
-		float Alpha = (x - quadInOut.verts[0].x) / (quadInOut.verts[3].x - quadInOut.verts[0].x);
-		float u = quadInOut.verts[0].u * (1.0f - Alpha) + quadInOut.verts[3].u * Alpha;
+		float Alpha = (x - quadInOut.verts[0].x) / (quadInOut.verts[2].x - quadInOut.verts[0].x);
+		float u = quadInOut.verts[0].u * (1.0f - Alpha) + quadInOut.verts[2].u * Alpha;
 		quadInOut.verts[0].x = x;
 		quadInOut.verts[0].u = u;
 		quadInOut.verts[1].x = x;
 		quadInOut.verts[1].u = u;
 	}
 	
-	if(quadInOut.verts[3].x > x + width)
+	if(quadInOut.verts[2].x > x + width)
 	{
 		float Alpha = ((x + width) - quadInOut.verts[0].x) / (quadInOut.verts[3].x - quadInOut.verts[0].x);
-		float u = quadInOut.verts[0].u * (1.0f - Alpha) + quadInOut.verts[3].u * Alpha;
+		float u = quadInOut.verts[0].u * (1.0f - Alpha) + quadInOut.verts[2].u * Alpha;
 
+		quadInOut.verts[2].x = x +width;
+		quadInOut.verts[2].u = u;
 		quadInOut.verts[3].x = x +width;
-		quadInOut.verts[3].u = y;
-		quadInOut.verts[4].x = x +width;
-		quadInOut.verts[4].u = u;
+		quadInOut.verts[3].u = u;
 	}
 
 	if(quadInOut.verts[1].y < y)
 	{
 		float Alpha =(y - quadInOut.verts[1].y) / (quadInOut.verts[0].y - quadInOut.verts[1].y);
-		float v = quadInOut.verts[1].v *  Alpha + quadInOut.verts[3].v * (1.0f - Alpha);
+		float v = quadInOut.verts[1].v *  Alpha + quadInOut.verts[0].v * (1.0f - Alpha);
 
 		quadInOut.verts[1].y = y;
 		quadInOut.verts[1].v = v;
-		quadInOut.verts[4].y = y;
-		quadInOut.verts[4].v = v;
+		quadInOut.verts[3].y = y;
+		quadInOut.verts[3].v = v;
 	}
 
 	if( quadInOut.verts[0].y > y + height)
 	{
 		float Alpha = ((y + height) - quadInOut.verts[1].y) / (quadInOut.verts[0].y - quadInOut.verts[1].y);
-		float v = quadInOut.verts[1].v *  Alpha + quadInOut.verts[3].v * (1.0f - Alpha);
+		float v = quadInOut.verts[1].v *  Alpha + quadInOut.verts[0].v * (1.0f - Alpha);
 
 		quadInOut.verts[0].y = y + height;
 		quadInOut.verts[0].v = v;
-		quadInOut.verts[3].y = y + height;
-		quadInOut.verts[3].v = v;
+		quadInOut.verts[2].y = y + height;
+		quadInOut.verts[2].v = v;
 	}
 
 	return true;

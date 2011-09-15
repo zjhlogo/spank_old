@@ -8,8 +8,7 @@
 #include <ui/UICheckButton.h>
 #include <ui/IRendererUI.h>
 #include <ui/IUIResMgr.h>
-#include <msg/MsgClick.h>
-
+#include <msg/MsgButtonSelect.h>
 UICheckButton::UICheckButton(UIWindow* pParent)
 :UIWindow(pParent)
 {
@@ -128,5 +127,7 @@ bool UICheckButton::OnClicked(const Vector2& pos)
 {
 	m_bCheck = !m_bCheck;
 	// TODO: notify msg event
+	MsgButtonSelect msgButtonSelect(m_bCheck);
+	CallEvent(msgButtonSelect);
 	return true;
 }

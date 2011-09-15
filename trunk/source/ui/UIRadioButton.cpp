@@ -8,7 +8,7 @@
 #include <ui/UIRadioButton.h>
 #include <ui/IRendererUI.h>
 #include <ui/IUIResMgr.h>
-
+#include <msg/MsgButtonSelect.h>
 UIRadioButton::UIRadioButton(UIWindow* pParent)
 :UIWindow(pParent)
 {
@@ -99,12 +99,15 @@ void UIRadioButton::SetGroupID(int nGroup)
 {
 	m_nGroupID = nGroup;
 	// TODO: join to a new group
-	UIWindow* pParentWindow = GetParentWindow();
-	if (!pParentWindow) return ;
-	TV_WINDOW vRadioButton;
-	if (!pParentWindow->EnumlateChildrenWindows(vRadioButton, this, (ENUM_WINDOW_FILTER)&UIRadioButton::RadioButtonFilter, NULL)) return;
-	if( vRadioButton.size() != 0)
-		SetCheck(false);
+	if(m_bCheck)
+	{
+		UIWindow* pParentWindow = GetParentWindow();
+		if (!pParentWindow) return ;
+		TV_WINDOW vRadioButton;
+		if (!pParentWindow->EnumlateChildrenWindows(vRadioButton, this, (ENUM_WINDOW_FILTER)&UIRadioButton::RadioButtonFilter, NULL)) return;
+		if( vRadioButton.size() != 0)
+			m_bCheck = false;
+	}
 }
 
 int UIRadioButton::GetGroupID() const
@@ -159,9 +162,9 @@ bool UIRadioButton::OnClicked(const Vector2& pos)
 	// change status and send message
 	if (SetCheck(true))
 	{
-		// TODO: notify check event
+		MsgButtonSelect msgButtonSelect(m_bCheck);
+		CallEvent(msgButtonSelect);
 	}
-
 	return true;
 }
 

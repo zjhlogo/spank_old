@@ -96,7 +96,7 @@ bool UIButton::SetButtonTexture(const IMAGE_PIECE* pImagePiece, int nIndex)
 
 bool UIButton::OnClicked(const Vector2& pos)
 {
-	MsgClick msgClick(this);
-	CallEvent(msgClick);
+	MsgClick msgclick(this);
+	CallEvent(msgclick);
 	return true;
 }

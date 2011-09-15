@@ -190,6 +190,22 @@
 			>
 		</File>
 		<File
+			RelativePath="..\source\ClipRectTestCase.cpp"
+			>
+		</File>
+		<File
+			RelativePath="..\source\ClipRectTestCase.h"
+			>
+		</File>
+		<File
+			RelativePath="..\source\ClipTest.cpp"
+			>
+		</File>
+		<File
+			RelativePath="..\source\ClipTest.h"
+			>
+		</File>
+		<File
 			RelativePath="..\source\GameApp.cpp"
 			>
 		</File>

@@ -83,6 +83,7 @@ bool UITestCase::Initialize(UIScreen* pUIScreen)
 		UISliderBar* pSlider = new UISliderBar(pUIScreen);
 		pSlider->SetID(nID++);
 		pSlider->SetPosition(Vector2(10.0f, 250.0f));
+		pSlider->SetSliderRange(0, 10);
 		pSlider->ConnectEvent(UMI_SLIDER, this, CAST_MSG_CALLBACK(&UITestCase::OnSlider));
 	}
 

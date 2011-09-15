@@ -16,6 +16,7 @@ public:
 	DECLARE_RTTI(IObject, IMsgHandler);
 
 	IObject();
+	IObject(IObject* pParent);
 	virtual ~IObject();
 
 	bool IsOK() const;

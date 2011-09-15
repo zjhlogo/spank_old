@@ -27,6 +27,9 @@ public:
 	virtual UIScreen* CreateUIScreen() = 0;
 	virtual bool ReleaseUIScreen(UIScreen* pUIScreen) = 0;
 
+	virtual bool CaptureMouse(UIWindow* pWindow) = 0;
+	virtual bool ReleaseMouse() = 0;
+
 	virtual bool ProcessTouchEvent(const Vector2& pos, UI_TOUCH_EVENT_TYPE eType) = 0;
 
 };

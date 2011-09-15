@@ -30,7 +30,7 @@ public:
 	virtual void Render(const RenderParam& param);
 	virtual Vector2 GetBestSize();
 
-	void SetSliderRange(int nMinRange, int nMaxRange);
+	bool SetSliderRange(int nMinRange, int nMaxRange);
 	void SetCurrentPos(int nPos);
 
 	bool SetSliderBarTexture(const IMAGE_PIECE* pImagePiece, int nIndex);
@@ -39,6 +39,10 @@ public:
 	virtual bool OnTouchBegin(const Vector2& pos);
 	virtual bool OnTouchMove(const Vector2& pos);
 	virtual bool OnTouchEnd(const Vector2& pos);
+
+private:
+	int CalculatePosition(const Vector2& posMouse, const Vector2& size);
+
 private:
 	int m_nMinRange;
 	int m_nMaxRange;

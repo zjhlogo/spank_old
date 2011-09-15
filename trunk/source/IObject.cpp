@@ -14,6 +14,13 @@ IObject::IObject()
 	m_pParent = NULL;
 }
 
+IObject::IObject(IObject* pParent)
+{
+	m_bOK = false;
+	m_nRef = 1;
+	m_pParent = pParent;
+}
+
 IObject::~IObject()
 {
 	// TODO: 

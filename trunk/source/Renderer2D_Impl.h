@@ -40,7 +40,9 @@ public:
 
 	virtual void DrawRect(float x, float y, float width, float height, IShader* pShader);
 	virtual void DrawRect(const QUAD_VERT_POS_UV& quadVerts, IShader* pShader);
+
 	virtual void DrawRect(float x, float y, const IMAGE_PIECE* pImagePiece, IShader* pShader);
+	virtual void DrawRect(float x, float y, float width, float height, const IMAGE_PIECE* pImagePiece, IShader* pShader);
 
 private:
 	void UpdateFinalMatrix();

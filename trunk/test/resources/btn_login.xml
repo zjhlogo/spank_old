@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
-<Style name="btn_login">
-	<PieceStyle id="default" name="btn_login_normal" />
-	<PieceStyle id="pressed" name="btn_login_pressed" />
-</Style>

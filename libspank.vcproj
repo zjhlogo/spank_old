@@ -313,6 +313,14 @@
 			Name="action"
 			>
 			<File
+				RelativePath=".\source\action\ActionBackMove.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\action\ActionBackMove.h"
+				>
+			</File>
+			<File
 				RelativePath=".\source\action\ActionBySpline.cpp"
 				>
 			</File>
@@ -366,6 +374,14 @@
 			</File>
 			<File
 				RelativePath=".\include\action\ActionMoveTo.h"
+				>
+			</File>
+			<File
+				RelativePath=".\source\action\ActionQuadraticMove.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\action\ActionQuadraticMove.h"
 				>
 			</File>
 			<File

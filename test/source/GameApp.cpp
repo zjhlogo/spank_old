@@ -25,6 +25,7 @@
 #include "MapTestCase.h"
 #include "Box2DTestCase.h"
 #include "ClipRectTestCase.h"
+#include "TweentActionMove.h"
 IGameApp& IGameApp::GetInstance()
 {
 	static GameApp s_GameApp;
@@ -57,6 +58,7 @@ bool GameApp::Initialize()
 	AddTestCase(new MapTestCase(), m_pMainScreen);
 	AddTestCase(new Box2DTestCase(), m_pMainScreen);
 	AddTestCase(new ClipRectTestCase(), m_pMainScreen);
+	AddTestCase(new TweenActionMove(), m_pMainScreen);
 	return true;
 }
 

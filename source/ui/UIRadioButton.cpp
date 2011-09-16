@@ -76,10 +76,10 @@ void UIRadioButton::Render(const RenderParam& param)
 		if (!IsEnable() || !param.IsEnable())
 		{
 			// render disabled state
-			Vector2 vbutPosOff;
-			vbutPosOff.x = 0.0f;
-			vbutPosOff.y = (GetSize().y - m_pStyle[DUS_RADIOBUTTON_UNCHECK_DISABLED]->height) / 2.0f;
-			IRendererUI::GetInstance().DrawRect(posAbs + vbutPosOff, m_pStyle[DUS_RADIOBUTTON_UNCHECK_DISABLED]);
+			Vector2 vButPosOff;
+			vButPosOff.x = 0.0f;
+			vButPosOff.y = (GetSize().y - m_pStyle[DUS_RADIOBUTTON_UNCHECK_DISABLED]->height) / 2.0f;
+			IRendererUI::GetInstance().DrawRect(posAbs + vButPosOff, m_pStyle[DUS_RADIOBUTTON_UNCHECK_DISABLED]);
 			// TODO: render string disabled state
 			m_pString->Render(posAbs + posStroff);
 		}

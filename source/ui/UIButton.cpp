@@ -40,30 +40,39 @@ void UIButton::Render(const RenderParam& param)
  	Vector2 posAbs = param.m_vBasePos + GetPosition();
 
 	//calculate the off size of string 
-	Vector2 posStroff = (GetSize() - m_pString->GetSize());
-	posStroff.x = posStroff.x / 2.0f;
-	posStroff.y = posStroff.y / 2.0f;
+	Vector2 vStrPosOff = (GetSize() - m_pString->GetSize());
+	vStrPosOff.x = vStrPosOff.x / 2.0f;
+	vStrPosOff.y = vStrPosOff.y / 2.0f;
 
 	if (!IsEnable() || !param.IsEnable())
 	{
 		// render disabled state
-		IRendererUI::GetInstance().DrawRect(posAbs, m_pStyle[DUS_BUTTON_DISABLED]);
+		Vector2 vbutPosOff;
+		vbutPosOff.x = (GetSize().x - m_pStyle[DUS_BUTTON_DISABLED]->width) / 2.0f;
+		vbutPosOff.y = (GetSize().y - m_pStyle[DUS_BUTTON_DISABLED]->height) / 2.0f;
+		IRendererUI::GetInstance().DrawRect(posAbs + vbutPosOff, m_pStyle[DUS_BUTTON_DISABLED]);
 		// TODO: render string disabled state
-		m_pString->Render(posAbs + posStroff);
+		m_pString->Render(posAbs + vStrPosOff);
 	}
 	else if (IsPressed())
 	{
 		// render pressed state
-		IRendererUI::GetInstance().DrawRect(posAbs, m_pStyle[DUS_BUTTON_PRESSED]);
+		Vector2 vbutPosOff;
+		vbutPosOff.x = (GetSize().x - m_pStyle[DUS_BUTTON_PRESSED]->width) / 2.0f;
+		vbutPosOff.y = (GetSize().y - m_pStyle[DUS_BUTTON_PRESSED]->height) / 2.0f;
+		IRendererUI::GetInstance().DrawRect(posAbs + vbutPosOff, m_pStyle[DUS_BUTTON_PRESSED]);
 		// TODO: render string pressed state
-		m_pString->Render(posAbs + posStroff);
+		m_pString->Render(posAbs + vStrPosOff);
 	}
 	else
 	{
 		// render default state
-		IRendererUI::GetInstance().DrawRect(posAbs, m_pStyle[DUS_BUTTON_DEFAULT]);
+		Vector2 vbutPosOff;
+		vbutPosOff.x = (GetSize().x - m_pStyle[DUS_BUTTON_DEFAULT]->width) / 2.0f;
+		vbutPosOff.y = (GetSize().y - m_pStyle[DUS_BUTTON_DEFAULT]->height) / 2.0f;
+		IRendererUI::GetInstance().DrawRect(posAbs + vbutPosOff, m_pStyle[DUS_BUTTON_DEFAULT]);
 		// TODO: render string pressed state
-		m_pString->Render(posAbs + posStroff);
+		m_pString->Render(posAbs + vStrPosOff);
 	}
 }
 

@@ -44,30 +44,30 @@ void UICheckButton::Render(const RenderParam& param)
 		if (!IsEnable() || !param.IsEnable())
 		{
 			// render disabled state
-			Vector2 vbutPosOff;
-			vbutPosOff.x = 0.0f;
-			vbutPosOff.y = (GetSize().y - m_pStyle[DUS_CHECKBUTTON_CHECK_DISABLED]->height) / 2.0f;
-			IRendererUI::GetInstance().DrawRect(posAbs + vbutPosOff, m_pStyle[DUS_CHECKBUTTON_CHECK_DISABLED]);
+			Vector2 vButPosOff;
+			vButPosOff.x = 0.0f;
+			vButPosOff.y = (GetSize().y - m_pStyle[DUS_CHECKBUTTON_CHECK_DISABLED]->height) / 2.0f;
+			IRendererUI::GetInstance().DrawRect(posAbs + vButPosOff, m_pStyle[DUS_CHECKBUTTON_CHECK_DISABLED]);
 			// TODO: render string disabled state
 			m_pString->Render(posAbs + posStroff);
 		}
 		else if (IsPressed())
 		{
 			// render pressed state
-			Vector2 vbutPosOff;
-			vbutPosOff.x = 0.0f;
-			vbutPosOff.y = (GetSize().y - m_pStyle[DUS_CHECKBUTTON_CHECK_PRESSED]->height) / 2.0f;
-			IRendererUI::GetInstance().DrawRect(posAbs + vbutPosOff, m_pStyle[DUS_CHECKBUTTON_CHECK_PRESSED]);
+			Vector2 vButPosOff;
+			vButPosOff.x = 0.0f;
+			vButPosOff.y = (GetSize().y - m_pStyle[DUS_CHECKBUTTON_CHECK_PRESSED]->height) / 2.0f;
+			IRendererUI::GetInstance().DrawRect(posAbs + vButPosOff, m_pStyle[DUS_CHECKBUTTON_CHECK_PRESSED]);
 			// TODO: render string pressed state
 			m_pString->Render(posAbs + posStroff);
 		}
 		else
 		{
 			// render default state
-			Vector2 vbutPosOff;
-			vbutPosOff.x = 0.0f;
-			vbutPosOff.y = (GetSize().y - m_pStyle[DUS_CHECKBUTTON_CHECK]->height) / 2.0f;
-			IRendererUI::GetInstance().DrawRect(posAbs + vbutPosOff, m_pStyle[DUS_CHECKBUTTON_CHECK]);
+			Vector2 vButPosOff;
+			vButPosOff.x = 0.0f;
+			vButPosOff.y = (GetSize().y - m_pStyle[DUS_CHECKBUTTON_CHECK]->height) / 2.0f;
+			IRendererUI::GetInstance().DrawRect(posAbs + vButPosOff, m_pStyle[DUS_CHECKBUTTON_CHECK]);
 			// TODO: render string pressed state
 			m_pString->Render(posAbs + posStroff);
 		}
@@ -77,30 +77,30 @@ void UICheckButton::Render(const RenderParam& param)
 		if (!IsEnable() || !param.IsEnable())
 		{
 			// render disabled state
-			Vector2 vbutPosOff;
-			vbutPosOff.x = 0.0f;
-			vbutPosOff.y = (GetSize().y - m_pStyle[DUS_CHECKBUTTON_UNCHECK_DISABLED]->height) / 2.0f;
-			IRendererUI::GetInstance().DrawRect(posAbs + vbutPosOff, m_pStyle[DUS_CHECKBUTTON_UNCHECK_DISABLED]);
+			Vector2 vButPosOff;
+			vButPosOff.x = 0.0f;
+			vButPosOff.y = (GetSize().y - m_pStyle[DUS_CHECKBUTTON_UNCHECK_DISABLED]->height) / 2.0f;
+			IRendererUI::GetInstance().DrawRect(posAbs + vButPosOff, m_pStyle[DUS_CHECKBUTTON_UNCHECK_DISABLED]);
 			// TODO: render string disabled state
 			m_pString->Render(posAbs + posStroff);
 		}
 		else if (IsPressed())
 		{
 			// render pressed state
-			Vector2 vbutPosOff;
-			vbutPosOff.x = 0.0f;
-			vbutPosOff.y = (GetSize().y - m_pStyle[DUS_CHECKBUTTON_UNCHECK_PRESSED]->height) / 2.0f;
-			IRendererUI::GetInstance().DrawRect(posAbs + vbutPosOff, m_pStyle[DUS_CHECKBUTTON_UNCHECK_PRESSED]);
+			Vector2 vButPosOff;
+			vButPosOff.x = 0.0f;
+			vButPosOff.y = (GetSize().y - m_pStyle[DUS_CHECKBUTTON_UNCHECK_PRESSED]->height) / 2.0f;
+			IRendererUI::GetInstance().DrawRect(posAbs + vButPosOff, m_pStyle[DUS_CHECKBUTTON_UNCHECK_PRESSED]);
 			// TODO: render string pressed state
 			m_pString->Render(posAbs + posStroff);
 		}
 		else
 		{
 			// render default state
-			Vector2 vbutPosOff;
-			vbutPosOff.x = 0.0f;
-			vbutPosOff.y = (GetSize().y - m_pStyle[DUS_CHECKBUTTON_UNCHECK]->height) / 2.0f;
-			IRendererUI::GetInstance().DrawRect(posAbs + vbutPosOff, m_pStyle[DUS_CHECKBUTTON_UNCHECK]);
+			Vector2 vButPosOff;
+			vButPosOff.x = 0.0f;
+			vButPosOff.y = (GetSize().y - m_pStyle[DUS_CHECKBUTTON_UNCHECK]->height) / 2.0f;
+			IRendererUI::GetInstance().DrawRect(posAbs + vButPosOff, m_pStyle[DUS_CHECKBUTTON_UNCHECK]);
 			// TODO: render string pressed state
 			m_pString->Render(posAbs + posStroff);
 		}

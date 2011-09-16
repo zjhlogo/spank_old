@@ -37,6 +37,7 @@ void UIRadioButton::Render(const RenderParam& param)
 
 	Vector2 posAbs = param.m_vBasePos + GetPosition();
 	Vector2 posStroff = (GetSize() - m_pString->GetSize());
+	posStroff.y = posStroff.y / 2.0f;
 	if (IsChecked())
 	{
 		if (!IsEnable() || !param.IsEnable())

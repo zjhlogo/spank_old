@@ -38,6 +38,7 @@ void UICheckButton::Render(const RenderParam& param)
 	
 	//calculate the off size of string in the right;
 	Vector2 posStroff = (GetSize() - m_pString->GetSize());
+	posStroff.y = posStroff.y / 2.0f;
 	if (IsChecked())
 	{
 		if (!IsEnable() || !param.IsEnable())

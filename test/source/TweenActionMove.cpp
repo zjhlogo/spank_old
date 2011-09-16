@@ -11,6 +11,7 @@
 #include <action/ActionQuadMoveTo.h>
 #include <action/ActionBackMoveTo.h>
 #include <action/ActionCubicMoveTo.h>
+#include <action/ActionQuartMoveTo.h>
 #include "TweentActionMove.h"
 TweenActionMove::TweenActionMove()
 :TestCase("TweenAction")
@@ -34,7 +35,7 @@ bool TweenActionMove::Initialize( UIScreen* pUIScreen )
 
 	ActionSequeue* pActionFregment = new ActionSequeue();
 
-	pActionFregment->AddAction(new ActionCubicMoveTo(MOVE__EASEINOUT, Vector3(-200.0f, 0.0f ,0.0), Vector3(200.0f , 0.0f, 0.0), 3.0f));
+	pActionFregment->AddAction(new ActionQuartMoveTo(MOVE__EASEINOUT, Vector3(-400.0f, 0.0f ,0.0), Vector3(400.0f , 0.0f, 0.0), 3.0f));
 	ActionSequeue* pActionSequeue = new ActionSequeue();
 	pActionSequeue->AddAction(pActionFregment);
 

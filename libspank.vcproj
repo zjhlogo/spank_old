@@ -393,6 +393,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\source\action\ActionQuartMoveTo.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\action\ActionQuartMoveTo.h"
+				>
+			</File>
+			<File
 				RelativePath=".\source\action\ActionRotateBy.cpp"
 				>
 			</File>

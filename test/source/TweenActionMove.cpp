@@ -12,6 +12,9 @@
 #include <action/ActionBackMoveTo.h>
 #include <action/ActionCubicMoveTo.h>
 #include <action/ActionQuartMoveTo.h>
+#include<action/ActionQuintMoveTo.h>
+#include <action/ActionSineMoveTo.h>
+#include <action/ActionExpoMoveTo.h>
 #include "TweentActionMove.h"
 TweenActionMove::TweenActionMove()
 :TestCase("TweenAction")
@@ -29,13 +32,12 @@ bool TweenActionMove::Initialize( UIScreen* pUIScreen )
 {
 	m_pSpriteAction = new Sprite("test_sprite.xml");
 	if (!m_pSpriteAction) return true;
-
 	m_pActionNode = ICore::GetInstance().GetRootNode()->CreateChildNode();
 	m_pActionNode->AttachObject(m_pSpriteAction);
 
 	ActionSequeue* pActionFregment = new ActionSequeue();
 
-	pActionFregment->AddAction(new ActionQuartMoveTo(MOVE__EASEINOUT, Vector3(-400.0f, 0.0f ,0.0), Vector3(400.0f , 0.0f, 0.0), 3.0f));
+	pActionFregment->AddAction(new ActionExpoMoveTo(MOVE__EASEINOUT, Vector3(-350.0f, 0.0f ,0.0), Vector3(350.0f , 0.0f, 0.0), 3.0f));
 	ActionSequeue* pActionSequeue = new ActionSequeue();
 	pActionSequeue->AddAction(pActionFregment);
 

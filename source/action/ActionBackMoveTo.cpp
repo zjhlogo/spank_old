@@ -5,9 +5,9 @@
  *	
  * \author:	wbaoqing(wbaoqing@gmail.com)
  */
-#include <action/ActionBackMove.h>
+#include <action/ActionBackMoveTo.h>
 
-ActionBackMove::ActionBackMove( uint eType,const Vector3& posStart, const Vector3& posEnd, float time )
+ActionBackMoveTo::ActionBackMoveTo( MOVE_TYPE eType,const Vector3& posStart, const Vector3& posEnd, float time )
 {
 	m_eType = eType;
 	m_vPosStart = posStart;
@@ -16,12 +16,17 @@ ActionBackMove::ActionBackMove( uint eType,const Vector3& posStart, const Vector
 	m_fTime = time;
 }
 
-void ActionBackMove::Reset()
+ActionBackMoveTo::~ActionBackMoveTo()
+{
+	//TODO:
+}
+
+void ActionBackMoveTo::Reset()
 {
 	m_fCurrTime = 0.0f;
 }
 
-void ActionBackMove::Update( float dt )
+void ActionBackMoveTo::Update( float dt )
 {
 
 	if(! IsRunning()) return;
@@ -38,22 +43,22 @@ void ActionBackMove::Update( float dt )
 	SetPosition(Tween());
 }
 
-IActionBase* ActionBackMove::Clone()
+IActionBase* ActionBackMoveTo::Clone()
 {
-	return new ActionBackMove(m_eType, m_vPosStart, m_vPosEnd, m_fTime);
+	return new ActionBackMoveTo(m_eType, m_vPosStart, m_vPosEnd, m_fTime);
 }
 
-IActionBase* ActionBackMove::CloneInverse()
+IActionBase* ActionBackMoveTo::CloneInverse()
 {
-	return new ActionBackMove(m_eType, m_vPosEnd, m_vPosStart, m_fTime);
+	return new ActionBackMoveTo(m_eType, m_vPosEnd, m_vPosStart, m_fTime);
 }
 
-float ActionBackMove::GetTimeLength() const
+float ActionBackMoveTo::GetTimeLength() const
 {
 	return m_fTime;
 }
 
-Vector3 ActionBackMove::Tween()
+Vector3 ActionBackMoveTo::Tween()
 {
 	Vector3 pos(0.0f, 0.0f, 0.0f);
 	float alpha = 0.0f;

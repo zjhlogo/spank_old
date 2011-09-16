@@ -5,9 +5,9 @@
  *	
  * \author:	wbaoqing(wbaoqing@gmail.com)
  */
-#include <action/ActionQuadMove.h>
+#include <action/ActionQuadMoveTo.h>
 
-ActionQuadMove::ActionQuadMove(uint eType, const Vector3& posStart, const Vector3& posEnd, float time )
+ActionQuadMoveTo::ActionQuadMoveTo(MOVE_TYPE eType, const Vector3& posStart, const Vector3& posEnd, float time )
 {
 	m_vPosStart = posStart;
 	m_vPosEnd = posEnd;
@@ -15,13 +15,17 @@ ActionQuadMove::ActionQuadMove(uint eType, const Vector3& posStart, const Vector
 	m_eType = eType;
 	Reset();
 }
+ActionQuadMoveTo::~ActionQuadMoveTo()
+{
+	//TODO:
+}
 
-void ActionQuadMove::Reset()
+void ActionQuadMoveTo::Reset()
 {
 	m_fCurrTime = 0.0f;
 }
 
-void ActionQuadMove::Update( float dt )
+void ActionQuadMoveTo::Update( float dt )
 {
 	if(! IsRunning()) return;
 	
@@ -37,22 +41,22 @@ void ActionQuadMove::Update( float dt )
 	SetPosition(Tween());
 }
 
-IActionBase* ActionQuadMove::Clone()
+IActionBase* ActionQuadMoveTo::Clone()
 {
-	return new ActionQuadMove(m_eType, m_vPosStart, m_vPosEnd, m_fTime);
+	return new ActionQuadMoveTo(m_eType, m_vPosStart, m_vPosEnd, m_fTime);
 }
 
-IActionBase* ActionQuadMove::CloneInverse()
+IActionBase* ActionQuadMoveTo::CloneInverse()
 {
-	return new ActionQuadMove(m_eType, m_vPosEnd, m_vPosStart, m_fTime);
+	return new ActionQuadMoveTo(m_eType, m_vPosEnd, m_vPosStart, m_fTime);
 }
 
-float ActionQuadMove::GetTimeLength() const
+float ActionQuadMoveTo::GetTimeLength() const
 {
 	return m_fTime;
 }
 
-Vector3 ActionQuadMove::Tween()
+Vector3 ActionQuadMoveTo::Tween()
 {
 	Vector3 pos(0.0f, 0.0f, 0.0f);
 	float alpha = 0.0f;
@@ -85,3 +89,4 @@ Vector3 ActionQuadMove::Tween()
 		return pos;
 	}
 }
+

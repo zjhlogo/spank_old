@@ -1,20 +1,22 @@
 /*!
- * \file ActionBackMove.h
- * \date 2011/09/16 14:55
+ * \file ActionCubicMove.h
+ * \date 2011/09/16 16:51
  *	
  *	
  * \author:	wbaoqing(wbaoqing@gmail.com)
  */
-#ifndef __ACTIONBACKMOVE_H_
-#define __ACTIONBACKMOVE_H_
+#ifndef __ACTIONCUBICMOVE_H_
+#define __ACTIONCUBICMOVE_H_
+
 #include "IActionBase.h"
 
-class ActionBackMove :public IActionBase
+class ActionCubicMoveTo : public IActionBase
 {
 public:
-	DECLARE_RTTI(ActionBackMove, IActionBase);
+	DECLARE_RTTI(ActionCubicMoveTo, IActionBase);
 public:
-	ActionBackMove(uint eType,const Vector3& posStart, const Vector3& posEnd, float time);
+	ActionCubicMoveTo(MOVE_TYPE eType,const Vector3& posStart, const Vector3& posEnd, float time);
+	virtual ~ActionCubicMoveTo();
 	virtual void Reset() ;
 	virtual void Update(float dt) ;
 
@@ -30,6 +32,6 @@ private:
 	float m_fTime;
 
 	float m_fCurrTime;
-	uint m_eType;
+	MOVE_TYPE m_eType;
 };
-#endif//__ACTIONBACKMOVE_H_
+#endif//__ACTIONCUBICMOVE_H_

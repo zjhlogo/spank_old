@@ -26,41 +26,41 @@ bool ClipRectTestCase::Initialize( UIScreen* pUIScreen )
 	//左上
 	pClipTest = new ClipTest(pUIScreen);
 	pClipTest->SetPosition(Vector2(100.0f, 50.0f));
-	pClipTest->SetClip(100.0f, 50.0f, 40.0f, 15.0f);
+	pClipTest->SetClip(100.0f, 50.0f, 46.0f, 17.0f);
 	//左下
 	pClipTest = new ClipTest(pUIScreen);
 	pClipTest->SetPosition(Vector2(100.0f, 100.0));
-	pClipTest->SetClip(100.0f,115.0,40.0f,15.0);
+	pClipTest->SetClip(100.0f,117.0,46.0f,17.0);
 
 	//右上
 	pClipTest = new ClipTest(pUIScreen);
 	pClipTest->SetPosition(Vector2(200.0f, 50.0f));
-	pClipTest->SetClip(240.0f,50.0,50.0,15.0);
+	pClipTest->SetClip(246.0f,50.0,46.0,17.0);
 
 	//右下
 	pClipTest = new ClipTest(pUIScreen);
 	pClipTest->SetPosition(Vector2(200.0f, 100.0f));
-	pClipTest->SetClip(240.0, 115.0f, 50.0f, 15.0f);
+	pClipTest->SetClip(246.0, 117.0f, 50.0f, 17.0f);
 
 	//左半
 
 	pClipTest = new ClipTest(pUIScreen);
 	pClipTest->SetPosition(Vector2(100.0f, 150.0f));
-	pClipTest->SetClip(100.0f, 150.0f, 50.0f, 40.0);
+	pClipTest->SetClip(100.0f, 150.0f, 46.0f, 40.0);
 	//右半
 	pClipTest = new ClipTest(pUIScreen);
 	pClipTest->SetPosition(Vector2(200.0f, 150.0f));
-	pClipTest->SetClip(240.0, 150.0f, 50.0f, 40.0f);
+	pClipTest->SetClip(246.0, 150.0f, 50.0f, 40.0f);
 
 	//上半
 	pClipTest = new ClipTest(pUIScreen);
 	pClipTest->SetPosition(Vector2(100.0f, 200.0));
-	pClipTest->SetClip(100.0f, 200.0f, 100.0f, 15.0f);
+	pClipTest->SetClip(100.0f, 200.0f, 100.0f, 17.0f);
 
 	//下半
 	pClipTest = new ClipTest(pUIScreen);
 	pClipTest->SetPosition(Vector2(200.0f, 200.0f));
-	pClipTest->SetClip(200.0f, 215.0f, 100.0f, 15.0f);
+	pClipTest->SetClip(200.0f, 217.0f, 100.0f, 17.0f);
 	
 	//全部
 	pClipTest = new ClipTest(pUIScreen);

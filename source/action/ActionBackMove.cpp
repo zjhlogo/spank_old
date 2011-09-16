@@ -60,25 +60,29 @@ Vector3 ActionBackMove::Tween()
 	float  s = 1.70158f;
 	switch(m_eType)
 	{
-	case MOVE_BACK_EASEIN:
+	case MOVE__EASEIN:
 		alpha = m_fCurrTime / m_fTime;
-		pos = (m_vPosEnd - m_vPosStart) * alpha * alpha * ((s + 1.0f) * alpha - s) + m_vPosStart;
+		alpha = alpha * alpha * ((s + 1.0f) * alpha - s);
+		pos = (m_vPosEnd - m_vPosStart) * alpha + m_vPosStart;
 		return pos;
-	case  MOVE_BACK_EASEOUT:
+	case  MOVE__EASEOUT:
 		alpha = m_fCurrTime / m_fTime - 1.0f;
-		pos = (alpha * alpha * ((s + 1.0f) * alpha +s) + 1.0f) * (m_vPosEnd - m_vPosStart) + m_vPosStart;
+		alpha = (alpha * alpha * ((s + 1.0f) * alpha +s) + 1.0f);
+		pos = alpha * (m_vPosEnd - m_vPosStart) + m_vPosStart;
 		return pos;
-	case  MOVE_BACK_EASEINOUT:
+	case  MOVE__EASEINOUT:
 		s *= 1.525f;
 		alpha = m_fCurrTime / (m_fTime / 2.0f);
 		if(alpha < 1.0f)
 		{
-			pos = (alpha * alpha * ((s  + 1.0f) * alpha - s)) * (m_vPosEnd - m_vPosStart) / 2.0f + m_vPosStart;
+			alpha = (alpha * alpha * ((s  + 1.0f) * alpha - s));
+			pos = alpha * (m_vPosEnd - m_vPosStart) / 2.0f + m_vPosStart;
 		}
 		else
 		{
-			alpha = alpha -2.0f;
-			pos = (alpha * alpha * ((s + 1.0f) * alpha + s) + 2.0f) * (m_vPosEnd - m_vPosStart) /2.0f + m_vPosStart;
+			alpha = alpha - 2.0f;
+			alpha = (alpha * alpha * ((s + 1.0f) * alpha + s) + 2.0f);
+			pos = alpha * (m_vPosEnd - m_vPosStart) /2.0f + m_vPosStart;
 		}
 		return pos;
 	default:

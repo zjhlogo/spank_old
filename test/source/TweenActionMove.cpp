@@ -8,7 +8,7 @@
 #include <ICore.h>
 #include <action/ActionSequeue.h>
 #include <action/ActionLoop.h>
-#include <action/ActionQuadraticMove.h>
+#include <action/ActionQuadMove.h>
 #include <action/ActionBackMove.h>
 #include "TweentActionMove.h"
 TweenActionMove::TweenActionMove()
@@ -33,7 +33,7 @@ bool TweenActionMove::Initialize( UIScreen* pUIScreen )
 
 	ActionSequeue* pActionFregment = new ActionSequeue();
 
-	pActionFregment->AddAction(new ActionBackMove(MOVE_BACK_EASEINOUT,Vector3(-200.0f, 0.0f, 0.0f), Vector3(200.0f, 0.0f, 0.0f), 3.0f));
+	pActionFregment->AddAction(new ActionBackMove(MOVE__EASEOUT, Vector3(-300.0f, 0.0f, 0.0f), Vector3(300.0f, 0.0f, 0.0f), 3.0f));
 	ActionSequeue* pActionSequeue = new ActionSequeue();
 	pActionSequeue->AddAction(pActionFregment);
 

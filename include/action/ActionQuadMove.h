@@ -9,12 +9,12 @@
 #define __ACTIONTWEENMOVE_H_
 
 #include "IActionBase.h"
-class ActionQuadraticMove : public IActionBase
+class ActionQuadMove : public IActionBase
 {
 public:
-	DECLARE_RTTI(ActionQuadraticMove, IActionBase);
+	DECLARE_RTTI(ActionQuadMove, IActionBase);
 public:
-	ActionQuadraticMove(uint eType,const Vector3& posStart, const Vector3& posEnd, float time);
+	ActionQuadMove(uint eType,const Vector3& posStart, const Vector3& posEnd, float time);
 	virtual void Reset() ;
 	virtual void Update(float dt) ;
 

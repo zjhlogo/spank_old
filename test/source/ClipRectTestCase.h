@@ -22,11 +22,8 @@ public:
 
 	virtual bool Initialize(UIScreen* pUIScreen);
 	virtual void Terminate();
-
+	virtual void Render();
 private:
-	void OnButtonClicked(IMsgBase* pMsg);
-	void OnCheckButtonChecked(IMsgBase* pMsg);
-	void OnRadioButtonChecked(IMsgBase* pMsg);
-	void OnSlider(IMsgBase* pMsg);
+	const IMAGE_PIECE* m_pStyle[DUS_BUTTON_NUM];
 };
 #endif//__CLIPRECTESTCASE_H_

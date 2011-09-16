@@ -61,6 +61,34 @@ Vector3 ActionQuintMoveTo::Tween()
 	float alpha = 0.0f;
 	Vector3 vPos (0.0f ,0.0f, 0.0f);
 	//TODO:
+	switch(m_eType)
+	{
+	case  MOVE__EASEIN:
+		 alpha = m_fCurrTime / m_fTime;
+		 alpha = alpha * alpha * alpha * alpha * alpha;
+		 vPos = (m_vPosEnd - m_vPosStart) * alpha + m_vPosStart;
+		 return vPos;
+	case  MOVE__EASEOUT:
+		alpha = m_fCurrTime / m_fTime - 1.0f;
+		alpha = alpha * alpha * alpha * alpha * alpha + 1.0f;
+		vPos = (m_vPosEnd - m_vPosStart) * alpha + m_vPosStart;
+		return vPos;
+	case  MOVE__EASEINOUT:
+		alpha = m_fCurrTime / (m_fTime / 2.0f);
+		if(alpha < 1.0f)
+		{
+			alpha = alpha * alpha * alpha * alpha * alpha;
+			vPos = (m_vPosEnd - m_vPosStart) / 2.0f * alpha + m_vPosStart;
+		}
+		else
+		{
+			alpha -=2;
+			alpha = alpha * alpha * alpha * alpha * alpha + 2.0f;
+			vPos = (m_vPosEnd - m_vPosStart) /2.0f * alpha + m_vPosStart;
+		}
+		return vPos;
+	default:
+		return vPos;
+	}
 
-	return vPos;
 }
